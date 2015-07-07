@@ -1,0 +1,11 @@
+description "Consul client process"
+
+start on (local-filesystems and net-device-up IFACE=eth0)
+stop on runlevel [!12345]
+
+respawn
+
+setuid consul
+setgid consul
+
+exec consul agent -config-dir {{ consul_config_path }}/client

@@ -1,0 +1,8 @@
+---
+# File: site.yml - Example Consul site playbook
+
+- name: Consul
+  hosts: consul_nodes
+  sudo: True
+  roles:
+    - { role: brianshumate.consul }

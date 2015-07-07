@@ -1,0 +1,71 @@
+---
+# File: tasks/main.yml - Main tasks for Consul
+
+- name: Create cluster groupings
+  group_by: key={{ consul_node_role }}
+
+- group_by: key=os_{{ ansible_os_family }}
+
+
+- name: "Add Consul user"
+  user: name=consul comment="Consul user" uid=1042 group=bin
+
+- name: "Distribution specific variables"
+  include_vars: "{{ ansible_distribution }}.yml"
+
+- name: "CentOS tasks"
+  include: CentOS.yml
+  when: ansible_distribution  == "CentOS"
+
+- name: "Debian tasks"
+  include: Debian.yml
+  when: ansible_distribution  == "Debian"
+
+- name: "Red Hat tasks"
+  include: RedHat.yml
+  when: ansible_distribution  == "RedHat"
+
+- name: "Ubuntu tasks"
+  include: Ubuntu.yml
+  when: ansible_distribution  == "Ubuntu"
+
+- name: Generate Consul key
+  shell: consul keygen
+  register: consul_raw_key
+  run_once: true
+
+- name: Consul directories
+  file: "dest=/opt/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
+
+- file: "dest=/opt/consul/ui state=directory owner={{ consul_user }} group={{ consul_group}}"
+
+- file: "dest=/var/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
+
+- file: "dest=/var/log/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
+
+- file: "dest=/etc/consul.d state=directory owner={{ consul_user }} group={{ consul_group}}"
+
+- file: "dest=/etc/consul.d state=directory owner={{ consul_user }} group={{ consul_group}}"
+
+- file: "dest=/etc/consul.d/bootstrap state=directory owner={{ consul_user }} group={{ consul_group}}"
+
+- file: "dest=/etc/consul.d/server state=directory owner={{ consul_user }} group={{ consul_group}}"
+
+- file: "dest=/etc/consul.d/client state=directory owner={{ consul_user }} group={{ consul_group}}"
+
+- name: Initial Consul bootstrap configuration
+  template: src=bootstrap_config.json.j2 dest={{ consul_config_path }}/bootstrap/config.json
+
+- name: Initial Consul server configuration
+  template: src=server_config.json.j2 dest={{ consul_config_path }}/server/config.json
+
+- name: Initial Consul client configuration
+  template: src=client_config.json.j2 dest={{ consul_config_path }}/server/config.json
+
+- name: "Download Consul UI"
+  get_url: url={{ consul_ui_url }} dest=/tmp/{{ consul_ui_pkg }} sha256sum={{ consul_ui_sha256 }} timeout=74
+  tags: installation
+
+- name: "Install Consul UI"
+  unarchive: src=/tmp/{{ consul_ui_pkg }} dest=/opt/consul/ui/ owner={{ consul_user }} group={{ consul_group }} mode=0755 copy=no
+  tags: installation

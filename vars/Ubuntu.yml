@@ -1,0 +1,10 @@
+---
+# File: vars/Ubuntu.yml - additional variables for Consul (on Ubuntu)
+
+consul_ubuntu_pkg: "{{ consul_version }}_linux_amd64.zip"
+consul_ubuntu_url: "{{ consul_zip_url }}"
+consul_ubuntu_sha256: "{{ consul_zip_sha256 }}"
+
+consul_ubuntu_os_packages:
+  - git
+  - unzip

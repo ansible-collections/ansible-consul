@@ -1,0 +1,84 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile for bootstrapping a development Consul cluster with
+# VirtualBox provider and Ansible provisioner
+
+ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
+VAGRANTFILE_API_VERSION = "2"
+BOX_MEM = ENV['BOX_MEM'] || "1536"
+BOX_NAME =  ENV['BOX_NAME'] || "debian/jessie64"
+CLUSTER_HOSTS = ENV['CLUSTER_HOSTS'] || "vagrant_hosts"
+
+Vagrant.require_version ">= 1.5.0"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # Configure 3 Consul nodes
+  config.vm.define :consul1 do |consul1_config|
+    consul1_config.vm.box = BOX_NAME
+    consul1_config.vm.network :private_network, ip: "10.1.42.210"
+    consul1_config.vm.hostname = "consul1.local"
+    consul1_config.ssh.forward_agent = true
+    consul1_config.vm.provider "virtualbox" do |v|
+      v.name = "consul-node1"
+      v.customize ["modifyvm", :id, "--memory", BOX_MEM]
+      v.customize ["modifyvm", :id, "--ioapic", "on"]
+      v.customize ["modifyvm", :id, "--cpus", "2"]
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    end
+    consul1_config.vm.provision :hosts do |provisioner|
+        provisioner.add_host '10.1.42.210', ['consul1.local']
+        provisioner.add_host '10.1.42.220', ['consul2.local']
+        provisioner.add_host '10.1.42.230', ['consul3.local']
+    end
+  end
+  config.vm.define :consul2 do |consul2_config|
+    consul2_config.vm.box = BOX_NAME
+    consul2_config.vm.network :private_network, ip: "10.1.42.220"
+    consul2_config.vm.hostname = "consul2.local"
+    consul2_config.ssh.forward_agent = true
+    consul2_config.vm.provider "virtualbox" do |v|
+      v.name = "consul-node2"
+      v.customize ["modifyvm", :id, "--memory", BOX_MEM]
+      v.customize ["modifyvm", :id, "--ioapic", "on"]
+      v.customize ["modifyvm", :id, "--cpus", "2"]
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    end
+    consul2_config.vm.provision :hosts do |provisioner|
+        provisioner.add_host '10.1.42.210', ['consul1.local']
+        provisioner.add_host '10.1.42.220', ['consul2.local']
+        provisioner.add_host '10.1.42.230', ['consul3.local']
+    end
+  end
+  config.vm.define :consul3 do |consul3_config|
+    consul3_config.vm.box = BOX_NAME
+    consul3_config.vm.network :private_network, ip: "10.1.42.230"
+    consul3_config.vm.hostname = "consul3.local"
+    consul3_config.ssh.forward_agent = true
+    consul3_config.vm.provider "virtualbox" do |v|
+      v.name = "consul-node3"
+      v.customize ["modifyvm", :id, "--memory", BOX_MEM]
+      v.customize ["modifyvm", :id, "--ioapic", "on"]
+      v.customize ["modifyvm", :id, "--cpus", "2"]
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    end
+    consul3_config.vm.provision :hosts do |provisioner|
+        provisioner.add_host '10.1.42.210', ['consul1.local']
+        provisioner.add_host '10.1.42.220', ['consul2.local']
+        provisioner.add_host '10.1.42.230', ['consul3.local']
+    end
+    consul3_config.vm.provision :ansible do |ansible|
+      ansible.inventory_path = CLUSTER_HOSTS
+      # Extra Ansible variables can be defined here
+      ansible.extra_vars = {
+        consul_magic: 9001,
+      }
+      ansible.playbook = ANSIBLE_PLAYBOOK
+      ansible.limit = "all"
+    end
+  end
+end

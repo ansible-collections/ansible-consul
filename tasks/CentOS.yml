@@ -1,0 +1,23 @@
+---
+# File: tasks/CentOS.yml - CentOS tasks for Consul
+
+- name: "Distribution specific variables"
+  include_vars: "{{ ansible_distribution }}.yml"
+
+- name: OS Packages
+  yum: "name={{ item }} state=present"
+  with_items: consul_centos_os_packages
+  tags: installation
+
+- name: Download Consul
+  get_url: "url={{ consul_zip_url }} dest=/tmp/{{ consul_centos_pkg }} sha256sum={{ consul_centos_sha256 }} timeout=74"
+  tags: installation
+
+- name: Install Consul
+  unarchive: "copy=no src=/tmp/{{ consul_centos_pkg }} dest=/usr/local/bin/ owner={{ consul_user }} group={{ consul_group }} mode=0755"
+  tags: installation
+
+- name: Cleanup
+  sudo: True
+  shell: "rm -rf /tmp/{{ consul_centos_pkg }}"
+  tags: installation

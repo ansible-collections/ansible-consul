@@ -1,0 +1,11 @@
+---
+# File: vars/RedHat.yml - additional variables for Consul (on Red Hat)
+
+consul_redhat_pkg: "{{ consul_version }}_linux_amd64.zip"
+consul_redhat_url: "{{ consul_zip_url }}"
+consul_redhat_sha256: "{{ consul_zip_sha256 }}"
+
+consul_redhat_os_packages:
+  - libselinux-python
+  - git
+  - unzip

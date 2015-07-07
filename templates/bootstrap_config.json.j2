@@ -1,0 +1,17 @@
+{
+  "advertise_addr": "{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}",
+  "bind_addr": "{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}",
+  "bootstrap": true,
+  "server": true,
+  "client_addr": "0.0.0.0",
+  "datacenter": "{{ consul_datacenter }}",
+  "data_dir": "{{ consul_data_path }}",
+  "datacenter": "online",
+  "domain": "{{ consul_domain }}",
+  "encrypt": "{{ consul_raw_key['stdout']}}",
+  "log_level": "{{ consul_log_level }}",
+  "enable_syslog": {{ consul_syslog_enable }},
+  "recursor": "8.8.8.8",
+  "start_join": {{ consul_nodes }},
+  "ui_dir": "/opt/consul/ui"
+}
