@@ -4,7 +4,7 @@ This Ansible role performs a basic [Consul](https://consul.io/) installation.
 
 ## Requirements
 
-This Hubot role requires a Debian or RHEL family of Linux host, and has been
+This role requires a Debian or RHEL family of Linux host, and has been
 tested to function with the following specific software versions:
 
 * Ansible: 1.9.2
