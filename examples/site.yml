@@ -1,7 +1,7 @@
 ---
 # File: site.yml - Example Consul site playbook
 
-- name: Consul
+- name: Installing Consul
   hosts: consul_nodes
   sudo: True
   roles:

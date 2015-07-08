@@ -11,10 +11,9 @@ consul_log_path: "/var/log/consul"
 consul_user: "consul"
 consul_group: "bin"
 consul_datacenter: "boone"
-consul_domain: local
+consul_domain: "local"
 consul_log_level: "INFO"
-consul_syslog_enable: true
-consul_nodes: '["10.1.42.210", "10.1.42.220", 10.1.42.230]'
+consul_syslog_enable: "true"
 consul_ui_url: "https://dl.bintray.com/mitchellh/consul/{{ consul_version }}_web_ui.zip"
 consul_ui_pkg: "{{ consul_version }}_web_ui.zip"
 consul_ui_sha256: "ad883aa52e1c0136ab1492bbcedad1210235f26d59719fb6de3ef6464f1ff3b1"

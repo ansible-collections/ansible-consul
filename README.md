@@ -1,6 +1,11 @@
 # Consul
 
-This Ansible role performs a basic [Consul](https://consul.io/) installation.
+This Ansible role performs a basic [Consul](https://consul.io/) installation,
+including filesystem structure, example configuration, and installation of
+of the Consul UI.
+
+It does not currently facilitate full configuration and initialization of
+a functioning Consul cluster, but that is planned for a future version.
 
 ## Requirements
 
@@ -30,7 +35,6 @@ All variables are specified in `defaults/main.yml` and `vars/*.yml`.
 | `consul_domain` | `local` | Consul domain name |
 | `consul_log_level` | `INFO` | Consul logging level |
 | `consul_syslog_enable` | true | Consul logs to syslog |
-| `consul_nodes` | list | Consul nodes IP address list |
 | `consul_ui_url` | `https://dl.bintray.com/mitchellh/consul/0.5.2_web_ui.zip` | Consul UI download URL | 
 | `consul_ui_pkg` | `0.5.2_web_ui.zip` | Conul UI package file name |
 | `consul_ui_sha256` | SHA256 SUM | Consul UI download SHA256 summary |
@@ -70,7 +74,8 @@ None
 ## Example Playbook
 
 
-After configuration a basic Consul installation is possible using the 
+After you have reviewed and altered any necessary variables, and created a
+hosts inventory, basic Consul installation is possible using the 
 included `site.yml` playbook:
 
 ```

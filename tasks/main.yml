@@ -60,7 +60,7 @@
   template: src=server_config.json.j2 dest={{ consul_config_path }}/server/config.json
 
 - name: Initial Consul client configuration
-  template: src=client_config.json.j2 dest={{ consul_config_path }}/server/config.json
+  template: src=client_config.json.j2 dest={{ consul_config_path }}/client/config.json
 
 - name: "Download Consul UI"
   get_url: url={{ consul_ui_url }} dest=/tmp/{{ consul_ui_pkg }} sha256sum={{ consul_ui_sha256 }} timeout=74

@@ -1,3 +1,8 @@
+{% set comma = joiner(",") %}
+{% set lbracket = "[" %}
+{% set rbracket = "]" %}
+{% set quote = '"' %}
+
 {
   "advertise_addr": "{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}",
   "bind_addr": "{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}",
@@ -12,6 +17,8 @@
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable }},
   "recursor": "8.8.8.8",
-  "start_join": {{ consul_nodes }},
+  "start_join": {{ lbracket }}{% for host in groups['consul_nodes'] %}
+   {{ comma() }}{{ quote }}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{{ quote }}
+{% endfor %}{{ rbracket }},
   "ui_dir": "/opt/consul/ui"
 }

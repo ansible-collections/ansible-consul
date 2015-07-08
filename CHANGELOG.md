@@ -7,3 +7,10 @@
 ## v1.0.1
 
 - Updated README
+
+## v1.0.2
+
+- Removed the need for consul_nodes variable
+- Fix client template task
+- Fix invalid JSON in the config.json outputs
+- Updated documentation
