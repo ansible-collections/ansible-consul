@@ -14,7 +14,7 @@
 PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 DESC="Consul service discovery framework"
 NAME=consul
-DAEMON=<%= scope.lookupvar('consul::bin_dir') %>/$NAME
+DAEMON=/usr/local/bin/$NAME
 PIDFILE=/var/run/$NAME/$NAME.pid
 DAEMON_ARGS="agent -config-dir /etc/consul.d/{{ consul_node_role }} ${CONSUL_FLAGS}"
 USER={{ consul_user }}

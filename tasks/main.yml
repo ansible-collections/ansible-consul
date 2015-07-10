@@ -71,17 +71,17 @@
   tags: installation
 
 - name: init script
-  template: src=consul_sysvinit.j2 dest=/etc/init.d/consul
+  template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
 
 - name: Debian init script
-  template: src=consul_debian.init.j2 dest=/etc/init.d/consul
+  template: src=consul_debian.init.j2 dest=/etc/init.d/consul owner=root group=root mode=755
   when: ansible_distribution == "Debian"
 
 - name: Upstart script
-  template: src=consul_upstart.conf.j2 dest=/etc/init/consul.conf
+  template: src=consul_upstart.conf.j2 dest=/etc/init/consul.conf owner=root group=root mode=755
   when: ansible_distribution_major_version < 7
 
 - name: systemd script
-  template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service
+  template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service owner=root group=root mode=755
   when: ansible_distribution_major_version >= 7
 
