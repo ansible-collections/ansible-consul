@@ -21,7 +21,3 @@
   sudo: True
   shell: "rm -rf /tmp/{{ consul_debian_pkg }}"
   tags: installation
-
-- name: Upstart task
-  template: src=consul_upstart_server.conf.j2 dest=/etc/init/consul.conf
-

@@ -1,0 +1,20 @@
+[Unit]
+Description=Consul Agent
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+User={{ consul_user }}
+Group={{ consul_group }}
+ 
+ExecStart=/usr/local/bin/consul agent \
+    -config-dir="/etc/consul.d/{{ consul_node_role }}/" \
+    ${CONSUL_FLAGS} \
+    >> /var/log/consul/consul.log 2>&1
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target

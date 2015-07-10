@@ -14,3 +14,13 @@
 - Fix client template task
 - Fix invalid JSON in the config.json outputs
 - Updated documentation
+
+## v1.0.3
+
+- Add /usr/local/bin to PATH for cases where the consul binary is not found
+- Changed UI path
+- Updated Upstart script
+- Added generic SysV init script
+- Added Debian init script
+- Use Upstart for distribution major versions < 7
+- Use systemd for distribution major versions >= 7

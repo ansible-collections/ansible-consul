@@ -20,5 +20,5 @@
   "start_join": {{ lbracket }}{% for host in groups['consul_nodes'] %}
    {{ comma() }}{{ quote }}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{{ quote }}
 {% endfor %}{{ rbracket }},
-  "ui_dir": "/opt/consul/ui"
+  "ui_dir": "/opt/consul/ui/dist"
 }
