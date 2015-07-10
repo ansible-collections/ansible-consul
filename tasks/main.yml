@@ -75,7 +75,7 @@
 
 - name: Debian init script
   template: src=consul_debian.init.j2 dest=/etc/init.d/consul
-  when: ansible_distribution = "Debian"
+  when: ansible_distribution == "Debian"
 
 - name: Upstart script
   template: src=consul_upstart.conf.j2 dest=/etc/init/consul.conf
