@@ -4,19 +4,17 @@
 # Required-Start:    $local_fs $remote_fs
 # Required-Stop:     $local_fs $remote_fs
 # Default-Start:     2 3 4 5
-# Default-Stop:      S 0 1 6
+# Default-Stop:      0 1 6
 # Short-Description: Consul service discovery framework
-# Description:       Distributed, highly available, datacenter-aware service discovery
+# Description:       Consul service discovery framework
 ### END INIT INFO
-
-# Do NOT "set -e"
 
 PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 DESC="Consul service discovery framework"
 NAME=consul
 DAEMON=/usr/local/bin/$NAME
 PIDFILE=/var/run/$NAME/$NAME.pid
-DAEMON_ARGS="agent -config-dir /etc/consul.d/{{ consul_node_role }} ${CONSUL_FLAGS}"
+DAEMON_ARGS="agent -config-dir /etc/consul.d/{{ consul_node_role }} ${CONSUL_FLAGS} >> /var/log/consul/consul.log 2>&1"
 USER={{ consul_user }}
 SCRIPTNAME=/etc/init.d/$NAME
 
@@ -33,8 +31,7 @@ mkrundir() {
         chown $USER /var/run/consul
 }
 
-do_start()
-{
+do_start() {
     mkrundir
     start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --chuid $USER --background --make-pidfile --test > /dev/null \
         || return 1
@@ -55,8 +52,7 @@ do_start()
     return "$RETVAL"
 }
 
-do_stop()
-{
+do_stop() {
     if ("${DAEMON}" info 2>/dev/null | grep -q 'server = false' 2>/dev/null) ; then
         "$DAEMON" leave
     fi

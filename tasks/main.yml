@@ -43,6 +43,8 @@
 
 - file: "dest=/var/log/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
 
+- file: "dest=/var/run/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
+
 - file: "dest=/etc/consul.d state=directory owner={{ consul_user }} group={{ consul_group}}"
 
 - file: "dest=/etc/consul.d state=directory owner={{ consul_user }} group={{ consul_group}}"
@@ -70,18 +72,14 @@
   unarchive: src=/tmp/{{ consul_ui_pkg }} dest=/opt/consul/ui/ owner={{ consul_user }} group={{ consul_group }} mode=0755 copy=no
   tags: installation
 
-- name: init script
+- name: SYSV init script
   template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
+  when: not ansible_distribution == "Debian"
 
 - name: Debian init script
   template: src=consul_debian.init.j2 dest=/etc/init.d/consul owner=root group=root mode=755
-  when: ansible_distribution == "Debian"
-
-- name: Upstart script
-  template: src=consul_upstart.conf.j2 dest=/etc/init/consul.conf owner=root group=root mode=755
-  when: ansible_distribution_major_version < 7
+  when: ansible_distribution == "Debian" and ansible_distribution_major_version|int <= 7
 
 - name: systemd script
-  template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service owner=root group=root mode=755
-  when: ansible_distribution_major_version >= 7
-
+  template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service owner=root group=root mode=644
+  when: ansible_distribution_major_version|int >= 7

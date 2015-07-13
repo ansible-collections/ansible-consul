@@ -17,10 +17,10 @@
 
 ## v1.0.3
 
-- Add /usr/local/bin to PATH for cases where the consul binary is not found
+- Prefix /usr/local/bin in PATH for cases where the consul binary is not found
 - Changed UI path
-- Updated Upstart script
-- Added generic SysV init script
-- Added Debian init script
-- Use Upstart for distribution major versions < 7
+- Add generic SysV init script
+- Add Debian init script
 - Use systemd for distribution major versions >= 7
+- Remove Upstart script
+- Updated configuration files

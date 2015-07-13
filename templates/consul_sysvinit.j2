@@ -1,18 +1,14 @@
 #!/bin/bash
 #
-# /etc/rc.d/init.d/consul
-#
-# Daemonize the consul agent.
-#
 # chkconfig:   2345 95 95
-# description: Distributed, highly available, datacenter-aware service discovery
+# description: Consul service discovery framework
 # processname: consul
 # pidfile: /var/run/consul/pidfile
 
 . /etc/init.d/functions
 
 CONSUL=/usr/local/bin/consul
-CONFIG=/etc/consul.d/{{ consul_node_role }}/
+CONFIG=/etc/consul.d/{{ consul_node_role }}
 PID_FILE=/var/run/consul/consul.pid
 LOG_FILE=/var/log/consul/consul.log
 
