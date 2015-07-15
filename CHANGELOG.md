@@ -10,7 +10,7 @@
 
 ## v1.0.2
 
-- Removed the need for consul_nodes variable
+- Removed the need for cluster_nodes variable
 - Fix client template task
 - Fix invalid JSON in the config.json outputs
 - Updated documentation
@@ -24,3 +24,7 @@
 - Use systemd for distribution major versions >= 7
 - Remove Upstart script
 - Updated configuration files
+
+## v1.0.4
+
+- Renamed consul_nodes label for better compatibility with my other roles

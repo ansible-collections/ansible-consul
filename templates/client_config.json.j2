@@ -17,7 +17,7 @@
   "encrypt": "{{ consul_raw_key['stdout']}}",
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable }},
-  "start_join": {{ lbracket }}{% for host in groups['consul_nodes'] %}
+  "start_join": {{ lbracket }}{% for host in groups['cluster_nodes'] %}
    {{ comma() }}{{ quote }}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{{ quote }}
 {% endfor %}{{ rbracket }},
   "ui_dir": "/opt/consul/ui/dist"

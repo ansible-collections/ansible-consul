@@ -2,7 +2,7 @@
 # File: site.yml - Example Consul site playbook
 
 - name: Installing Consul
-  hosts: consul_nodes
+  hosts: cluster_nodes
   sudo: True
   roles:
     - { role: brianshumate.consul }
