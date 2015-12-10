@@ -32,7 +32,7 @@ The Vagrant configuration file (`Vagrantfile`) is responsible for
 configuring the virtual machines and a baseline OS installation.
 
 The Ansible playbooks then further refine OS configuration, perform Consul
-software download and installation, and the initialization of  nodes
+software download and installation, and the initialization of nodes
 into a ready to use cluster.
 
 ## Designed for Ansible Galaxy

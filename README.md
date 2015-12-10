@@ -1,16 +1,17 @@
 # Consul
 
 This Ansible role performs a basic [Consul](https://consul.io/) installation,
-including filesystem structure, example configuration, and installation of
-of the Consul UI.
+including filesystem structure, example configuration, and Consul UI
+installation.
 
-It does not currently facilitate full configuration and initialization of
-a functioning Consul cluster, but that is planned for a future version.
+It does not yet handle full configuration and initialization of
+a functioning Consul cluster, but that is on the road map for a future
+version.
 
 ## Requirements
 
-This role requires a Debian or RHEL family of Linux host, and has been
-tested to function with the following specific software versions:
+This role requires a Debian or RHEL family of Linux host; the role is tested 
+with the following specific software versions:
 
 * Ansible: 1.9.2
 * Consul: 0.5.2
@@ -18,7 +19,7 @@ tested to function with the following specific software versions:
 
 ## Role Variables
 
-All variables are specified in `defaults/main.yml` and `vars/*.yml`.
+The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
@@ -42,11 +43,9 @@ All variables are specified in `defaults/main.yml` and `vars/*.yml`.
 
 ### OS Distribution Variables
 
-Currently, the Consul binary works on most Linux platforms and is not
-distribution specific. However, some distributions require specific OS
-packages be installed with different nomenclature, and I typically build all
-of my Ansible roles with multi-distribution support, so I have done things
-similarly with this role.
+The Consul binary works on most Linux platforms and is not distribution
+specific. Some distributions require installation of specific OS packages with different nomenclature, so this role was built with support for
+the major Linux distributions.
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
