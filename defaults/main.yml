@@ -1,9 +1,9 @@
 ---
 # File: defaults/main.yml - Main default variables for Consul
 
-consul_version: "0.5.2"
-consul_zip_url: "https://dl.bintray.com/mitchellh/consul/{{ consul_version }}_linux_amd64.zip"
-consul_zip_sha256: "171cf4074bfca3b1e46112105738985783f19c47f4408377241b868affa9d445"
+consul_version: "0.6.3"
+consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+consul_zip_sha256: "b0532c61fec4a4f6d130c893fd8954ec007a6ad93effbe283a39224ed237e250"
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul.d"
 consul_data_path: "/var/consul"
@@ -14,7 +14,7 @@ consul_datacenter: "boone"
 consul_domain: "local"
 consul_log_level: "INFO"
 consul_syslog_enable: "true"
-consul_ui_url: "https://dl.bintray.com/mitchellh/consul/{{ consul_version }}_web_ui.zip"
+consul_ui_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_web_ui.zip"
 consul_ui_pkg: "{{ consul_version }}_web_ui.zip"
-consul_ui_sha256: "ad883aa52e1c0136ab1492bbcedad1210235f26d59719fb6de3ef6464f1ff3b1"
+consul_ui_sha256: "93bbb300cacfe8de90fb3bd5ede7d37ae6ce014898edc520b9c96a676b2bbb72"
 consul_iface: "eth1"
