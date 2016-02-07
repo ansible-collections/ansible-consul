@@ -28,3 +28,10 @@
 ## v1.0.4
 
 - Renamed consul_nodes label for better compatibility with my other roles
+
+## v1.0.5
+
+- Updated defaults and Consul version (thanks @bscott)
+- Made cluster bootable and switch to become_user + other Ansibel best
+  practices (thanks @Rodjers)
+- Updated minimum Ansible version required in meta

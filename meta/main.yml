@@ -14,7 +14,7 @@ galaxy_info:
   # - Apache
   # - CC-BY
   license: license BSD
-  min_ansible_version: 1.7
+  min_ansible_version: 1.9
   #
   # Below are all platforms currently available. Just uncomment
   # the ones that apply to your role. If you don't see your 
@@ -132,4 +132,3 @@ dependencies: []
   # List your role dependencies here, one per line.
   # Be sure to remove the '[]' above if you add dependencies
   # to this list.
-  
