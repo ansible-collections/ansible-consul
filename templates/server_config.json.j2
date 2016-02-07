@@ -17,8 +17,8 @@
   "encrypt": "{{ consul_raw_key['stdout']}}",
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable }},
-  "start_join": {{ lbracket }}{% for host in groups['cluster_nodes'] %}
-   {{ comma() }}{{ quote }}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{{ quote }}
+  "start_join": {{ lbracket }}{% for host in groups['cluster_nodes'] %}{% if hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] != hostvars[host]['ansible_eth1']['ipv4']['address']  %}{{ comma() }}{{ quote }}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{{ quote }}{% endif %}
 {% endfor %}{{ rbracket }},
-  "ui_dir": "/opt/consul/ui/dist"
+  "ui": true,
+  "ui_dir": "/opt/consul/ui/"
 }

@@ -3,6 +3,11 @@
 
 - name: Installing Consul
   hosts: cluster_nodes
-  sudo: True
+  become: yes
+  become_user: root
   roles:
     - { role: brianshumate.consul }
+
+  tasks:
+    - name: Start Consul
+      service: name=consul state=started enabled=yes
