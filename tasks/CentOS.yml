@@ -18,6 +18,5 @@
   tags: installation
 
 - name: Cleanup
-  sudo: True
-  shell: "rm -rf /tmp/{{ consul_centos_pkg }}"
+  file:  path="/tmp/{{ consul_centos_pkg }}" state=absent
   tags: installation
