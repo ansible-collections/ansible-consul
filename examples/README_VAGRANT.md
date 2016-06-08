@@ -1,8 +1,8 @@
 # Consul with Ansible
 
 This project provides documentation and a collection of scripts to help you
-automate the deployment of Consul using 
-[Ansible](http://www.ansibleworks.com/). These are the instructions for 
+automate the deployment of Consul using
+[Ansible](http://www.ansibleworks.com/). These are the instructions for
 deploying a development cluster on Vagrant and VirtualBox.
 
 The documentation and scripts are merely a starting point designed to both
@@ -13,7 +13,7 @@ them with additional features specific to your needs later.
 ## Vagrant Development Cluster
 
 In some situations deploying a small cluster on your local development
-machine can be handy. This document describes such a scenario using the 
+machine can be handy. This document describes such a scenario using the
 following technologies:
 
 * [Consul](https://consul.io)
@@ -22,9 +22,9 @@ following technologies:
   supporting plugin
 * [Ansible](http://www.ansibleworks.com/)
 
-Each of the virtual machines for this guide are configured with 
-1.5GB RAM, 2 CPU cores, and 2 network interfaces. The first interface uses 
-NAT and has connection via the host to the outside world. The second 
+Each of the virtual machines for this guide are configured with
+1.5GB RAM, 2 CPU cores, and 2 network interfaces. The first interface uses
+NAT and has connection via the host to the outside world. The second
 interface is a private network and is used for Consul intra-cluster
 communication in addition to access from the host machine.
 
@@ -83,11 +83,11 @@ BOX_NAME="chef/centos-7.0" vagrant up
 ## Notes
 
 0. This project functions with the following software versions:
-  * Consul version 0.5.2
-  * Ansible version 1.9.2
-  * VirtualBox version 4.3.28
-  * Vagrant version 1.7.2
-  * Vagrant Hosts version 2.4.0
+  * Consul version 0.6.4
+  * Ansible version 2.1.0.0
+  * VirtualBox version 5.0.20
+  * Vagrant version 1.8.1
+  * Vagrant Hosts version 2.8.0
 1. This project uses Debian Jessie by default, but you can choose other OS
    with the *BOX_NAME* environment variable
 2. The `bin/preinstall` shell script performs the following actions for you:

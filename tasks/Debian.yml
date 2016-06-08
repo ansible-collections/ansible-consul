@@ -6,7 +6,7 @@
 
 - name: OS Packages
   apt: "name={{ item }} state=present update_cache=yes"
-  with_items: consul_debian_os_packages
+  with_items: "{{ consul_debian_os_packages }}"
   tags: installation
 
 - name: Download Consul

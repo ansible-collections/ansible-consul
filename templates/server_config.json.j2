@@ -5,7 +5,7 @@
 
 {
   "advertise_addr": "{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}",
-  "bind_addr": "{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}",
+  "bind_addr": "{{ consul_bind_address }}",
   "bootstrap": false,
   "server": true,
   "client_addr": "0.0.0.0",

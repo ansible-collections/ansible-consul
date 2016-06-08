@@ -1,4 +1,5 @@
 .DS_Store
 .vagrant
 .tm_properties
+*.retry
 examples/hosts

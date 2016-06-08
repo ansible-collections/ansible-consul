@@ -35,3 +35,11 @@
 - Made cluster bootable and switch to become_user + other Ansibel best
   practices (thanks @Rodjers)
 - Updated minimum Ansible version required in meta
+
+## v1.0.6
+
+- Updated to Consul 0.6.4
+- Make bind_address configurable for #1
+- Cleaned up deprecaed bare variables
+- Updated supporting software versions
+- Updated documentation

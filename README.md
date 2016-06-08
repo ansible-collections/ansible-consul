@@ -10,11 +10,11 @@ version.
 
 ## Requirements
 
-This role requires a Debian or RHEL family of Linux host; the role is tested 
+This role requires a Debian or RHEL family of Linux host; the role is tested
 with the following specific software versions:
 
-* Ansible: 1.9.2
-* Consul: 0.5.2
+* Ansible: 2.1.0.0
+* Consul: 0.6.4
 * Debian: 8
 
 ## Role Variables
@@ -23,8 +23,8 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `consul_version` | `0.5.2` | Consul version to install |
-| `consul_zip_url` | `https://dl.bintray.com/mitchellh/consul/{{ consul_version }}_linux_amd64.zip` | Consul download URL |
+| `consul_version` | `0.6.4` | Consul version to install |
+| `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Consul download URL |
 | `consul_zip_sha256` | SHA256 SUM | Consul download SHA256 summary |
 | `consul_bin_path` | `/usr/local/bin` | Consul binary installation path |
 | `consul_config_path` | `/etc/consul.d` | Consul configuration file path |
@@ -36,10 +36,11 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 | `consul_domain` | `local` | Consul domain name |
 | `consul_log_level` | `INFO` | Consul logging level |
 | `consul_syslog_enable` | true | Consul logs to syslog |
-| `consul_ui_url` | `https://dl.bintray.com/mitchellh/consul/0.5.2_web_ui.zip` | Consul UI download URL | 
+| `consul_ui_url` | `https://dl.bintray.com/mitchellh/consul/0.5.2_web_ui.zip` | Consul UI download URL |
 | `consul_ui_pkg` | `0.5.2_web_ui.zip` | Conul UI package file name |
 | `consul_ui_sha256` | SHA256 SUM | Consul UI download SHA256 summary |
 | `consul_iface` | `eth1` | Consul network interface |
+| `consul_bind_address` | dynamic from hosts inventory | The interface address to bind to
 
 ### OS Distribution Variables
 
@@ -74,7 +75,7 @@ None
 
 
 After you have reviewed and altered any necessary variables, and created a
-hosts inventory, basic Consul installation is possible using the 
+hosts inventory, basic Consul installation is possible using the
 included `site.yml` playbook:
 
 ```
