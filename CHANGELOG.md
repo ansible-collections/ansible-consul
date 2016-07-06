@@ -43,3 +43,8 @@
 - Cleaned up deprecaed bare variables
 - Updated supporting software versions
 - Updated documentation
+
+## v1.0.7
+
+- Update supported versions
+- Update documentation

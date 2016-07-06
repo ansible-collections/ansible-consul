@@ -70,7 +70,7 @@ Begin from the top level directory of this project and use the following
  * 10.1.42.230 consul3.local consul3
 3. cd `$PATH_TO_ROLES/brianshumate.conusul/examples`
 4. `vagrant up`
-5. TODO: Access the cluster web UI at http://consul1.local:8555
+5. Access the cluster web UI at http://consul1.local:8500/ui/
 
 By default, this project will install Debian based cluster nodes. If you
 prefer, it can also install CentOS 7 based nodes by changing the command
@@ -84,8 +84,8 @@ BOX_NAME="chef/centos-7.0" vagrant up
 
 0. This project functions with the following software versions:
   * Consul version 0.6.4
-  * Ansible version 2.1.0.0
-  * VirtualBox version 5.0.20
+  * Ansible version 2.0.0.2
+  * VirtualBox version 5.0.24
   * Vagrant version 1.8.1
   * Vagrant Hosts version 2.8.0
 1. This project uses Debian Jessie by default, but you can choose other OS
