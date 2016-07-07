@@ -52,3 +52,7 @@
 ## v1.0.8
 
 - Update documentation
+
+## v1.0.9
+
+- Change datacenter value
