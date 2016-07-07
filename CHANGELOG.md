@@ -56,3 +56,7 @@
 ## v1.0.9
 
 - Change datacenter value
+
+## v1.0.10
+
+- Remove extra datacenter definition
