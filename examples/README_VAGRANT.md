@@ -60,7 +60,7 @@ Change `PATH_TO_ROLES` to a directory that you have write access to.
 ## Quick Start
 
 Begin from the top level directory of this project and use the following
-5 steps to get up and running:
+steps to get up and running:
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](http://downloads.vagrantup.com/), [vagrant-hosts](https://github.com/adrienthebo/vagrant-hosts), and [Ansible](http://www.ansibleworks.com/docs/intro_installation.html#latest-releases-via-pip).
 2. Edit `/etc/hosts` or use the included `bin/preinstall` script to add
@@ -71,6 +71,16 @@ Begin from the top level directory of this project and use the following
 3. cd `$PATH_TO_ROLES/brianshumate.conusul/examples`
 4. `vagrant up`
 5. Access the cluster web UI at http://consul1.local:8500/ui/
+6. You can also `ssh` into a node and verify the cluster members:
+
+       ```
+	   vagrant ssh consul1
+	   consul members
+	   Node     Address           Status  Type    Build  Protocol  DC
+	   consul1  10.1.42.210:8301  alive   server  0.6.4  2         online
+	   consul2  10.1.42.220:8301  alive   server  0.6.4  2         online
+	   consul3  10.1.42.230:8301  alive   server  0.6.4  2         online
+       ```
 
 By default, this project will install Debian based cluster nodes. If you
 prefer, it can also install CentOS 7 based nodes by changing the command
@@ -93,8 +103,8 @@ BOX_NAME="chef/centos-7.0" vagrant up
 2. The `bin/preinstall` shell script performs the following actions for you:
  * Adds each node's host information to the host machine's `/etc/hosts`
  * Optionally installs the Vagrant hosts plugin
-3. **vm: The '' provisioner could not be found.** error - make sure you have
-   vagrant-hosts plugin installed
+3. If you see an error like *vm: The '' provisioner could not be found.*
+   make sure you have vagrant-hosts plugin installed
 
 ## References
 

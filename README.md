@@ -4,9 +4,9 @@ This Ansible role performs a basic [Consul](https://consul.io/) installation,
 including filesystem structure, example configuration, and Consul UI
 installation.
 
-It does not yet handle full configuration and initialization of
-a functioning Consul cluster, but that is on the road map for a future
-version.
+It will also bootstrap a minimal cluster of 3 server nodes and do this
+in a development environment based on Vagrant and VirtualBox. See
+[README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) for more details about the developer mode setup.
 
 ## Requirements
 

@@ -48,3 +48,7 @@
 
 - Update supported versions
 - Update documentation
+
+## v1.0.8
+
+- Update documentation
