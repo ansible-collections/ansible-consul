@@ -28,7 +28,7 @@ function logmsg {
         *)
             printf "⁉️  ${txtwht}${msgtxt}\n" >&2
             ;;
-    esac 
+    esac
 }
 
 # Check if sudo will need password
@@ -39,7 +39,7 @@ function sudocheck {
 
 # Add hosts entries if necessary
 function add_hosts {
-  if grep $consul1 /etc/hosts > /dev/null 2>&1; then
+  if grep consul1 /etc/hosts > /dev/null 2>&1; then
     logmsg success "Consul VM node information present in /etc/hosts"
   else
     sudocheck

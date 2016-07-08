@@ -60,3 +60,7 @@
 ## v1.0.10
 
 - Remove extra datacenter definition
+
+## v1.0.11
+
+- Renamed bootstrap template

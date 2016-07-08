@@ -56,7 +56,7 @@
 - file: "dest=/etc/consul.d/client state=directory owner={{ consul_user }} group={{ consul_group}}"
 
 - name: Initial Consul bootstrap configuration
-  template: src=bootstrap_config.json.j2 dest={{ consul_config_path }}/bootstrap/config.json
+  template: src=server_bootstrap_config.json.j2 dest={{ consul_config_path }}/bootstrap/config.json
 
 - name: Initial Consul server configuration
   template: src=server_config.json.j2 dest={{ consul_config_path }}/server/config.json
