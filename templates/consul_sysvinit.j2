@@ -5,7 +5,11 @@
 # processname: consul
 # pidfile: /var/run/consul/pidfile
 
+{% if ansible_distribution == "Ubuntu" %}
+. /lib/lsb/init-functions
+{% else %}
 . /etc/init.d/functions
+{% endif %}
 
 CONSUL=/usr/local/bin/consul
 CONFIG=/etc/consul.d/{{ consul_node_role }}
