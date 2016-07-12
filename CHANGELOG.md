@@ -64,3 +64,10 @@
 ## v1.0.11
 
 - Renamed bootstrap template
+
+## v1.0.12
+
+- FIX: No such file or directory /etc/init.d/functions (thanks @oliverprater)
+- FIX: Using bare variables is deprecated (thanks @oliverprater)
+- Added CONTRIBUTORS.md
+- Updated documentation
