@@ -6,7 +6,7 @@
 
 - name: OS Packages
   yum: "name={{ item }} state=present"
-  with_items: consul_centos_os_packages
+  with_items: "{{ consul_centos_os_packages }}"
   tags: installation
 
 - name: Download Consul
