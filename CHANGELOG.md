@@ -77,3 +77,8 @@
 - Add initial dnsmasq front end bits
 - Reconfigure bootstrap node for normal operation (remove bootstrap-expect)
   after initial cluster formation and restart bootstrap node
+
+## v1.0.14
+
+- Initial test
+- Initial Travis CI setup
