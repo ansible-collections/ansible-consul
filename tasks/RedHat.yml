@@ -11,6 +11,11 @@
   with_items: "{{ consul_redhat_os_packages }}"
   tags: installation
 
+- name: dnsmasq package
+  yum: name=dnsmasq state=present
+  when: "consul_dnsmasq == true"
+  tags: installation
+
 - name: Download Consul
   get_url: "url={{ consul_zip_url }} dest=/tmp/{{ consul_redhat_pkg }} sha256sum={{ consul_redhat_sha256 }} timeout=74"
   tags: installation

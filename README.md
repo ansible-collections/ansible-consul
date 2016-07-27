@@ -10,8 +10,9 @@ in a development environment based on Vagrant and VirtualBox. See
 
 ## Requirements
 
-This role requires a Debian or RHEL family of Linux host; the role is tested
-with the following specific software versions:
+This role requires a Debian or RHEL based Linux distribution. It might work
+with other software versions, but does work with the following specific
+software and versions:
 
 * Ansible: 2.1.0.0
 * Consul: 0.6.4
@@ -45,8 +46,7 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 ### OS Distribution Variables
 
 The Consul binary works on most Linux platforms and is not distribution
-specific. Some distributions require installation of specific OS packages with different nomenclature, so this role was built with support for
-the major Linux distributions.
+specific. Some distributions require installation of specific OS packages with different nomenclature, so this role has support for major Linux distributions.
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
@@ -75,19 +75,25 @@ None
 
 
 After you have reviewed and altered any necessary variables, and created a
-hosts inventory, basic Consul installation is possible using the
-included `site.yml` playbook:
+host inventory file, basic Consul installation is possible using the
+included `site.yml` playbook example:
 
 ```
 ansible-playbook -i hosts site.yml
 ```
 
-You can also simply pass variables in using the `--extra-vars` option
-to the `ansible-playbook` command:
+You can also pass variables in using the `--extra-vars` option to the
+`ansible-playbook` command:
 
 ```
 ansible-playbook -i hosts site.yml --extra-vars "consul_datacenter=maui"
 ```
+
+Be aware that for clustering, the included `site.yml` does the following:
+
+1. Executes consul role (installs Consul and bootstraps cluster)
+2. Reconfigures bootstrap node to run without bootstrap-expect setting
+3. Restarts bootstrap node
 
 ### Vagrant and VirtualBox
 

@@ -92,24 +92,27 @@ BOX_NAME="chef/centos-7.0" vagrant up
 
 ## Notes
 
-0. This project functions with the following software versions:
+1. This project functions with the following software versions:
   * Consul version 0.6.4
-  * Ansible version 2.0.0.2
-  * VirtualBox version 5.0.24
+  * Ansible: 2.1.0.0
+  * VirtualBox version 5.0.26
   * Vagrant version 1.8.1
   * Vagrant Hosts version 2.8.0
-1. This project uses Debian Jessie by default, but you can choose other OS
+2. This project uses Debian Jessie by default, but you can choose other OS
    with the *BOX_NAME* environment variable
-2. The `bin/preinstall` shell script performs the following actions for you:
+3. The `bin/preinstall` shell script performs the following actions for you:
  * Adds each node's host information to the host machine's `/etc/hosts`
  * Optionally installs the Vagrant hosts plugin
-3. If you see an error like *vm: The '' provisioner could not be found.*
+4. If you see an error like *vm: The '' provisioner could not be found.*
    make sure you have vagrant-hosts plugin installed
 
 ## References
 
 1. https://www.consul.io/
-2. http://www.ansible.com/
-3. http://www.vagrantup.com/
-4. https://www.virtualbox.org/
-5. https://github.com/adrienthebo/vagrant-hosts
+2. https://www.consul.io/intro/getting-started/install.html
+3. https://www.consul.io/docs/guides/bootstrapping.html
+4. https://www.consul.io/docs/guides/forwarding.html
+5. http://www.ansible.com/
+6. http://www.vagrantup.com/
+7. https://www.virtualbox.org/
+8. https://github.com/adrienthebo/vagrant-hosts

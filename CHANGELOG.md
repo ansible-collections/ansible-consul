@@ -71,3 +71,9 @@
 - FIX: Using bare variables is deprecated (thanks @oliverprater)
 - Added CONTRIBUTORS.md
 - Updated documentation
+
+## v1.0.13
+
+- Add initial dnsmasq front end bits
+- Reconfigure bootstrap node for normal operation (remove bootstrap-expect)
+  after initial cluster formation and restart bootstrap node
