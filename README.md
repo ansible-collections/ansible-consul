@@ -1,5 +1,7 @@
 # Consul
 
+![](https://travis-ci.org/brianshumate/ansible-consul.svg?branch=master)
+
 This Ansible role performs a basic [Consul](https://consul.io/) installation,
 including filesystem structure, example configuration, and Consul UI
 installation.

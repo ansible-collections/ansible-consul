@@ -82,3 +82,7 @@
 
 - Initial test
 - Initial Travis CI setup
+
+## v1.0.15
+
+- Meta update

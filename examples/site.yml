@@ -6,7 +6,7 @@
   become: yes
   become_user: root
   roles:
-    - { role: brianshumate.consul }
+    - { role: brianshumate.consul, consul_dnsmasq: "true" }
 
   tasks:
     - name: Start Consul
