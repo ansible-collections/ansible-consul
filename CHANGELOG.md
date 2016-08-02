@@ -64,3 +64,25 @@
 ## v1.0.11
 
 - Renamed bootstrap template
+
+## v1.0.12
+
+- FIX: No such file or directory /etc/init.d/functions (thanks @oliverprater)
+- FIX: Using bare variables is deprecated (thanks @oliverprater)
+- Added CONTRIBUTORS.md
+- Updated documentation
+
+## v1.0.13
+
+- Add initial dnsmasq front end bits
+- Reconfigure bootstrap node for normal operation (remove bootstrap-expect)
+  after initial cluster formation and restart bootstrap node
+
+## v1.0.14
+
+- Initial test
+- Initial Travis CI setup
+
+## v1.0.15
+
+- Meta update

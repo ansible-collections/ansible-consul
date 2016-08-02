@@ -1,0 +1,20 @@
+---
+# File: tasks/main.yml - dnsmasq tasks for Consul
+
+- name: dnsmasq package
+  yum: name=dnsmasq state=present
+  when: ansible_distribution  == "CentOS" or ansible_distribution  == "RedHat"
+  tags: dnsmasq,installation
+
+- name: dnsmasq package
+  apt: name=dnsmasq state=present
+  when: ansible_distribution  == "Debian" or ansible_distribution  == "Ubuntu"
+  tags: dnsmasq,installation
+
+- name: Stop dnsmasq
+  service: name=dnsmasq state=stopped
+
+- name: "dnsmasq setup"
+  copy: src=dnsmasq-10-consul dest=/etc/dnsmasq.d/10-consul owner=root group=root mode=0644
+  tags: dnsmasq
+

@@ -19,3 +19,4 @@ consul_ui_pkg: "{{ consul_version }}_web_ui.zip"
 consul_ui_sha256: "5f8841b51e0e3e2eb1f1dc66a47310ae42b0448e77df14c83bb49e0e0d5fa4b7"
 consul_iface: "eth1"
 consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}"
+consul_dnsmasq: false
