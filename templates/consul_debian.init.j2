@@ -14,7 +14,7 @@ DESC="Consul service discovery framework"
 NAME=consul
 DAEMON=/usr/local/bin/$NAME
 PIDFILE=/var/run/$NAME/$NAME.pid
-DAEMON_ARGS="agent -config-dir /etc/consul.d/{{ consul_node_role }} ${CONSUL_FLAGS} >> /var/log/consul/consul.log 2>&1"
+DAEMON_ARGS="agent -config-dir /etc/consul.d/{{ consul_node_role }} -pid-file=/var/run/consul/consul.pid ${CONSUL_FLAGS} >> /var/log/consul/consul.log 2>&1"
 USER={{ consul_user }}
 SCRIPTNAME=/etc/init.d/$NAME
 

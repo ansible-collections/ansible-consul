@@ -86,3 +86,21 @@
 ## v1.0.15
 
 - Meta update
+
+## v1.1.0
+
+- Bare role now installs and bootstraps cluster; included site.yml will also
+  reconfigure bootstrap node as server and optionally enable dnsmasq
+  forwarding for all cluster agents
+- Remove bad client_addr bind in favor of default (localhost)
+  Some weirdness was occurring whereby the client APIs were listening on
+  TCP6/UDP6 sockets but not TCP4/UDP4 when client_addr set to 0.0.0.0
+- Adjust timeouts for cluster UI check
+- Default configurable domain to "consul" so that examples from docs work, etc.
+- Combine all OS vars into main (addresses undefined var warnings)
+- Removed separate OS var files
+- Updated known working software versions
+- Any errors are fatal for the site.yml example playbook
+- Explicit pid-file to use in wait_for
+- Remove cruft from init script
+- Update documentation

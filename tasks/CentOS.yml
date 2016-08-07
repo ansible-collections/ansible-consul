@@ -2,9 +2,9 @@
 # File: tasks/CentOS.yml - CentOS tasks for Consul
 
 - name: "Distribution specific variables"
-  include_vars: "{{ ansible_distribution }}.yml"
+  include_vars: main.yml
 
-- name: OS Packages
+- name: OS packages
   yum: "name={{ item }} state=present"
   with_items: "{{ consul_centos_os_packages }}"
   tags: installation
@@ -18,5 +18,5 @@
   tags: installation
 
 - name: Cleanup
-  file:  path="/tmp/{{ consul_centos_pkg }}" state=absent
+  file: path=/tmp/"{{ consul_centos_pkg }}" state=absent
   tags: installation

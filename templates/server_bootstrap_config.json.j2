@@ -4,11 +4,14 @@
 {% set quote = '"' %}
 
 {
-  "advertise_addr": "{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}",
   "bind_addr": "{{ consul_bind_address }}",
+  "addresses": {
+    "dns": "127.0.0.1",
+    "http": "{{ consul_bind_address }}",
+    "https": "{{ consul_bind_address }}"
+  },
   "bootstrap": true,
   "server": true,
-  "client_addr": "0.0.0.0",
   "node_name": "{{ inventory_hostname_short }}",
   "datacenter": "{{ consul_datacenter }}",
   "data_dir": "{{ consul_data_path }}",

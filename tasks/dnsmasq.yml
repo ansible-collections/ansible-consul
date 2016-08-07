@@ -15,6 +15,5 @@
   service: name=dnsmasq state=stopped
 
 - name: "dnsmasq setup"
-  copy: src=dnsmasq-10-consul dest=/etc/dnsmasq.d/10-consul owner=root group=root mode=0644
+  copy: src=../files/dnsmasq-10-consul dest=/etc/dnsmasq.d/10-consul owner=root group=root mode=0644
   tags: dnsmasq
-

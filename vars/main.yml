@@ -1,2 +1,40 @@
 ---
 # vars file for consul
+
+# CentOS vars
+consul_centos_pkg: "{{ consul_version }}_linux_amd64.zip"
+consul_centos_url: "{{ consul_zip_url }}"
+consul_centos_sha256: "{{ consul_zip_sha256 }}"
+
+consul_centos_os_packages:
+  - libselinux-python
+  - git
+  - unzip
+
+# Debian vars
+consul_debian_pkg: "{{ consul_version }}_linux_amd64.zip"
+consul_debian_url: "{{ consul_zip_url }}"
+consul_debian_sha256: "{{ consul_zip_sha256 }}"
+
+consul_debian_os_packages:
+  - git
+  - unzip
+
+# Red Hat vars
+consul_redhat_pkg: "{{ consul_version }}_linux_amd64.zip"
+consul_redhat_url: "{{ consul_zip_url }}"
+consul_redhat_sha256: "{{ consul_zip_sha256 }}"
+
+consul_redhat_os_packages:
+  - libselinux-python
+  - git
+  - unzip
+
+# Ubuntu vars
+consul_ubuntu_pkg: "{{ consul_version }}_linux_amd64.zip"
+consul_ubuntu_url: "{{ consul_zip_url }}"
+consul_ubuntu_sha256: "{{ consul_zip_sha256 }}"
+
+consul_ubuntu_os_packages:
+  - git
+  - unzip

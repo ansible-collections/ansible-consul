@@ -2,11 +2,9 @@
 # File: tasks/Red Hat.yml - Red Hat tasks for Consul
 
 - name: "Distribution specific variables"
-  include_vars: "{{ ansible_distribution }}.yml"
+  include_vars: main.yml
 
-# Download and install SELinux Python module (required by Ansible)  
-
-- name: OS Packages
+- name: OS packages
   yum: "name={{ item }} state=present"
   with_items: "{{ consul_redhat_os_packages }}"
   tags: installation
@@ -25,6 +23,5 @@
   tags: installation
 
 - name: Cleanup
-  sudo: True
-  shell: "rm -rf /tmp/{{ consul_redhat_pkg }}"
+  file: path=/tmp/"{{ consul_redhat_pkg }}" state=absent
   tags: installation

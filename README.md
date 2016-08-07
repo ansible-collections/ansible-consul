@@ -6,9 +6,9 @@ This Ansible role performs a basic [Consul](https://consul.io/) installation,
 including filesystem structure, example configuration, and Consul UI
 installation.
 
-It will also bootstrap a minimal cluster of 3 server nodes and do this
-in a development environment based on Vagrant and VirtualBox. See
-[README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) for more details about the developer mode setup.
+It can also bootstrap a minimal development or evaluation cluster of 3 server
+agents running in a Vagrant and VirtualBox based environment. See
+[README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-consul/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
 ## Requirements
 
@@ -16,7 +16,7 @@ This role requires a Debian or RHEL based Linux distribution. It might work
 with other software versions, but does work with the following specific
 software and versions:
 
-* Ansible: 2.1.0.0
+* Ansible: 2.1.1.0
 * Consul: 0.6.4
 * Debian: 8
 
@@ -44,6 +44,7 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 | `consul_ui_sha256` | SHA256 SUM | Consul UI download SHA256 summary |
 | `consul_iface` | `eth1` | Consul network interface |
 | `consul_bind_address` | dynamic from hosts inventory | The interface address to bind to
+| `consul_dnsmasq` | `false` | Whether to install and configure DNS API forwarding on port 53 using dnsmasq |
 
 ### OS Distribution Variables
 
@@ -96,6 +97,40 @@ Be aware that for clustering, the included `site.yml` does the following:
 1. Executes consul role (installs Consul and bootstraps cluster)
 2. Reconfigures bootstrap node to run without bootstrap-expect setting
 3. Restarts bootstrap node
+
+### NEW
+
+The role now includes support for DNS forwarding with dnsmasq.
+
+Enable like this:
+
+```
+ansible-playbook -i hosts site.yml --extra-vars "consul_dnsmasq=true"
+```
+
+Then, you can query any of the agents via DNS directly via port 53,
+for example:
+
+```
+dig @consul1.local consul3.node.consul         
+
+; <<>> DiG 9.8.3-P1 <<>> @consul1.local consul3.node.consul
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 29196
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;consul3.node.consul.   IN  A
+
+;; ANSWER SECTION:
+consul3.node.consul.  0 IN  A 10.1.42.230
+
+;; Query time: 42 msec
+;; SERVER: 10.1.42.210#53(10.1.42.210)
+;; WHEN: Sun Aug  7 18:06:32 2016
+;; 
 
 ### Vagrant and VirtualBox
 

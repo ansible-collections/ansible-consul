@@ -14,7 +14,7 @@ rev-server=192.168.0.0/16,127.0.0.1#8600
 #rev-server=240.0.0.0/4,127.0.0.1#8600
 
 # Accept DNS queries only from hosts whose address is on a local subnet.
-local-service
+# local-service
 
 # Don't poll /etc/resolv.conf for changes.
 # no-poll

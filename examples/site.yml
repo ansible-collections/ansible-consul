@@ -1,40 +1,10 @@
 ---
 # File: site.yml - Example Consul site playbook
 
-- name: Installing Consul
+- name: Assemble Consul cluster
   hosts: cluster_nodes
+  any_errors_fatal: true
   become: yes
   become_user: root
   roles:
-    - { role: brianshumate.consul, consul_dnsmasq: "true" }
-
-  tasks:
-    - name: Start Consul
-      service: name=consul state=started enabled=yes
-
-    - name: Consul UI active?
-      wait_for: port=8500 delay=5 timeout=30
-
-    - name: Reconfigure bootstrap node (systemd)
-      replace: dest=/lib/systemd/system/consul.service regexp='bootstrap' replace='server' backup=no
-      when: consul_node_role == "bootstrap" and ansible_distribution_major_version|int >= 7
-
-    - name: Reconfigure bootstrap node (init.d)
-      replace: dest=/etc/init.d/consul regexp='bootstrap' replace='server' backup=no
-      when: consul_node_role == "bootstrap" and ansible_distribution_major_version|int <= 7
-
-    - name: Reload unit configuration
-      shell: systemctl daemon-reload
-      when: consul_node_role == "bootstrap" and ansible_distribution_major_version|int >= 7
-
-    - name: Restart Consul
-      service: name=consul state=restarted
-      when: consul_node_role == "bootstrap"
-
-    - name: Consul UI active?
-      wait_for: port=8500 delay=5 timeout=30
-
-    - name: Start dnsmasq
-      service: name=dnsmasq state=started
-      tags: dnsmasq
-      when: consul_dnsmasq == "true"
+    - { role: brianshumate.consul }

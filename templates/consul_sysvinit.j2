@@ -14,7 +14,6 @@
 CONSUL=/usr/local/bin/consul
 CONFIG=/etc/consul.d/{{ consul_node_role }}
 PID_FILE=/var/run/consul/consul.pid
-LOG_FILE=/var/log/consul/consul.log
 
 [ -e /etc/sysconfig/consul ] && . /etc/sysconfig/consul
 
@@ -42,7 +41,7 @@ start() {
         [ -f $PID_FILE ] && rm $PID_FILE
         daemon --user={{ consul_user }} \
             --pidfile="$PID_FILE" \
-            "$CONSUL" agent -pid-file "${PID_FILE}" -config-dir "$CONFIG" "$LOG_FILE" &
+            "$CONSUL" agent -pid-file "${PID_FILE}" -config-dir "$CONFIG" &
         retcode=$?
         touch /var/lock/subsys/consul
         return $retcode

@@ -5,10 +5,12 @@
 # VirtualBox provider and Ansible provisioner
 
 ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
-VAGRANTFILE_API_VERSION = "2"
-BOX_MEM = ENV['BOX_MEM'] || "1536"
+BOX_MEM = ENV['BOX_MEM'] || "1024"
 BOX_NAME =  ENV['BOX_NAME'] || "debian/jessie64"
 CLUSTER_HOSTS = ENV['CLUSTER_HOSTS'] || "vagrant_hosts"
+DNSMASQ = ENV['CONSUL_DNSMASQ'] || "false"
+LOGLEVEL = ENV['CONSUL_LOGLEVEL'] || "INFO"
+VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.require_version ">= 1.5.0"
 
@@ -75,7 +77,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.inventory_path = CLUSTER_HOSTS
       # Extra Ansible variables can be defined here
       ansible.extra_vars = {
-        consul_magic: 9001,
+        consul_dnsmasq: DNSMASQ,
+        consul_log_level: LOGLEVEL
       }
       ansible.playbook = ANSIBLE_PLAYBOOK
       ansible.limit = "all"

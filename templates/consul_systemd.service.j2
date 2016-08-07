@@ -18,7 +18,7 @@ User={{ consul_user }}
 Group={{ consul_group }}
  
 ExecStart=/usr/local/bin/consul agent \
-    -config-dir=/etc/consul.d/{{ consul_node_role }}
+    -config-dir=/etc/consul.d/{{ consul_node_role }} -pid-file=/var/run/consul/consul.pid
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure

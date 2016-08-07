@@ -74,12 +74,12 @@ steps to get up and running:
 6. You can also `ssh` into a node and verify the cluster members:
 
        ```
-	   vagrant ssh consul1
-	   consul members
-	   Node     Address           Status  Type    Build  Protocol  DC
-	   consul1  10.1.42.210:8301  alive   server  0.6.4  2         online
-	   consul2  10.1.42.220:8301  alive   server  0.6.4  2         online
-	   consul3  10.1.42.230:8301  alive   server  0.6.4  2         online
+     vagrant ssh consul1
+     consul members
+     Node     Address           Status  Type    Build  Protocol  DC
+     consul1  10.1.42.210:8301  alive   server  0.6.4  2         online
+     consul2  10.1.42.220:8301  alive   server  0.6.4  2         online
+     consul3  10.1.42.230:8301  alive   server  0.6.4  2         online
        ```
 
 By default, this project will install Debian based cluster nodes. If you
@@ -94,17 +94,51 @@ BOX_NAME="chef/centos-7.0" vagrant up
 
 1. This project functions with the following software versions:
   * Consul version 0.6.4
-  * Ansible: 2.1.0.0
+  * Ansible: 2.1.1.0
   * VirtualBox version 5.0.26
   * Vagrant version 1.8.1
   * Vagrant Hosts version 2.8.0
-2. This project uses Debian Jessie by default, but you can choose other OS
+2. This project uses Debian Jessie by default, but you can choose another OS
    with the *BOX_NAME* environment variable
 3. The `bin/preinstall` shell script performs the following actions for you:
  * Adds each node's host information to the host machine's `/etc/hosts`
  * Optionally installs the Vagrant hosts plugin
-4. If you see an error like *vm: The '' provisioner could not be found.*
+4. If you notice an error like *vm: The '' provisioner could not be found.*
    make sure you have vagrant-hosts plugin installed
+
+### NEW
+
+The role now includes support for DNS forwarding with dnsmasq.
+
+Install like this:
+
+```
+CONSUL_DNSMASQ="true" vagrant up
+```
+
+Then you can query any of the agents via DNS directly via port 53:
+
+```
+dig @consul1.local consul3.node.consul         
+
+; <<>> DiG 9.8.3-P1 <<>> @consul1.local consul3.node.consul
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 29196
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;consul3.node.consul.   IN  A
+
+;; ANSWER SECTION:
+consul3.node.consul.  0 IN  A 10.1.42.230
+
+;; Query time: 42 msec
+;; SERVER: 10.1.42.210#53(10.1.42.210)
+;; WHEN: Sun Aug  7 18:06:32 2016
+;; MSG SIZE  rcvd: 72
+```
 
 ## References
 
