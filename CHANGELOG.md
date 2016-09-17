@@ -118,3 +118,7 @@
 ## v1.2.2
 
 - Updated README
+
+## v1.2.3
+
+- Still with the tests
