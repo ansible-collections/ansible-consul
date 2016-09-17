@@ -114,3 +114,7 @@
 ## v1.2.1
 
 - Tests work locally but not in Travis; trying an env var instead of cfg
+
+## v1.2.2
+
+- Updated README

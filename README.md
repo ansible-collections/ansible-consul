@@ -112,7 +112,7 @@ Then, you can query any of the agents via DNS directly via port 53,
 for example:
 
 ```
-dig @consul1.local consul3.node.consul         
+dig @consul1.local consul3.node.consul
 
 ; <<>> DiG 9.8.3-P1 <<>> @consul1.local consul3.node.consul
 ; (1 server found)
@@ -131,6 +131,7 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ;; SERVER: 10.1.42.210#53(10.1.42.210)
 ;; WHEN: Sun Aug  7 18:06:32 2016
 ;; 
+```
 
 ### Vagrant and VirtualBox
 
