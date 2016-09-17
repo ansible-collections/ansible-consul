@@ -74,7 +74,7 @@
   tags: installation
 
 - name: Install Consul UI
-  unarchive: src=/tmp/{{ consul_ui_pkg }} dest=/opt/consul/ui/ owner={{ consul_user }} group={{ consul_group }} mode=0755 copy=no
+  unarchive: src=/tmp/{{ consul_ui_pkg }} creates=/opt/consul/ui/index.html dest=/opt/consul/ui/ owner={{ consul_user }} group={{ consul_group }} mode=0755 copy=no
   tags: installation
 
 - name: SYSV init script
