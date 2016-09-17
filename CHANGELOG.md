@@ -110,3 +110,7 @@
 - Consul version 0.7.0
 - UI is built in now, so no longer downloaded / installed separately
 - Usability improvements (thanks @Rodjers)
+
+## v1.2.1
+
+- Tests work locally but not in Travis; trying an env var instead of cfg
