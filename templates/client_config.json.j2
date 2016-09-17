@@ -12,13 +12,13 @@
   },
   "bootstrap": false,
   "server": false,
-  "node_name": "{{ inventory_hostname_short }}",
+  "node_name": "{{ inventory_hostname }}",
   "datacenter": "{{ consul_datacenter }}",
   "data_dir": "{{ consul_data_path }}",
   "encrypt": "{{ consul_raw_key['stdout']}}",
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable }},
-  "start_join": {{ lbracket }}{% for host in groups['cluster_nodes'] %}
+  "start_join": {{ lbracket }}{% for host in groups[consul_group_name] %}
    {{ comma() }}{{ quote }}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{{ quote }}
 {% endfor %}{{ rbracket }},
   "ui_dir": "/opt/consul/ui/dist"

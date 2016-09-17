@@ -19,7 +19,7 @@
   tags: installation
 
 - name: Install Consul
-  unarchive: "copy=no src=/tmp/{{ consul_ubuntu_pkg }} dest=/usr/local/bin/ owner={{ consul_user }} group={{ consul_group }} mode=0755"
+  unarchive: "copy=no creates=/usr/local/bin/consul src=/tmp/{{ consul_ubuntu_pkg }} dest=/usr/local/bin/ owner={{ consul_user }} group={{ consul_group }} mode=0755"
   tags: installation
 
 - name: Cleanup
