@@ -12,7 +12,7 @@
   },
   "bootstrap": false,
   "server": false,
-  "node_name": "{{ inventory_hostname_short }}",
+  "node_name": "{{ inventory_hostname }}",
   "datacenter": "{{ consul_datacenter }}",
   "data_dir": "{{ consul_data_path }}",
   "encrypt": "{{ consul_raw_key['stdout']}}",
