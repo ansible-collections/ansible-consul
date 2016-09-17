@@ -1,9 +1,9 @@
 ---
 # File: defaults/main.yml - Main default variables for Consul
 
-consul_version: "0.6.4"
+consul_version: "0.7.0"
 consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
-consul_zip_sha256: "abdf0e1856292468e2c9971420d73b805e93888e006c76324ae39416edcf0627"
+consul_zip_sha256: "b350591af10d7d23514ebaa0565638539900cdb3aaa048f077217c4c46653dd8"
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul.d"
 consul_data_path: "/var/consul"

@@ -20,6 +20,5 @@
   "enable_syslog": {{ consul_syslog_enable }},
   "start_join": {{ lbracket }}{% for host in groups[consul_group_name] %}{% if hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] != hostvars[host]['ansible_eth1']['ipv4']['address']  %}{{ comma() }}{{ quote }}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{{ quote }}{% endif %}
 {% endfor %}{{ rbracket }},
-  "ui": true,
-  "ui_dir": "/opt/consul/ui/"
+  "ui": true
 }

@@ -69,14 +69,6 @@
 - name: Consul client configuration
   template: src=client_config.json.j2 dest={{ consul_config_path }}/client/config.json
 
-- name: Download Consul UI
-  get_url: url={{ consul_ui_url }} dest=/tmp/{{ consul_ui_pkg }} sha256sum={{ consul_ui_sha256 }} timeout=74
-  tags: installation
-
-- name: Install Consul UI
-  unarchive: src=/tmp/{{ consul_ui_pkg }} creates=/opt/consul/ui/index.html dest=/opt/consul/ui/ owner={{ consul_user }} group={{ consul_group }} mode=0755 copy=no
-  tags: installation
-
 - name: SYSV init script
   template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
   when: not ansible_distribution == "Debian"

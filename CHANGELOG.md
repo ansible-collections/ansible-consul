@@ -104,3 +104,9 @@
 - Explicit pid-file to use in wait_for
 - Remove cruft from init script
 - Update documentation
+
+## v1.2.0
+
+- Consul version 0.7.0
+- UI is built in now, so no longer downloaded / installed separately
+- Usability improvements (thanks @Rodjers)
