@@ -76,10 +76,10 @@ steps to get up and running:
        ```
      vagrant ssh consul1
      consul members
-     Node     Address           Status  Type    Build  Protocol  DC
-     consul1  10.1.42.210:8301  alive   server  0.6.4  2         online
-     consul2  10.1.42.220:8301  alive   server  0.6.4  2         online
-     consul3  10.1.42.230:8301  alive   server  0.6.4  2         online
+     Node           Address           Status  Type    Build  Protocol  DC
+     consul1.local  10.1.42.210:8301  alive   server  0.7.0  2         dc1
+     consul2.local  10.1.42.220:8301  alive   server  0.7.0  2         dc1
+     consul3.local  10.1.42.230:8301  alive   server  0.7.0  2         dc1
        ```
 
 By default, this project will install Debian based cluster nodes. If you
@@ -93,13 +93,13 @@ BOX_NAME="chef/centos-7.0" vagrant up
 ## Notes
 
 1. This project functions with the following software versions:
-  * Consul version 0.6.4
+  * Consul version 0.7.0
   * Ansible: 2.1.1.0
   * VirtualBox version 5.0.26
   * Vagrant version 1.8.1
   * Vagrant Hosts version 2.8.0
-2. This project uses Debian Jessie by default, but you can choose another OS
-   with the *BOX_NAME* environment variable
+2. This project uses Debian 8 (Jessie) by default, but you can choose another
+   OS distribution with the *BOX_NAME* environment variable
 3. The `bin/preinstall` shell script performs the following actions for you:
  * Adds each node's host information to the host machine's `/etc/hosts`
  * Optionally installs the Vagrant hosts plugin
@@ -119,7 +119,7 @@ CONSUL_DNSMASQ="true" vagrant up
 Then you can query any of the agents via DNS directly via port 53:
 
 ```
-dig @consul1.local consul3.node.consul         
+dig @consul1.local consul3.node.consul
 
 ; <<>> DiG 9.8.3-P1 <<>> @consul1.local consul3.node.consul
 ; (1 server found)

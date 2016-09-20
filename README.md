@@ -17,7 +17,7 @@ with other software versions, but does work with the following specific
 software and versions:
 
 * Ansible: 2.1.1.0
-* Consul: 0.6.4
+* Consul: 0.7.0
 * Debian: 8
 
 ## Role Variables
@@ -26,7 +26,7 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `consul_version` | `0.6.4` | Consul version to install |
+| `consul_version` | `0.7.0` | Consul version to install |
 | `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Consul download URL |
 | `consul_zip_sha256` | SHA256 SUM | Consul download SHA256 summary |
 | `consul_bin_path` | `/usr/local/bin` | Consul binary installation path |

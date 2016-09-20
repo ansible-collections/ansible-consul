@@ -122,3 +122,9 @@
 ## v1.2.3
 
 - Still with the tests
+
+## v1.2.4
+
+- Updated README
+- Undo 125bd4bb369bb85f58a09b5dc81839e2779bd29f as dots in node_name breaks
+  DNS API (without recursor option) and also breaks dnsmasq option
