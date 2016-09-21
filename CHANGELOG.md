@@ -128,3 +128,7 @@
 - Updated README
 - Undo 125bd4bb369bb85f58a09b5dc81839e2779bd29f as dots in node_name breaks
   DNS API (without recursor option) and also breaks dnsmasq option
+
+## v1.2.5
+
+- Add LICENSE.txt for Apache 2.0 license
