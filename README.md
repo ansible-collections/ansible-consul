@@ -26,23 +26,25 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `consul_version` | `0.7.0` | Consul version to install |
-| `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Consul download URL |
-| `consul_zip_sha256` | SHA256 SUM | Consul download SHA256 summary |
-| `consul_bin_path` | `/usr/local/bin` | Consul binary installation path |
-| `consul_config_path` | `/etc/consul.d` | Consul configuration file path |
-| `consul_data_path` | `/var/consul` | Consul data path |
-| `consul_log_path` | `/var/log/consul` | Consul log path |
-| `consul_user` | `consul` | Consul OS user |
-| `consul_group` | `bin` | Consul OS group |
-| `consul_datacenter` | boone | Consul datacenter label |
-| `consul_domain` | `local` | Consul domain name |
-| `consul_log_level` | `INFO` | Consul logging level |
-| `consul_syslog_enable` | true | Consul logs to syslog |
-| `consul_ui_url` | `https://dl.bintray.com/mitchellh/consul/0.5.2_web_ui.zip` | Consul UI download URL |
-| `consul_ui_pkg` | `0.5.2_web_ui.zip` | Conul UI package file name |
-| `consul_ui_sha256` | SHA256 SUM | Consul UI download SHA256 summary |
+| `consul_version` | `0.7.0` | Version to install |
+| `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Download URL |
+| `consul_zip_sha256` | SHA256 SUM | Archive SHA256 summary |
+| `consul_bin_path` | `/usr/local/bin` | Binary installation path |
+| `consul_config_path` | `/etc/consul.d` | Configuration file path |
+| `consul_data_path` | `/var/consul` | Data path |
+| `consul_log_path` | `/var/log/consul` | Log path |
+| `consul_user` | `consul` | OS user |
+| `consul_group` | `bin` | OS group |
+| `consul_datacenter` | `dc1` | Datacenter label |
+| `consul_domain` | `consul` | Consul domain name |
+| `consul_log_level` | `INFO` | Log level |
+| `consul_syslog_enable` | `true` | Log to syslog |
 | `consul_iface` | `eth1` | Consul network interface |
+| `consul_bind_address` | `127.0.0.1` | Bind address |
+| `consul_dns_bind_address` | `127.0.0.1` | DNS API bind address |
+| `consul_http_bind_address` | `0.0.0.0` | HTTP API bind address |
+| `consul_https_bind_address` | `0.0.0.0` | HTTPS API bind address |
+| `consul_node_name` | `{{ inventory_hostname_short }}` | Node name (should not include dots) | 
 | `consul_bind_address` | dynamic from hosts inventory | The interface address to bind to
 | `consul_dnsmasq` | `false` | Whether to install and configure DNS API forwarding on port 53 using dnsmasq |
 

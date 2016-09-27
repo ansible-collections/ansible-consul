@@ -71,15 +71,16 @@ steps to get up and running:
 3. cd `$PATH_TO_ROLES/brianshumate.conusul/examples`
 4. `vagrant up`
 5. Access the cluster web UI at http://consul1.local:8500/ui/
-6. You can also `ssh` into a node and verify the cluster members:
+6. You can also `ssh` into a node and verify the cluster members directly
+   from the RAFT peers list:
 
        ```
      vagrant ssh consul1
-     consul members
-     Node           Address           Status  Type    Build  Protocol  DC
-     consul1.local  10.1.42.210:8301  alive   server  0.7.0  2         dc1
-     consul2.local  10.1.42.220:8301  alive   server  0.7.0  2         dc1
-     consul3.local  10.1.42.230:8301  alive   server  0.7.0  2         dc1
+     consul operator raft -list-peers
+     Node     ID                Address           State     Voter
+     consul1  10.1.42.210:8300  10.1.42.210:8300  follower  true
+     consul2  10.1.42.220:8300  10.1.42.220:8300  follower  true
+     consul3  10.1.42.230:8300  10.1.42.230:8300  leader    true
        ```
 
 By default, this project will install Debian based cluster nodes. If you
@@ -106,9 +107,9 @@ BOX_NAME="chef/centos-7.0" vagrant up
 4. If you notice an error like *vm: The '' provisioner could not be found.*
    make sure you have vagrant-hosts plugin installed
 
-### NEW
+### DNSMasq Forwarding
 
-The role now includes support for DNS forwarding with dnsmasq.
+The role includes support for DNS forwarding with dnsmasq.
 
 Install like this:
 

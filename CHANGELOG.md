@@ -132,3 +132,12 @@
 ## v1.2.5
 
 - Add LICENSE.txt for Apache 2.0 license
+
+## v1.2.6
+
+- Update documentation
+- Add `consul_node_name` variable
+- Add `consul_dns_bind_address` variable
+- Add `consul_http_bind_address` variable
+- Add `consul_https_bind_address` variable
+- Add initial ACL variables

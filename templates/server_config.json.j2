@@ -6,13 +6,13 @@
 {
   "bind_addr": "{{ consul_bind_address }}",
   "addresses": {
-    "dns": "127.0.0.1",
-    "http": "{{ consul_bind_address }}",
-    "https": "{{ consul_bind_address }}"
+    "dns": "{{ consul_dns_bind_address }}",
+    "http": "{{ consul_http_bind_address }}",
+    "https": "{{ consul_https_bind_address }}"
   },
   "bootstrap": false,
   "server": true,
-  "node_name": "{{ inventory_hostname_short }}",
+  "node_name": "{{ consul_node_name }}",
   "datacenter": "{{ consul_datacenter }}",
   "data_dir": "{{ consul_data_path }}",
   "encrypt": "{{ consul_raw_key['stdout']}}",
