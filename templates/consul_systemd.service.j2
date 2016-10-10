@@ -16,7 +16,7 @@ After=basic.target network.target
 [Service]
 User={{ consul_user }}
 Group={{ consul_group }}
- 
+PIDFile=/var/run/consul/consul.pid
 ExecStart=/usr/local/bin/consul agent \
     -config-dir=/etc/consul.d/{{ consul_node_role }} -pid-file=/var/run/consul/consul.pid
 ExecReload=/bin/kill -HUP $MAINPID

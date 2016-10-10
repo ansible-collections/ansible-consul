@@ -141,3 +141,10 @@
 - Add `consul_http_bind_address` variable
 - Add `consul_https_bind_address` variable
 - Add initial ACL variables
+
+## v1.2.7
+
+- Secondary nodes now join only the bootstrap node
+- Added consul_bootstrap_interface variable
+- Add PIDFile to systemd unit
+- Updated documentation

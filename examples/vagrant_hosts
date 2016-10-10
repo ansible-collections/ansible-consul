@@ -2,7 +2,8 @@
 # Consul cluster node hosts configuration for Vagrant
 #
 # NB: Replace the hosts below with your preferred node hostnames and continue
-#     the 'nodeN' pattern for additional nodes past 'consul3'
+#     the 'nodeN' pattern for additional nodes past 'consul3'. There should
+#     be only one node with consul_node_role = "bootstrap"
 #     Do not modify the labels (text appearing between []), however
 
 [cluster_nodes]
