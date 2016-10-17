@@ -5,7 +5,7 @@
 # VirtualBox provider and Ansible provisioner
 
 ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
-BOX_MEM = ENV['BOX_MEM'] || "1024"
+BOX_MEM = ENV['BOX_MEM'] || "1536"
 BOX_NAME =  ENV['BOX_NAME'] || "debian/jessie64"
 CLUSTER_HOSTS = ENV['CLUSTER_HOSTS'] || "vagrant_hosts"
 DNSMASQ = ENV['CONSUL_DNSMASQ'] || "false"

@@ -36,9 +36,6 @@
 - name: Consul directory
   file: "dest=/opt/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
 
-- name: Consul UI directory
-  file: "dest=/opt/consul/ui state=directory owner={{ consul_user }} group={{ consul_group}}"
-
 - name: Consul data directory
   file: "dest=/var/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
 

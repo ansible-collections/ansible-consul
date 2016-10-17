@@ -148,3 +148,8 @@
 - Added consul_bootstrap_interface variable
 - Add PIDFile to systemd unit
 - Updated documentation
+
+## v1.2.8
+
+- Stop creating UI directory
+- Set correct RAM in Vagrantfile
