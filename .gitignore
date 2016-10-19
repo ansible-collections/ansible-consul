@@ -3,3 +3,5 @@
 .tm_properties
 *.retry
 examples/hosts
+files/consul
+files/*.zip

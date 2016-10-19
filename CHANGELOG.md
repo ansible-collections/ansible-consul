@@ -153,3 +153,8 @@
 
 - Stop creating UI directory
 - Set correct RAM in Vagrantfile
+
+## v1.2.9
+
+- Download once, copy many for Consul binary
+- Rename package variables

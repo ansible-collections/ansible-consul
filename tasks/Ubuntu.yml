@@ -15,13 +15,26 @@
   tags: installation
 
 - name: Download Consul
-  get_url: "url={{ consul_zip_url }} dest=/tmp/{{ consul_ubuntu_pkg }} sha256sum={{ consul_ubuntu_sha256 }} timeout=74"
+  become: no
+  connection: local
+  get_url: "url={{ consul_zip_url }} dest={{ role_path }}/files/{{ consul_ubuntu_pkg }} sha256sum={{ consul_zip_sha256 }} timeout=74"
+  run_once: true
+  tags: installation
+
+- name: Unarchive Consul
+  become: no
+  connection: local
+  unarchive: src={{ role_path }}/files/{{ consul_ubuntu_pkg }} dest={{ role_path }}/files/
+  run_once: true
   tags: installation
 
 - name: Install Consul
-  unarchive: "copy=no creates=/usr/local/bin/consul src=/tmp/{{ consul_ubuntu_pkg }} dest=/usr/local/bin/ owner={{ consul_user }} group={{ consul_group }} mode=0755"
+  copy: "src={{ role_path }}/files/consul dest=/usr/local/bin/ owner={{ consul_user }} group={{ consul_group }} mode=0755"
   tags: installation
 
 - name: Cleanup
-  file: path=/tmp/"{{ consul_ubuntu_pkg }}" state=absent
+  become: no
+  connection: local
+  file: "dest={{ role_path }}/files/consul* state=absent"
+  run_once: true
   tags: installation
