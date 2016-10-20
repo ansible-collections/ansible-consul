@@ -45,6 +45,7 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 | `consul_dns_bind_address` | `127.0.0.1` | DNS API bind address |
 | `consul_http_bind_address` | `0.0.0.0` | HTTP API bind address |
 | `consul_https_bind_address` | `0.0.0.0` | HTTPS API bind address |
+| `consul_rpc_bind_address` | `0.0.0.0` | RPC bind address |
 | `consul_node_name` | `{{ inventory_hostname_short }}` | Node name (should not include dots) |
 | `consul_bind_address` | dynamic from hosts inventory | The interface address to bind to
 | `consul_dnsmasq` | `false` | Whether to install and configure DNS API forwarding on port 53 using dnsmasq |

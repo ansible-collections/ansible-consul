@@ -158,3 +158,8 @@
 
 - Download once, copy many for Consul binary
 - Rename package variables
+
+## v1.2.10
+
+- Added consul_rpc_bind_address
+- Updated documentation

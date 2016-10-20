@@ -23,6 +23,7 @@ consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['a
 consul_dns_bind_address: "127.0.0.1"
 consul_http_bind_address: "0.0.0.0"
 consul_https_bind_address: "0.0.0.0"
+consul_rpc_bind_address: "0.0.0.0"
 consul_bootstrap_interface: "{{ hostvars[groups['cluster_nodes'][0]]['ansible_eth1']['ipv4']['address'] }}"
 consul_node_name: "{{ inventory_hostname_short }}"
 consul_acl_enable: "false"
