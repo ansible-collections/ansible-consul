@@ -19,7 +19,7 @@
 - name: Unarchive Consul
   become: no
   connection: local
-  unarchive: src={{ role_path }}/files/{{ consul_debian_pkg }} dest={{ role_path }}/files/
+  unarchive: "src={{ role_path }}/files/{{ consul_debian_pkg }} dest={{ role_path }}/files/ creates={{ role_path }}/files/consul"
   run_once: true
   tags: installation
 

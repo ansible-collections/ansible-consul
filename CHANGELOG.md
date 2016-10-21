@@ -163,3 +163,8 @@
 
 - Added consul_rpc_bind_address
 - Updated documentation
+
+## v1.2.11
+
+- Update supported versions
+- Fix up unarchive task quoting

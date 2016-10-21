@@ -95,9 +95,9 @@ BOX_NAME="chef/centos-7.0" vagrant up
 
 1. This project functions with the following software versions:
   * Consul version 0.7.0
-  * Ansible: 2.1.1.0
-  * VirtualBox version 5.0.26
-  * Vagrant version 1.8.1
+  * Ansible: 2.1.2.0
+  * VirtualBox version 5.0.28
+  * Vagrant version 1.8.6
   * Vagrant Hosts version 2.8.0
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable
