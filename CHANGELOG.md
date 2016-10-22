@@ -177,6 +177,12 @@
 
 - Doc meta
 
-## v1.12.14
+## v1.2.14
 
 - Documentation updates
+
+## v1.2.15
+
+- Fail on older versions
+- Move distro vars to defaults
+- Remove vars

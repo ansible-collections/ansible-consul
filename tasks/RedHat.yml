@@ -1,9 +1,6 @@
 ---
 # File: tasks/Red Hat.yml - Red Hat tasks for Consul
 
-- name: "Distribution specific variables"
-  include_vars: main.yml
-
 - name: OS packages
   yum: "name={{ item }} state=present"
   with_items: "{{ consul_redhat_os_packages }}"

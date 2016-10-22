@@ -1,9 +1,6 @@
 ---
 # File: tasks/Debian.yml - Debian tasks for Consul
 
-- name: "Distribution specific variables"
-  include_vars: main.yml
-
 - name: OS packages
   apt: "name={{ item }} state=present update_cache=yes"
   with_items: "{{ consul_debian_os_packages }}"
