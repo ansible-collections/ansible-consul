@@ -176,3 +176,7 @@
 ## v1.2.13
 
 - Doc meta
+
+## v1.12.14
+
+- Documentation updates
