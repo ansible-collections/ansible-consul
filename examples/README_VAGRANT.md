@@ -48,7 +48,8 @@ ansible-galaxy install brianshumate.consul
 
 You'll want to make sure you have write access to `/etc/ansible/roles/` since
 that is where the role will be installed by default, or define your own
-Ansible role path by creating a `$HOME/.ansible.cfg` file with these contents:
+Ansible role path by creating a `$HOME/.ansible.cfg` or even `./anisible.cfg`
+file with these contents:
 
 ```
 [defaults]
@@ -83,7 +84,7 @@ steps to get up and running:
      consul3  10.1.42.230:8300  10.1.42.230:8300  leader    true
        ```
 
-By default, this project will install Debian based cluster nodes. If you
+By default, this project will install Debian 8 based cluster nodes. If you
 prefer, it can also install CentOS 7 based nodes by changing the command
 in step 4 to the following:
 

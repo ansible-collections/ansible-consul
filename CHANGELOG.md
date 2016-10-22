@@ -168,3 +168,7 @@
 
 - Update supported versions
 - Fix up unarchive task quoting
+
+## v1.2.12
+
+- Update documentation

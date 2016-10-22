@@ -1,10 +1,12 @@
 # Consul
 
-![](https://travis-ci.org/brianshumate/ansible-consul.svg?branch=master)
+[![Build Status](https://travis-ci.org/brianshumate/ansible-consul.svg?branch=master)](https://travis-ci.org/brianshumate/ansible-consul)
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-brianshumate.nomad-blue.svg)](https://galaxy.ansible.com/brianshumate/docker/)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Percentage of issues still open")
 
-This Ansible role performs a basic [Consul](https://consul.io/) installation,
-including filesystem structure, example configuration, and Consul UI
-installation.
+This Ansible role performs basic [Consul](https://consul.io/) installation,
+including filesystem structure, and example configuration.
 
 It can also bootstrap a minimal development or evaluation cluster of 3 server
 agents running in a Vagrant and VirtualBox based environment. See
@@ -52,8 +54,11 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 
 ### OS Distribution Variables
 
-The Consul binary works on most Linux platforms and is not distribution
-specific. Some distributions require installation of specific OS packages with different nomenclature, so this role has support for major Linux distributions.
+The `consul` binary works on most Linux platforms and is not distribution
+specific. However, some distributions require installation of specific OS
+packages with different naming, so this role was built with support for
+popular Linux distributions and defines these variables to deal with the
+differences acros distros:
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
@@ -76,14 +81,13 @@ specific. Some distributions require installation of specific OS packages with d
 
 ## Dependencies
 
-None
+Ansible requires GNU tar and this role performs some local use of the
+unarchive module, so ensure that your system has `gtar` installed.
 
 ## Example Playbook
 
 
-After you have reviewed and altered any necessary variables, and created a
-host inventory file, basic Consul installation is possible using the
-included `site.yml` playbook example:
+Basic nomad installation is possible using the included `site.yml` playbook:
 
 ```
 ansible-playbook -i hosts site.yml
@@ -102,7 +106,7 @@ Be aware that for clustering, the included `site.yml` does the following:
 2. Reconfigures bootstrap node to run without bootstrap-expect setting
 3. Restarts bootstrap node
 
-### NEW
+### DNSMasq Support
 
 The role now includes support for DNS forwarding with dnsmasq.
 
@@ -134,7 +138,7 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ;; Query time: 42 msec
 ;; SERVER: 10.1.42.210#53(10.1.42.210)
 ;; WHEN: Sun Aug  7 18:06:32 2016
-;; 
+;;
 ```
 
 ### Vagrant and VirtualBox
@@ -152,5 +156,5 @@ BSD
 
 ## Contributors
 
-Special thanks to the folks listed in [CONTRIBUTORS.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTORS.md) for their 
+Special thanks to the folks listed in [CONTRIBUTORS.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTORS.md) for their
 contributions to this project.
