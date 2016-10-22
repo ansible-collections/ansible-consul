@@ -172,3 +172,7 @@
 ## v1.2.12
 
 - Update documentation
+
+## v1.2.13
+
+- Doc meta
