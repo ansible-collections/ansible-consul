@@ -37,13 +37,14 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 | `consul_log_path` | `/var/log/consul` | Log path |
 | `consul_user` | `consul` | OS user |
 | `consul_group` | `bin` | OS group |
+| `consul_group_name` | `cluster_nodes` | Inventory group name |
 | `consul_datacenter` | `dc1` | Datacenter label |
 | `consul_domain` | `consul` | Consul domain name |
 | `consul_log_level` | `INFO` | Log level |
 | `consul_syslog_enable` | `true` | Log to syslog |
 | `consul_iface` | `eth1` | Consul network interface |
 | `consul_bind_address` | `127.0.0.1` | Bind address |
-| `consul_bootstrap_address` | `{{ hostvars[groups['cluster_nodes'][0]]['ansible_'+consul_iface]['ipv4']['address'] }}` | The server interface that additional server nodes will join to for bootstrapping |
+| `consul_bootstrap_address` | `{{ hostvars[groups[consul_group_name][0]]['ansible_'+consul_iface]['ipv4']['address'] }}` | The server interface that additional server nodes will join to for bootstrapping |
 | `consul_dns_bind_address` | `127.0.0.1` | DNS API bind address |
 | `consul_http_bind_address` | `0.0.0.0` | HTTP API bind address |
 | `consul_https_bind_address` | `0.0.0.0` | HTTPS API bind address |
