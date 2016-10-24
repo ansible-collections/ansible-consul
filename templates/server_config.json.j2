@@ -19,6 +19,6 @@
   "encrypt": "{{ consul_raw_key['stdout']}}",
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable }},
-  "start_join": {{ lbracket }}{{ quote }}{{ consul_bootstrap_interface }}{{ quote }}{{ rbracket }},
+  "start_join": {{ lbracket }}{{ quote }}{{ consul_bootstrap_address }}{{ quote }}{{ rbracket }},
   "ui": true
 }
