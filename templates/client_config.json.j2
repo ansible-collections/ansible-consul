@@ -20,6 +20,6 @@
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable }},
   "start_join": {{ lbracket }}{% for host in groups[consul_group_name] %}
-   {{ comma() }}{{ quote }}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{{ quote }}
+   {{ comma() }}{{ quote }}{{ hostvars[host]['ansible_'+consul_iface]['ipv4']['address'] }}{{ quote }}
 {% endfor %}{{ rbracket }}
 }

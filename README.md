@@ -43,7 +43,7 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 | `consul_syslog_enable` | `true` | Log to syslog |
 | `consul_iface` | `eth1` | Consul network interface |
 | `consul_bind_address` | `127.0.0.1` | Bind address |
-| `consul_bootstrap_interface` | `{{ hostvars[groups['cluster_nodes'][0]]['ansible_eth1']['ipv4']['address'] }}` | The server interface that additional server nodes will join to for bootstrapping |
+| `consul_bootstrap_address` | `{{ hostvars[groups['cluster_nodes'][0]]['ansible_'+consul_iface]['ipv4']['address'] }}` | The server interface that additional server nodes will join to for bootstrapping |
 | `consul_dns_bind_address` | `127.0.0.1` | DNS API bind address |
 | `consul_http_bind_address` | `0.0.0.0` | HTTP API bind address |
 | `consul_https_bind_address` | `0.0.0.0` | HTTPS API bind address |
