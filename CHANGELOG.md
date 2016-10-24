@@ -186,3 +186,9 @@
 - Fail on older versions
 - Move distro vars to defaults
 - Remove vars
+
+## v1.2.16
+
+- Clean up variables (thanks @jessedefer)
+- Update documentation (thanks @jessedefer)
+- Update CONTRIBUTORS
