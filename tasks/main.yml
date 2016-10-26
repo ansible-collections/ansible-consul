@@ -12,12 +12,12 @@
   when: ansible_lsb.id|lower == "debian" and ansible_distribution_version|version_compare(8.5, '<')
 
 - name: Create cluster groupings
-  group_by: key={{ consul_node_role }}
+  group_by: "key={{ consul_node_role }}"
 
-- group_by: key=os_{{ ansible_os_family }}
+- group_by: "key=os_{{ ansible_os_family }}"
 
 - name: "Add Consul user"
-  user: name=consul comment="Consul user" uid=1042 group=bin
+  user: "name=consul comment='Consul user' uid=1042 group=bin"
 
 - name: "CentOS tasks"
   include: CentOS.yml
@@ -35,43 +35,46 @@
   include: Ubuntu.yml
   when: ansible_distribution  == "Ubuntu"
 
-- name: Generate Consul key
-  shell: PATH=/usr/local/bin:$PATH consul keygen
+- name: Generate gossip encryption key
+  shell: "PATH=/usr/local/bin:$PATH consul keygen"
   register: consul_raw_key
   run_once: true
 
-- name: Consul directory
-  file: "dest=/opt/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
+- name: Directories
+  file: "dest={{ item }} state=directory owner={{ consul_user }} group={{ consul_group}}"
+  with_items:
+    - /opt/consul
+    - /var/consul
+    - /var/log/consul
+    - /var/run/consul
+    - /etc/consul.d
+    - /etc/consul.d/bootstrap   
+    - /etc/consul.d/client
+    - /etc/consul.d/server
 
-- name: Consul data directory
-  file: "dest=/var/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
+- name: Bootstrap configuration
+  template: "src=server_bootstrap_config.json.j2 dest={{ consul_config_path }}/bootstrap/config.json"
 
-- name: Consul log directory
-  file: "dest=/var/log/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
+- name: Client configuration
+  template: src=client_config.json.j2 dest={{ consul_config_path }}/client/config.json
 
-- name: Consul PID directory
-  file: "dest=/var/run/consul state=directory owner={{ consul_user }} group={{ consul_group}}"
-
-- name: Consul dot d directory
-  file: "dest=/etc/consul.d state=directory owner={{ consul_user }} group={{ consul_group}}"
-
-- name: Consul bootstrap directory
-  file: "dest=/etc/consul.d/bootstrap state=directory owner={{ consul_user }} group={{ consul_group}}"
-
-- name: Consul server directory
-  file: "dest=/etc/consul.d/server state=directory owner={{ consul_user }} group={{ consul_group}}"
-
-- name: Consul client directory
-  file: "dest=/etc/consul.d/client state=directory owner={{ consul_user }} group={{ consul_group}}"
-
-- name: Consul bootstrap configuration
-  template: src=server_bootstrap_config.json.j2 dest={{ consul_config_path }}/bootstrap/config.json
-
-- name: Consul server configuration
+- name: Server configuration
   template: src=server_config.json.j2 dest={{ consul_config_path }}/server/config.json
 
-- name: Consul client configuration
-  template: src=client_config.json.j2 dest={{ consul_config_path }}/client/config.json
+- name: ACL bootstrap configuration
+  template: src=config_acl.json.j2 dest={{ consul_config_path }}/{{ item }}/config_acl.json
+  with_items:
+    - bootstrap
+    - client
+    - server
+  when: consul_acl_enable == "true"
+
+- name: Atlas configuration
+  template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
+  with_items:
+    - bootstrap
+    - server
+  when: consul_atlas_enable == "true"
 
 - name: SYSV init script
   template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
@@ -88,7 +91,7 @@
 - name: Start Consul
   service: name=consul state=started enabled=yes
 
-- name: Consul running?
+- name: Consul up?
   wait_for: delay=5 path=/var/run/consul/consul.pid state=present
 
 - name: Stop Consul
@@ -110,10 +113,10 @@
 - name: Start Consul
   service: name=consul state=started
 
-- name: "Enable dnsmasq"
+- name: "Enable Dnsmasq"
   include: ../tasks/dnsmasq.yml
-  when: consul_dnsmasq == "true"
+  when: consul_dnsmasq_enable == "true"
 
-- name: "Restart dnsmasq"
+- name: "Restart Dnsmasq"
   service: name=dnsmasq state=restarted
-  when: consul_dnsmasq == "true"
+  when: consul_dnsmasq_enable == "true"

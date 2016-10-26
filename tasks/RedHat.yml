@@ -6,11 +6,6 @@
   with_items: "{{ consul_redhat_os_packages }}"
   tags: installation
 
-- name: dnsmasq package
-  yum: name=dnsmasq state=present
-  when: "consul_dnsmasq == true"
-  tags: installation
-
 - name: Download Consul
   become: no
   connection: local

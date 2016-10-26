@@ -192,3 +192,11 @@
 - Clean up variables (thanks @jessedefer)
 - Update documentation (thanks @jessedefer)
 - Update CONTRIBUTORS
+
+## v1.3.0
+
+- Initial ACL support
+- Initial Atlas support
+- Streamline main tasks
+- Update documentation
+- Update variables

@@ -21,6 +21,7 @@ software and versions:
 * Ansible: 2.1.2.0
 * Consul: 0.7.0
 * Debian: 8
+* CentOS: 7
 
 ## Role Variables
 
@@ -28,7 +29,7 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `consul_version` | `0.7.0` | Version to install |
+| `consul_version` | *0.7.0* | Version to install |
 | `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Download URL |
 | `consul_zip_sha256` | SHA256 SUM | Archive SHA256 summary |
 | `consul_bin_path` | `/usr/local/bin` | Binary installation path |
@@ -37,21 +38,30 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 | `consul_log_path` | `/var/log/consul` | Log path |
 | `consul_user` | `consul` | OS user |
 | `consul_group` | `bin` | OS group |
-| `consul_group_name` | `cluster_nodes` | Inventory group name |
-| `consul_datacenter` | `dc1` | Datacenter label |
+| `consul_group_name` | *cluster_nodes* | Inventory group name |
+| `consul_datacenter` | *dc1* | Datacenter label |
 | `consul_domain` | `consul` | Consul domain name |
 | `consul_log_level` | `INFO` | Log level |
-| `consul_syslog_enable` | `true` | Log to syslog |
+| `consul_syslog_enable` | *true* | Log to syslog |
 | `consul_iface` | `eth1` | Consul network interface |
-| `consul_bind_address` | `127.0.0.1` | Bind address |
+| `consul_bind_address` | *127.0.0.1* | Bind address |
 | `consul_bootstrap_address` | `{{ hostvars[groups[consul_group_name][0]]['ansible_'+consul_iface]['ipv4']['address'] }}` | The server interface that additional server nodes will join to for bootstrapping |
-| `consul_dns_bind_address` | `127.0.0.1` | DNS API bind address |
-| `consul_http_bind_address` | `0.0.0.0` | HTTP API bind address |
-| `consul_https_bind_address` | `0.0.0.0` | HTTPS API bind address |
-| `consul_rpc_bind_address` | `0.0.0.0` | RPC bind address |
+| `consul_dns_bind_address` | *127.0.0.1* | DNS API bind address |
+| `consul_http_bind_address` | *0.0.0.0* | HTTP API bind address |
+| `consul_https_bind_address` | *0.0.0.0* | HTTPS API bind address |
+| `consul_rpc_bind_address` | *0.0.0.0* | RPC bind address |
 | `consul_node_name` | `{{ inventory_hostname_short }}` | Node name (should not include dots) |
 | `consul_bind_address` | dynamic from hosts inventory | The interface address to bind to
-| `consul_dnsmasq` | `false` | Whether to install and configure DNS API forwarding on port 53 using dnsmasq |
+| `consul_dnsmasq_enable` | *false* | Whether to install and configure DNS API forwarding on port 53 using dnsmasq |
+| `consul_acl_enable` | *false* | Enable ACLs |
+| `consul_acl_datacenter` | *dc1* | ACL authoritative datacenter name |
+| `consul_acl_default_policy` | *allow* | Default ACL policy |
+| `consul_acl_down_policy` | *allow* | Default ACL down policy |
+| `consul_acl_master_token` | UUID | ACL master token |
+| `consul_acl_replication_token` | UUID | ACL replication token |
+| `consul_atlas_enable` | *false* | Enable Atlas support |
+| `consul_atlas_infrastructure` | Environment variable | Atlas infrastructure name |
+| `consul_atlas_token` | environment variable | Atlas token |
 
 ### OS Distribution Variables
 
@@ -106,14 +116,14 @@ Be aware that for clustering, the included `site.yml` does the following:
 2. Reconfigures bootstrap node to run without bootstrap-expect setting
 3. Restarts bootstrap node
 
-### DNSMasq Support
+### DNSMasq Forwarding Support
 
-The role now includes support for DNS forwarding with dnsmasq.
+The role now includes support for [DNS forwarding](https://www.consul.io/docs/guides/forwarding.html) with [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html).
 
 Enable like this:
 
 ```
-ansible-playbook -i hosts site.yml --extra-vars "consul_dnsmasq=true"
+ansible-playbook -i hosts site.yml --extra-vars "consul_dnsmasq_enable=true"
 ```
 
 Then, you can query any of the agents via DNS directly via port 53,

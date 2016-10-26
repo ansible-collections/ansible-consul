@@ -77,7 +77,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.inventory_path = CLUSTER_HOSTS
       # Extra Ansible variables can be defined here
       ansible.extra_vars = {
-        consul_dnsmasq: DNSMASQ,
+        consul_dnsmasq_enable: DNSMASQ,
         consul_log_level: LOGLEVEL
       }
       ansible.playbook = ANSIBLE_PLAYBOOK

@@ -108,9 +108,9 @@ BOX_NAME="chef/centos-7.0" vagrant up
 4. If you notice an error like *vm: The '' provisioner could not be found.*
    make sure you have vagrant-hosts plugin installed
 
-### DNSMasq Forwarding
+### Dnsmasq Forwarding
 
-The role includes support for DNS forwarding with dnsmasq.
+The role includes support for DNS forwarding with Dnsmasq.
 
 Install like this:
 
