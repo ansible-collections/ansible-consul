@@ -61,8 +61,42 @@
 - name: Server configuration
   template: src=server_config.json.j2 dest={{ consul_config_path }}/server/config.json
 
+- name: ACL Master Token
+  command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
+  connection: local
+  become: no
+  run_once: True
+  register: consul_acl_master_token
+  when: consul_acl_enable == "true"
+
+- name: Display ACL Master Token
+  debug: msg="{{ consul_acl_master_token['stdout'] }}"
+  run_once: True
+  when: consul_acl_enable == "true" and consul_acl_master_token_display == "true"
+
+- name: ACL Replication Token
+  command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
+  connection: local
+  become: no
+  run_once: True
+  register: consul_acl_replication_token
+  when: consul_acl_enable == "true"
+
+- name: Display ACL Replication Token
+  debug: msg="{{ consul_acl_replication_token['stdout'] }}"
+  run_once: True
+  when: consul_acl_enable == "true" and consul_acl_replication_token_display == "true"
+
 - name: ACL bootstrap configuration
   template: src=config_acl.json.j2 dest={{ consul_config_path }}/{{ item }}/config_acl.json
+  with_items:
+    - bootstrap
+    - client
+    - server
+  when: consul_acl_enable == "true"
+
+- name: ACL policy configuration
+  template: src=config_acl_policy.hcl.j2 dest={{ consul_config_path }}/{{ item }}/config_acl_policy.hcl
   with_items:
     - bootstrap
     - client

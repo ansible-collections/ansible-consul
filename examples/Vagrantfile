@@ -8,8 +8,10 @@ ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
 BOX_MEM = ENV['BOX_MEM'] || "1536"
 BOX_NAME =  ENV['BOX_NAME'] || "debian/jessie64"
 CLUSTER_HOSTS = ENV['CLUSTER_HOSTS'] || "vagrant_hosts"
-DNSMASQ = ENV['CONSUL_DNSMASQ'] || "false"
-LOGLEVEL = ENV['CONSUL_LOGLEVEL'] || "INFO"
+CONSUL_ACL_ENABLE = ENV['CONSUL_ACL_ENABLE'] || "false"
+CONSUL_ATLAS_ENABLE = ENV['CONSUL_ATLAS_ENABLE'] || "false"
+CONSUL_DNSMASQ_ENABLE = ENV['CONSUL_DNSMASQ_ENABLE'] || "false"
+CONSUL_LOGLEVEL = ENV['CONSUL_LOGLEVEL'] || "INFO"
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.require_version ">= 1.5.0"
@@ -77,8 +79,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.inventory_path = CLUSTER_HOSTS
       # Extra Ansible variables can be defined here
       ansible.extra_vars = {
-        consul_dnsmasq_enable: DNSMASQ,
-        consul_log_level: LOGLEVEL
+        consul_acl_enable: CONSUL_ACL_ENABLE,
+        consul_atlas_enable: CONSUL_ATLAS_ENABLE,
+        consul_dnsmasq_enable: CONSUL_DNSMASQ_ENABLE,
+        consul_log_level: CONSUL_LOGLEVEL
       }
       ansible.playbook = ANSIBLE_PLAYBOOK
       ansible.limit = "all"

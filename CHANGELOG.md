@@ -200,3 +200,10 @@
 - Streamline main tasks
 - Update documentation
 - Update variables
+
+## v1.3.1
+
+- Correct variable names
+- Add token display variables
+- Update documentation
+- Remove deprecated variables

@@ -115,7 +115,7 @@ The role includes support for DNS forwarding with Dnsmasq.
 Install like this:
 
 ```
-CONSUL_DNSMASQ="true" vagrant up
+CONSUL_DNSMASQ_ENABLE="true" vagrant up
 ```
 
 Then you can query any of the agents via DNS directly via port 53:

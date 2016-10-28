@@ -25,7 +25,7 @@ software and versions:
 
 ## Role Variables
 
-The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
+The role defines variables in `defaults/main.yml`:
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
@@ -58,6 +58,7 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 | `consul_acl_default_policy` | *allow* | Default ACL policy |
 | `consul_acl_down_policy` | *allow* | Default ACL down policy |
 | `consul_acl_master_token` | UUID | ACL master token |
+| `consul_acl_master_token_display` | *false* | Display generated ACL Master Token |
 | `consul_acl_replication_token` | UUID | ACL replication token |
 | `consul_atlas_enable` | *false* | Enable Atlas support |
 | `consul_atlas_infrastructure` | Environment variable | Atlas infrastructure name |
@@ -67,9 +68,7 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 
 The `consul` binary works on most Linux platforms and is not distribution
 specific. However, some distributions require installation of specific OS
-packages with different naming, so this role was built with support for
-popular Linux distributions and defines these variables to deal with the
-differences acros distros:
+packages with different package names.
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
@@ -93,7 +92,11 @@ differences acros distros:
 ## Dependencies
 
 Ansible requires GNU tar and this role performs some local use of the
-unarchive module, so ensure that your system has `gtar` installed.
+unarchive module, so ensure that your system has `gtar` installed and
+in the PATH.
+
+If you're on system with a different (i.e. BSD) `tar`, like macOS and you
+see odd errors during unarchive tasks, you could be missing `gtar`.
 
 ## Example Playbook
 
@@ -116,7 +119,42 @@ Be aware that for clustering, the included `site.yml` does the following:
 2. Reconfigures bootstrap node to run without bootstrap-expect setting
 3. Restarts bootstrap node
 
-### DNSMasq Forwarding Support
+### ACL Support
+
+Basic support for ACLs is included in the role. You can set the environment
+variables `CONSUL_ACL_ENABLE` to *true*, and also set the
+`CONSUL_ACL_DATACENTER` environment variable to its correct value for your
+environment prior to executing your playbook; for example:
+
+```
+CONSUL_ACL_ENABLE="true" CONSUL_ACL_DATACENTER="maui" \
+CONSUL_ACL_MASTER_TOKEN_DISPLAY="true" ansible-playbook -i uat_hosts aloha.yml
+```
+
+If you want the automatically generated ACL Master Token value emitted to
+standard out during the play, set the environment variable
+`CONSUL_ACL_MASTER_TOKEN_DISPLAY` to "true" as in the above example.
+
+There are a number of Ansible ACL variables you can override to further refine
+your initial ACL setup. They are not all currently picked up from environment
+variables, but do have some sensible defaults. Check `defaults/main.yml` to
+see how some of he defaults (i.e. tokens) are automatically generated.
+
+### Atlas Support
+
+Basic support for Atlas is included in the role. You can set the environment
+variables `CONSUL_ATLAS_ENABLE` to *true*, and also set the
+`CONSUL_ATLAS_INFRASTRUCTURE` and `CONSUL_ATLAS_TOKEN` environment variables
+to their correct values for your environment prior to executing your
+playbook; for example:
+
+```
+CONSUL_ATLAS_ENABLE="true" CONSUL_ATLAS_INFRASTRUCTURE="brianshumate/example" \
+CONSUL_ATLAS_TOKEN="00000000-000000000-000000000000-0000" \
+ansible-playbook -i uat_hosts site.yml
+```
+
+### Dnsmasq Forwarding Support
 
 The role now includes support for [DNS forwarding](https://www.consul.io/docs/guides/forwarding.html) with [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html).
 
