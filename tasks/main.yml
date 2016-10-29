@@ -1,15 +1,25 @@
 ---
 # File: tasks/main.yml - Main tasks for Consul
 
-- name: Fail if not a new release of Ubuntu
+- name: Fail if not a new release of CentOS
   fail:
-    msg: "{{ ansible_distribution_version }} is not an acceptable version of Ubuntu for this role"
-  when: ansible_lsb.id|lower == "ubuntu" and ( ansible_distribution_version|version_compare(12.04, '<') or ansible_distribution_version|version_compare(12.10, '=') )
+    msg: "{{ ansible_distribution_version }} is not an acceptable version of Debian for this role"
+  when: ansible_distribution == "CentOS" and ansible_distribution_version|version_compare(7, '<')
 
 - name: Fail if not a new release of Debian
   fail:
     msg: "{{ ansible_distribution_version }} is not an acceptable version of Debian for this role"
-  when: ansible_lsb.id|lower == "debian" and ansible_distribution_version|version_compare(8.5, '<')
+  when: ansible_distribution == "Debian" and ansible_distribution_version|version_compare(8.5, '<')
+
+- name: Fail if not a new release of Red Hat
+  fail:
+    msg: "{{ ansible_distribution_version }} is not an acceptable version of Debian for this role"
+  when: ansible_distribution == "RedHat" and ansible_distribution_version|version_compare(7, '<')
+
+- name: Fail if not a new release of Ubuntu
+  fail:
+    msg: "{{ ansible_distribution_version }} is not an acceptable version of Ubuntu for this role"
+  when: ansible_distribution == "Ubuntu" and ( ansible_distribution_version|version_compare(12.04, '<') or ansible_distribution_version|version_compare(12.10, '=') )
 
 - name: Create cluster groupings
   group_by: "key={{ consul_node_role }}"

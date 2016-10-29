@@ -89,7 +89,7 @@ prefer, it can also install CentOS 7 based nodes by changing the command
 in step 4 to the following:
 
 ```
-BOX_NAME="chef/centos-7.0" vagrant up
+BOX_NAME="centos/7" vagrant up
 ```
 
 ## Notes

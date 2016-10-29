@@ -211,3 +211,9 @@
 # v1.3.2
 
 - Correct CONSUL_DNSMASQ_ENABLE var name
+
+## v1.3.3
+
+- Update/validate CentOS 7 box
+- Update documentation
+- Updated failure cases for CentOS
