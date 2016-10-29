@@ -207,3 +207,7 @@
 - Add token display variables
 - Update documentation
 - Remove deprecated variables
+
+# v1.3.2
+
+- Correct CONSUL_DNSMASQ_ENABLE var name
