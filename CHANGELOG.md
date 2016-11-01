@@ -217,3 +217,7 @@
 - Update/validate CentOS 7 box
 - Update documentation
 - Updated failure cases for CentOS
+
+## v1.3.4
+
+- Update documentation

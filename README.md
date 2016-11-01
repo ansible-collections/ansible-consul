@@ -25,7 +25,8 @@ software and versions:
 
 ## Role Variables
 
-The role defines variables in `defaults/main.yml`:
+The role defines variables in `defaults/main.yml` and in the hosts
+inventory file (see below):
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
@@ -63,6 +64,26 @@ The role defines variables in `defaults/main.yml`:
 | `consul_atlas_enable` | *false* | Enable Atlas support |
 | `consul_atlas_infrastructure` | Environment variable | Atlas infrastructure name |
 | `consul_atlas_token` | environment variable | Atlas token |
+
+### Host Inventory Variable
+
+This role also uses a host inventory variable to define the server's role
+when forming a cluster. One server should be designated as the bootstrap
+server that uses the `bootstrap_expect` configuration directive, and the other
+servers will connect to this server.
+
+| Name           | Default Value | Description                        |
+| -------------- | ------------- | -----------------------------------|
+| `consul_node_role` | NONE | Consul server role, one of: *bootstrap*, *server*, or *client* |
+
+Here is an example of how the hosts inventory could be defined for a simple
+cluster of 3 servers:
+
+```
+consul1.local consul_node_role=bootstrap 
+consul2.local consul_node_role=server
+consul3.local consul_node_role=server
+```
 
 ### OS Distribution Variables
 
