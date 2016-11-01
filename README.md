@@ -70,7 +70,8 @@ inventory file (see below):
 This role also uses a host inventory variable to define the server's role
 when forming a cluster. One server should be designated as the bootstrap
 server that uses the `bootstrap_expect` configuration directive, and the other
-servers will connect to this server.
+servers will connect to this server. You can also specify *client* as the
+role, and Consul will be configured as a client agent instead of a server.
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
