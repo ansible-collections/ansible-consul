@@ -88,6 +88,8 @@ galaxy_info:
     - trusty
   #  - utopic
   #  - vivid
+  #  - wily
+    - xenial
   #- name: SLES
   #  versions:
   #  - all

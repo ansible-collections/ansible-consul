@@ -1,7 +1,4 @@
-{% set comma = joiner(",") %}
-{% set lbracket = "[" %}
-{% set rbracket = "]" %}
-{% set quote = '"' %}
+{% set comma = joiner(", ") %}
 
 {
   "bind_addr": "{{ consul_bind_address }}",
@@ -11,6 +8,11 @@
     "https": "{{ consul_https_bind_address }}",
     "rpc": "{{ consul_rpc_bind_address }}"
   },
+  {%- if consul_recursors|length > 0 -%}
+  "recursors": [ {% for recursor in consul_recursors -%}
+                     {{ comma() }}"{{ recursor }}"
+                 {%- endfor %} ],
+  {% endif %}
   "bootstrap": false,
   "server": false,
   "node_name": "{{ consul_node_name }}",
@@ -18,8 +20,8 @@
   "data_dir": "{{ consul_data_path }}",
   "encrypt": "{{ consul_raw_key['stdout']}}",
   "log_level": "{{ consul_log_level }}",
-  "enable_syslog": {{ consul_syslog_enable }},
-  "start_join": {{ lbracket }}{% for host in groups[consul_group_name] %}
-   {{ comma() }}{{ quote }}{{ hostvars[host]['ansible_'+consul_iface]['ipv4']['address'] }}{{ quote }}
-{% endfor %}{{ rbracket }}
+  "enable_syslog": {{ consul_syslog_enable|lower }},
+  "start_join": [ {% for host in groups[consul_group_name] -%}
+                      {%- if loop.first == false -%}{{ comma() }}{% endif %}"{{ hostvars[host]['ansible_'+consul_iface]['ipv4']['address'] }}"
+                  {%- endfor %} ]
 }

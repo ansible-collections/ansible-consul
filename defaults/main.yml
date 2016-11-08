@@ -15,7 +15,7 @@ consul_group_name: "cluster_nodes"
 consul_datacenter: "dc1"
 consul_domain: "consul"
 consul_log_level: "INFO"
-consul_syslog_enable: "true"
+consul_syslog_enable: true
 consul_iface: "eth1"
 consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+consul_iface]['ipv4']['address'] }}"
 consul_dns_bind_address: "127.0.0.1"
@@ -24,22 +24,24 @@ consul_https_bind_address: "0.0.0.0"
 consul_rpc_bind_address: "0.0.0.0"
 consul_bootstrap_address: "{{ hostvars[groups[consul_group_name][0]]['ansible_'+consul_iface]['ipv4']['address'] }}"
 consul_node_name: "{{ inventory_hostname_short }}"
+consul_recursors: []
 
 ## ACL
-consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default('false', true) }}"
+consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
 consul_acl_datacenter: "{{ lookup('env','CONSUL_ACL_DATACENTER') | default(consul_datacenter, true) }}"
 consul_acl_default_policy: "allow"
 consul_acl_down_policy: "allow"
-consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default('false', true) }}"
-consul_acl_replication_token_display: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN_DISPLAY') | default('false', true) }}"
+consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
+consul_acl_replication_token_display: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN_DISPLAY') | default(false, true) }}"
 
 # TODO: deprecate?
 # consul_acl_master_token: "{{ ansible_date_time.iso8601_micro | to_uuid }}"
 # consul_acl_replication_token: "{{ ansible_date_time.iso8601_micro | to_uuid }}"
 
 # Options
-consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default('false', true) }}"
-consul_atlas_enable: "{{ lookup('env','CONSUL_ATLAS_ENABLE') | default('false', true) }}"
+consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
+consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
+consul_atlas_enable: "{{ lookup('env','CONSUL_ATLAS_ENABLE') | default(false, true) }}"
 consul_atlas_infrastructure: "{{ lookup('env','ATLAS_INFRASTRUCTURE') }}"
 consul_atlas_token: "{{ lookup('env','ATLAS_TOKEN') }}"
 
