@@ -2,7 +2,7 @@
 # File: tasks/Debian.yml - Debian tasks for Consul
 
 - name: OS packages
-  apt: "name={{ item }} state=present update_cache=yes"
+  apt: "name={{ item }} state=present"
   with_items: "{{ consul_debian_os_packages }}"
   tags: installation
 

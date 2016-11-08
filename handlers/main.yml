@@ -1,8 +1,8 @@
 ---
 # handlers file for consul
 
-- name: Restart consul
+- name: restart consul
   service: name=consul state=restarted
 
-- name: Restart dnsmasq
+- name: restart dnsmasq
   service: name=dnsmasq state=restarted

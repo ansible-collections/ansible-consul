@@ -21,6 +21,16 @@
     msg: "{{ ansible_distribution_version }} is not an acceptable version of Ubuntu for this role"
   when: ansible_distribution == "Ubuntu" and ( ansible_distribution_version|version_compare(12.04, '<') or ansible_distribution_version|version_compare(12.10, '=') )
 
+- name: Fail if both dnsmasq and iptables are enabled
+  fail:
+    msg: "DNS Forwarding via both dnsmasq and iptables is not supported, enable only one option"
+  when: consul_dnsmasq_enable and consul_iptables_enable
+
+- name: Fail if iptables is enabled but no recursors are defined
+  fail:
+    msg: "If iptables is enabled recursors are required"
+  when: consul_iptables_enable and consul_recursors|length == 0
+
 - name: Create cluster groupings
   group_by: "key={{ consul_node_role }}"
 
@@ -77,12 +87,12 @@
   become: no
   run_once: True
   register: consul_acl_master_token
-  when: consul_acl_enable == "true"
+  when: consul_acl_enable
 
 - name: Display ACL Master Token
   debug: msg="{{ consul_acl_master_token['stdout'] }}"
   run_once: True
-  when: consul_acl_enable == "true" and consul_acl_master_token_display == "true"
+  when: consul_acl_enable and consul_acl_master_token_display
 
 - name: ACL Replication Token
   command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
@@ -90,47 +100,44 @@
   become: no
   run_once: True
   register: consul_acl_replication_token
-  when: consul_acl_enable == "true"
+  when: consul_acl_enable
 
 - name: Display ACL Replication Token
   debug: msg="{{ consul_acl_replication_token['stdout'] }}"
   run_once: True
-  when: consul_acl_enable == "true" and consul_acl_replication_token_display == "true"
+  when: consul_acl_enable and consul_acl_replication_token_display
 
-- name: ACL bootstrap configuration
-  template: src=config_acl.json.j2 dest={{ consul_config_path }}/{{ item }}/config_acl.json
-  with_items:
-    - bootstrap
-    - client
-    - server
-  when: consul_acl_enable == "true"
-
-- name: ACL policy configuration
-  template: src=config_acl_policy.hcl.j2 dest={{ consul_config_path }}/{{ item }}/config_acl_policy.hcl
-  with_items:
-    - bootstrap
-    - client
-    - server
-  when: consul_acl_enable == "true"
-
-- name: Atlas configuration
-  template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
-  with_items:
-    - bootstrap
-    - server
-  when: consul_atlas_enable == "true"
+- block:
+    - name: ACL bootstrap configuration
+      template: src=config_acl.json.j2 dest={{ consul_config_path }}/{{ item }}/config_acl.json
+      with_items:
+        - bootstrap
+        - client
+        - server
+    - name: ACL policy configuration
+      template: src=config_acl_policy.hcl.j2 dest={{ consul_config_path }}/{{ item }}/config_acl_policy.hcl
+      with_items:
+        - bootstrap
+        - client
+        - server
+    - name: Atlas configuration
+      template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
+      with_items:
+        - bootstrap
+        - server
+  when: consul_atlas_enable
 
 - name: SYSV init script
   template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
-  when: not ansible_distribution == "Debian"
+  when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian"
 
 - name: Debian init script
   template: src=consul_debian.init.j2 dest=/etc/init.d/consul owner=root group=root mode=755
-  when: ansible_distribution == "Debian" and ansible_distribution_major_version|int <= 7
+  when: not ansible_service_mgr == "systemd" and ansible_distribution == "Debian" and ansible_distribution_major_version|int <= 7
 
 - name: systemd script
   template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service owner=root group=root mode=644
-  when: ansible_distribution_major_version|int >= 7
+  when: ansible_service_mgr == "systemd"
 
 - name: Start Consul
   service: name=consul state=started enabled=yes
@@ -138,29 +145,25 @@
 - name: Consul up?
   wait_for: delay=5 path=/var/run/consul/consul.pid state=present
 
-- name: Stop Consul
-  service: name=consul state=stopped
-  when: consul_node_role == "bootstrap"
-
-- name: Reconfigure bootstrap node (systemd)
-  replace: dest=/lib/systemd/system/consul.service regexp='bootstrap' replace='server' backup=no
-  when: consul_node_role == "bootstrap" and ansible_distribution_major_version|int >= 7
+- block:
+    - name: Reconfigure bootstrap node (systemd)
+      replace: dest=/lib/systemd/system/consul.service regexp='bootstrap' replace='server' backup=no
+    - name: Reload unit configuration
+      shell: systemctl daemon-reload
+      notify:
+        - restart consul
+  when: consul_node_role == "bootstrap" and ansible_service_mgr == "systemd"
 
 - name: Reconfigure bootstrap node (init.d)
   replace: dest=/etc/init.d/consul regexp='bootstrap' replace='server' backup=no
-  when: consul_node_role == "bootstrap" and ansible_distribution_major_version|int <= 7
-
-- name: Reload unit configuration
-  shell: systemctl daemon-reload
-  when: consul_node_role == "bootstrap" and ansible_distribution_major_version|int >= 7
-
-- name: Start Consul
-  service: name=consul state=started
+  when: consul_node_role == "bootstrap" and not ansible_service_mgr == "systemd" and ansible_distribution_major_version|int <= 7
 
 - name: "Enable Dnsmasq"
   include: ../tasks/dnsmasq.yml
-  when: consul_dnsmasq_enable == "true"
+  notify:
+    - restart dnsmasq
+  when: consul_dnsmasq_enable
 
-- name: "Restart Dnsmasq"
-  service: name=dnsmasq state=restarted
-  when: consul_dnsmasq_enable == "true"
+- name: "Enable iptables"
+  include: ../tasks/iptables.yml
+  when: consul_iptables_enable

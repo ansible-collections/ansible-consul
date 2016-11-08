@@ -1,14 +1,14 @@
 ---
-# File: tasks/main.yml - dnsmasq tasks for Consul
+# File: tasks/dnsmasq.yml - dnsmasq tasks for Consul
 
 - name: Dnsmasq package
   yum: name=dnsmasq state=present
-  when: ansible_distribution  == "CentOS" or ansible_distribution  == "RedHat"
+  when: ansible_os_family == "RedHat"
   tags: dnsmasq,installation
 
 - name: Dnsmasq package
   apt: name=dnsmasq state=present
-  when: ansible_distribution  == "Debian" or ansible_distribution  == "Ubuntu"
+  when: ansible_os_family == "Debian"
   tags: dnsmasq,installation
 
 - name: Stop Dnsmasq
