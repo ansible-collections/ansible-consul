@@ -1,25 +1,31 @@
 ---
 # File: tasks/main.yml - Main tasks for Consul
 
-- name: Fail if not a new release of CentOS
+- name: Check distribution compatibility
   fail:
-    msg: "{{ ansible_distribution_version }} is not an acceptable version of Debian for this role"
-  when: ansible_distribution == "CentOS" and ansible_distribution_version|version_compare(7, '<')
+    msg: "{{ ansible_distribution }} is not supported by this role"
+  when: ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'Ubuntu']
+
+- name: Fail if not a new release of Red Hat / CentOS
+  fail:
+    msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
+  when: ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(7, '<')
 
 - name: Fail if not a new release of Debian
   fail:
-    msg: "{{ ansible_distribution_version }} is not an acceptable version of Debian for this role"
+    msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
   when: ansible_distribution == "Debian" and ansible_distribution_version|version_compare(8.5, '<')
-
-- name: Fail if not a new release of Red Hat
-  fail:
-    msg: "{{ ansible_distribution_version }} is not an acceptable version of Debian for this role"
-  when: ansible_distribution == "RedHat" and ansible_distribution_version|version_compare(7, '<')
 
 - name: Fail if not a new release of Ubuntu
   fail:
-    msg: "{{ ansible_distribution_version }} is not an acceptable version of Ubuntu for this role"
-  when: ansible_distribution == "Ubuntu" and ( ansible_distribution_version|version_compare(12.04, '<') or ansible_distribution_version|version_compare(12.10, '=') )
+    msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version|version_compare(13.04, '<')
+
+- name: Fail if iptables is enabled for Red Hat / CentOS
+  fail:
+    msg: "No support for iptables on {{ ansible_distribution }}, use dnsmasq instead"
+  when: consul_iptables_enable and
+        (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(7, '>='))
 
 - name: Fail if both dnsmasq and iptables are enabled
   fail:
@@ -59,6 +65,7 @@
   shell: "PATH=/usr/local/bin:$PATH consul keygen"
   register: consul_raw_key
   run_once: true
+  when: consul_raw_key is not defined
 
 - name: Directories
   file: "dest={{ item }} state=directory owner={{ consul_user }} group={{ consul_group}}"
@@ -81,45 +88,8 @@
 - name: Server configuration
   template: src=server_config.json.j2 dest={{ consul_config_path }}/server/config.json
 
-- name: ACL Master Token
-  command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
-  connection: local
-  become: no
-  run_once: True
-  register: consul_acl_master_token
-  when: consul_acl_enable
-
-- name: Display ACL Master Token
-  debug: msg="{{ consul_acl_master_token['stdout'] }}"
-  run_once: True
-  when: consul_acl_enable and consul_acl_master_token_display
-
-- name: ACL Replication Token
-  command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
-  connection: local
-  become: no
-  run_once: True
-  register: consul_acl_replication_token
-  when: consul_acl_enable
-
-- name: Display ACL Replication Token
-  debug: msg="{{ consul_acl_replication_token['stdout'] }}"
-  run_once: True
-  when: consul_acl_enable and consul_acl_replication_token_display
-
-- block:
-    - name: ACL bootstrap configuration
-      template: src=config_acl.json.j2 dest={{ consul_config_path }}/{{ item }}/config_acl.json
-      with_items:
-        - bootstrap
-        - client
-        - server
-    - name: ACL policy configuration
-      template: src=config_acl_policy.hcl.j2 dest={{ consul_config_path }}/{{ item }}/config_acl_policy.hcl
-      with_items:
-        - bootstrap
-        - client
-        - server
+- name: ACL configuration
+  include: ../tasks/acl.yml
   when: consul_acl_enable
 
 - name: Atlas configuration
@@ -135,7 +105,7 @@
 
 - name: Debian init script
   template: src=consul_debian.init.j2 dest=/etc/init.d/consul owner=root group=root mode=755
-  when: not ansible_service_mgr == "systemd" and ansible_distribution == "Debian" and ansible_distribution_major_version|int <= 7
+  when: not ansible_service_mgr == "systemd" and ansible_distribution == "Debian"
 
 - name: systemd script
   template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service owner=root group=root mode=644
