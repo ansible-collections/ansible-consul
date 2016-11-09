@@ -1,0 +1,36 @@
+---
+# File: tasks/acl.yml - ACL tasks for Consul
+
+- name: ACL Master Token
+  command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
+  run_once: True
+  register: consul_acl_master_token
+
+- name: Display ACL Master Token
+  debug: msg="{{ consul_acl_master_token['stdout'] }}"
+  run_once: True
+  when: consul_acl_master_token_display
+
+- name: ACL Replication Token
+  command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
+  run_once: True
+  register: consul_acl_replication_token
+
+- name: Display ACL Replication Token
+  debug: msg="{{ consul_acl_replication_token['stdout'] }}"
+  run_once: True
+  when: consul_acl_replication_token_display
+
+- name: ACL bootstrap configuration
+  template: src=config_acl.json.j2 dest={{ consul_config_path }}/{{ item }}/config_acl.json
+  with_items:
+  - bootstrap
+  - client
+  - server
+
+- name: ACL policy configuration
+  template: src=config_acl_policy.hcl.j2 dest={{ consul_config_path }}/{{ item }}/config_acl_policy.hcl
+  with_items:
+  - bootstrap
+  - client
+  - server
