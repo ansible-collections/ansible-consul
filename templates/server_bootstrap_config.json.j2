@@ -18,7 +18,7 @@
   "node_name": "{{ consul_node_name }}",
   "datacenter": "{{ consul_datacenter }}",
   "data_dir": "{{ consul_data_path }}",
-  "encrypt": "{{ consul_raw_key['stdout']}}",
+  "encrypt": "{{ consul_raw_key }}",
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable|lower }},
   "domain": "{{ consul_domain }}",

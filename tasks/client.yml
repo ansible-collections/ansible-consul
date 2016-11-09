@@ -1,0 +1,9 @@
+---
+
+- name: Install dependencies for configuration by ansible (1/2)
+  apt: name={{ item }} state=installed
+  with_items:
+    - python-pip
+    - python-setuptools
+- name: Install dependencies for configuration by ansible (2/2)
+  pip: executable=pip name=python-consul
