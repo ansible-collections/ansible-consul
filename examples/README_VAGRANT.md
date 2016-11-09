@@ -89,16 +89,16 @@ prefer, it can also install CentOS 7 based nodes by changing the command
 in step 4 to the following:
 
 ```
-BOX_NAME="centos/7" vagrant up
+BOX_NAME=centos/7 vagrant up
 ```
 
 ## Notes
 
 1. This project functions with the following software versions:
   * Consul version 0.7.0
-  * Ansible: 2.1.2.0
+  * Ansible: 2.2.0.0
   * VirtualBox version 5.0.28
-  * Vagrant version 1.8.6
+  * Vagrant version 1.8.7
   * Vagrant Hosts version 2.8.0
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable
@@ -115,7 +115,7 @@ The role includes support for DNS forwarding with Dnsmasq.
 Install like this:
 
 ```
-CONSUL_DNSMASQ_ENABLE="true" vagrant up
+CONSUL_DNSMASQ_ENABLE=true vagrant up
 ```
 
 Then you can query any of the agents via DNS directly via port 53:

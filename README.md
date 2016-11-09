@@ -18,7 +18,7 @@ This role requires a Debian or RHEL based Linux distribution. It might work
 with other software versions, but does work with the following specific
 software and versions:
 
-* Ansible: 2.1.2.0
+* Ansible: 2.2.0.0
 * Consul: 0.7.0
 * Debian: 8
 * CentOS: 7
@@ -52,8 +52,10 @@ inventory file (see below):
 | `consul_https_bind_address` | *0.0.0.0* | HTTPS API bind address |
 | `consul_rpc_bind_address` | *0.0.0.0* | RPC bind address |
 | `consul_node_name` | `{{ inventory_hostname_short }}` | Node name (should not include dots) |
+| `consul_recursors` | Empty list | List of upstream DNS servers — see [recursors](https://www.consul.io/docs/agent/options.html#recursors) | 
 | `consul_bind_address` | dynamic from hosts inventory | The interface address to bind to
 | `consul_dnsmasq_enable` | *false* | Whether to install and configure DNS API forwarding on port 53 using dnsmasq |
+| `consul_iptables_enable` | *false* | Whether to enable iptables rules for Consul |
 | `consul_acl_enable` | *false* | Enable ACLs |
 | `consul_acl_datacenter` | *dc1* | ACL authoritative datacenter name |
 | `consul_acl_default_policy` | *allow* | Default ACL policy |
@@ -63,7 +65,7 @@ inventory file (see below):
 | `consul_acl_replication_token` | UUID | ACL replication token |
 | `consul_atlas_enable` | *false* | Enable Atlas support |
 | `consul_atlas_infrastructure` | Environment variable | Atlas infrastructure name |
-| `consul_atlas_token` | environment variable | Atlas token |
+| `consul_atlas_token` | Environment variable | Atlas token |
 
 ### Host Inventory Variable
 
@@ -149,13 +151,13 @@ variables `CONSUL_ACL_ENABLE` to *true*, and also set the
 environment prior to executing your playbook; for example:
 
 ```
-CONSUL_ACL_ENABLE="true" CONSUL_ACL_DATACENTER="maui" \
-CONSUL_ACL_MASTER_TOKEN_DISPLAY="true" ansible-playbook -i uat_hosts aloha.yml
+CONSUL_ACL_ENABLE=true CONSUL_ACL_DATACENTER=maui \
+CONSUL_ACL_MASTER_TOKEN_DISPLAY=true ansible-playbook -i uat_hosts aloha.yml
 ```
 
 If you want the automatically generated ACL Master Token value emitted to
 standard out during the play, set the environment variable
-`CONSUL_ACL_MASTER_TOKEN_DISPLAY` to "true" as in the above example.
+`CONSUL_ACL_MASTER_TOKEN_DISPLAY` to *true* as in the above example.
 
 There are a number of Ansible ACL variables you can override to further refine
 your initial ACL setup. They are not all currently picked up from environment
@@ -171,8 +173,8 @@ to their correct values for your environment prior to executing your
 playbook; for example:
 
 ```
-CONSUL_ATLAS_ENABLE="true" CONSUL_ATLAS_INFRASTRUCTURE="brianshumate/example" \
-CONSUL_ATLAS_TOKEN="00000000-000000000-000000000000-0000" \
+CONSUL_ATLAS_ENABLE=true CONSUL_ATLAS_INFRASTRUCTURE=brianshumate/example \
+CONSUL_ATLAS_TOKEN=00000000-000000000-000000000000-0000 \
 ansible-playbook -i uat_hosts site.yml
 ```
 

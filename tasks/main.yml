@@ -36,22 +36,22 @@
 
 - group_by: "key=os_{{ ansible_os_family }}"
 
-- name: "Add Consul user"
+- name: Add Consul user
   user: "name=consul comment='Consul user' uid=1042 group=bin"
 
-- name: "CentOS tasks"
+- name: CentOS tasks
   include: CentOS.yml
   when: ansible_distribution  == "CentOS"
 
-- name: "Debian tasks"
+- name: Debian tasks
   include: Debian.yml
   when: ansible_distribution  == "Debian"
 
-- name: "Red Hat tasks"
+- name: Red Hat tasks
   include: RedHat.yml
   when: ansible_distribution  == "RedHat"
 
-- name: "Ubuntu tasks"
+- name: Ubuntu tasks
   include: Ubuntu.yml
   when: ansible_distribution  == "Ubuntu"
 
@@ -120,11 +120,13 @@
         - bootstrap
         - client
         - server
-    - name: Atlas configuration
-      template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
-      with_items:
-        - bootstrap
-        - server
+  when: consul_acl_enable
+
+- name: Atlas configuration
+  template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
+  with_items:
+    - bootstrap
+    - server
   when: consul_atlas_enable
 
 - name: SYSV init script

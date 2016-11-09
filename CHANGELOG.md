@@ -221,3 +221,13 @@
 ## v1.3.4
 
 - Update documentation
+
+## v1.4.0
+
+- Compatibility with Ubuntu 16.04 (thanks @crumohr)
+- iptables support (thanks @crumohr)
+- Booleans instead of strings for variables (thanks @crumohr)
+- Runnable if DNS is broken (thanks @crumohr)
+- Remove unused variables
+- Update block conditional for ACLs
+- Update documentation

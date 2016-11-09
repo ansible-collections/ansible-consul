@@ -34,10 +34,6 @@ consul_acl_down_policy: "allow"
 consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
 consul_acl_replication_token_display: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN_DISPLAY') | default(false, true) }}"
 
-# TODO: deprecate?
-# consul_acl_master_token: "{{ ansible_date_time.iso8601_micro | to_uuid }}"
-# consul_acl_replication_token: "{{ ansible_date_time.iso8601_micro | to_uuid }}"
-
 # Options
 consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
 consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
