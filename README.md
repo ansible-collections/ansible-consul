@@ -55,7 +55,7 @@ inventory file (see below):
 | `consul_recursors` | Empty list | List of upstream DNS servers — see [recursors](https://www.consul.io/docs/agent/options.html#recursors) | 
 | `consul_bind_address` | dynamic from hosts inventory | The interface address to bind to
 | `consul_dnsmasq_enable` | *false* | Whether to install and configure DNS API forwarding on port 53 using dnsmasq |
-| `consul_iptables_enable` | *false* | Whether to enable iptables rules for Consul |
+| `consul_iptables_enable` | *false* | Whether to enable iptables rules for DNS forwarding to Consul |
 | `consul_acl_enable` | *false* | Enable ACLs |
 | `consul_acl_datacenter` | *dc1* | ACL authoritative datacenter name |
 | `consul_acl_default_policy` | *allow* | Default ACL policy |
@@ -178,7 +178,7 @@ CONSUL_ATLAS_TOKEN=00000000-000000000-000000000000-0000 \
 ansible-playbook -i uat_hosts site.yml
 ```
 
-### Dnsmasq Forwarding Support
+### Dnsmasq DNS Forwarding Support
 
 The role now includes support for [DNS forwarding](https://www.consul.io/docs/guides/forwarding.html) with [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html).
 
@@ -212,6 +212,19 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ;; WHEN: Sun Aug  7 18:06:32 2016
 ;;
 ```
+
+### iptables DNS Forwarding Support
+
+This role can also use iptables instead of Dnsmasq for forwarding DNS queries
+to Consul. You can enable it like this:
+
+```
+ansible-playbook -i hosts site.yml --extra-vars "consul_iptables_enable=true"
+```
+
+> Note that iptables forwarding and Dnsmasq forwarding cannot be used
+> simultaneously and the execution of the role will stop with error if such
+> a configuration is specified.
 
 ### Vagrant and VirtualBox
 

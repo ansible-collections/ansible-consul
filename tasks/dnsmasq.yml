@@ -16,4 +16,5 @@
 
 - name: "Dnsmasq setup"
   copy: src=../files/dnsmasq-10-consul dest=/etc/dnsmasq.d/10-consul owner=root group=root mode=0644
+  notify: restart dnsmasq
   tags: dnsmasq

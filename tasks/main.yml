@@ -115,7 +115,6 @@
   when: consul_node_role == "bootstrap" and not ansible_service_mgr == "systemd" and ansible_distribution_major_version|int <= 7
 
 - include: ../tasks/dnsmasq.yml
-  notify: restart dnsmasq
   when: consul_dnsmasq_enable
 
 - include: ../tasks/iptables.yml

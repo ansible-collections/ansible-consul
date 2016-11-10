@@ -231,3 +231,10 @@
 - Remove unused variables
 - Update block conditional for ACLs
 - Update documentation
+
+## v1.4.1
+
+- Move Dnsmasq restart to inside of tasks
+- Add client dependencies for further configuration (thanks @crumohr)
+- Fix error using predefined encryption key (thanks @crumohr)
+- Removal of redundant includes (thanks @crumohr)
