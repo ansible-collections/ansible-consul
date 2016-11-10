@@ -37,34 +37,19 @@
     msg: "If iptables is enabled recursors are required"
   when: consul_iptables_enable and consul_recursors|length == 0
 
-- name: Create cluster groupings
-  group_by: "key={{ consul_node_role }}"
-
-- group_by: "key=os_{{ ansible_os_family }}"
-
 - name: Add Consul user
   user: "name=consul comment='Consul user' uid=1042 group=bin"
 
-- name: CentOS tasks
-  include: CentOS.yml
-  when: ansible_distribution  == "CentOS"
+- name: Install specified packages  
+  include: "{{ ansible_distribution }}.yml"
 
-- name: Debian tasks
-  include: Debian.yml
-  when: ansible_distribution  == "Debian"
-
-- name: Red Hat tasks
-  include: RedHat.yml
-  when: ansible_distribution  == "RedHat"
-
-- name: Ubuntu tasks
-  include: Ubuntu.yml
-  when: ansible_distribution  == "Ubuntu"
-
-- name: Generate gossip encryption key
-  shell: "PATH=/usr/local/bin:$PATH consul keygen"
-  register: consul_raw_key
-  run_once: true
+- block:
+    - name: Generate gossip encryption key
+      shell: "PATH=/usr/local/bin:$PATH consul keygen"
+      register: consul_keygen
+      run_once: true
+    - name: Save encryption key
+      set_fact: consul_raw_key={{ consul_keygen.stdout }}
   when: consul_raw_key is not defined
 
 - name: Directories
@@ -88,8 +73,7 @@
 - name: Server configuration
   template: src=server_config.json.j2 dest={{ consul_config_path }}/server/config.json
 
-- name: ACL configuration
-  include: ../tasks/acl.yml
+- include: ../tasks/acl.yml
   when: consul_acl_enable
 
 - name: Atlas configuration
@@ -130,12 +114,12 @@
   replace: dest=/etc/init.d/consul regexp='bootstrap' replace='server' backup=no
   when: consul_node_role == "bootstrap" and not ansible_service_mgr == "systemd" and ansible_distribution_major_version|int <= 7
 
-- name: "Enable Dnsmasq"
-  include: ../tasks/dnsmasq.yml
-  notify:
-    - restart dnsmasq
+- include: ../tasks/dnsmasq.yml
+  notify: restart dnsmasq
   when: consul_dnsmasq_enable
 
-- name: "Enable iptables"
-  include: ../tasks/iptables.yml
+- include: ../tasks/iptables.yml
   when: consul_iptables_enable
+
+- include: ../tasks/client.yml
+  when: consul_node_role == "client" and ansible_os_family == "Debian"
