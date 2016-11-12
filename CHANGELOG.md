@@ -243,3 +243,8 @@
 
 - Add initial TLS support
 - Update documentation
+
+## v1.5.1
+
+- Fail when ethernet interface specified by consul_iface not found on
+  the system (addresses #13)
