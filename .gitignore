@@ -5,3 +5,7 @@
 examples/hosts
 files/consul
 files/*.zip
+files/ca.crt
+files/server.crt
+files/server.key
+

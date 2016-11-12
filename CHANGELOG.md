@@ -238,3 +238,8 @@
 - Add client dependencies for further configuration (thanks @crumohr)
 - Fix error using predefined encryption key (thanks @crumohr)
 - Removal of redundant includes (thanks @crumohr)
+
+## v1.5.0
+
+- Add initial TLS support
+- Update documentation

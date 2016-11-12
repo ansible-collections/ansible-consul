@@ -5,10 +5,10 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Percentage of issues still open")
 
-This Ansible role performs basic [Consul](https://consul.io/) installation,
-including filesystem structure, and example configuration.
+This Ansible role installs [Consul](https://consul.io/), including filesystem
+structure and server or client configuration.
 
-It can also bootstrap a minimal development or evaluation cluster of 3 server
+It can also bootstrap a development or evaluation cluster of 3 server
 agents running in a Vagrant and VirtualBox based environment. See
 [README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-consul/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
@@ -66,6 +66,16 @@ inventory file (see below):
 | `consul_atlas_enable` | *false* | Enable Atlas support |
 | `consul_atlas_infrastructure` | Environment variable | Atlas infrastructure name |
 | `consul_atlas_token` | Environment variable | Atlas token |
+| `consul_tls_enable` | *false* | Enable TLS |
+| `consul_src_def` | `{{ role_path }}/files` | default source directory for TLS files |
+| `consul_src_files` | `{{ role_path }}/files` | User specified source directory for TLS files, can be overridden with `CONSUL_SRC_FILES` environment variable |
+| `consul_tls_dir` | `/etc/consul/ssl` | Target directory for TLS files, can be overridden with `CONSUL_TLS_DIR` environment variable |
+| `consul_ca_crt` | `ca.crt` | CA certificate filename, can be overridden with `CONSUL_CA_CRT` environment variable |
+| `consul_server_crt` | `server.crt` | Server certificate, can be overridden with `CONSUL_SERVER_CRT` environment variable |
+| `consul_server_key` | `server.key` | Server key, can be overridden with `CONSUL_SERVER_KEY` environment variable |
+| `consul_verify_incoming` | *false* | Verify incoming connections, can be overridden with `CONSUL_VERIFY_INCOMING` environment variable |
+| `consul_verify_outgoing` | *true* | Verify outgoing connections, can be overridden with `CONSUL_VERIFY_OUTGOING` environment variable |
+| `consul_verify_server_hostname` | *false* | Verify server hostname, can be overridden with `CONSUL_VERIFY_SERVER_HOSTNAME` environment variable |
 
 ### Host Inventory Variable
 
@@ -225,6 +235,18 @@ ansible-playbook -i hosts site.yml --extra-vars "consul_iptables_enable=true"
 > Note that iptables forwarding and Dnsmasq forwarding cannot be used
 > simultaneously and the execution of the role will stop with error if such
 > a configuration is specified.
+
+### TLS Support
+
+You can enable TLS encryption by dropping a CA certificate, server certificate,
+and server key into the role's `files` directory. By default these are named:
+
+- `ca.crt` (can be overridden by {{ consul_ca_crt }})
+- `server.crt` (can be overridden by {{ consul_server_crt }})
+- `server.key` (can be overridden by {{ consul_server_key }})
+
+Then either set the environment variable `CONSUL_TLS_ENABLE=true` or use the
+Ansible variable `consul_tls_enable=true` when launching the role.
 
 ### Vagrant and VirtualBox
 

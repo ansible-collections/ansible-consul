@@ -1,0 +1,7 @@
+{
+  "ca_file": "{{ consul_tls_dir }}/{{ consul_ca_crt }}",
+  "cert_file": "{{ consul_tls_dir }}/{{ consul_server_crt }}",
+  "key_file": "{{ consul_tls_dir }}/{{ consul_server_key }}",
+  "verify_incoming": {{ consul_verify_incoming | to_json }},
+  "verify_outgoing": {{ consul_verify_outgoing | to_json }}
+}
