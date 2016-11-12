@@ -19,7 +19,7 @@ with other software versions, but does work with the following specific
 software and versions:
 
 * Ansible: 2.2.0.0
-* Consul: 0.7.0
+* Consul: 0.7.1
 * Debian: 8
 * CentOS: 7
 

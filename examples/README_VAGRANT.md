@@ -95,7 +95,7 @@ BOX_NAME=centos/7 vagrant up
 ## Notes
 
 1. This project functions with the following software versions:
-  * Consul version 0.7.0
+  * Consul version 0.7.1
   * Ansible: 2.2.0.0
   * VirtualBox version 5.0.28
   * Vagrant version 1.8.7
