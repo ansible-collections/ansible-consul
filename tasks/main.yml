@@ -70,13 +70,13 @@
     - /etc/consul.d/server
 
 - name: Bootstrap configuration
-  template: "src=server_bootstrap_config.json.j2 dest={{ consul_config_path }}/bootstrap/config.json"
+  template: "src=config_bootstrap.json.j2 dest={{ consul_config_path }}/bootstrap/config.json"
 
 - name: Client configuration
-  template: src=client_config.json.j2 dest={{ consul_config_path }}/client/config.json
+  template: "src=config_client.json.j2 dest={{ consul_config_path }}/client/config.json"
 
 - name: Server configuration
-  template: src=server_config.json.j2 dest={{ consul_config_path }}/server/config.json
+  template: "src=config_server.json.j2 dest={{ consul_config_path }}/server/config.json"
 
 - include: ../tasks/acl.yml
   when: consul_acl_enable

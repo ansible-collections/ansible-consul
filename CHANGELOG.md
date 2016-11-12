@@ -248,3 +248,9 @@
 
 - Fail when ethernet interface specified by consul_iface not found on
   the system (addresses #13)
+
+## v1.5.2
+
+- Consul version 0.7.1
+- Consistent template names
+- Update documentation
