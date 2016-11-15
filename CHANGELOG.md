@@ -254,3 +254,7 @@
 - Consul version 0.7.1
 - Consistent template names
 - Update documentation
+
+## v1.5.3
+
+- Update start_join for client configuration template
