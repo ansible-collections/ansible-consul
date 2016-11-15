@@ -24,7 +24,7 @@ consul_https_bind_address: "0.0.0.0"
 consul_rpc_bind_address: "0.0.0.0"
 consul_bootstrap_address: "{{ hostvars[groups[consul_group_name][0]]['ansible_'+consul_iface]['ipv4']['address'] }}"
 consul_node_name: "{{ inventory_hostname_short }}"
-consul_recursors: []
+consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
 
 ## ACL
 consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"

@@ -258,3 +258,7 @@
 ## v1.5.3
 
 - Update start_join for client configuration template
+
+## v1.5.4
+
+- Recursors as env var
