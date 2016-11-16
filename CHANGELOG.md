@@ -266,3 +266,7 @@
 ## v1.5.5
 
 - Initial attempts at idempotency in main tasks (for #14, #15)
+
+## v1.5.6
+
+- Correct Atlas variable names
