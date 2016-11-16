@@ -30,7 +30,7 @@ inventory file (see below):
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `consul_version` | *0.7.0* | Version to install |
+| `consul_version` | *0.7.1* | Version to install |
 | `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Download URL |
 | `consul_zip_sha256` | SHA256 SUM | Archive SHA256 summary |
 | `consul_bin_path` | `/usr/local/bin` | Binary installation path |
