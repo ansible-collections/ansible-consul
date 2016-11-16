@@ -1,22 +1,21 @@
 ---
-# File: tasks/Debian.yml - Debian tasks for Consul
 
 - name: OS packages
-  apt: "name={{ item }} state=present"
-  with_items: "{{ consul_debian_os_packages }}"
+  package: "name={{ item }} state=present"
+  with_items: "{{ consul_os_packages }}"
   tags: installation
 
 - name: Download Consul
   become: no
   connection: local
-  get_url: "url={{ consul_zip_url }} dest={{ role_path }}/files/{{ consul_debian_pkg }} sha256sum={{ consul_zip_sha256 }} timeout=74"
+  get_url: "url={{ consul_zip_url }} dest={{ role_path }}/files/{{ consul_pkg }} sha256sum={{ consul_zip_sha256 }} timeout=74"
   run_once: true
   tags: installation
 
 - name: Unarchive Consul
   become: no
   connection: local
-  unarchive: "src={{ role_path }}/files/{{ consul_debian_pkg }} dest={{ role_path }}/files/ creates={{ role_path }}/files/consul"
+  unarchive: "src={{ role_path }}/files/{{ consul_pkg }} dest={{ role_path }}/files/ creates={{ role_path }}/files/consul"
   run_once: true
   tags: installation
 
