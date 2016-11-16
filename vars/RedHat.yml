@@ -1,0 +1,6 @@
+---
+
+consul_os_packages:
+  - libselinux-python
+  - git
+  - unzip

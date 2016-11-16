@@ -50,8 +50,12 @@
 - name: Add Consul user
   user: "name=consul comment='Consul user' uid=1042 group=bin"
 
+# Include variables and define needed variables.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
 - name: Install specified packages  
-  include: "{{ ansible_distribution }}.yml"
+  include: install.yml
 
 - block:
     - name: Generate gossip encryption key

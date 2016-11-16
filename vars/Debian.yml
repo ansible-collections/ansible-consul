@@ -1,0 +1,5 @@
+---
+
+consul_os_packages:
+  - git
+  - unzip
