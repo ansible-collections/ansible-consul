@@ -262,3 +262,7 @@
 ## v1.5.4
 
 - Recursors as env var
+
+## v1.5.5
+
+- Initial attempts at idempotency in main tasks (for #14, #15)

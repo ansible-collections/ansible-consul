@@ -42,6 +42,11 @@
     msg: "If iptables is enabled recursors are required"
   when: consul_iptables_enable and consul_recursors|length == 0
 
+- name: Check bootstrapped state
+  stat: path=/etc/consul/.consul_bootstrapped
+  register: bootstrap_marker
+  ignore_errors: true
+
 - name: Add Consul user
   user: "name=consul comment='Consul user' uid=1042 group=bin"
 
@@ -55,11 +60,12 @@
       run_once: true
     - name: Save encryption key
       set_fact: consul_raw_key={{ consul_keygen.stdout }}
-  when: consul_raw_key is not defined
+  when: consul_raw_key is not defined and not bootstrap_marker.stat.exists
 
 - name: Directories
   file: "dest={{ item }} state=directory owner={{ consul_user }} group={{ consul_group}}"
   with_items:
+    - /etc/consul
     - /opt/consul
     - /var/consul
     - /var/log/consul
@@ -68,65 +74,71 @@
     - /etc/consul.d/bootstrap   
     - /etc/consul.d/client
     - /etc/consul.d/server
-
-- name: Bootstrap configuration
-  template: "src=config_bootstrap.json.j2 dest={{ consul_config_path }}/bootstrap/config.json"
-
-- name: Client configuration
-  template: "src=config_client.json.j2 dest={{ consul_config_path }}/client/config.json"
-
-- name: Server configuration
-  template: "src=config_server.json.j2 dest={{ consul_config_path }}/server/config.json"
-
-- include: ../tasks/acl.yml
-  when: consul_acl_enable
-
-- name: Atlas configuration
-  template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
-  with_items:
-    - bootstrap
-    - server
-  when: consul_atlas_enable
-
-- name: SYSV init script
-  template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
-  when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian"
-
-- name: Debian init script
-  template: src=consul_debian.init.j2 dest=/etc/init.d/consul owner=root group=root mode=755
-  when: not ansible_service_mgr == "systemd" and ansible_distribution == "Debian"
-
-- name: systemd script
-  template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service owner=root group=root mode=644
-  when: ansible_service_mgr == "systemd"
-
-- name: Start Consul
-  service: name=consul state=started enabled=yes
-
-- name: Consul up?
-  wait_for: delay=5 path=/var/run/consul/consul.pid state=present
-
 - block:
-    - name: Reconfigure bootstrap node (systemd)
-      replace: dest=/lib/systemd/system/consul.service regexp='bootstrap' replace='server' backup=no
-    - name: Reload unit configuration
-      shell: systemctl daemon-reload
-      notify:
-        - restart consul
-  when: consul_node_role == "bootstrap" and ansible_service_mgr == "systemd"
 
-- name: Reconfigure bootstrap node (init.d)
-  replace: dest=/etc/init.d/consul regexp='bootstrap' replace='server' backup=no
-  when: consul_node_role == "bootstrap" and not ansible_service_mgr == "systemd" and ansible_distribution_major_version|int <= 7
+  - name: Bootstrap configuration
+    template: "src=config_bootstrap.json.j2 dest={{ consul_config_path }}/bootstrap/config.json"
 
-- include: ../tasks/dnsmasq.yml
-  when: consul_dnsmasq_enable
+  - name: Client configuration
+    template: "src=config_client.json.j2 dest={{ consul_config_path }}/client/config.json"
 
-- include: ../tasks/iptables.yml
-  when: consul_iptables_enable
+  - name: Server configuration
+    template: "src=config_server.json.j2 dest={{ consul_config_path }}/server/config.json"
 
-- include: ../tasks/tls.yml
-  when: consul_tls_enable
+  - include: ../tasks/acl.yml
+    when: consul_acl_enable
 
-- include: ../tasks/client.yml
-  when: consul_node_role == "client" and ansible_os_family == "Debian"
+  - name: Atlas configuration
+    template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
+    with_items:
+      - bootstrap
+      - server
+    when: consul_atlas_enable
+
+  - name: SYSV init script
+    template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
+    when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian"
+
+  - name: Debian init script
+    template: src=consul_debian.init.j2 dest=/etc/init.d/consul owner=root group=root mode=755
+    when: not ansible_service_mgr == "systemd" and ansible_distribution == "Debian"
+
+  - name: systemd script
+    template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service owner=root group=root mode=644
+    when: ansible_service_mgr == "systemd"
+
+  - name: Start Consul
+    service: name=consul state=started enabled=yes
+
+  - name: Consul up?
+    wait_for: delay=5 path=/var/run/consul/consul.pid state=present
+
+  - block:
+      - name: Reconfigure bootstrap node (systemd)
+        replace: dest=/lib/systemd/system/consul.service regexp='bootstrap' replace='server' backup=no
+      - name: Reload unit configuration
+        shell: systemctl daemon-reload
+        notify:
+          - restart consul
+    when: consul_node_role == "bootstrap" and ansible_service_mgr == "systemd"
+
+  - name: Reconfigure bootstrap node (init.d)
+    replace: dest=/etc/init.d/consul regexp='bootstrap' replace='server' backup=no
+    when: consul_node_role == "bootstrap" and not ansible_service_mgr == "systemd" and ansible_distribution_major_version|int <= 7
+
+  - name: Bootstrapped marker
+    file: dest=/etc/consul/.consul_bootstrapped state=touch
+
+  - include: ../tasks/dnsmasq.yml
+    when: consul_dnsmasq_enable
+
+  - include: ../tasks/iptables.yml
+    when: consul_iptables_enable
+
+  - include: ../tasks/tls.yml
+    when: consul_tls_enable
+
+  - include: ../tasks/client.yml
+    when: consul_node_role == "client" and ansible_os_family == "Debian"
+  
+  when: not bootstrap_marker.stat.exists
