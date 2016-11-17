@@ -270,3 +270,9 @@
 ## v1.5.6
 
 - Correct Atlas variable names
+
+## v1.5.7
+
+- Remove unnecessary code (thanks @kostyrevaa)
+- Determine binary's SHA 256 from releases.hashicorp.com (for #16)
+- Update documentation

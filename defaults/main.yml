@@ -4,7 +4,7 @@
 ## Core
 consul_version: "0.7.1"
 consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
-consul_zip_sha256: "5dbfc555352bded8a39c7a8bf28b5d7cf47dec493bc0496e21603c84dfe41b4b"
+consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul.d"
 consul_data_path: "/var/consul"

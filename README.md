@@ -32,7 +32,7 @@ inventory file (see below):
 | -------------- | ------------- | -----------------------------------|
 | `consul_version` | *0.7.1* | Version to install |
 | `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Download URL |
-| `consul_zip_sha256` | SHA256 SUM | Archive SHA256 summary |
+| `consul_checksum_file_url` | https://releases.hashicorp.com/consul/0.7.1/consul_0.7.1_SHA256SUMS | URL to package SHA256 summaries |
 | `consul_bin_path` | `/usr/local/bin` | Binary installation path |
 | `consul_config_path` | `/etc/consul.d` | Configuration file path |
 | `consul_data_path` | `/var/consul` | Data path |

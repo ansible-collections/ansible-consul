@@ -1,14 +1,30 @@
 ---
+# File: tasks/install.yml - package installation tasks for Consul
 
 - name: OS packages
   package: "name={{ item }} state=present"
   with_items: "{{ consul_os_packages }}"
   tags: installation
 
+- name: Get consul package checksum file
+  become: no
+  connection: local
+  get_url: "url={{ consul_checksum_file_url }} dest={{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
+  run_once: true
+  tags: installation
+
+- name: Get Consul package checksum
+  become: no
+  connection: local
+  shell: "grep {{ consul_pkg }} {{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
+  run_once: true
+  register: consul_sha256
+  tags: installation
+
 - name: Download Consul
   become: no
   connection: local
-  get_url: "url={{ consul_zip_url }} dest={{ role_path }}/files/{{ consul_pkg }} sha256sum={{ consul_zip_sha256 }} timeout=74"
+  get_url: "url={{ consul_zip_url }} dest={{ role_path }}/files/{{ consul_pkg }} checksum=sha256:{{ consul_sha256.stdout.split(' ')|first }} timeout=42"
   run_once: true
   tags: installation
 
