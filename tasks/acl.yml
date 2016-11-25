@@ -1,23 +1,74 @@
 ---
 # File: tasks/acl.yml - ACL tasks for Consul
 
-- name: ACL Master Token
-  command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
-  run_once: True
-  register: consul_acl_master_token
+- block:
+  - name: Look for an existing ACL master token on a previously boostrapped server
+    shell: 'cat {{ consul_config_path }}/server/config_acl.json | grep "acl_master_token" | sed -E ''s/"acl_master_token": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
+    register: acl_master_token_read
+    run_once: true
+
+  - name: Save ACL master token key (from existing config)
+    set_fact: consul_acl_master_token={{ acl_master_token_read.stdout }}
+    when: acl_master_token_read.stdout != ''
+  when: consul_acl_master_token is not defined and bootstrap_marker.stat.exists
+
+- name: Writing ACL master token locally to share with other servers that are new
+  local_action: copy content={{ consul_acl_master_token }} dest=/tmp/acl_master_token
+  when: consul_acl_master_token is defined
+
+- name: Reading ACL master token for servers that are missing it
+  set_fact: consul_acl_master_token="{{ lookup('file', '/tmp/acl_master_token') }}"
+  when: consul_acl_master_token is not defined
+
+- name: Deleting ACL master token file
+  local_action: file path=/tmp/acl_master_token state=absent
+
+- block:
+  - name: Look for an existing ACL replication token on a previously boostrapped server
+    shell: 'cat {{ consul_config_path }}/server/config_acl.json | grep "acl_replication_token" | sed -E ''s/"acl_replication_token": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
+    register: consul_acl_replication_token_read
+    run_once: true
+
+  - name: Save ACL replication token key (from existing config)
+    set_fact: consul_acl_replication_token={{ consul_acl_replication_token_read.stdout }}
+  when: consul_acl_replication_token is not defined and bootstrap_marker.stat.exists
+
+- name: Writing ACL replication token locally to share with other servers that are new
+  local_action: copy content={{ consul_acl_replication_token }} dest=/tmp/acl_replication_token
+  when: consul_acl_replication_token is defined
+
+- name: Reading ACL replication token for servers that are missing it
+  set_fact: consul_acl_replication_token="{{ lookup('file', '/tmp/acl_replication_token') }}"
+  when: consul_acl_replication_token is not defined
+
+- name: Deleting ACL replication token file
+  local_action: file path=/tmp/acl_replication_token state=absent
+
+- block:
+  - name: Generate ACL master token
+    command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
+    register: consul_acl_master_token_keygen
+    run_once: true
+  - name: Save ACL master yoken
+    set_fact: consul_acl_master_token={{ consul_acl_master_token_keygen.stdout }}
+  when: consul_acl_master_token is not defined and not bootstrap_marker.stat.exists
 
 - name: Display ACL Master Token
-  debug: msg="{{ consul_acl_master_token['stdout'] }}"
+  debug: msg="{{ consul_acl_master_token }}"
   run_once: True
   when: consul_acl_master_token_display
 
-- name: ACL Replication Token
-  command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
-  run_once: True
-  register: consul_acl_replication_token
+- block:
+  - name: Generate ACL replication token
+    command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
+    register: consul_acl_replication_token_keygen
+    run_once: true
+  - name: Save ACL replication yoken
+    set_fact: consul_acl_replication_token={{ consul_acl_replication_token_keygen.stdout }}
+  when: (consul_acl_replication_token is not defined or consul_acl_replication_token == '') and not bootstrap_marker.stat.exists
 
 - name: Display ACL Replication Token
-  debug: msg="{{ consul_acl_replication_token['stdout'] }}"
+  debug: msg="{{ consul_acl_replication_token }}"
   run_once: True
   when: consul_acl_replication_token_display
 
@@ -27,6 +78,8 @@
   - bootstrap
   - client
   - server
+  notify:
+    - restart consul
 
 - name: ACL policy configuration
   template: src=config_acl_policy.hcl.j2 dest={{ consul_config_path }}/{{ item }}/config_acl_policy.hcl
@@ -34,3 +87,5 @@
   - bootstrap
   - client
   - server
+  notify:
+    - restart consul
