@@ -59,7 +59,7 @@
 
 - block:
     - name: Look for an existing encryption key on a previously boostrapped server
-      shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",/\1/'' | sed ''s/^ *//;s/ *$//'''
+      shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
       register: consul_key_read
       run_once: true
 
@@ -99,27 +99,33 @@
     - /etc/consul.d/bootstrap   
     - /etc/consul.d/client
     - /etc/consul.d/server
+
+- name: Bootstrap configuration
+  template: "src=config_bootstrap.json.j2 dest={{ consul_config_path }}/bootstrap/config.json"
+  notify:
+    - restart consul
+
+- name: Client configuration
+  template: "src=config_client.json.j2 dest={{ consul_config_path }}/client/config.json"
+  notify:
+    - restart consul
+
+- name: Server configuration
+  template: "src=config_server.json.j2 dest={{ consul_config_path }}/server/config.json"
+  notify:
+    - restart consul
+
+- include: ../tasks/acl.yml
+  when: consul_acl_enable
+
+- name: Atlas configuration
+  template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
+  with_items:
+    - bootstrap
+    - server
+  when: consul_atlas_enable
+
 - block:
-
-  - name: Bootstrap configuration
-    template: "src=config_bootstrap.json.j2 dest={{ consul_config_path }}/bootstrap/config.json"
-
-  - name: Client configuration
-    template: "src=config_client.json.j2 dest={{ consul_config_path }}/client/config.json"
-
-  - name: Server configuration
-    template: "src=config_server.json.j2 dest={{ consul_config_path }}/server/config.json"
-
-  - include: ../tasks/acl.yml
-    when: consul_acl_enable
-
-  - name: Atlas configuration
-    template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
-    with_items:
-      - bootstrap
-      - server
-    when: consul_atlas_enable
-
   - name: SYSV init script
     template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
     when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian"
