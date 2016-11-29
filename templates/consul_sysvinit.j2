@@ -27,10 +27,10 @@ mkrundir() {
 KILLPROC_OPT="-p ${PID_FILE}"
 mkpidfile() {
         mkrundir
-        [ ! -f $PID_FILE ] && pidofproc $CONSUL > $PID_FILE
-        chown {{ consul_user }} /var/run/consul
+        [ ! -f "${PID_FILE}" ] && pidofproc "${CONSUL}" > "${PID_FILE}"
+        chown -R {{ consul_user }} /var/run/consul
         if [ $? -ne 0 ] ; then
-            rm $PID_FILE
+            rm "${PID_FILE}"
             KILLPROC_OPT=""
         fi
 }
@@ -38,27 +38,28 @@ mkpidfile() {
 start() {
         echo -n "Starting consul: "
         mkrundir
-        [ -f $PID_FILE ] && rm $PID_FILE
+        mkpidfile
+        # [ -f "${PID_FILE}" ] && rm "${PID_FILE}"
         daemon --user={{ consul_user }} \
-            --pidfile="$PID_FILE" \
-            "$CONSUL" agent -pid-file "${PID_FILE}" -config-dir "$CONFIG" &
+            --pidfile="${PID_FILE}" \
+            "${CONSUL}" agent -pid-file "${PID_FILE}" -config-dir "${CONFIG}" &
         retcode=$?
         touch /var/lock/subsys/consul
-        return $retcode
+        return "${retcode}"
 }
 
 stop() {
         echo -n "Shutting down consul: "
         if ("${CONSUL}" info 2>/dev/null | grep -q 'server = false' 2>/dev/null) ; then
-            "$CONSUL" leave
+            "${CONSUL}" leave
         fi
 
         mkpidfile
-        killproc $KILLPROC_OPT $CONSUL -9
+        killproc "${KILLPROC_OPT}" "${CONSUL}" -9
 
         retcode=$?
-        rm -f /var/lock/subsys/consul $PID_FILE
-        return $retcode
+        rm -f /var/lock/subsys/consul "${PID_FILE}"
+        return "${retcode}"
 }
 
 case "$1" in
@@ -69,7 +70,7 @@ case "$1" in
         stop
         ;;
     status)
-        "$CONSUL" info
+        "${CONSUL}" info
         ;;
     restart)
         stop
@@ -77,7 +78,7 @@ case "$1" in
         ;;
     reload)
         mkpidfile
-        killproc $KILLPROC_OPT $CONSUL -HUP
+        killproc "${KILLPROC_OPT}" "${CONSUL}" -HUP
         ;;
     condrestart)
         [ -f /var/lock/subsys/consul ] && restart || :

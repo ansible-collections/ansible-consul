@@ -276,3 +276,15 @@
 - Remove unnecessary code (thanks @kostyrevaa)
 - Determine binary's SHA 256 from releases.hashicorp.com (for #16)
 - Update documentation
+
+## v1.6.0
+
+- Update task logic around initscripts (for #19)
+- Fix issues in initscripts
+- Rename Debian init script template
+- Update documentation
+- Fixing bug with deleting file. Better regex. Formatting. (Thanks @violuke)
+- Remember ACL master/replication tokens between runs. 
+  Actually set replication token. (Thanks @violuke)
+- Typo fix (Thanks @violuke)
+- Allowing re-running to add new nodes. More HA too. (Thanks @violuke)

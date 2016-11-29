@@ -8,3 +8,4 @@ Thank you to all these fine folk for helping with ansible-consul!
 - [@jessedefer](https://github.com/jessedefer)
 - [@crumohr](https://github.com/crumohr)
 - [@kostyrevaa](https://github.com/kostyrevaa)
+- [@violuke](https://github.com/violuke)

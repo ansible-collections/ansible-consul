@@ -1,4 +1,5 @@
 ---
+# File: vars/Debian.yml - Debian OS variables for Consul
 
 consul_os_packages:
   - git

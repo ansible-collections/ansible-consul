@@ -9,7 +9,7 @@
 - name: Fail if not a new release of Red Hat / CentOS
   fail:
     msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
-  when: ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(7, '<')
+  when: ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(6, '<')
 
 - name: Fail if not a new release of Debian
   fail:
@@ -30,7 +30,7 @@
   fail:
     msg: "No support for iptables on {{ ansible_distribution }}, use dnsmasq instead"
   when: consul_iptables_enable and
-        (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(7, '>='))
+        (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(6, '>='))
 
 - name: Fail if both dnsmasq and iptables are enabled
   fail:
@@ -69,14 +69,15 @@
 
 - name: Writing key locally to share with other servers that are new
   local_action: copy content={{ consul_raw_key }} dest=/tmp/consul_raw.key
-  when: consul_raw_key is defined
+  when: consul_raw_key is defined and bootstrap_marker.stat.exists
 
 - name: Reading key for servers that are missing it
   set_fact: consul_raw_key="{{ lookup('file', '/tmp/consul_raw.key') }}"
-  when: consul_raw_key is not defined
+  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
 
 - name: Deleting key file
   local_action: file path=/tmp/consul_raw.key state=absent
+  when: consul_raw_key is defined and bootstrap_marker.stat.exists
 
 - block:
     - name: Generate gossip encryption key
@@ -126,13 +127,14 @@
   when: consul_atlas_enable
 
 - block:
+
   - name: SYSV init script
     template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
     when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian"
 
   - name: Debian init script
-    template: src=consul_debian.init.j2 dest=/etc/init.d/consul owner=root group=root mode=755
-    when: not ansible_service_mgr == "systemd" and ansible_distribution == "Debian"
+    template: src=consul_debianinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
+    when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian"
 
   - name: systemd script
     template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service owner=root group=root mode=644
