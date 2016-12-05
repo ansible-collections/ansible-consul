@@ -24,7 +24,7 @@ galaxy_info:
   #  - 9.2
   - name: Ubuntu
     versions:
-    - trusty
+  #  - trusty
   #  - utopic
   #  - vivid
   #  - wily

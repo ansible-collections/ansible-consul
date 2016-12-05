@@ -288,3 +288,7 @@
   Actually set replication token. (Thanks @violuke)
 - Typo fix (Thanks @violuke)
 - Allowing re-running to add new nodes. More HA too. (Thanks @violuke)
+
+## v1.6.1
+
+- Drop Trusty support from meta for now (for #19)
