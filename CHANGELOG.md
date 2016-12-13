@@ -292,3 +292,10 @@
 ## v1.6.1
 
 - Drop Trusty support from meta for now (for #19)
+
+## v1.6.2
+
+- Stop reconfiguring bootstrap node as it's not really necessary and
+  spurious races cause failure to re-establish cluster quorum when doing so
+- CONSUL_VERSION environment variable
+- Deprecated default variables cleanup

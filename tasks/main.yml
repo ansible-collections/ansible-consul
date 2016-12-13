@@ -146,19 +146,6 @@
   - name: Consul up?
     wait_for: delay=5 path=/var/run/consul/consul.pid state=present
 
-  - block:
-      - name: Reconfigure bootstrap node (systemd)
-        replace: dest=/lib/systemd/system/consul.service regexp='bootstrap' replace='server' backup=no
-      - name: Reload unit configuration
-        shell: systemctl daemon-reload
-        notify:
-          - restart consul
-    when: consul_node_role == "bootstrap" and ansible_service_mgr == "systemd"
-
-  - name: Reconfigure bootstrap node (init.d)
-    replace: dest=/etc/init.d/consul regexp='bootstrap' replace='server' backup=no
-    when: consul_node_role == "bootstrap" and not ansible_service_mgr == "systemd" and ansible_distribution_major_version|int <= 7
-
   - name: Bootstrapped marker
     file: dest=/etc/consul/.consul_bootstrapped state=touch
 

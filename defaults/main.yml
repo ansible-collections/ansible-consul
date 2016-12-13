@@ -2,7 +2,7 @@
 # File: defaults/main.yml - Default variables for Consul
 
 ## Core
-consul_version: "0.7.1"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.7.1', true) }}"
 consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
 consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
 consul_bin_path: "/usr/local/bin"
@@ -35,8 +35,6 @@ consul_acl_replication_token_display: "{{ lookup('env','CONSUL_ACL_REPLICATION_T
 
 ## TLS
 consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"
-#consul_src_def: "{{ role_path }}/files"
-#consul_src_files: "{{ lookup('env','CONSUL_SRC_FILES') | default(consul_src_def, true) }}"
 consul_src_files: "{{ lookup('env','CONSUL_SRC_FILES') | default(role_path+'/files', true) }}"
 consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default('/etc/consul/ssl', true) }}"
 consul_ca_crt: "{{ lookup('env','CONSUL_CA_CRT') | default('ca.crt', true) }}"
