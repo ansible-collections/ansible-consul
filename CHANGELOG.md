@@ -299,3 +299,7 @@
   spurious races cause failure to re-establish cluster quorum when doing so
 - CONSUL_VERSION environment variable
 - Deprecated default variables cleanup
+
+## v1.6.3
+
+- Ensure that all local_action tasks have become: no (thanks @itewk)

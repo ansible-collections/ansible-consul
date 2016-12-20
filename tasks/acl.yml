@@ -14,6 +14,7 @@
 
 - name: Writing ACL master token locally to share with other servers that are new
   local_action: copy content={{ consul_acl_master_token }} dest=/tmp/acl_master_token
+  become: no
   when: consul_acl_master_token is defined
 
 - name: Reading ACL master token for servers that are missing it
@@ -22,6 +23,7 @@
 
 - name: Deleting ACL master token file
   local_action: file path=/tmp/acl_master_token state=absent
+  become: no
 
 - block:
   - name: Look for an existing ACL replication token on a previously boostrapped server
@@ -35,6 +37,7 @@
 
 - name: Writing ACL replication token locally to share with other servers that are new
   local_action: copy content={{ consul_acl_replication_token }} dest=/tmp/acl_replication_token
+  become: no
   when: consul_acl_replication_token is defined
 
 - name: Reading ACL replication token for servers that are missing it
@@ -42,6 +45,7 @@
   when: consul_acl_replication_token is not defined
 
 - name: Deleting ACL replication token file
+  become: no
   local_action: file path=/tmp/acl_replication_token state=absent
 
 - block:
