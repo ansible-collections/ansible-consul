@@ -303,3 +303,7 @@
 ## v1.6.3
 
 - Ensure that all local_action tasks have become: no (thanks @itewk)
+
+## v1.7.0
+
+- Consul version 0.7.2
