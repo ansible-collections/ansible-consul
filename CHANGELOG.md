@@ -307,3 +307,8 @@
 ## v1.7.0
 
 - Consul version 0.7.2
+
+## v1.7.2
+
+- Fix non-working cleanup task
+- Update README
