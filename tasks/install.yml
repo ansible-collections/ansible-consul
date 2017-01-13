@@ -6,12 +6,20 @@
   with_items: "{{ consul_os_packages }}"
   tags: installation
 
-- name: Get consul package checksum file
+- name: Check Consul package checksum file
+  become: no
+  connection: local
+  stat: "path={{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
+  run_once: true
+  register: consul_checksum
+
+- name: Get Consul package checksum file
   become: no
   connection: local
   get_url: "url={{ consul_checksum_file_url }} dest={{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   run_once: true
   tags: installation
+  when: consul_checksum.stat.exists == False
 
 - name: Get Consul package checksum
   become: no
@@ -21,12 +29,20 @@
   register: consul_sha256
   tags: installation
 
+- name: Check Consul package file
+  become: no
+  connection: local
+  stat: "path={{ role_path }}/files/{{ consul_pkg }}"
+  run_once: true
+  register: consul_package
+
 - name: Download Consul
   become: no
   connection: local
   get_url: "url={{ consul_zip_url }} dest={{ role_path }}/files/{{ consul_pkg }} checksum=sha256:{{ consul_sha256.stdout.split(' ')|first }} timeout=42"
   run_once: true
   tags: installation
+  when: consul_package.stat.exists == False
 
 - name: Unarchive Consul
   become: no
@@ -43,6 +59,6 @@
   become: no
   connection: local
   file: "path={{ item }} state=absent"
-  with_fileglob: "{{ role_path }}/files/consul*"
+  with_fileglob: "{{ role_path }}/files/consul"
   run_once: true
   tags: installation
