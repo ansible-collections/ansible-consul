@@ -312,3 +312,9 @@
 
 - Fix non-working cleanup task
 - Update README
+
+## v1.7.3
+
+- Version updates
+- Task edits
+- add CONTRIBUTING.md

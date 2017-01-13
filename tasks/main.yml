@@ -32,7 +32,7 @@
   when: consul_iptables_enable and
         (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(6, '>='))
 
-- name: Fail if both dnsmasq and iptables are enabled
+- name: Fail if both Dnsmasq and iptables are enabled
   fail:
     msg: "DNS Forwarding via both dnsmasq and iptables is not supported, enable only one option"
   when: consul_dnsmasq_enable and consul_iptables_enable
