@@ -95,10 +95,10 @@ BOX_NAME=centos/7 vagrant up
 ## Notes
 
 1. This project functions with the following software versions:
-  * Consul version 0.7.1
-  * Ansible: 2.2.0.0
-  * VirtualBox version 5.1.10
-  * Vagrant version 1.9.0
+  * Consul version 0.7.3
+  * Ansible: 2.2.1.0
+  * VirtualBox version 5.1.14
+  * Vagrant version 1.9.1
   * Vagrant Hosts version 2.8.0
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable
