@@ -318,3 +318,8 @@
 - Version updates
 - Task edits
 - add CONTRIBUTING.md
+
+## v1.7.4
+
+- Consul 0.7.3
+- Update documentation
