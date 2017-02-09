@@ -2,7 +2,7 @@
 # File: defaults/main.yml - Default variables for Consul
 
 ## Core
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.7.3', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.7.4', true) }}"
 consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
 consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
 consul_bin_path: "/usr/local/bin"
@@ -30,7 +30,9 @@ consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) 
 consul_acl_datacenter: "{{ lookup('env','CONSUL_ACL_DATACENTER') | default(consul_datacenter, true) }}"
 consul_acl_default_policy: "allow"
 consul_acl_down_policy: "allow"
+consul_acl_master_token: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
 consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
+consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
 consul_acl_replication_token_display: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN_DISPLAY') | default(false, true) }}"
 
 ## TLS
