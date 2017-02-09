@@ -19,7 +19,7 @@ with other software versions, but does work with the following specific
 software and versions:
 
 * Ansible: 2.2.1.0
-* Consul: 0.7.3
+* Consul: 0.7.4
 * Debian: 8
 * CentOS: 7
 
@@ -30,7 +30,7 @@ inventory file (see below):
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `consul_version` | *0.7.3* | Version to install |
+| `consul_version` | *0.7.4* | Version to install |
 | `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Download URL |
 | `consul_checksum_file_url` | "https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_version }}_SHA256SUMS" | URL to package SHA256 summaries |
 | `consul_bin_path` | `/usr/local/bin` | Binary installation path |
@@ -59,9 +59,9 @@ inventory file (see below):
 | `consul_acl_datacenter` | *dc1* | ACL authoritative datacenter name |
 | `consul_acl_default_policy` | *allow* | Default ACL policy |
 | `consul_acl_down_policy` | *allow* | Default ACL down policy |
-| `consul_acl_master_token` | UUID | ACL master token |
+| `consul_acl_master_token` | *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL* | ACL master token — can be overridden with `CONSUL_ACL_MASTER_TOKEN` environment variable |
 | `consul_acl_master_token_display` | *false* | Display generated ACL Master Token |
-| `consul_acl_replication_token` | UUID | ACL replication token |
+| `consul_acl_replication_token` | *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL* | ACL replication token — can be overridden with `CONSUL_ACL_REPLICATION_TOKEN` environment variable|
 | `consul_atlas_enable` | *false* | Enable Atlas support |
 | `consul_atlas_infrastructure` | Environment variable | Atlas infrastructure name |
 | `consul_atlas_token` | Environment variable | Atlas token |
@@ -168,10 +168,23 @@ If you want the automatically generated ACL Master Token value emitted to
 standard out during the play, set the environment variable
 `CONSUL_ACL_MASTER_TOKEN_DISPLAY` to *true* as in the above example.
 
-There are a number of Ansible ACL variables you can override to further refine
-your initial ACL setup. They are not all currently picked up from environment
-variables, but do have some sensible defaults. Check `defaults/main.yml` to
-see how some of he defaults (i.e. tokens) are automatically generated.
+If you want to use existing tokens, set the environment variables
+`CONSUL_ACL_MASTER_TOKEN` and `CONSUL_ACL_REPLICATION_TOKEN` as well,
+for example:
+
+```
+CONSUL_ACL_ENABLE=true CONSUL_ACL_DATACENTER=stjohn \
+CONSUL_ACL_MASTER_TOKEN=0815C55B-3AD2-4C1B-BE9B-715CAAE3A4B2 \
+CONSUL_ACL_REPLICATION_TOKEN=C609E56E-DD0B-4B99-A0AD-B079252354A0 \
+CONSUL_ACL_MASTER_TOKEN_DISPLAY=true ansible-playbook -i uat_hosts sail.yml
+```
+
+There are a number of Ansible ACL variables you can override to further
+refine your initial ACL setup. They are not all currently picked up from
+environment variables, but do have some sensible defaults.
+
+Check `defaults/main.yml` to see how some of he defaults (i.e. tokens)
+are automatically generated.
 
 ### Atlas Support
 
