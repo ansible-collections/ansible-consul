@@ -9,4 +9,4 @@ Thank you to all these fine folk for helping with ansible-consul!
 - [@crumohr](https://github.com/crumohr)
 - [@kostyrevaa](https://github.com/kostyrevaa)
 - [@violuke](https://github.com/violuke)
-- [itewk](https://github.com/itewk)
+- [@itewk](https://github.com/itewk)

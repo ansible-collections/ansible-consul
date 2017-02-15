@@ -19,7 +19,7 @@ with other software versions, but does work with the following specific
 software and versions:
 
 * Ansible: 2.2.1.0
-* Consul: 0.7.4
+* Consul: 0.7.5
 * Debian: 8
 * CentOS: 7
 
@@ -30,7 +30,7 @@ inventory file (see below):
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `consul_version` | *0.7.4* | Version to install |
+| `consul_version` | *0.7.5* | Version to install |
 | `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Download URL |
 | `consul_checksum_file_url` | "https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_version }}_SHA256SUMS" | URL to package SHA256 summaries |
 | `consul_bin_path` | `/usr/local/bin` | Binary installation path |
