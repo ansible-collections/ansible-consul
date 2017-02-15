@@ -326,9 +326,15 @@
 
 ## v1.8.0
 
-- Consul 0.7.4
+- Consul 0.7.5
 - BREAKING CHANGE: Deprecate read/write of ACL tokens from file system
   functionality and prefer setting tokens from existing cluster nodes with
   CONSUL_ACL_MASTER_TOKEN and  CONSUL_ACL_REPLICATION_TOKEN environment
   variables instead
 - Update documentation
+
+## v1.8.1
+
+- Consul 0.7.5
+- Update documentation
+- Contributors correction
