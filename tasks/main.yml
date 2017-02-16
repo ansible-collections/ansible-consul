@@ -83,9 +83,10 @@
 
 - block:
     - name: Generate gossip encryption key
-      shell: "PATH=/usr/local/bin:$PATH consul keygen"
+      shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
       register: consul_keygen
       run_once: true
+
     - name: Save encryption key
       set_fact: consul_raw_key={{ consul_keygen.stdout }}
   when: consul_raw_key is not defined and not bootstrap_marker.stat.exists
