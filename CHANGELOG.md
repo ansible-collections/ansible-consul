@@ -338,3 +338,7 @@
 - Consul 0.7.5
 - Update documentation
 - Contributors correction
+
+## v1.8.2
+
+- Update Consul bin path in keygen task
