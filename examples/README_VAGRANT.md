@@ -23,7 +23,7 @@ following technologies:
 * [Ansible](http://www.ansibleworks.com/)
 
 Each of the virtual machines for this guide are configured with
-1.5GB RAM, 2 CPU cores, and 2 network interfaces. The first interface uses
+1GB RAM, 2 CPU cores, and 2 network interfaces. The first interface uses
 NAT and has connection via the host to the outside world. The second
 interface is a private network and is used for Consul intra-cluster
 communication in addition to access from the host machine.

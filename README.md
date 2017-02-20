@@ -20,8 +20,9 @@ software and versions:
 
 * Ansible: 2.2.1.0
 * Consul: 0.7.5
-* Debian: 8
 * CentOS: 7
+* Debian: 8
+* Ubuntu 16.04
 
 ## Role Variables
 
@@ -32,7 +33,7 @@ inventory file (see below):
 | -------------- | ------------- | -----------------------------------|
 | `consul_version` | *0.7.5* | Version to install |
 | `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip` | Download URL |
-| `consul_checksum_file_url` | "https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_version }}_SHA256SUMS" | URL to package SHA256 summaries |
+| `consul_checksum_file_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_version }}_SHA256SUMS` | URL to package SHA256 summaries |
 | `consul_bin_path` | `/usr/local/bin` | Binary installation path |
 | `consul_config_path` | `/etc/consul.d` | Configuration file path |
 | `consul_data_path` | `/var/consul` | Data path |
@@ -44,7 +45,7 @@ inventory file (see below):
 | `consul_domain` | `consul` | Consul domain name |
 | `consul_log_level` | `INFO` | Log level |
 | `consul_syslog_enable` | *true* | Log to syslog |
-| `consul_iface` | `eth1` | Consul network interface |
+| `consul_iface` | `eth1` | Consul network interface (`CONSUL_IFACE`)|
 | `consul_bind_address` | *127.0.0.1* | Bind address |
 | `consul_dns_bind_address` | *127.0.0.1* | DNS API bind address |
 | `consul_http_bind_address` | *0.0.0.0* | HTTP API bind address |
@@ -62,9 +63,6 @@ inventory file (see below):
 | `consul_acl_master_token` | *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL* | ACL master token — can be overridden with `CONSUL_ACL_MASTER_TOKEN` environment variable |
 | `consul_acl_master_token_display` | *false* | Display generated ACL Master Token |
 | `consul_acl_replication_token` | *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL* | ACL replication token — can be overridden with `CONSUL_ACL_REPLICATION_TOKEN` environment variable|
-| `consul_atlas_enable` | *false* | Enable Atlas support |
-| `consul_atlas_infrastructure` | Environment variable | Atlas infrastructure name |
-| `consul_atlas_token` | Environment variable | Atlas token |
 | `consul_tls_enable` | *false* | Enable TLS |
 | `consul_src_def` | `{{ role_path }}/files` | default source directory for TLS files |
 | `consul_src_files` | `{{ role_path }}/files` | User specified source directory for TLS files, can be overridden with `CONSUL_SRC_FILES` environment variable |
@@ -186,20 +184,6 @@ environment variables, but do have some sensible defaults.
 Check `defaults/main.yml` to see how some of he defaults (i.e. tokens)
 are automatically generated.
 
-### Atlas Support
-
-Basic support for Atlas is included in the role. You can set the environment
-variables `CONSUL_ATLAS_ENABLE` to *true*, and also set the
-`CONSUL_ATLAS_INFRASTRUCTURE` and `CONSUL_ATLAS_TOKEN` environment variables
-to their correct values for your environment prior to executing your
-playbook; for example:
-
-```
-CONSUL_ATLAS_ENABLE=true CONSUL_ATLAS_INFRASTRUCTURE=brianshumate/example \
-CONSUL_ATLAS_TOKEN=00000000-000000000-000000000000-0000 \
-ansible-playbook -i uat_hosts site.yml
-```
-
 ### Dnsmasq DNS Forwarding Support
 
 The role now includes support for [DNS forwarding](https://www.consul.io/docs/guides/forwarding.html) with [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html).
@@ -250,8 +234,10 @@ ansible-playbook -i hosts site.yml --extra-vars "consul_iptables_enable=true"
 
 ### TLS Support
 
-You can enable TLS encryption by dropping a CA certificate, server certificate,
-and server key into the role's `files` directory. By default these are named:
+You can enable TLS encryption by dropping a CA certificate, server
+certificate, and server key into the role's `files` directory.
+
+By default these are named:
 
 - `ca.crt` (can be overridden by {{ consul_ca_crt }})
 - `server.crt` (can be overridden by {{ consul_server_crt }})
