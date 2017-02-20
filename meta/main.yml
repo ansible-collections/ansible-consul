@@ -2,9 +2,9 @@
 galaxy_info:
   author: Brian Shumate
   description: Consul cluster role
-  company: your company (optional)
-  license: license BSD
-  min_ansible_version: 2.0.0.0
+  company:
+  license: BSD
+  min_ansible_version: 2.1.0.0
   platforms:
   - name: EL
     versions:
@@ -12,15 +12,6 @@ galaxy_info:
     - 7
   #- name: FreeBSD
   #  versions:
-  #  - all
-  #  - 8.0
-  #  - 8.1
-  #  - 8.2
-  #  - 8.3
-  #  - 8.4
-  #  - 9.0
-  #  - 9.1
-  #  - 9.1
   #  - 9.2
   - name: Ubuntu
     versions:

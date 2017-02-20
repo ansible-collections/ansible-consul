@@ -329,7 +329,7 @@
 - Consul 0.7.5
 - BREAKING CHANGE: Deprecate read/write of ACL tokens from file system
   functionality and prefer setting tokens from existing cluster nodes with
-  CONSUL_ACL_MASTER_TOKEN and  CONSUL_ACL_REPLICATION_TOKEN environment
+  `CONSUL_ACL_MASTER_TOKEN` and `CONSUL_ACL_REPLICATION_TOKEN` environment
   variables instead
 - Update documentation
 
@@ -342,3 +342,9 @@
 ## v1.8.2
 
 - Update Consul bin path in keygen task
+
+## v1.9.0
+
+- Local TLS keys (thanks @dggreenbaum)
+- Remove Atlas support
+- Update documentation

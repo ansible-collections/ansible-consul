@@ -80,7 +80,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Extra Ansible variables can be defined here
       ansible.extra_vars = {
         consul_acl_enable: CONSUL_ACL_ENABLE,
-        consul_atlas_enable: CONSUL_ATLAS_ENABLE,
         consul_dnsmasq_enable: CONSUL_DNSMASQ_ENABLE,
         consul_log_level: CONSUL_LOGLEVEL
       }

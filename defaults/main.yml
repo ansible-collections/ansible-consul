@@ -46,12 +46,9 @@ consul_verify_incoming: false
 consul_verify_outgoing: true
 consul_verify_server_hostname: false
 
-# Other Options
+## Other Options
 consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
 consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
-consul_atlas_enable: "{{ lookup('env','CONSUL_ATLAS_ENABLE') | default(false, true) }}"
-consul_atlas_infrastructure: "{{ lookup('env','CONSUL_ATLAS_INFRASTRUCTURE') }}"
-consul_atlas_token: "{{ lookup('env','CONSUL_ATLAS_TOKEN') }}"
 
 ## Distribution
 

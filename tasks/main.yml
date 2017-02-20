@@ -122,13 +122,6 @@
 - include: ../tasks/acl.yml
   when: consul_acl_enable
 
-- name: Atlas configuration
-  template: src=config_atlas.json.j2 dest={{ consul_config_path }}/{{ item }}/config_atlas.json
-  with_items:
-    - bootstrap
-    - server
-  when: consul_atlas_enable
-
 - block:
 
   - name: SYSV init script
