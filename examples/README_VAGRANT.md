@@ -92,6 +92,12 @@ in step 4 to the following:
 BOX_NAME=centos/7 vagrant up
 ```
 
+or on a modern Ubuntu with a differently named ethernet interface:
+
+```
+BOX_NAME=ubuntu/xenial64 CONSUL_IFACE=enp0s8 vagrant up
+```
+
 ## Notes
 
 1. This project functions with the following software versions:
