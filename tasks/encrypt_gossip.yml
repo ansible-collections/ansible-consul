@@ -1,0 +1,38 @@
+---
+# File: tasks/encrypt_gossip.yml - Gossip encryption tasks for Consul
+
+- block:
+    - name: Check for key on previously boostrapped server
+      shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
+      register: consul_key_read
+      run_once: true
+
+    - name: Save encryption key (from existing config)
+      set_fact: consul_raw_key={{ consul_key_read.stdout }}
+      ignore_errors: yes
+
+  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
+
+- name: Writing key locally to share with other servers that are new
+  local_action: copy content={{ consul_raw_key }} dest=/tmp/consul_raw.key
+  become: no
+  when: consul_raw_key is defined and bootstrap_marker.stat.exists
+
+- name: Reading key for servers that are missing it
+  set_fact: consul_raw_key="{{ lookup('file', '/tmp/consul_raw.key') }}"
+  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
+
+- name: Deleting key file
+  local_action: file path=/tmp/consul_raw.key state=absent
+  become: no
+  when: consul_raw_key is defined and bootstrap_marker.stat.exists
+
+- block:
+    - name: Generate gossip encryption key
+      shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
+      register: consul_keygen
+      run_once: true
+
+    - name: Save encryption key
+      set_fact: consul_raw_key={{ consul_keygen.stdout }}
+  when: consul_raw_key is not defined and not bootstrap_marker.stat.exists

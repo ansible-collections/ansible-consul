@@ -348,3 +348,7 @@
 - Local TLS keys (thanks @dggreenbaum)
 - Remove Atlas support
 - Update documentation
+
+## v1.9.1
+
+- Split gossip encryption out into separate task file
