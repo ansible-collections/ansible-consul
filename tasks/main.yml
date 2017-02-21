@@ -50,46 +50,11 @@
 - name: Add Consul user
   user: "name=consul comment='Consul user' uid=1042 group=bin"
 
-# Include variables and define needed variables.
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Install specified packages
   include: install.yml
-
-- block:
-    - name: Look for an existing encryption key on a previously boostrapped server
-      shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
-      register: consul_key_read
-      run_once: true
-
-    - name: Save encryption key (from existing config)
-      set_fact: consul_raw_key={{ consul_key_read.stdout }}
-  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
-
-- name: Writing key locally to share with other servers that are new
-  local_action: copy content={{ consul_raw_key }} dest=/tmp/consul_raw.key
-  become: no
-  when: consul_raw_key is defined and bootstrap_marker.stat.exists
-
-- name: Reading key for servers that are missing it
-  set_fact: consul_raw_key="{{ lookup('file', '/tmp/consul_raw.key') }}"
-  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
-
-- name: Deleting key file
-  local_action: file path=/tmp/consul_raw.key state=absent
-  become: no
-  when: consul_raw_key is defined and bootstrap_marker.stat.exists
-
-- block:
-    - name: Generate gossip encryption key
-      shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
-      register: consul_keygen
-      run_once: true
-
-    - name: Save encryption key
-      set_fact: consul_raw_key={{ consul_keygen.stdout }}
-  when: consul_raw_key is not defined and not bootstrap_marker.stat.exists
 
 - name: Directories
   file: "dest={{ item }} state=directory owner={{ consul_user }} group={{ consul_group}}"
@@ -103,6 +68,9 @@
     - /etc/consul.d/bootstrap
     - /etc/consul.d/client
     - /etc/consul.d/server
+
+- include: ../tasks/encrypt_gossip.yml
+  when: consul_acl_enable
 
 - name: Bootstrap configuration
   template: "src=config_bootstrap.json.j2 dest={{ consul_config_path }}/bootstrap/config.json"
