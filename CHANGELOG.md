@@ -359,3 +359,7 @@
 - Compact YAML style for all tasks
 - Fix task items, shorten timeouts
 - Update documentation
+
+# v1.9.3
+
+- Fix local_action tasks

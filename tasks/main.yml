@@ -94,7 +94,7 @@
   when: consul_raw_key is not defined and bootstrap_marker.stat.exists
 
 - name: Write key locally to share with new servers
-  local_action copy content="{{ consul_raw_key }}" dest=/tmp/consul_raw.key
+  local_action: copy content="{{ consul_raw_key }}" dest=/tmp/consul_raw.key
   become: no
   when: consul_raw_key is defined and bootstrap_marker.stat.exists
 
@@ -104,7 +104,7 @@
   when: consul_raw_key is not defined and bootstrap_marker.stat.exists
 
 - name: Deleting key file
-  local_action file path=/tmp/consul_raw.key state=absent
+  local_action: file path=/tmp/consul_raw.key state=absent
   become: no
   when: consul_raw_key is defined and bootstrap_marker.stat.exists
 
