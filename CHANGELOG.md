@@ -363,3 +363,7 @@
 # v1.9.3
 
 - Fix local_action tasks
+
+# v1.9.4
+
+- Issue with ACL tasks
