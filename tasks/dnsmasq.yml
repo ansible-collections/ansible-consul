@@ -2,19 +2,30 @@
 # File: tasks/dnsmasq.yml - Dnsmasq tasks for Consul
 
 - name: Dnsmasq package
-  yum: name=dnsmasq state=present
+  yum:
+    name: dnsmasq
+    state: present
   when: ansible_os_family == "RedHat"
   tags: dnsmasq,installation
 
 - name: Dnsmasq package
-  apt: name=dnsmasq state=present
+  apt:
+    name: dnsmasq
+    state: present
   when: ansible_os_family == "Debian"
   tags: dnsmasq,installation
 
 - name: Stop Dnsmasq
-  service: name=dnsmasq state=stopped
+  service:
+    name: dnsmasq
+    state: stopped
 
 - name: "Dnsmasq setup"
-  copy: src=../files/dnsmasq-10-consul dest=/etc/dnsmasq.d/10-consul owner=root group=root mode=0644
+  copy:
+    src: ../files/dnsmasq-10-consul
+    dest: /etc/dnsmasq.d/10-consul
+    owner: root
+    group: root
+    mode: 0644
   notify: restart dnsmasq
   tags: dnsmasq

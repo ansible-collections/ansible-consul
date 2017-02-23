@@ -2,21 +2,26 @@
 # File: tasks/install.yml - package installation tasks for Consul
 
 - name: OS packages
-  package: "name={{ item }} state=present"
+  package:
+    name: "{{ item }}"
+    state: present
   with_items: "{{ consul_os_packages }}"
   tags: installation
 
 - name: Check Consul package checksum file
   become: no
   connection: local
-  stat: "path={{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
+  stat:
+    path: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   run_once: true
   register: consul_checksum
 
 - name: Get Consul package checksum file
   become: no
   connection: local
-  get_url: "url={{ consul_checksum_file_url }} dest={{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
+  get_url:
+    url: "{{ consul_checksum_file_url }}"
+    dest: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   run_once: true
   tags: installation
   when: consul_checksum.stat.exists == False
@@ -32,14 +37,19 @@
 - name: Check Consul package file
   become: no
   connection: local
-  stat: "path={{ role_path }}/files/{{ consul_pkg }}"
+  stat:
+    path: "{{ role_path }}/files/{{ consul_pkg }}"
   run_once: true
   register: consul_package
 
 - name: Download Consul
   become: no
   connection: local
-  get_url: "url={{ consul_zip_url }} dest={{ role_path }}/files/{{ consul_pkg }} checksum=sha256:{{ consul_sha256.stdout.split(' ')|first }} timeout=42"
+  get_url:
+    url: "{{ consul_zip_url }}"
+    dest: "{{ role_path }}/files/{{ consul_pkg }}"
+    checksum: "sha256:{{ consul_sha256.stdout.split(' ')|first }}"
+    timeout: 42
   run_once: true
   tags: installation
   when: consul_package.stat.exists == False
@@ -47,18 +57,28 @@
 - name: Unarchive Consul
   become: no
   connection: local
-  unarchive: "src={{ role_path }}/files/{{ consul_pkg }} dest={{ role_path }}/files/ creates={{ role_path }}/files/consul"
+  unarchive:
+    src: "{{ role_path }}/files/{{ consul_pkg }}"
+    dest: "{{ role_path }}/files/"
+    creates: "{{ role_path }}/files/consul"
   run_once: true
   tags: installation
 
 - name: Install Consul
-  copy: "src={{ role_path }}/files/consul dest=/usr/local/bin/ owner={{ consul_user }} group={{ consul_group }} mode=0755"
+  copy:
+    src: "{{ role_path }}/files/consul"
+    dest: /usr/local/bin/
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    mode: 0755
   tags: installation
 
 - name: Cleanup
   become: no
   connection: local
-  file: "path={{ item }} state=absent"
+  file:
+    path: "{{ item }}"
+    state: absent
   with_fileglob: "{{ role_path }}/files/consul"
   run_once: true
   tags: installation

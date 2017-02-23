@@ -3,61 +3,70 @@
 
 - name: Check distribution compatibility
   fail:
-    msg: "{{ ansible_distribution }} is not supported by this role"
+    msg: "{{ ansible_distribution }} is not currently supported by this role."
   when: ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'Ubuntu']
 
-- name: Fail if not a new release of Red Hat / CentOS
+- name: Fail if not a new release of CentOS or Red Hat
   fail:
-    msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
+    msg: "{{ ansible_distribution_version }} isn't a supported version."
   when: ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(6, '<')
 
 - name: Fail if not a new release of Debian
   fail:
-    msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
+    msg: "{{ ansible_distribution_version }} is not a supported version."
   when: ansible_distribution == "Debian" and ansible_distribution_version|version_compare(8.5, '<')
 
 - name: Fail if not a new release of Ubuntu
   fail:
-    msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
+    msg: "{{ ansible_distribution_version }} is not a supported version."
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version|version_compare(13.04, '<')
 
 - name: Fail if specified ethernet interface not found
   fail:
-    msg: "The ethernet interface specified by consul_iface was not found on this system"
+    msg: "The ethernet interface specified by consul_iface was not found."
   when: consul_iface not in ansible_interfaces
 
 - name: Fail if iptables is enabled for Red Hat / CentOS
   fail:
-    msg: "No support for iptables on {{ ansible_distribution }}, use dnsmasq instead"
+    msg: "Use DNSmasq instead of iptables on {{ ansible_distribution }}."
   when: consul_iptables_enable and
         (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(6, '>='))
 
 - name: Fail if both Dnsmasq and iptables are enabled
   fail:
-    msg: "DNS Forwarding via both dnsmasq and iptables is not supported, enable only one option"
+    msg: "EONEORTHEOTHER: DNSmasq and iptables together is not supported."
   when: consul_dnsmasq_enable and consul_iptables_enable
 
 - name: Fail if iptables is enabled but no recursors are defined
   fail:
-    msg: "If iptables is enabled recursors are required"
+    msg: "Recursors are required if iptables is enabled."
   when: consul_iptables_enable and consul_recursors|length == 0
 
 - name: Check bootstrapped state
-  stat: path=/etc/consul/.consul_bootstrapped
+  stat:
+    path: /etc/consul/.consul_bootstrapped
   register: bootstrap_marker
   ignore_errors: true
 
 - name: Add Consul user
-  user: "name=consul comment='Consul user' uid=1042 group=bin"
+  user:
+    name: consul
+    comment: "Consul user"
+    uid: 1042
+    group: bin
 
-- name: Include OS-specific variables.
+- name: OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Install specified packages
+- name: Install OS packages  
   include: install.yml
 
-- name: Directories
-  file: "dest={{ item }} state=directory owner={{ consul_user }} group={{ consul_group}}"
+- name: Create directories
+  file:
+    dest: "{{ item }}"
+    state: directory
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
   with_items:
     - /etc/consul
     - /opt/consul
@@ -69,21 +78,64 @@
     - /etc/consul.d/client
     - /etc/consul.d/server
 
-- include: ../tasks/encrypt_gossip.yml
-  when: consul_acl_enable
+#- include: ../tasks/encrypt_gossip.yml
+
+- block:
+    - name: Check for key on previously boostrapped server
+      shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
+      register: consul_key_read
+      run_once: true
+
+    - name: Save encryption key (from existing config)
+      set_fact:
+        consul_raw_key: "{{ consul_key_read.stdout }}"
+      ignore_errors: yes
+
+  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
+
+- name: Write key locally to share with new servers
+  local_action copy content="{{ consul_raw_key }}" dest=/tmp/consul_raw.key
+  become: no
+  when: consul_raw_key is defined and bootstrap_marker.stat.exists
+
+- name: Read key for servers that require it
+  set_fact:
+    consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
+  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
+
+- name: Deleting key file
+  local_action file path=/tmp/consul_raw.key state=absent
+  become: no
+  when: consul_raw_key is defined and bootstrap_marker.stat.exists
+
+- block:
+    - name: Generate gossip encryption key
+      shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
+      register: consul_keygen
+      run_once: true
+
+    - name: Save encryption key
+      set_fact: consul_raw_key={{ consul_keygen.stdout }}
+  when: consul_raw_key is not defined and not bootstrap_marker.stat.exists
 
 - name: Bootstrap configuration
-  template: "src=config_bootstrap.json.j2 dest={{ consul_config_path }}/bootstrap/config.json"
+  template:
+    src: config_bootstrap.json.j2
+    dest: "{{ consul_config_path }}/bootstrap/config.json"
   notify:
     - restart consul
 
 - name: Client configuration
-  template: "src=config_client.json.j2 dest={{ consul_config_path }}/client/config.json"
+  template:
+    src: config_client.json.j2
+    dest: "{{ consul_config_path }}/client/config.json"
   notify:
     - restart consul
 
 - name: Server configuration
-  template: "src=config_server.json.j2 dest={{ consul_config_path }}/server/config.json"
+  template:
+    src: config_server.json.j2
+    dest: "{{ consul_config_path }}/server/config.json"
   notify:
     - restart consul
 
@@ -93,28 +145,51 @@
 - block:
 
   - name: SYSV init script
-    template: src=consul_sysvinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
+    template:
+      src: consul_sysvinit.j2
+      dest: /etc/init.d/consul
+      owner: root
+      group: root
+      mode: 0755
     when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian"
 
   - name: Debian init script
-    template: src=consul_debianinit.j2 dest=/etc/init.d/consul owner=root group=root mode=755
+    template:
+      src: consul_debianinit.j2
+      dest: /etc/init.d/consul
+      owner: root
+      group: root
+      mode: 755
     when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian"
 
   - name: systemd script
-    template: src=consul_systemd.service.j2 dest=/lib/systemd/system/consul.service owner=root group=root mode=644
+    template:
+      src: consul_systemd.service.j2
+      dest: /lib/systemd/system/consul.service
+      owner: root
+      group: root
+      mode: 644
     when: ansible_service_mgr == "systemd"
 
   - include: ../tasks/tls.yml
     when: consul_tls_enable
 
   - name: Start Consul
-    service: name=consul state=started enabled=yes
+    service:
+      name: consul
+      state: started
+      enabled: yes
 
   - name: Consul up?
-    wait_for: delay=5 path=/var/run/consul/consul.pid state=present
+    wait_for:
+      delay: 5
+      path: /var/run/consul/consul.pid
+      state: present
 
-  - name: Bootstrapped marker
-    file: dest=/etc/consul/.consul_bootstrapped state=touch
+  - name: Create bootstrapped marker
+    file:
+      dest: /etc/consul/.consul_bootstrapped
+      state: touch
 
   - include: ../tasks/dnsmasq.yml
     when: consul_dnsmasq_enable

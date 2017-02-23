@@ -7,7 +7,8 @@
     register: consul_acl_master_token_keygen
     run_once: true
   - name: Save ACL master yoken
-    set_fact: consul_acl_master_token={{ consul_acl_master_token_keygen.stdout }}
+    set_fact:
+      consul_acl_master_token: "{{ consul_acl_master_token_keygen.stdout }}"
   when: consul_acl_master_token is not defined and not bootstrap_marker.stat.exists
 
 - name: Display ACL Master Token
@@ -21,16 +22,20 @@
     register: consul_acl_replication_token_keygen
     run_once: true
   - name: Save ACL replication yoken
-    set_fact: consul_acl_replication_token={{ consul_acl_replication_token_keygen.stdout }}
+    set_fact:
+      consul_acl_replication_token: "{{ consul_acl_replication_token_keygen.stdout }}"
   when: (consul_acl_replication_token is not defined or consul_acl_replication_token == '') and not bootstrap_marker.stat.exists
 
 - name: Display ACL Replication Token
-  debug: msg="{{ consul_acl_replication_token }}"
+  debug:
+    msg: "{{ consul_acl_replication_token }}"
   run_once: True
   when: consul_acl_replication_token_display
 
 - name: ACL bootstrap configuration
-  template: src=config_acl.json.j2 dest={{ consul_config_path }}/{{ item }}/config_acl.json
+  template:
+    src:config_acl.json.j2
+    dest: "{{ consul_config_path }}/{{ item }}/config_acl.json"
   with_items:
   - bootstrap
   - client
@@ -39,7 +44,9 @@
     - restart consul
 
 - name: ACL policy configuration
-  template: src=config_acl_policy.hcl.j2 dest={{ consul_config_path }}/{{ item }}/config_acl_policy.hcl
+  template:
+    src: config_acl_policy.hcl.j2
+    dest: "{{ consul_config_path }}/{{ item }}/config_acl_policy.hcl"
   with_items:
   - bootstrap
   - client

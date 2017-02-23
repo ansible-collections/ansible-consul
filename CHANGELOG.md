@@ -352,3 +352,10 @@
 ## v1.9.1
 
 - Split gossip encryption out into separate task file
+
+## v1.9.2
+
+- Keep gossip encryption in main tasks until we sort cross play var
+- Compact YAML style for all tasks
+- Fix task items, shorten timeouts
+- Update documentation
