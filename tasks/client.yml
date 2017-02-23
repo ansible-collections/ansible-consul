@@ -2,7 +2,9 @@
 # File: tasks/client.yml - Ansible dependencies for Consul
 
 - name: Install dependencies for configuration by ansible (1/2)
-  apt: name={{ item }} state=installed
+  apt:
+    name: "{{ item }}"
+    state: installed
   with_items:
     - python-pip
     - python-setuptools
