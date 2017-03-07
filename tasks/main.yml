@@ -4,7 +4,7 @@
 - name: Check distribution compatibility
   fail:
     msg: "{{ ansible_distribution }} is not currently supported by this role."
-  when: ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'Ubuntu']
+  when: ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'Ubuntu', 'SmartOS']
 
 - name: Fail if not a new release of CentOS or Red Hat
   fail:
@@ -151,7 +151,7 @@
       owner: root
       group: root
       mode: 0755
-    when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian"
+    when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian" and not ansible_os_family == "Solaris"
 
   - name: Debian init script
     template:
@@ -160,8 +160,8 @@
       owner: root
       group: root
       mode: 755
-    when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian"
-
+    when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian" and not ansible_os_family == "Solaris"
+        
   - name: systemd script
     template:
       src: consul_systemd.service.j2
@@ -169,7 +169,25 @@
       owner: root
       group: root
       mode: 644
-    when: ansible_service_mgr == "systemd"
+    when: ansible_service_mgr == "systemd" and not ansible_os_family == "Solaris"
+
+  - name: smf manifest
+    template:
+      src: consul_smf_manifest.j2
+      dest: "{{ consul_smf_manifest }}"
+      owner: root
+      group: root
+      mode: 644
+    when: ansible_os_family == "Solaris"
+    register: smfmanifest
+
+  - name: import smf manifest
+    shell: "svccfg import {{ consul_smf_manifest }}"
+    when: smfmanifest|changed and ansible_os_family == "Solaris"
+
+  - name: import smf script
+    shell: "svcadm refresh consul"
+    when: smfmanifest|changed and ansible_os_family == "Solaris"
 
   - include: ../tasks/tls.yml
     when: consul_tls_enable
