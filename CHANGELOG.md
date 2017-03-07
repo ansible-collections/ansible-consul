@@ -360,10 +360,15 @@
 - Fix task items, shorten timeouts
 - Update documentation
 
-# v1.9.3
+## v1.9.3
 
 - Fix local_action tasks
 
-# v1.9.4
+## v1.9.4
 
 - Issue with ACL tasks
+
+## v1.9.5
+
+- Initial SmartOS support (thanks @sperreault)
+- Updated CONTRIBUTORS

@@ -1,6 +1,6 @@
 # Contributors
 
-Thank you to all these fine folk for helping with ansible-consul!
+Thank you to all these fine folks for helping with ansible-consul!
 
 - [@bscott](https://github.com/bscott)
 - [@oliverprater](https://github.com/oliverprater)
@@ -11,3 +11,4 @@ Thank you to all these fine folk for helping with ansible-consul!
 - [@violuke](https://github.com/violuke)
 - [@itewk](https://github.com/itewk)
 - [@dggreenbaum](https://github.com/dggreenbaum)
+- [@sperreault](https://github.com/sperreault)
