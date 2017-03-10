@@ -12,4 +12,4 @@ Thank you to all these fine folks for helping with ansible-consul!
 - [@itewk](https://github.com/itewk)
 - [@dggreenbaum](https://github.com/dggreenbaum)
 - [@sperreault](https://github.com/sperreault)
-- [@arledesma]((https://github.com/arledesma)
+- [@arledesma](https://github.com/arledesma)
