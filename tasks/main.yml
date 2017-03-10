@@ -82,16 +82,26 @@
 
 - block:
     - name: Check for key on previously boostrapped server
-      shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
-      register: consul_key_read
+      slurp:
+        src: "{{ consul_config_path }}/bootstrap/config.json"
+      register: consul_config_b64
       run_once: true
+      ignore_errors: yes
+
+    - name: Deserialize existing config
+      set_fact:
+        consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
+      run_once: true
+      when: consul_config_b64.content is defined
 
     - name: Save encryption key (from existing config)
       set_fact:
-        consul_raw_key: "{{ consul_key_read.stdout }}"
-      ignore_errors: yes
+        consul_raw_key: "{{ consul_config.encrypt }}"
+      run_once: true
+      when: consul_config is defined
 
-  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
+  no_log: true
+  when: consul_raw_key is not defined and bootstrap_marker.stat.exists and (consul_node_role == "bootstrap" or consul_node_role == "server")
 
 - name: Write key locally to share with new servers
   local_action: copy content="{{ consul_raw_key }}" dest=/tmp/consul_raw.key
