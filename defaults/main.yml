@@ -17,7 +17,7 @@ consul_domain: "consul"
 consul_log_level: "INFO"
 consul_syslog_enable: true
 consul_iface: "eth1"
-consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4'][0].address }}"
+consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'] }}"
 consul_dns_bind_address: "127.0.0.1"
 consul_http_bind_address: "0.0.0.0"
 consul_https_bind_address: "0.0.0.0"
