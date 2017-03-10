@@ -1,9 +1,14 @@
 #!/bin/bash
 
-# File: examples/bin/preinstall - convenience script to add Consul
+# File: preinstall - convenience script to add Consul
 # VM node host information to /etc/hosts for Vagrant
 
 consul1="10\.1\.42\.210"
+txtblu='\e[0;34m' # Blue
+txtgrn='\e[0;32m' # Green
+txtred='\e[0;31m' # Red
+txtylw='\e[0;33m' # Yellow
+txtwht='\e[0;37m' # White
 
 # Log stuff
 function logmsg {
@@ -11,22 +16,22 @@ function logmsg {
     msgtxt="$2"
     case "${msgtype}" in
         greeting)
-            printf "🌞  ${txtylw}${msgtxt}\n"
+            printf "${txtblu}[*] ${msgtxt}\n"
             ;;
         info)
-            printf "💬  ${txtwht}${msgtxt}\n"
+            printf "${txtwht}[i] ${msgtxt}\n"
             ;;
         success)
-            printf "✅  ${txtgrn}${msgtxt}\n"
+            printf "${txtgrn}[+] ${msgtxt}\n"
             ;;
         notice)
-            printf "🚩  ${txtylw}${msgtxt}\n"
+            printf "${txtylw}[-] ${msgtxt}\n"
             ;;
         alert)
-            printf "⛔️  ${txtred}${msgtxt}\n" >&2
+            printf "${txtred}[!] ${msgtxt}\n" >&2
             ;;
         *)
-            printf "⁉️  ${txtwht}${msgtxt}\n" >&2
+            printf "${txtwht}[@] ${msgtxt}\n" >&2
             ;;
     esac
 }

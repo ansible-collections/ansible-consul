@@ -12,13 +12,9 @@ galaxy_info:
     - 7
   #- name: FreeBSD
   #  versions:
-  #  - 9.2
+  #  - 11.0
   - name: Ubuntu
     versions:
-  #  - trusty
-  #  - utopic
-  #  - vivid
-  #  - wily
     - xenial
   - name: Debian
     versions:

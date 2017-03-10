@@ -103,7 +103,7 @@ BOX_NAME=ubuntu/xenial64 CONSUL_IFACE=enp0s8 vagrant up
 1. This project functions with the following software versions:
   * Consul version 0.7.5
   * Ansible: 2.2.1.0
-  * VirtualBox version 5.1.14
+  * VirtualBox version 5.1.16
   * Vagrant version 1.9.1
   * Vagrant Hosts version 2.8.0
 2. This project uses Debian 8 (Jessie) by default, but you can choose another

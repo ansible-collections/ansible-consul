@@ -284,7 +284,7 @@
 - Rename Debian init script template
 - Update documentation
 - Fixing bug with deleting file. Better regex. Formatting. (Thanks @violuke)
-- Remember ACL master/replication tokens between runs. 
+- Remember ACL master/replication tokens between runs.
   Actually set replication token. (Thanks @violuke)
 - Typo fix (Thanks @violuke)
 - Allowing re-running to add new nodes. More HA too. (Thanks @violuke)
@@ -372,3 +372,10 @@
 
 - Initial SmartOS support (thanks @sperreault)
 - Updated CONTRIBUTORS
+
+## v1.9.6
+
+- Update license
+- Update preinstall script
+- Fix consul_bind_address (thanks @arledesma)
+- Better config.json ingress with slurp (thanks @arledesma)
