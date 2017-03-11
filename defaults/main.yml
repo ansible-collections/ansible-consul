@@ -1,9 +1,16 @@
 ---
 # File: defaults/main.yml - Default variables for Consul
 
+## match cpu arch to hashi naming convention
+consul_architecture_map:
+  x86_64: amd64
+  armv7l: arm
+  aarch64: arm64
+consul_architecture: "{{ consul_architecture_map[ansible_architecture] }}"
+
 ## Core
 consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.7.5', true) }}"
-consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{consul_architecture}}.zip"
 consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul.d"
@@ -54,4 +61,4 @@ consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(fal
 ## Distribution
 
 ### Consul
-consul_pkg: "consul_{{ consul_version }}_linux_amd64.zip"
+consul_pkg: "consul_{{ consul_version }}_linux_{{consul_architecture}}.zip"
