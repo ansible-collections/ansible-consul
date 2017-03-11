@@ -32,7 +32,7 @@ inventory file (see below):
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
 | `consul_architecture_map`|  | dict translating ansible_architecture to hashi architecture naming convention |
-| `consul_architecture`| `amd64`,`arm`,`arm64` | determined by "{{ consul_architecture_map[ansible_architecture] }}" |
+| `consul_architecture`| `amd64`,`arm`,`arm64` | determined by `{{ consul_architecture_map[ansible_architecture] }}` |
 | `consul_version` | *0.7.5* | Version to install |
 | `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ consul_architecture }}.zip` | Download URL |
 | `consul_checksum_file_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_version }}_SHA256SUMS` | URL to package SHA256 summaries |
