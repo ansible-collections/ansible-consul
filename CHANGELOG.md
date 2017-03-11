@@ -383,3 +383,4 @@
 ## v1.9.7
 
 - Initial ARM support (thanks @lanefu)
+- Update CONTRIBUTORS
