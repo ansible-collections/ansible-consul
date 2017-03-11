@@ -379,3 +379,7 @@
 - Update preinstall script
 - Fix consul_bind_address (thanks @arledesma)
 - Better config.json ingress with slurp (thanks @arledesma)
+
+## v1.9.7
+
+- Initial ARM support (thanks @lanefu)
