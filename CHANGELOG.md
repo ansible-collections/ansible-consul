@@ -384,3 +384,17 @@
 
 - Initial ARM support (thanks @lanefu)
 - Update CONTRIBUTORS
+
+## v1.10.0
+
+- Initial FreeBSD support
+- Vagrantfile updated for FreeBSD
+- Added checks for interface addresses for differences (obj vs. literal list)
+  in ipv4 addresses as returned by Linux vs. BSD/SmartOS
+- New `consul_os` var gets operating system name as lowercase string
+- Add AMD64 pass-through/kludge to consul_architecture_map configuration
+- Update Vagrantfile
+ - Decrease RAM to 1024MB
+ - Add FreeBSD specific checks in inline script
+ - Add FreeBSD hard requirements (explicit MAC address, disable share, shell)
+- Update documentation

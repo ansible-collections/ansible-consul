@@ -8,5 +8,5 @@ files/*.zip
 files/ca.crt
 files/server.crt
 files/server.key
-consul_*_SHA256SUMS
+files/*_SHA256SUMS
 

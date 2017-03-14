@@ -10,9 +10,9 @@ galaxy_info:
     versions:
     - 6
     - 7
-  #- name: FreeBSD
-  #  versions:
-  #  - 11.0
+  - name: FreeBSD
+    versions:
+    - 11.0
   - name: Ubuntu
     versions:
     - xenial

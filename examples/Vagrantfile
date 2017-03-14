@@ -1,26 +1,69 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
-# Vagrantfile for bootstrapping a development Consul cluster with
+#
+# `Vagrantfile` for bootstrapping a development Consul cluster with
 # VirtualBox provider and Ansible provisioner
+#
+# This inline script is called with a script provisioner on each box
+# to do utility work for handling corner cases in different boxes and
+# operating systems, such as installing Python on official FreeBSD boxes, etc.
+#
+$script = <<SCRIPT
+check_os () {
+  PLATFORM="unknown"
+  UNAMESTR="$(uname)"
+    if test "$UNAMESTR" = "Linux"; then
+      PLATFORM="linux"
+    elif test "$UNAMESTR" = "FreeBSD"; then
+      PLATFORM="freebsd"
+    fi
+}
+
+## Install Python on FreeBSD
+check_os
+
+if test "$PLATFORM" = "freebsd"; then
+  echo "FreeBSD guest detected: installing Python ..."
+    if pkg install -y python > /dev/null 2>&1; then
+      echo "Done!"
+    else
+      echo >2 "Problem installing Python!"
+    fi
+  echo "Linking Python ..."
+    if ln -s /usr/local/bin/python /usr/bin/python; then
+      echo "Done!"
+    else
+      echo 2> "Problem linking Python!"
+    fi
+fi
+SCRIPT
 
 ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
-BOX_MEM = ENV['BOX_MEM'] || "1536"
+BOX_MEM = ENV['BOX_MEM'] || "1024"
 BOX_NAME =  ENV['BOX_NAME'] || "debian/jessie64"
 CLUSTER_HOSTS = ENV['CLUSTER_HOSTS'] || "vagrant_hosts"
 CONSUL_ACL_ENABLE = ENV['CONSUL_ACL_ENABLE'] || "false"
 CONSUL_ATLAS_ENABLE = ENV['CONSUL_ATLAS_ENABLE'] || "false"
 CONSUL_DNSMASQ_ENABLE = ENV['CONSUL_DNSMASQ_ENABLE'] || "false"
 CONSUL_LOGLEVEL = ENV['CONSUL_LOGLEVEL'] || "INFO"
+CONSUL_NODE_OS = ENV['CONSUL_NODE_OS'] || "Linux"
 VAGRANTFILE_API_VERSION = "2"
 
-Vagrant.require_version ">= 1.5.0"
+Vagrant.require_version ">= 1.8.0"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-
+  if BOX_NAME.include? "freebsd"
+    CONSUL_IFACE = "em1"
+  else
+    CONSUL_IFACE = ENV['CONSUL_IFACE'] || "eth1"
+  end
   # Configure 3 Consul nodes
   config.vm.define :consul1 do |consul1_config|
     consul1_config.vm.box = BOX_NAME
+    # FreeBSD needs a MAC, disabled synced folder, and explicit shell
+    consul1_config.vm.base_mac = "080027D17374"
+    consul1_config.vm.synced_folder ".", "/vagrant", disabled: true
+    consul1_config.ssh.shell = "/bin/sh"
     consul1_config.vm.network :private_network, ip: "10.1.42.210"
     consul1_config.vm.hostname = "consul1.local"
     consul1_config.ssh.forward_agent = true
@@ -33,13 +76,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     end
     consul1_config.vm.provision :hosts do |provisioner|
+        provisioner.sync_hosts = false
         provisioner.add_host '10.1.42.210', ['consul1.local']
         provisioner.add_host '10.1.42.220', ['consul2.local']
         provisioner.add_host '10.1.42.230', ['consul3.local']
     end
+    consul1_config.vm.provision "shell", inline: $script
   end
   config.vm.define :consul2 do |consul2_config|
     consul2_config.vm.box = BOX_NAME
+    # FreeBSD needs a MAC, disabled synced folder, and explicit shell
+    consul2_config.vm.base_mac = "080027D27374"
+    consul2_config.vm.synced_folder ".", "/vagrant", disabled: true
+    consul2_config.ssh.shell = "/bin/sh"
     consul2_config.vm.network :private_network, ip: "10.1.42.220"
     consul2_config.vm.hostname = "consul2.local"
     consul2_config.ssh.forward_agent = true
@@ -52,13 +101,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     end
     consul2_config.vm.provision :hosts do |provisioner|
+        provisioner.sync_hosts = false
         provisioner.add_host '10.1.42.210', ['consul1.local']
         provisioner.add_host '10.1.42.220', ['consul2.local']
         provisioner.add_host '10.1.42.230', ['consul3.local']
     end
+    consul2_config.vm.provision "shell", inline: $script
   end
   config.vm.define :consul3 do |consul3_config|
     consul3_config.vm.box = BOX_NAME
+    # FreeBSD needs a MAC, disabled synced folder, and explicit shell
+    consul3_config.vm.base_mac = "080027D37374"
+    consul3_config.vm.synced_folder ".", "/vagrant", disabled: true
+    consul3_config.ssh.shell = "/bin/sh"
     consul3_config.vm.network :private_network, ip: "10.1.42.230"
     consul3_config.vm.hostname = "consul3.local"
     consul3_config.ssh.forward_agent = true
@@ -71,14 +126,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     end
     consul3_config.vm.provision :hosts do |provisioner|
+        provisioner.sync_hosts = false
         provisioner.add_host '10.1.42.210', ['consul1.local']
         provisioner.add_host '10.1.42.220', ['consul2.local']
         provisioner.add_host '10.1.42.230', ['consul3.local']
     end
+    consul3_config.vm.provision "shell", inline: $script
     consul3_config.vm.provision :ansible do |ansible|
       ansible.inventory_path = CLUSTER_HOSTS
-      # Extra Ansible variables can be defined here
+      # As if variable related things in Ansible couldn't be more exciting,
+      # extra Ansible variables can be defined here as well. Wheeee!
+      #
       ansible.extra_vars = {
+        consul_iface: CONSUL_IFACE,
         consul_acl_enable: CONSUL_ACL_ENABLE,
         consul_dnsmasq_enable: CONSUL_DNSMASQ_ENABLE,
         consul_log_level: CONSUL_LOGLEVEL

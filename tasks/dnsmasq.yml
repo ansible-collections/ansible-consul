@@ -6,26 +6,61 @@
     name: dnsmasq
     state: present
   when: ansible_os_family == "RedHat"
-  tags: dnsmasq,installation
+  tags: dnsmasq, installation
 
 - name: Dnsmasq package
   apt:
     name: dnsmasq
     state: present
   when: ansible_os_family == "Debian"
-  tags: dnsmasq,installation
+  tags: dnsmasq, installation
+
+- name: Dnsmasq package
+  pkgng:
+    name: dnsmasq
+    state: present
+  when: ansible_os_family == "FreeBSD"
+  tags: dnsmasq, installation
 
 - name: Stop Dnsmasq
   service:
     name: dnsmasq
     state: stopped
 
-- name: "Dnsmasq setup"
+- name: Dnsmasq setup
   copy:
     src: ../files/dnsmasq-10-consul
     dest: /etc/dnsmasq.d/10-consul
     owner: root
     group: root
     mode: 0644
-  notify: restart dnsmasq
+  notify: start dnsmasq
+  when: ansible_os_family == "Debian"
+  tags: dnsmasq
+
+- name: Dnsmasq configuration directory
+  file:
+    path: /usr/local/etc/dnsmasq.d
+    state: directory
+    owner: root
+    group: wheel
+  when: ansible_os_family == "FreeBSD"
+  tags: dnsmasq
+
+- name: Dnsmasq Configuration addition
+  lineinfile:
+    dest: /usr/local/etc/dnsmasq.conf
+    line: 'conf-dir=/usr/local/etc/dnsmasq.d/,*.conf'
+  when: ansible_os_family == "FreeBSD"
+  tags: dnsmasq
+
+- name: "Dnsmasq setup"
+  copy:
+    src: ../files/dnsmasq-10-consul
+    dest: /usr/local/etc/dnsmasq.d/consul.conf
+    owner: root
+    group: wheel
+    mode: 0644
+  notify: start dnsmasq
+  when: ansible_os_family == "FreeBSD"
   tags: dnsmasq

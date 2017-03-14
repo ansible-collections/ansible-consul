@@ -1,16 +1,17 @@
 ---
 # File: defaults/main.yml - Default variables for Consul
 
-## match cpu arch to hashi naming convention
+## Core
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.7.5', true) }}"
 consul_architecture_map:
+  # this first entry seems... uhhh redundant
+  amd64: amd64
   x86_64: amd64
   armv7l: arm
   aarch64: arm64
 consul_architecture: "{{ consul_architecture_map[ansible_architecture] }}"
-
-## Core
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.7.5', true) }}"
-consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{consul_architecture}}.zip"
+consul_os: "{{ ansible_system|lower }}"
+consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul.d"
@@ -23,7 +24,7 @@ consul_datacenter: "dc1"
 consul_domain: "consul"
 consul_log_level: "INFO"
 consul_syslog_enable: true
-consul_iface: "eth1"
+consul_iface: "{{ lookup('env','CONSUL_IFACE') | default('eth1', true) }}"
 consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'] }}"
 consul_dns_bind_address: "127.0.0.1"
 consul_http_bind_address: "0.0.0.0"
@@ -61,4 +62,4 @@ consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(fal
 ## Distribution
 
 ### Consul
-consul_pkg: "consul_{{ consul_version }}_linux_{{consul_architecture}}.zip"
+consul_pkg: "consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"

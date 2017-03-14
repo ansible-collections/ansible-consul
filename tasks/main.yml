@@ -4,7 +4,7 @@
 - name: Check distribution compatibility
   fail:
     msg: "{{ ansible_distribution }} is not currently supported by this role."
-  when: ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'Ubuntu', 'SmartOS']
+  when: ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu']
 
 - name: Fail if not a new release of CentOS or Red Hat
   fail:
@@ -15,6 +15,11 @@
   fail:
     msg: "{{ ansible_distribution_version }} is not a supported version."
   when: ansible_distribution == "Debian" and ansible_distribution_version|version_compare(8.5, '<')
+
+- name: Fail if not a new release of FreeBSD
+  fail:
+    msg: "{{ ansible_distribution_version }} is not a supported version."
+  when: ansible_distribution == "FreeBSD" and ansible_distribution_version|version_compare(10, '<')
 
 - name: Fail if not a new release of Ubuntu
   fail:
@@ -58,7 +63,7 @@
 - name: OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Install OS packages  
+- name: Install OS packages
   include: install.yml
 
 - name: Create directories
@@ -128,6 +133,16 @@
       set_fact: consul_raw_key={{ consul_keygen.stdout }}
   when: consul_raw_key is not defined and not bootstrap_marker.stat.exists
 
+- name: Select Consul network interface for Linux
+  set_fact:
+    consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'] }}"
+  when: ansible_os_family == "Linux"
+
+- name: Select Consul network interface for BSD and SmartOS
+  set_fact:
+    consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4'][0]['address'] }}"
+  when: ansible_os_family == "FreeBSD" or ansible_os_family == "SmartOS"
+
 - name: Bootstrap configuration
   template:
     src: config_bootstrap.json.j2
@@ -154,6 +169,15 @@
 
 - block:
 
+  - name: BSD init script
+    template:
+      src: consul_bsdinit.j2
+      dest: /etc/rc.d/consul
+      owner: root
+      group: wheel
+      mode: 0755
+    when: ansible_os_family == "FreeBSD"
+
   - name: SYSV init script
     template:
       src: consul_sysvinit.j2
@@ -161,7 +185,7 @@
       owner: root
       group: root
       mode: 0755
-    when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian" and not ansible_os_family == "Solaris"
+    when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
 
   - name: Debian init script
     template:
@@ -170,8 +194,8 @@
       owner: root
       group: root
       mode: 755
-    when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian" and not ansible_os_family == "Solaris"
-        
+    when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
+
   - name: systemd script
     template:
       src: consul_systemd.service.j2
@@ -179,7 +203,7 @@
       owner: root
       group: root
       mode: 644
-    when: ansible_service_mgr == "systemd" and not ansible_os_family == "Solaris"
+    when: ansible_service_mgr == "systemd" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
 
   - name: smf manifest
     template:
@@ -210,7 +234,7 @@
 
   - name: Consul up?
     wait_for:
-      delay: 5
+      delay: 15
       path: /var/run/consul/consul.pid
       state: present
 

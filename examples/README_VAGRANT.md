@@ -98,13 +98,19 @@ or on a modern Ubuntu with a differently named ethernet interface:
 BOX_NAME=ubuntu/xenial64 CONSUL_IFACE=enp0s8 vagrant up
 ```
 
+or on FreeBSD:
+
+```
+BOX_NAME=freebsd/FreeBSD-11.0-STABLE CONSUL_IFACE=em1 vagrant up
+```
+
 ## Notes
 
 1. This project functions with the following software versions:
   * Consul version 0.7.5
   * Ansible: 2.2.1.0
   * VirtualBox version 5.1.16
-  * Vagrant version 1.9.1
+  * Vagrant version 1.9.2
   * Vagrant Hosts version 2.8.0
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable
