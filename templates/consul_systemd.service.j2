@@ -10,8 +10,8 @@
 
 [Unit]
 Description=Consul agent
-Wants=basic.target
-After=basic.target network.target
+Requires=network-online.target
+After=network-online.target
 
 [Service]
 User={{ consul_user }}
@@ -24,6 +24,7 @@ ExecStart=/usr/local/bin/consul agent \
     -config-dir=/etc/consul.d/{{ consul_node_role }} -pid-file=/var/run/consul/consul.pid
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
+KillSignal=SIGTERM
 Restart=on-failure
 RestartSec=42s
 

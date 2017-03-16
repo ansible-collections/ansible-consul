@@ -398,3 +398,8 @@
  - Add FreeBSD specific checks in inline script
  - Add FreeBSD hard requirements (explicit MAC address, disable share, shell)
 - Update documentation
+
+## v1.10.1
+
+- Fixup client hosts in template (thanks @violuke)
+- Optimize systemd unit file
