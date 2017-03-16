@@ -24,10 +24,16 @@
   "enable_syslog": {{ consul_syslog_enable|lower }},
   "start_join": [
       {% set interface = 'ansible_' ~ consul_iface %}
-         {% for host in groups[consul_group_name] %}
-         {% if host != inventory_hostname and (hostvars[host]['consul_node_role'] == 'server' or hostvars[host]['consul_node_role'] == 'bootstrap') %}
-         {{ comma_nodes() }}"{{ consul_bind_address }}"
-         {% endif %}
-         {% endfor %}
+      {% for host in groups[consul_group_name] %}
+      {% if ansible_system == 'FreeBSD' %}
+        {% if host != inventory_hostname and (hostvars[host]['consul_node_role'] == 'server' or hostvars[host]['consul_node_role'] == 'bootstrap') %}
+        {{ comma_nodes() }}"{{ hostvars[host][interface]['ipv4'][0]['address'] }}"
+        {% endif %}
+      {% else %}
+        {% if host != inventory_hostname and (hostvars[host]['consul_node_role'] == 'server' or hostvars[host]['consul_node_role'] == 'bootstrap') %}
+        {{ comma_nodes() }}"{{ hostvars[host][interface]['ipv4']['address'] }}"
+        {% endif %}
+      {% endif %}
+      {% endfor %}
      ]
 }
