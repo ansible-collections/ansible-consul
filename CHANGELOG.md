@@ -403,3 +403,7 @@
 
 - Fixup client hosts in template (thanks @violuke)
 - Optimize systemd unit file
+
+## v1.10.2
+
+- Update main task to create a mo better consul user (addresses #31)

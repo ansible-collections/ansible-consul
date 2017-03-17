@@ -55,10 +55,10 @@
 
 - name: Add Consul user
   user:
-    name: consul
+    name: "{{ consul_user }}"
     comment: "Consul user"
-    uid: 1042
-    group: bin
+    group: "{{ consul_group }}"
+    system: yes
 
 - name: OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
