@@ -407,3 +407,9 @@
 ## v1.10.2
 
 - Update main task to create a mo better consul user (addresses #31)
+
+## v1.10.3
+
+- Specify a ports object (thanks @arledesma)
+- Strict TLS material file permissions
+- Update documentation

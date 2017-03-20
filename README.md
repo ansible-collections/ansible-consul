@@ -94,7 +94,7 @@ Here is an example of how the hosts inventory could be defined for a simple
 cluster of 3 servers:
 
 ```
-consul1.local consul_node_role=bootstrap 
+consul1.local consul_node_role=bootstrap
 consul2.local consul_node_role=server
 consul3.local consul_node_role=server
 ```
