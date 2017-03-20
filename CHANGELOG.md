@@ -410,6 +410,8 @@
 
 ## v1.10.3
 
-- Specify a ports object (thanks @arledesma)
-- Strict TLS material file permissions
+- Allow specification of ports object (thanks @arledesma)
+- Strict TLS material file permissions (thanks @arledesma)
+- Update permissions modes to add leading zero
+- Random task cleanup
 - Update documentation

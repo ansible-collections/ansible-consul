@@ -193,7 +193,7 @@
       dest: /etc/init.d/consul
       owner: root
       group: root
-      mode: 755
+      mode: 0755
     when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
 
   - name: systemd script
@@ -202,7 +202,7 @@
       dest: /lib/systemd/system/consul.service
       owner: root
       group: root
-      mode: 644
+      mode: 0644
     when: ansible_service_mgr == "systemd" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
 
   - name: smf manifest
@@ -211,7 +211,7 @@
       dest: "{{ consul_smf_manifest }}"
       owner: root
       group: root
-      mode: 644
+      mode: 0644
     when: ansible_os_family == "Solaris"
     register: smfmanifest
 

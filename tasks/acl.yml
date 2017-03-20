@@ -37,9 +37,9 @@
     src: config_acl.json.j2
     dest: "{{ consul_config_path }}/{{ item }}/config_acl.json"
   with_items:
-  - bootstrap
-  - client
-  - server
+    - bootstrap
+    - client
+    - server
   notify:
     - restart consul
 
@@ -48,8 +48,8 @@
     src: config_acl_policy.hcl.j2
     dest: "{{ consul_config_path }}/{{ item }}/config_acl_policy.hcl"
   with_items:
-  - bootstrap
-  - client
-  - server
+    - bootstrap
+    - client
+    - server
   notify:
     - restart consul

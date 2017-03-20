@@ -4,7 +4,7 @@
 ## Core
 consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.7.5', true) }}"
 consul_architecture_map:
-  # this first entry seems... uhhh redundant
+  # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
   x86_64: amd64
   armv7l: arm
