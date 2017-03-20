@@ -13,6 +13,9 @@
                      {{ comma() }}"{{ recursor }}"
                  {%- endfor %} ],
   {% endif %}
+  {% if consul_ports %}
+  "ports": {{ consul_ports | to_nice_json }},
+  {% endif %}
   "bootstrap": true,
   "server": true,
   "node_name": "{{ consul_node_name }}",
