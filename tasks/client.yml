@@ -5,6 +5,7 @@
   apt:
     name: "{{ item }}"
     state: installed
+    update_cache: yes
   with_items:
     - python-pip
     - python-setuptools

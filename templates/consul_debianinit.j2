@@ -40,12 +40,12 @@ do_start() {
     start-stop-daemon --start --quiet --pidfile "${PIDFILE}" --exec "${DAEMON}" --chuid "${USER}" --background --make-pidfile --test > /dev/null \
         || return 1
     start-stop-daemon --start --quiet --pidfile "${PIDFILE}" --exec "${DAEMON}" --chuid "${USER}" --background --make-pidfile -- \
-        "${DAEMON_ARGS}" \
+        ${DAEMON_ARGS} \
         || return 2
 
     echo -n "Waiting for Consul service..."
     for i in `seq 1 30`; do
-        if ! start-stop-daemon --quiet --stop --test --pidfile "${PIDFILE} --exec "${DAEMON}" --user "${USER}; then
+        if ! start-stop-daemon --quiet --stop --test --pidfile "${PIDFILE}" --exec "${DAEMON}" --user "${USER}; then
             echo " FAIL: consul process died"
             return 2
         fi

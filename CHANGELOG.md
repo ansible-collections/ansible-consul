@@ -415,3 +415,10 @@
 - Update permissions modes to add leading zero
 - Random task cleanup
 - Update documentation
+
+## v1.10.4
+
+- Corrections to config_debianint.j2 for #34
+- Update main task to prefer open Consul HTTP API port over PID file
+- Update package cache before installing OS packages
+  (watch for and refuse reversion of this as it's occurred once now)

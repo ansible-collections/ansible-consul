@@ -232,11 +232,10 @@
       state: started
       enabled: yes
 
-  - name: Consul up?
+  - name: Consul HTTP API reachable?
     wait_for:
       delay: 15
-      path: /var/run/consul/consul.pid
-      state: present
+      port: 8500
 
   - name: Create bootstrapped marker
     file:
