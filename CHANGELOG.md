@@ -426,3 +426,5 @@
 ## v1.10.5
 
 - Additional fixes to debian init
+- Add consul_config_custom for role users to specify new or overwrite
+  existing configuration (thanks @arledesma)
