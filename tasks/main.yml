@@ -164,6 +164,16 @@
   notify:
     - restart consul
 
+- name: Extra configurations
+  template:
+    src: consul_XXX_config_custom.json.j2
+    dest: "{{ consul_config_path }}/{{ item }}/XXX_config_custom.json"
+  with_items:
+    - [ "bootstrap", "client", "server" ]
+  when: consul_config_custom is defined and item == consul_node_role
+  notify:
+    - restart consul
+
 - include: ../tasks/acl.yml
   when: consul_acl_enable
 
