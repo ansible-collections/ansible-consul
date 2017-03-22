@@ -422,3 +422,7 @@
 - Update main task to prefer open Consul HTTP API port over PID file
 - Update package cache before installing OS packages
   (watch for and refuse reversion of this as it's occurred once now)
+
+## v1.10.5
+
+- Additional fixes to debian init

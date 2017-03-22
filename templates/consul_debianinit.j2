@@ -34,9 +34,16 @@ SCRIPTNAME=/etc/init.d/"${NAME}"
 # Source LSB functions
 . /lib/lsb/init-functions
 
+# Make sure PID dir exists
+mkrundir() {
+        [ ! -d /var/run/consul ] && mkdir -p /var/run/consul
+        chown {{ consul_user }} /var/run/consul
+}
+
 # Start the Consul service
 do_start() {
     echo "Starting consul and backgrounding"
+    mkrundir
     start-stop-daemon --start --quiet --pidfile "${PIDFILE}" --exec "${DAEMON}" --chuid "${USER}" --background --make-pidfile --test > /dev/null \
         || return 1
     start-stop-daemon --start --quiet --pidfile "${PIDFILE}" --exec "${DAEMON}" --chuid "${USER}" --background --make-pidfile -- \
@@ -45,7 +52,7 @@ do_start() {
 
     echo -n "Waiting for Consul service..."
     for i in `seq 1 30`; do
-        if ! start-stop-daemon --quiet --stop --test --pidfile "${PIDFILE}" --exec "${DAEMON}" --user "${USER}; then
+        if ! start-stop-daemon --quiet --stop --test --pidfile "${PIDFILE}" --exec "${DAEMON}" --user "${USER}"; then
             echo " FAIL: consul process died"
             return 2
         fi
