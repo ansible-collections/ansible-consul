@@ -78,6 +78,24 @@ inventory file (see below):
 | `consul_verify_outgoing` | *true* | Verify outgoing connections, can be overridden with `CONSUL_VERIFY_OUTGOING` environment variable |
 | `consul_verify_server_hostname` | *false* | Verify server hostname, can be overridden with `CONSUL_VERIFY_SERVER_HOSTNAME` environment variable |
 
+### Custom Configuration Sections
+
+As Consul loads the configuration from files and directories in lexical order, typically merging on top of previously parsed configuration files, you may set
+custom configurations via `consul_config_custom`, which will be expanded into a file named `XXX_config_custom.json` within your `consul_config_path`.
+
+
+An example usage may be for enabling `telemetry`
+```yaml
+  vars:
+    consul_config_custom:
+      telemetry:
+        dogstatsd_addr: "localhost:8125"
+        dogstatsd_tags:
+          - "security"
+          - "compliance"
+        disable_hostname: true
+```
+
 ### Host Inventory Variable
 
 This role also uses a host inventory variable to define the server's role
