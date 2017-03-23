@@ -20,7 +20,7 @@ PIDFile=/var/run/consul/consul.pid
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir /var/run/consul
 ExecStartPre=/bin/chown -R {{ consul_user }}:{{ consul_group }} /var/run/consul/
-ExecStart=/usr/local/bin/consul agent \
+ExecStart={{ consul_bin_path }}/consul agent \
     -config-dir=/etc/consul.d/{{ consul_node_role }} -pid-file=/var/run/consul/consul.pid
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process

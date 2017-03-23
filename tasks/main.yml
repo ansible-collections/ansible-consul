@@ -63,9 +63,6 @@
 - name: OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Install OS packages
-  include: install.yml
-
 - name: Create directories
   file:
     dest: "{{ item }}"
@@ -82,6 +79,16 @@
     - /etc/consul.d/bootstrap
     - /etc/consul.d/client
     - /etc/consul.d/server
+
+- name: Ensure bin path
+  file:
+    path: "{{ consul_bin_path }}"
+    state: directory
+    owner: root
+    mode: 0755
+
+- name: Install OS packages and consul
+  include: install.yml
 
 #- include: ../tasks/encrypt_gossip.yml
 
