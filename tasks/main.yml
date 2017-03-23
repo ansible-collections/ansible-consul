@@ -52,6 +52,7 @@
     path: /etc/consul/.consul_bootstrapped
   register: bootstrap_marker
   ignore_errors: true
+  tags: always
 
 - name: Add Consul user
   user:
@@ -62,6 +63,7 @@
 
 - name: OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
+  tags: always
 
 - name: Create directories
   file:

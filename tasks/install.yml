@@ -15,6 +15,7 @@
     path: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   run_once: true
   register: consul_checksum
+  tags: installation
 
 - name: Get Consul package checksum file
   become: no
@@ -41,6 +42,7 @@
     path: "{{ role_path }}/files/{{ consul_pkg }}"
   run_once: true
   register: consul_package
+  tags: installation
 
 - name: Download Consul
   become: no
