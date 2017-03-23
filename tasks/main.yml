@@ -63,9 +63,6 @@
 - name: OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Install OS packages
-  include: install.yml
-
 - name: Create directories
   file:
     dest: "{{ item }}"
@@ -89,6 +86,9 @@
     state: directory
     owner: root
     mode: 0755
+
+- name: Install OS packages and consul
+  include: install.yml
 
 #- include: ../tasks/encrypt_gossip.yml
 
