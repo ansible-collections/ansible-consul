@@ -36,6 +36,8 @@
   template:
     src: config_acl.json.j2
     dest: "{{ consul_config_path }}/{{ item }}/config_acl.json"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
   with_items:
     - bootstrap
     - client
@@ -47,6 +49,8 @@
   template:
     src: config_acl_policy.hcl.j2
     dest: "{{ consul_config_path }}/{{ item }}/config_acl_policy.hcl"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
   with_items:
     - bootstrap
     - client
