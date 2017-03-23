@@ -147,6 +147,8 @@
   template:
     src: config_bootstrap.json.j2
     dest: "{{ consul_config_path }}/bootstrap/config.json"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
   notify:
     - restart consul
 
@@ -154,6 +156,8 @@
   template:
     src: config_client.json.j2
     dest: "{{ consul_config_path }}/client/config.json"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
   notify:
     - restart consul
 
@@ -161,6 +165,8 @@
   template:
     src: config_server.json.j2
     dest: "{{ consul_config_path }}/server/config.json"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
   notify:
     - restart consul
 
@@ -168,6 +174,8 @@
   template:
     src: consul_XXX_config_custom.json.j2
     dest: "{{ consul_config_path }}/{{ item }}/XXX_config_custom.json"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
   with_items:
     - [ "bootstrap", "client", "server" ]
   when: consul_config_custom is defined and item == consul_node_role
