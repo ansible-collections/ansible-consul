@@ -11,7 +11,7 @@
 . /etc/init.d/functions
 {% endif %}
 
-CONSUL=/usr/local/bin/consul
+CONSUL={{ consul_bin_path }}/consul
 CONFIG=/etc/consul.d/{{ consul_node_role }}
 PID_FILE=/var/run/consul/consul.pid
 

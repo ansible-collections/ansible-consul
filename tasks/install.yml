@@ -67,7 +67,7 @@
 - name: Install Consul
   copy:
     src: "{{ role_path }}/files/consul"
-    dest: /usr/local/bin/
+    dest: "{{ consul_bin_path }}/consul"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     mode: 0755

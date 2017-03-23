@@ -83,6 +83,13 @@
     - /etc/consul.d/client
     - /etc/consul.d/server
 
+- name: Ensure bin path
+  file:
+    path: "{{ consul_bin_path }}"
+    state: directory
+    owner: root
+    mode: 0755
+
 #- include: ../tasks/encrypt_gossip.yml
 
 - block:

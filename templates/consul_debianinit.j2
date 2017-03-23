@@ -13,10 +13,10 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 
-PATH="/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+PATH="{{ consul_bin_path }}:/usr/sbin:/usr/bin:/sbin:/bin"
 DESC="Consul service discovery framework"
 NAME="consul"
-DAEMON="/usr/local/bin/${NAME}"
+DAEMON="{{ consul_bin_path }}/${NAME}"
 PIDFILE="/var/run/${NAME}/${NAME}.pid"
 DAEMON_ARGS="agent -config-dir /etc/consul.d/{{ consul_node_role }}"
 USER={{ consul_user }}
