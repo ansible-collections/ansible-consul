@@ -428,3 +428,10 @@
 - Additional fixes to debian init
 - Add consul_config_custom for role users to specify new or overwrite
   existing configuration (thanks @arledesma)
+
+## v1.11.0
+
+- File permission updates (thanks @arledesma)
+- Explicit consul_user/consul_group ownership of configurations
+  (thanks @arledesma)
+- Use consul_bin_path throughout (thanks @arledesma)
