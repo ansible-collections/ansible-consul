@@ -1,5 +1,5 @@
 ---
-# File: tasks/main.yml - Main tasks for Consul
+# File: main.yml - Main tasks for Consul
 
 - name: Check distribution compatibility
   fail:

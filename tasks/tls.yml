@@ -1,5 +1,5 @@
 ---
-# File: tasks/tls.yml - TLS tasks for Consul
+# File: tls.yml - TLS tasks for Consul
 
 - name: Create SSL directory
   file:

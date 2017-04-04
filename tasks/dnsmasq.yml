@@ -1,5 +1,5 @@
 ---
-# File: tasks/dnsmasq.yml - Dnsmasq tasks for Consul
+# File: dnsmasq.yml - Dnsmasq tasks for Consul
 
 - name: Dnsmasq package
   yum:

@@ -1,5 +1,5 @@
 ---
-# File: tasks/acl.yml - ACL tasks for Consul
+# File: acl.yml - ACL tasks for Consul
 
 - block:
   - name: Generate ACL master token

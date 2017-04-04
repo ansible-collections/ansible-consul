@@ -435,3 +435,7 @@
 - Explicit consul_user/consul_group ownership of configurations
   (thanks @arledesma)
 - Use consul_bin_path throughout (thanks @arledesma)
+
+## v1.11.1
+
+- Updated known good versions

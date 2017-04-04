@@ -1,5 +1,5 @@
 ---
-# File: defaults/main.yml - Default variables for Consul
+# File: main.yml - Default variables for Consul
 
 ## Core
 consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.7.5', true) }}"
@@ -25,6 +25,7 @@ consul_domain: "consul"
 consul_log_level: "INFO"
 consul_syslog_enable: true
 consul_iface: "{{ lookup('env','CONSUL_IFACE') | default('eth1', true) }}"
+vault_address: "0.0.0.0"
 consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'] }}"
 consul_dns_bind_address: "127.0.0.1"
 consul_http_bind_address: "0.0.0.0"

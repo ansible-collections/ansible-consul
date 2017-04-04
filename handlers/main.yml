@@ -1,5 +1,5 @@
 ---
-# handlers file for consul
+# File: main.yml - Handlers for Consul
 
 - name: restart consul
   service:

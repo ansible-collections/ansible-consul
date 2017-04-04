@@ -1,5 +1,5 @@
 ---
-# File: tasks/install.yml - package installation tasks for Consul
+# File: install.yml - package installation tasks for Consul
 
 - name: OS packages
   package:

@@ -1,5 +1,5 @@
 ---
-# File: tasks/encrypt_gossip.yml - Gossip encryption tasks for Consul
+# File: encrypt_gossip.yml - Gossip encryption tasks for Consul
 
 - block:
     - name: Check for key on previously boostrapped server

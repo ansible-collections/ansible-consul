@@ -1,5 +1,5 @@
 ---
-# File: tasks/iptables.yml - iptables tasks for Consul
+# File: iptables.yml - iptables tasks for Consul
 
 - name: Install iptables
   apt:
