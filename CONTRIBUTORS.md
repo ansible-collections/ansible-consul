@@ -14,3 +14,4 @@ Thank you to all these fine folks for helping with ansible-consul!
 - [@sperreault](https://github.com/sperreault)
 - [@arledesma](https://github.com/arledesma)
 - [@lanefu](https://github.com/lanefu)
+- [@misho-kr](https://github.com/misho-kr)

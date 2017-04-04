@@ -439,3 +439,6 @@
 ## v1.11.1
 
 - Updated known good versions
+- Format file names
+- Look for existing config on all hosts (thanks @misho-kr)
+- Update CONTRIBUTORS
