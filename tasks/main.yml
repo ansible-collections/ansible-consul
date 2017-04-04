@@ -99,19 +99,16 @@
       slurp:
         src: "{{ consul_config_path }}/bootstrap/config.json"
       register: consul_config_b64
-      run_once: true
       ignore_errors: yes
 
     - name: Deserialize existing config
       set_fact:
         consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
-      run_once: true
       when: consul_config_b64.content is defined
 
     - name: Save encryption key (from existing config)
       set_fact:
         consul_raw_key: "{{ consul_config.encrypt }}"
-      run_once: true
       when: consul_config is defined
 
   no_log: true
@@ -136,7 +133,6 @@
     - name: Generate gossip encryption key
       shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
       register: consul_keygen
-      run_once: true
 
     - name: Save encryption key
       set_fact: consul_raw_key={{ consul_keygen.stdout }}
