@@ -133,6 +133,7 @@
     - name: Generate gossip encryption key
       shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
       register: consul_keygen
+      run_once: true
 
     - name: Save encryption key
       set_fact: consul_raw_key={{ consul_keygen.stdout }}
