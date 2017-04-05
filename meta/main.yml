@@ -12,6 +12,7 @@ galaxy_info:
     - 7
   - name: FreeBSD
     versions:
+    - 10.0
     - 11.0
   - name: Ubuntu
     versions:
@@ -21,6 +22,7 @@ galaxy_info:
     versions:
     - jessie
   galaxy_tags:
+  - clustering
   - monitoring
   - networking
   - system

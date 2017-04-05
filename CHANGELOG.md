@@ -447,3 +447,8 @@
 
 - Fix documentation formatting issues
 - Add support for Ubuntu 15.04
+
+## v1.11.3
+
+- Update for config generation on only one host (thanks @misho-kr)
+- Update meta
