@@ -19,7 +19,7 @@ with other software versions, but does work with the following specific
 software and versions:
 
 * Ansible: 2.2.1.0
-* Consul: 0.7.5
+* Consul: 0.8.0
 * CentOS: 7
 * Debian: 8
 * Ubuntu 16.04
@@ -34,7 +34,7 @@ inventory file (see below):
 | `consul_architecture_map`|  | dict translating ansible_architecture to hashi architecture naming convention |
 | `consul_os` | `{{ ansible_os_family|lower }}` | Node operating system name |
 | `consul_architecture`| `amd64`,`arm`,`arm64` | determined by `{{ consul_architecture_map[ansible_architecture] }}` |
-| `consul_version` | *0.7.5* | Version to install |
+| `consul_version` | *0.8.0* | Version to install |
 | `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ consul_architecture }}.zip` | Download URL |
 | `consul_checksum_file_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_version }}_SHA256SUMS` | URL to package SHA256 summaries |
 | `consul_bin_path` | `/usr/local/bin` | Binary installation path |

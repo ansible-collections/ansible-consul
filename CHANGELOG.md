@@ -452,3 +452,8 @@
 
 - Update for config generation on only one host (thanks @misho-kr)
 - Update meta
+
+## v1.12.0
+
+- Consul version 0.8.0
+- Update documentation
