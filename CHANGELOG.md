@@ -457,3 +457,7 @@
 
 - Consul version 0.8.0
 - Update documentation
+
+## v1.12.1
+
+- Fix defaults, shake fist at YAML

@@ -18,7 +18,7 @@ This role requires a Debian or RHEL based Linux distribution. It might work
 with other software versions, but does work with the following specific
 software and versions:
 
-* Ansible: 2.2.1.0
+* Ansible: 2.2.2.0
 * Consul: 0.8.0
 * CentOS: 7
 * Debian: 8
