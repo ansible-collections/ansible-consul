@@ -15,6 +15,7 @@ galaxy_info:
     - 11.0
   - name: Ubuntu
     versions:
+    - vivid
     - xenial
   - name: Debian
     versions:

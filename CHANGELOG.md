@@ -442,3 +442,8 @@
 - Format file names
 - Look for existing config on all hosts (thanks @misho-kr)
 - Update CONTRIBUTORS
+
+## v1.11.2
+
+- Fix documentation formatting issues
+- Add support for Ubuntu 15.04
