@@ -9,22 +9,30 @@
 - name: Fail if not a new release of CentOS or Red Hat
   fail:
     msg: "{{ ansible_distribution_version }} isn't a supported version."
-  when: ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(6, '<')
+  when:
+    - ansible_distribution in ['RedHat', 'CentOS']
+    - ansible_distribution_version|version_compare(6, '<')
 
 - name: Fail if not a new release of Debian
   fail:
     msg: "{{ ansible_distribution_version }} is not a supported version."
-  when: ansible_distribution == "Debian" and ansible_distribution_version|version_compare(8.5, '<')
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_distribution_version|version_compare(8.5, '<')
 
 - name: Fail if not a new release of FreeBSD
   fail:
     msg: "{{ ansible_distribution_version }} is not a supported version."
-  when: ansible_distribution == "FreeBSD" and ansible_distribution_version|version_compare(10, '<')
+  when:
+    - ansible_distribution == "FreeBSD"
+    - ansible_distribution_version|version_compare(10, '<')
 
 - name: Fail if not a new release of Ubuntu
   fail:
     msg: "{{ ansible_distribution_version }} is not a supported version."
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_version|version_compare(13.04, '<')
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version|version_compare(13.04, '<')
 
 - name: Fail if specified ethernet interface not found
   fail:
@@ -34,18 +42,24 @@
 - name: Fail if iptables is enabled for Red Hat / CentOS
   fail:
     msg: "Use DNSmasq instead of iptables on {{ ansible_distribution }}."
-  when: consul_iptables_enable and
-        (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(6, '>='))
+  when:
+    - consul_iptables_enable
+    - ansible_distribution in ['RedHat', 'CentOS']
+    - ansible_distribution_version|version_compare(6, '>=')
 
 - name: Fail if both Dnsmasq and iptables are enabled
   fail:
     msg: "EONEORTHEOTHER: DNSmasq and iptables together is not supported."
-  when: consul_dnsmasq_enable and consul_iptables_enable
+  when:
+    - consul_dnsmasq_enable
+    - consul_iptables_enable
 
 - name: Fail if iptables is enabled but no recursors are defined
   fail:
     msg: "Recursors are required if iptables is enabled."
-  when: consul_iptables_enable and consul_recursors|length == 0
+  when:
+    - consul_iptables_enable
+    - consul_recursors|length == 0
 
 - name: Check bootstrapped state
   stat:
@@ -112,22 +126,31 @@
       when: consul_config is defined
 
   no_log: true
-  when: consul_raw_key is not defined and bootstrap_marker.stat.exists and (consul_node_role == "bootstrap" or consul_node_role == "server")
+  when:
+    - consul_raw_key is not defined
+    - bootstrap_marker.stat.exists
+    - (consul_node_role == "bootstrap" or consul_node_role == "server")
 
 - name: Write key locally to share with new servers
   local_action: copy content="{{ consul_raw_key }}" dest=/tmp/consul_raw.key
   become: no
-  when: consul_raw_key is defined and bootstrap_marker.stat.exists
+  when:
+    - consul_raw_key is defined
+    - bootstrap_marker.stat.exists
 
 - name: Read key for servers that require it
   set_fact:
     consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
-  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
+  when:
+    - consul_raw_key is not defined
+    - bootstrap_marker.stat.exists
 
 - name: Deleting key file
   local_action: file path=/tmp/consul_raw.key state=absent
   become: no
-  when: consul_raw_key is defined and bootstrap_marker.stat.exists
+  when:
+    - consul_raw_key is defined
+    - bootstrap_marker.stat.exists
 
 - block:
     - name: Generate gossip encryption key
@@ -137,7 +160,9 @@
 
     - name: Save encryption key
       set_fact: consul_raw_key={{ consul_keygen.stdout }}
-  when: consul_raw_key is not defined and not bootstrap_marker.stat.exists
+  when:
+    - consul_raw_key is not defined
+    - not bootstrap_marker.stat.exists
 
 - name: Select Consul network interface for Linux
   set_fact:
@@ -178,13 +203,15 @@
 
 - name: Extra configurations
   template:
-    src: _config_custom.json.j2
-    dest: "{{ consul_config_path }}/{{ item }}/config_z_custom.json"
+    src: consul_XXX_config_custom.json.j2
+    dest: "{{ consul_config_path }}/{{ item }}/XXX_config_custom.json"
     owner: "{{ consul_user }}"
     group: "{{ consul_group}}"
   with_items:
     - [ "bootstrap", "client", "server" ]
-  when: consul_config_custom is defined and item == consul_node_role
+  when:
+    - consul_config_custom is defined
+    - item == consul_node_role
   notify:
     - restart consul
 
@@ -209,7 +236,11 @@
       owner: root
       group: root
       mode: 0755
-    when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
+    when:
+      - not ansible_service_mgr == "systemd"
+      - not ansible_os_family == "Debian"
+      - not ansible_os_family == "FreeBSD"
+      - not ansible_os_family == "Solaris"
 
   - name: Debian init script
     template:
@@ -218,7 +249,11 @@
       owner: root
       group: root
       mode: 0755
-    when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
+    when:
+      - not ansible_service_mgr == "systemd"
+      - ansible_os_family == "Debian"
+      - not ansible_os_family == "FreeBSD"
+      - not ansible_os_family == "Solaris"
 
   - name: systemd script
     template:
@@ -227,7 +262,10 @@
       owner: root
       group: root
       mode: 0644
-    when: ansible_service_mgr == "systemd" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
+    when:
+      - ansible_service_mgr == "systemd"
+      - not ansible_os_family == "FreeBSD"
+      - not ansible_os_family == "Solaris"
 
   - name: smf manifest
     template:
@@ -241,11 +279,15 @@
 
   - name: import smf manifest
     shell: "svccfg import {{ consul_smf_manifest }}"
-    when: smfmanifest|changed and ansible_os_family == "Solaris"
+    when:
+      - smfmanifest|changed
+      - ansible_os_family == "Solaris"
 
   - name: import smf script
     shell: "svcadm refresh consul"
-    when: smfmanifest|changed and ansible_os_family == "Solaris"
+    when:
+      - smfmanifest|changed
+      - ansible_os_family == "Solaris"
 
   - include: ../tasks/tls.yml
     when: consul_tls_enable
@@ -273,6 +315,8 @@
     when: consul_iptables_enable
 
   - include: ../tasks/client.yml
-    when: consul_node_role == "client" and ansible_os_family == "Debian"
+    when:
+      - consul_node_role == "client"
+      - ansible_os_family == "Debian"
 
   when: not bootstrap_marker.stat.exists
