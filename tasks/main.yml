@@ -74,38 +74,51 @@
     - bootstrap_marker.stat.exists
     - (consul_node_role == "bootstrap" or consul_node_role == "server")
 
+# Key provided by extra vars or the above block
 - name: Write key locally to share with new servers
-  local_action: copy content="{{ consul_raw_key }}" dest=/tmp/consul_raw.key
+  copy:
+    content: "{{ consul_raw_key }}"
+    dest: '/tmp/consul_raw.key'
   become: no
-  when:
-    - consul_raw_key is defined
-    - bootstrap_marker.stat.exists
+  no_log: true
+  run_once: true
+  register: consul_local_key
+  delegate_to: localhost
+  when: consul_raw_key is defined
 
-- name: Read key for servers that require it
-  set_fact:
-    consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
-  when:
-    - consul_raw_key is not defined
-    - bootstrap_marker.stat.exists
-
-- name: Deleting key file
-  local_action: file path=/tmp/consul_raw.key state=absent
-  become: no
-  when:
-    - consul_raw_key is defined
-    - bootstrap_marker.stat.exists
-
+# Generate new key if non was found
 - block:
     - name: Generate gossip encryption key
       shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
       register: consul_keygen
-      run_once: true
 
-    - name: Save encryption key
-      set_fact: consul_raw_key={{ consul_keygen.stdout }}
+    - name: Write key locally to share with other nodes
+      copy:
+        content: "{{ consul_keygen.stdout }}"
+        dest: '/tmp/consul_raw.key'
+      become: no
+      delegate_to: localhost
+
+  no_log: true
+  run_once: true
+  when:
+    - not consul_local_key.changed
+    - not bootstrap_marker.stat.exists
+
+- name: Read key for servers that require it
+  set_fact:
+    consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
+  no_log: true
   when:
     - consul_raw_key is not defined
-    - not bootstrap_marker.stat.exists
+
+- name: Deleting key file
+  file:
+    path: '/tmp/consul_raw.key'
+    state: absent
+  become: no
+  run_once: true
+  delegate_to: localhost
 
 - name: Select Consul network interface for Linux
   set_fact:
