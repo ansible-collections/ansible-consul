@@ -1,65 +1,8 @@
 ---
 # File: main.yml - Main tasks for Consul
 
-- name: Check distribution compatibility
-  fail:
-    msg: "{{ ansible_distribution }} is not currently supported by this role."
-  when: ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu']
-
-- name: Fail if not a new release of CentOS or Red Hat
-  fail:
-    msg: "{{ ansible_distribution_version }} isn't a supported version."
-  when:
-    - ansible_distribution in ['RedHat', 'CentOS']
-    - ansible_distribution_version|version_compare(6, '<')
-
-- name: Fail if not a new release of Debian
-  fail:
-    msg: "{{ ansible_distribution_version }} is not a supported version."
-  when:
-    - ansible_distribution == "Debian"
-    - ansible_distribution_version|version_compare(8.5, '<')
-
-- name: Fail if not a new release of FreeBSD
-  fail:
-    msg: "{{ ansible_distribution_version }} is not a supported version."
-  when:
-    - ansible_distribution == "FreeBSD"
-    - ansible_distribution_version|version_compare(10, '<')
-
-- name: Fail if not a new release of Ubuntu
-  fail:
-    msg: "{{ ansible_distribution_version }} is not a supported version."
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version|version_compare(13.04, '<')
-
-- name: Fail if specified ethernet interface not found
-  fail:
-    msg: "The ethernet interface specified by consul_iface was not found."
-  when: consul_iface not in ansible_interfaces
-
-- name: Fail if iptables is enabled for Red Hat / CentOS
-  fail:
-    msg: "Use DNSmasq instead of iptables on {{ ansible_distribution }}."
-  when:
-    - consul_iptables_enable
-    - ansible_distribution in ['RedHat', 'CentOS']
-    - ansible_distribution_version|version_compare(6, '>=')
-
-- name: Fail if both Dnsmasq and iptables are enabled
-  fail:
-    msg: "EONEORTHEOTHER: DNSmasq and iptables together is not supported."
-  when:
-    - consul_dnsmasq_enable
-    - consul_iptables_enable
-
-- name: Fail if iptables is enabled but no recursors are defined
-  fail:
-    msg: "Recursors are required if iptables is enabled."
-  when:
-    - consul_iptables_enable
-    - consul_recursors|length == 0
+- name: Include checks/asserts
+  include: asserts.yml
 
 - name: Check bootstrapped state
   stat:
