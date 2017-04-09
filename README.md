@@ -267,7 +267,6 @@ inventory file (see below):
 
 ### `consul_verify_outgoing`
 
-
 - Verify outgoing connections
  - can be overridden with `CONSUL_VERIFY_OUTGOING` environment variable
 - Default value: *true*
@@ -298,7 +297,7 @@ An example usage for enabling `telemetry`:
         disable_hostname: true
 ```
 
-### Host Inventory Variable
+## Host Inventory Variables
 
 This role also uses a host inventory variable to define the server's role
 when forming a cluster. One server should be designated as the bootstrap
@@ -306,9 +305,10 @@ server that uses the `bootstrap_expect` configuration directive, and the other
 servers will connect to this server. You can also specify *client* as the
 role, and Consul will be configured as a client agent instead of a server.
 
-| Name           | Default Value | Description                        |
-| -------------- | ------------- | -----------------------------------|
-| `consul_node_role` | NONE | Consul server role, one of: *bootstrap*, *server*, or *client* |
+### `consul_node_role`
+
+- Consul server role, one of: *bootstrap*, *server*, or *client*
+- Default value: NONE
 
 Here is an example of how the hosts inventory could be defined for a simple
 cluster of 3 servers:
@@ -319,30 +319,91 @@ consul2.local consul_node_role=server
 consul3.local consul_node_role=server
 ```
 
-### OS Distribution Variables
+## OS Distribution Variables
 
 The `consul` binary works on most Linux platforms and is not distribution
 specific. However, some distributions require installation of specific OS
 packages with different package names.
 
-| Name           | Default Value | Description                        |
-| -------------- | ------------- | -----------------------------------|
-| `consul_centos_pkg` | `{{ consul_version }}_linux_amd64.zip` | Consul package filename |
-| `consul_centos_url` | `{{ consul_zip_url }}` | Consul package download URL |
-| `consul_centos_sha256` | SHA256 SUM | Consul download SHA256 summary |
-| `consul_centos_os_packages` | list | List of OS packages to install |
-| `consul_debian_pkg` | `{{ consul_version }}_linux_amd64.zip` | Consul package filename |
-| `consul_debian_url` | `{{ consul_zip_url }}` | Consul package download URL |
-| `consul_debian_sha256` | SHA256 SUM | Consul download SHA256 summary |
-| `consul_debian_os_packages` | list | List of OS packages to install |
-| `consul_redhat_pkg` | `{{ consul_version }}_linux_amd64.zip` | Consul package filename |
-| `consul_redhat_url` | `{{ consul_zip_url }}` | Consul package download URL |
-| `consul_redhat_sha256` | SHA256 SUM | Consul download SHA256 summary |
-| `consul_redhat_os_packages` | list | List of OS packages to install |
-| `consul_ubuntu_pkg` | `{{ consul_version }}_linux_amd64.zip` | Consul package filename |
-| `consul_ubuntu_url` | `{{ consul_zip_url }}` | Consul package download URL |
-| `consul_ubuntu_sha256` | SHA256 SUM | Consul download SHA256 summary |
-| `consul_ubuntu_os_packages` | list | List of OS packages to install |
+### `consul_centos_pkg`
+
+- Consul package filename
+- Default value: `{{ consul_version }}_linux_amd64.zip`
+
+### `consul_centos_url`
+
+- Consul package download URL
+- Default value: `{{ consul_zip_url }}`
+
+### `consul_centos_sha256`
+
+- Consul download SHA256 summary
+- Default value: SHA256 SUM
+
+### `consul_centos_os_packages`
+
+- List of OS packages to install
+- Default value: list
+
+### `consul_debian_pkg`
+
+- Consul package filename
+- Default value: `{{ consul_version }}_linux_amd64.zip`
+
+### `consul_debian_url`
+
+- Consul package download URL
+- Default value: `{{ consul_zip_url }}`
+
+### `consul_debian_sha256`
+
+- Consul download SHA256 summary
+- Default value: SHA256 SUM
+
+### `consul_debian_os_packages`
+
+- List of OS packages to install
+- Default value: list
+
+### `consul_redhat_pkg`
+
+- Consul package filename
+- Default value: `{{ consul_version }}_linux_amd64.zip`
+
+### `consul_redhat_url`
+
+- Consul package download URL
+- Default value: `{{ consul_zip_url }}`
+
+### `consul_redhat_sha256`
+
+- Consul download SHA256 summary
+- Default value: SHA256 SUM
+
+### `consul_redhat_os_packages`
+
+- List of OS packages to install
+- Default value: list
+
+### `consul_ubuntu_pkg`
+
+- Consul package filename
+- Default value: `{{ consul_version }}_linux_amd64.zip`
+
+### `consul_ubuntu_url`
+
+- Consul package download URL
+- Default value: `{{ consul_zip_url }}`
+
+### `consul_ubuntu_sha256`
+
+- Consul download SHA256 summary
+- Default value: SHA256 SUM
+
+### `consul_ubuntu_os_packages`
+
+- List of OS packages to install
+- Default value: list
 
 ## Dependencies
 

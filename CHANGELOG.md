@@ -468,3 +468,7 @@
 - Fix statement preventing key transfer to new servers (thanks @groggemans)
 - Change custom configuration naming convention
 - Update documentation
+
+## v1.13.1
+
+- Finish documentation updates
