@@ -159,8 +159,8 @@
 
 - name: Extra configurations
   template:
-    src: consul_XXX_config_custom.json.j2
-    dest: "{{ consul_config_path }}/{{ item }}/XXX_config_custom.json"
+    src: _config_custom.json.j2
+    dest: "{{ consul_config_path }}/{{ item }}/config_z_custom.json"
     owner: "{{ consul_user }}"
     group: "{{ consul_group}}"
   with_items:
