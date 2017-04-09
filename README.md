@@ -14,77 +14,279 @@ agents running in a Vagrant and VirtualBox based environment. See
 
 ## Requirements
 
-This role requires a Debian or RHEL based Linux distribution. It might work
-with other software versions, but does work with the following specific
-software and versions:
+This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
+might work with other software versions, but does work with the following
+specific software and versions:
 
 * Ansible: 2.2.2.0
-* Consul: 0.8.0
-* CentOS: 7
+* Vault: 0.7.0
 * Debian: 8
+* FreeBSD 11
 * Ubuntu 16.04
+
+Sorry, there is no planned support at the moment for Windows.
 
 ## Role Variables
 
 The role defines variables in `defaults/main.yml` and in the hosts
 inventory file (see below):
 
-| Name           | Default Value | Description                        |
-| -------------- | ------------- | -----------------------------------|
-| `consul_architecture_map`|  | dict translating ansible_architecture to hashi architecture naming convention |
-| `consul_os` | `{{ ansible_os_family|lower }}` | Node operating system name |
-| `consul_architecture`| `amd64`,`arm`,`arm64` | determined by `{{ consul_architecture_map[ansible_architecture] }}` |
-| `consul_version` | *0.8.0* | Version to install |
-| `consul_zip_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ consul_architecture }}.zip` | Download URL |
-| `consul_checksum_file_url` | `https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_version }}_SHA256SUMS` | URL to package SHA256 summaries |
-| `consul_bin_path` | `/usr/local/bin` | Binary installation path |
-| `consul_config_path` | `/etc/consul.d` | Configuration file path |
-| `consul_data_path` | `/var/consul` | Data path |
-| `consul_log_path` | `/var/log/consul` | Log path |
-| `consul_user` | `consul` | OS user |
-| `consul_group` | `bin` | OS group |
-| `consul_group_name` | *cluster_nodes* | Inventory group name |
-| `consul_datacenter` | *dc1* | Datacenter label |
-| `consul_domain` | `consul` | Consul domain name |
-| `consul_log_level` | `INFO` | Log level |
-| `consul_syslog_enable` | *true* | Log to syslog |
-| `consul_iface` | `eth1` | Consul network interface (`CONSUL_IFACE`)|
-| `consul_bind_address` | *127.0.0.1* | Bind address |
-| `consul_dns_bind_address` | *127.0.0.1* | DNS API bind address |
-| `consul_http_bind_address` | *0.0.0.0* | HTTP API bind address |
-| `consul_https_bind_address` | *0.0.0.0* | HTTPS API bind address |
-| `consul_rpc_bind_address` | *0.0.0.0* | RPC bind address |
-| `consul_ports` | `rpc`: `8400`<br/>`http`: `8500`<br/>`https`: `-1`<br/>`dns`: `8600` | Port Mappings |
-| `consul_node_name` | `{{ inventory_hostname_short }}` | Node name (should not include dots) |
-| `consul_recursors` | Empty list | List of upstream DNS servers — see [recursors](https://www.consul.io/docs/agent/options.html#recursors) | 
-| `consul_bind_address` | dynamic from hosts inventory | The interface address to bind to
-| `consul_dnsmasq_enable` | *false* | Whether to install and configure DNS API forwarding on port 53 using dnsmasq |
-| `consul_iptables_enable` | *false* | Whether to enable iptables rules for DNS forwarding to Consul |
-| `consul_acl_enable` | *false* | Enable ACLs |
-| `consul_acl_datacenter` | *dc1* | ACL authoritative datacenter name |
-| `consul_acl_default_policy` | *allow* | Default ACL policy |
-| `consul_acl_down_policy` | *allow* | Default ACL down policy |
-| `consul_acl_master_token` | *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL* | ACL master token — can be overridden with `CONSUL_ACL_MASTER_TOKEN` environment variable |
-| `consul_acl_master_token_display` | *false* | Display generated ACL Master Token |
-| `consul_acl_replication_token` | *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL* | ACL replication token — can be overridden with `CONSUL_ACL_REPLICATION_TOKEN` environment variable|
-| `consul_tls_enable` | *false* | Enable TLS |
-| `consul_src_def` | `{{ role_path }}/files` | default source directory for TLS files |
-| `consul_src_files` | `{{ role_path }}/files` | User specified source directory for TLS files, can be overridden with `CONSUL_SRC_FILES` environment variable |
-| `consul_tls_dir` | `/etc/consul/ssl` | Target directory for TLS files, can be overridden with `CONSUL_TLS_DIR` environment variable |
-| `consul_ca_crt` | `ca.crt` | CA certificate filename, can be overridden with `CONSUL_CA_CRT` environment variable |
-| `consul_server_crt` | `server.crt` | Server certificate, can be overridden with `CONSUL_SERVER_CRT` environment variable |
-| `consul_server_key` | `server.key` | Server key, can be overridden with `CONSUL_SERVER_KEY` environment variable |
-| `consul_verify_incoming` | *false* | Verify incoming connections, can be overridden with `CONSUL_VERIFY_INCOMING` environment variable |
-| `consul_verify_outgoing` | *true* | Verify outgoing connections, can be overridden with `CONSUL_VERIFY_OUTGOING` environment variable |
-| `consul_verify_server_hostname` | *false* | Verify server hostname, can be overridden with `CONSUL_VERIFY_SERVER_HOSTNAME` environment variable |
+### `consul_version`
 
-### Custom Configuration Sections
+- Version to install
+- Default value: *0.8.0*
 
-As Consul loads the configuration from files and directories in lexical order, typically merging on top of previously parsed configuration files, you may set
-custom configurations via `consul_config_custom`, which will be expanded into a file named `XXX_config_custom.json` within your `consul_config_path`.
+### `consul_architecture_map`
+
+- Dictionary for translating ansible_architecture to HashiCorp architecture
+  naming convention
+- Default value: dict
+
+### `consul_architecture`
+
+- System architecture as determined by `{{ consul_architecture_map[ansible_architecture] }}`
+- Default value: *amd64*, *arm*, or *arm64* (determined at runtime)
+
+### `consul_os`
+
+- Node operating system name in lowercase representation
+- Default value: `{{ ansible_os_family|lower }}`
+
+### `consul_zip_url`
+
+- Consul archive download URL
+- Default value: `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip`
+
+### `consul_checksum_file_url`
+
+- Package SHA256 summaries URL
+- Default value: `https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_version }}_SHA256SUMS`
+
+### `consul_bin_path`
+
+- Default value: `/usr/local/bin`
+- Binary installation path
+
+### `consul_config_path`
+
+- Default value: `/etc/consul.d`
+- Configuration file path
+
+### `consul_data_path`
+
+- Default value: `/var/consul`
+- Data path
+
+### `consul_log_path`
+
+- Log path
+- Default value: `/var/log/consul`
+
+### `consul_user`
+
+- OS user
+- Default value: *consul*
+
+### `consul_group`
+
+- OS group
+- Default value: *bin*
+
+### `consul_group_name`
+
+- Inventory group name
+- Default value: *cluster_nodes*
+
+### `consul_datacenter`
+
+- Datacenter label
+- Default value: *dc1*
+
+### `consul_domain`
+
+- Consul domain name
+- Default value: *consul*
+
+### `consul_log_level`
+
+- Log level
+- Default value: *INFO*
+
+### `consul_syslog_enable`
+
+- Log to syslog
+- Default value: *true*
+
+### `consul_iface`
+
+- Consul network interface (can be overridden with `CONSUL_IFACE` environment variable)
+- Default value: `eth1`
+
+### `consul_bind_address`
+
+- Bind address
+- Default value: *127.0.0.1*
+
+### `consul_dns_bind_address`
+
+- DNS API bind address
+- Default value: *127.0.0.1*
+
+### `consul_http_bind_address`
+
+- HTTP API bind address
+- Default value: *0.0.0.0*
+
+### `consul_https_bind_address`
+
+- HTTPS API bind address
+- Default value: *0.0.0.0*
+
+### `consul_rpc_bind_address`
+
+- RPC bind address
+- Default value: *0.0.0.0*
+
+### `consul_ports`
+
+- Port Mappings
+- Default value:
+ - `rpc`: `8400`
+ - `http`: `8500`
+ - `https`: `-1`
+ - `dns`: `8600`
+
+### `consul_node_name`
+
+- Node name (should not include dots)
+- Default value: `{{ inventory_hostname_short }}`
+
+### `consul_recursors`
+
+- List of upstream DNS servers
+  See [recursors](https://www.consul.io/docs/agent/options.html#recursors)
+- Default value: Empty list
+
+### `consul_bind_address`
+
+- The interface address to bind to
+- Default value: dynamic from hosts inventory
+
+### `consul_dnsmasq_enable`
+
+- Whether to install and configure DNS API forwarding on port 53 using DNSMasq
+- Default value: *false*
+
+### `consul_iptables_enable`
+
+- Whether to enable iptables rules for DNS forwarding to Consul
+- Default value: *false*
+
+### `consul_acl_enable`
+
+- Enable ACLs
+- Default value: *false*
+
+### `consul_acl_datacenter`
+
+- ACL authoritative datacenter name
+- Default value: *dc1*
+
+### `consul_acl_default_policy`
+
+- Default ACL policy
+- Default value: *allow*
+
+### `consul_acl_down_policy`
+
+- Default ACL down policy
+- Default value: *allow*
+
+### `consul_acl_master_token`
+
+- ACL master token
+ - can be overridden with `CONSUL_ACL_MASTER_TOKEN` environment variable
+- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
+
+### `consul_acl_master_token_display`
+
+- Display generated ACL Master Token
+- Default value: *false*
+
+### `consul_acl_replication_token`
+
+- ACL replication token
+ - can be overridden with `CONSUL_ACL_REPLICATION_TOKEN` environment variable
+- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
+
+### `consul_tls_enable`
+
+- Enable TLS
+- Default value: *false*
+
+### `consul_src_def`
+
+- Default source directory for TLS files
+- Default value: `{{ role_path }}/files`
+
+### `consul_src_files`
+
+- User-specified source directory for TLS files
+ - can be overridden with `CONSUL_SRC_FILES` environment variable
+- Default value: `{{ role_path }}/files`
+
+### `consul_tls_dir`
+
+- Target directory for TLS files
+ - can be overridden with `CONSUL_TLS_DIR` environment variable
+- Default value: `/etc/consul/ssl`
+
+### `consul_ca_crt`
+
+- CA certificate filename
+ - can be overridden with `CONSUL_CA_CRT` environment variable
+- Default value: `ca.crt`
+
+### `consul_server_crt`
+
+- Server certificate
+ - can be overridden with `CONSUL_SERVER_CRT` environment variable
+- Default value: `server.crt`
+
+### `consul_server_key`
+
+- Server key
+ - can be overridden with `CONSUL_SERVER_KEY` environment variable
+- Default value: `server.key`
+
+### `consul_verify_incoming`
+
+- Verify incoming connections
+ - can be overridden with `CONSUL_VERIFY_INCOMING` environment variable
+- Default value: *false*
+
+### `consul_verify_outgoing`
 
 
-An example usage may be for enabling `telemetry`
+- Verify outgoing connections
+ - can be overridden with `CONSUL_VERIFY_OUTGOING` environment variable
+- Default value: *true*
+
+### `consul_verify_server_hostname`
+
+- Verify server hostname
+ - can be overridden with `CONSUL_VERIFY_SERVER_HOSTNAME` environment variable
+- Default value: *false*
+
+#### Custom Configuration Section
+
+As Consul loads the configuration from files and directories in lexical order,
+typically merging on top of previously parsed configuration files, you may set
+custom configurations via `consul_config_custom`, which will be expanded into a file named `config_z_custom.json` within your `consul_config_path` which will
+be loaded after all other configuration by default.
+
+An example usage for enabling `telemetry`:
+
 ```yaml
   vars:
     consul_config_custom:

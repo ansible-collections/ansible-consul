@@ -461,3 +461,10 @@
 ## v1.12.1
 
 - Fix defaults, shake fist at YAML
+
+## v1.13.0
+
+- Cleanup of variables
+- Fix statement preventing key transfer to new servers (thanks @groggemans)
+- Change custom configuration naming convention
+- Update documentation
