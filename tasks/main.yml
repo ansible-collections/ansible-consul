@@ -4,6 +4,10 @@
 - name: Include checks/asserts
   include: asserts.yml
 
+- name: OS-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+  tags: always
+
 - name: Check bootstrapped state
   stat:
     path: /etc/consul/.consul_bootstrapped
@@ -17,10 +21,6 @@
     comment: "Consul user"
     group: "{{ consul_group }}"
     system: yes
-
-- name: OS-specific variables
-  include_vars: "{{ ansible_os_family }}.yml"
-  tags: always
 
 - name: Create directories
   file:
