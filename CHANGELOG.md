@@ -472,3 +472,8 @@
 ## v1.13.1
 
 - Finish documentation updates
+
+## v1.14.0
+
+- Fix bootstrapping (thanks @groggemans)
+
