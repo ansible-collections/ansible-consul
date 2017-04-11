@@ -46,10 +46,15 @@
     owner: root
     mode: 0755
 
-- name: Install OS packages and consul
+- name: Install OS packages and consul - locally
   include: install.yml
+  when: not consul_install_remotely
 
-#- include: ../tasks/encrypt_gossip.yml
+- name: Install OS packages and consul - remotely
+  include: install_remote.yml
+  when: consul_install_remotely
+
+# - include: ../tasks/encrypt_gossip.yml
 
 - block:
     - name: Check for key on previously boostrapped server

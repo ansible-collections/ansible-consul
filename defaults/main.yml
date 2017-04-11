@@ -70,3 +70,6 @@ consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(fal
 ### Consul
 
 consul_pkg: "consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
+
+### Install Method
+consul_install_remotely: false 
