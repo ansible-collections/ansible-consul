@@ -12,29 +12,29 @@
 - block:
   - name: Copy CA certificate
     copy:
-      src: "{{ consul_src_files }}/{{ consul_ca_crt }}"
-      dest: "{{ consul_tls_dir }}/{{ consul_ca_crt }}"
+      src: "{{ consul_tls_src_files }}/{{ consul_tls_ca_crt }}"
+      dest: "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}"
       owner: "{{ consul_user }}"
       group: "{{ consul_group }}"
       mode: 0644
 
   - name: Copy server certificate
     copy:
-      src: "{{ consul_src_files }}/{{ consul_server_crt }}"
-      dest: "{{ consul_tls_dir }}/{{ consul_server_crt }}"
+      src: "{{ consul_tls_src_files }}/{{ consul_tls_server_crt }}"
+      dest: "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}"
       owner: "{{ consul_user }}"
       group: "{{ consul_group }}"
       mode: 0644
 
   - name: Copy server key
     copy:
-      src: "{{ consul_src_files }}/{{ consul_server_key }}"
+      src: "{{ consul_tls_src_files }}/{{ consul_server_key }}"
       dest: "{{ consul_tls_dir }}/{{ consul_server_key }}"
       owner: "{{ consul_user }}"
       group: "{{ consul_group }}"
       mode: 0600
 
-  when: consul_copy_keys == true
+  when: consul_tls_copy_keys == true
 
 - name: Write TLS configuration
   template:

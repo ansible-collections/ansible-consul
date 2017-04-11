@@ -477,3 +477,26 @@
 
 - Fix bootstrapping (thanks @groggemans)
 
+## v1.15.0
+
+- Add option to download binaries directly to remotes (thanks @jonhatalla)
+- Add environment variable overrides for the following default variables:
+  - `consul_bind_address`
+  - `consul_datacenter`
+  - `consul_domain`
+  - `consul_group_name`
+  - `consul_log_level`
+  - `consul_syslog_enable`
+  - `consul_acl_default_policy`
+  - `consul_acl_down_policy`
+  - Rename `consul_src_files` variable
+  - Rename `consul_copy_keys` variable
+  - Rename `consul_ca_crt` variable
+  - Rename `consul_server_crt` variable
+  - Rename `consul_server_key` variable
+  - Rename `consul_verify_outgoing` variable
+  - Rename `consul_verify_server_hostname` variable
+  - Move `consul_iface` default to value of `hostvars.consul_iface`
+    - Override with elsewhere or with `CONSUL_IFACE` environment variable
+    - Closes #40
+- Update documentation

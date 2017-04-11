@@ -18,10 +18,12 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
+* Consul: 0.8.0
 * Ansible: 2.2.2.0
-* Vault: 0.7.0
+* CentOS 7
 * Debian: 8
 * FreeBSD 11
+* RHEL 7
 * Ubuntu 16.04
 
 Sorry, there is no planned support at the moment for Windows.
@@ -64,18 +66,18 @@ inventory file (see below):
 
 ### `consul_bin_path`
 
-- Default value: `/usr/local/bin`
 - Binary installation path
+- Default value: `/usr/local/bin`
 
 ### `consul_config_path`
 
-- Default value: `/etc/consul.d`
 - Configuration file path
+- Default value: `/etc/consul.d`
 
 ### `consul_data_path`
 
-- Default value: `/var/consul`
 - Data path
+- Default value: `/var/consul`
 
 ### `consul_log_path`
 
@@ -95,36 +97,43 @@ inventory file (see below):
 ### `consul_group_name`
 
 - Inventory group name
+  - Override with `CONSUL_GROUP_NAME` environment variable
 - Default value: *cluster_nodes*
 
 ### `consul_datacenter`
 
 - Datacenter label
+  - Override with `CONSUL_DATACENTER` environment variable- Default value: *dc1*
 - Default value: *dc1*
 
 ### `consul_domain`
 
 - Consul domain name
+  - Override with `CONSUL_DOMAIN` environment variable
 - Default value: *consul*
 
 ### `consul_log_level`
 
 - Log level
+  - Override with `CONSUL_LOG_LEVEL` environment variable
 - Default value: *INFO*
 
 ### `consul_syslog_enable`
 
 - Log to syslog
+  - Override with `CONSUL_SYSLOG_ENABLE` environment variable
 - Default value: *true*
 
 ### `consul_iface`
 
-- Consul network interface (can be overridden with `CONSUL_IFACE` environment variable)
-- Default value: `eth1`
+- Consul network interface
+  - Override with `CONSUL_IFACE` environment variable
+- Default value: determined from host inventory
 
 ### `consul_bind_address`
 
 - Bind address
+  - Override with `CONSUL_BIND_ADDRESS` environment variable
 - Default value: *127.0.0.1*
 
 ### `consul_dns_bind_address`
@@ -151,10 +160,10 @@ inventory file (see below):
 
 - Port Mappings
 - Default value:
- - `rpc`: `8400`
- - `http`: `8500`
- - `https`: `-1`
- - `dns`: `8600`
+  - `rpc`: `8400`
+  - `http`: `8500`
+  - `https`: `-1`
+  - `dns`: `8600`
 
 ### `consul_node_name`
 
@@ -165,6 +174,7 @@ inventory file (see below):
 
 - List of upstream DNS servers
   See [recursors](https://www.consul.io/docs/agent/options.html#recursors)
+  - Override with `CONSUL_RECURSORS` environment variable
 - Default value: Empty list
 
 ### `consul_bind_address`
@@ -175,106 +185,120 @@ inventory file (see below):
 ### `consul_dnsmasq_enable`
 
 - Whether to install and configure DNS API forwarding on port 53 using DNSMasq
+  - Override with `CONSUL_DNSMASQ_ENABLE` environment variable
 - Default value: *false*
 
 ### `consul_iptables_enable`
 
 - Whether to enable iptables rules for DNS forwarding to Consul
+  - Override with `CONSUL_IPTABLES_ENABLE` environment variable
 - Default value: *false*
 
 ### `consul_acl_enable`
 
 - Enable ACLs
+  - Override with `CONSUL_ACL_ENABLE` environment variable
 - Default value: *false*
 
 ### `consul_acl_datacenter`
 
 - ACL authoritative datacenter name
+  - Override with `CONSUL_ACL_DATACENTER` environment variable
 - Default value: *dc1*
 
 ### `consul_acl_default_policy`
 
 - Default ACL policy
+  - Override with `CONSUL_ACL_DEFAULT_POLICY` environment variable
 - Default value: *allow*
 
 ### `consul_acl_down_policy`
 
 - Default ACL down policy
+  - Override with `CONSUL_ACL_DOWN_POLICY` environment variable
 - Default value: *allow*
 
 ### `consul_acl_master_token`
 
 - ACL master token
- - can be overridden with `CONSUL_ACL_MASTER_TOKEN` environment variable
+  - Override with `CONSUL_ACL_MASTER_TOKEN` environment variable
 - Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
 
 ### `consul_acl_master_token_display`
 
 - Display generated ACL Master Token
+  - Override with `CONSUL_ACL_MASTER_TOKEN_DISPLAY` environment variable
 - Default value: *false*
 
 ### `consul_acl_replication_token`
 
 - ACL replication token
- - can be overridden with `CONSUL_ACL_REPLICATION_TOKEN` environment variable
+  - Override with `CONSUL_ACL_REPLICATION_TOKEN_DISPLAY` environment variable
 - Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
 
 ### `consul_tls_enable`
 
 - Enable TLS
+  - Override with `CONSUL_ACL_TLS_ENABLE` environment variable
 - Default value: *false*
 
 ### `consul_src_def`
 
 - Default source directory for TLS files
+  - Override with `CONSUL_ACL_TLS_ENABLE` environment variable
 - Default value: `{{ role_path }}/files`
 
-### `consul_src_files`
+### `consul_tls_src_files`
 
 - User-specified source directory for TLS files
- - can be overridden with `CONSUL_SRC_FILES` environment variable
+  - Override with `CONSUL_TLS_SRC_FILES` environment variable
 - Default value: `{{ role_path }}/files`
 
 ### `consul_tls_dir`
 
 - Target directory for TLS files
- - can be overridden with `CONSUL_TLS_DIR` environment variable
+  - Override with `CONSUL_TLS_DIR` environment variable
 - Default value: `/etc/consul/ssl`
 
-### `consul_ca_crt`
+### `consul_tls_ca_crt`
 
 - CA certificate filename
- - can be overridden with `CONSUL_CA_CRT` environment variable
+  - Override with `CONSUL_TLS_CA_CRT` environment variable
 - Default value: `ca.crt`
 
-### `consul_server_crt`
+### `consul_tls_server_crt`
 
 - Server certificate
- - can be overridden with `CONSUL_SERVER_CRT` environment variable
+  - Override with `CONSUL_TLS_SERVER_CRT` environment variable
 - Default value: `server.crt`
 
 ### `consul_server_key`
 
 - Server key
- - can be overridden with `CONSUL_SERVER_KEY` environment variable
+  - Override with `CONSUL_TLS_SERVER_KEY` environment variable
 - Default value: `server.key`
 
-### `consul_verify_incoming`
+### `consul_tls_verify_incoming`
 
 - Verify incoming connections
- - can be overridden with `CONSUL_VERIFY_INCOMING` environment variable
+  - Override with `CONSUL_TLS_VERIFY_INCOMING` environment variable
 - Default value: *false*
 
-### `consul_verify_outgoing`
+### `consul_tls_verify_outgoing`
 
 - Verify outgoing connections
- - can be overridden with `CONSUL_VERIFY_OUTGOING` environment variable
+  - Override with `CONSUL_TLS_VERIFY_OUTGOING` environment variable
 - Default value: *true*
 
-### `consul_verify_server_hostname`
+### `consul_tls_verify_server_hostname`
 
 - Verify server hostname
- - can be overridden with `CONSUL_VERIFY_SERVER_HOSTNAME` environment variable
+  - Override with `CONSUL_TLS_VERIFY_SERVER_HOSTNAME` environment variable
+- Default value: *false*
+
+### `consul_install_remotely`
+
+- Whether to download the files for installation directly on the remote hosts
 - Default value: *false*
 
 #### Custom Configuration Section
@@ -304,6 +328,11 @@ when forming a cluster. One server should be designated as the bootstrap
 server that uses the `bootstrap_expect` configuration directive, and the other
 servers will connect to this server. You can also specify *client* as the
 role, and Consul will be configured as a client agent instead of a server.
+
+### `consul_iface`
+
+- Consul server role, one of: *bootstrap*, *server*, or *client*
+- Default value: NONE
 
 ### `consul_node_role`
 
@@ -524,8 +553,8 @@ certificate, and server key into the role's `files` directory.
 
 By default these are named:
 
-- `ca.crt` (can be overridden by {{ consul_ca_crt }})
-- `server.crt` (can be overridden by {{ consul_server_crt }})
+- `ca.crt` (can be overridden by {{ consul_tls_ca_crt }})
+- `server.crt` (can be overridden by {{ consul_tls_server_crt }})
 - `server.key` (can be overridden by {{ consul_server_key }})
 
 Then either set the environment variable `CONSUL_TLS_ENABLE=true` or use the

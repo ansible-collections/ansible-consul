@@ -19,14 +19,14 @@ consul_data_path: "/var/consul"
 consul_log_path: "/var/log/consul"
 consul_user: "consul"
 consul_group: "bin"
-consul_group_name: "cluster_nodes"
-consul_datacenter: "dc1"
-consul_domain: "consul"
-consul_log_level: "INFO"
-consul_syslog_enable: true
-consul_iface: "{{ lookup('env','CONSUL_IFACE') | default('eth1', true) }}"
+consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('cluster_nodes', true) }}"
+consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) }}"
+consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
+consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
+consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
+consul_iface: "{{ lookup('env','CONSUL_IFACE') | default(hostvars.consul_iface, true) }}"
 vault_address: "0.0.0.0"
-consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'] }}"
+consul_bind_address: "{{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'], true) }}"
 consul_dns_bind_address: "127.0.0.1"
 consul_http_bind_address: "0.0.0.0"
 consul_https_bind_address: "0.0.0.0"
@@ -42,8 +42,8 @@ consul_ports:
 ## ACL
 consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
 consul_acl_datacenter: "{{ lookup('env','CONSUL_ACL_DATACENTER') | default(consul_datacenter, true) }}"
-consul_acl_default_policy: "allow"
-consul_acl_down_policy: "allow"
+consul_acl_default_policy: "{{ lookup('env','CONSUL_ACL_DEFAULT_POLICY') | default('allow', true) }}"
+consul_acl_down_policy: "{{ lookup('env','CONSUL_ACL_DOWN_POLICY') | default('allow', true) }}"
 consul_acl_master_token: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
 consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
 consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
@@ -51,15 +51,15 @@ consul_acl_replication_token_display: "{{ lookup('env','CONSUL_ACL_REPLICATION_T
 
 ## TLS
 consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"
-consul_src_files: "{{ lookup('env','CONSUL_SRC_FILES') | default(role_path+'/files', true) }}"
+consul_tls_src_files: "{{ lookup('env','CONSUL_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
 consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default('/etc/consul/ssl', true) }}"
-consul_ca_crt: "{{ lookup('env','CONSUL_CA_CRT') | default('ca.crt', true) }}"
-consul_server_crt: "{{ lookup('env','CONSUL_SERVER_CRT') | default('server.crt', true) }}"
+consul_tls_ca_crt: "{{ lookup('env','CONSUL_TLS_CA_CRT') | default('ca.crt', true) }}"
+consul_tls_server_crt: "{{ lookup('env','CONSUL_SERVER_CRT') | default('server.crt', true) }}"
 consul_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key', true) }}"
-consul_copy_keys: true
-consul_verify_incoming: false
-consul_verify_outgoing: true
-consul_verify_server_hostname: false
+consul_tls_copy_keys: true
+consul_tls_verify_incoming: false
+consul_tls_verify_outgoing: true
+consul_tls_verify_server_hostname: false
 
 ## Other Options
 consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
@@ -72,4 +72,4 @@ consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(fal
 consul_pkg: "consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 
 ### Install Method
-consul_install_remotely: false 
+consul_install_remotely: false
