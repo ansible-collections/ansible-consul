@@ -1,0 +1,14 @@
+---
+
+# Add group
+# @TODO
+
+# Add user
+- name: Add Consul user
+  user:
+    name: "{{ consul_user }}"
+    comment: "Consul user"
+    group: "{{ consul_group }}"
+    system: yes
+  when: consul_manage_user|string in 'True,true,Yes,yes,Y,y,1'
+

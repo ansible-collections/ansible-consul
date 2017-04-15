@@ -27,7 +27,9 @@ consul_data_path: "/var/consul"
 consul_log_path: "/var/log/consul"
 
 ### System user and group
+consul_manage_user: 'yes'
 consul_user: "consul"
+#consul_manage_group: 'no'
 consul_group: "bin"
 
 ### Consul settings

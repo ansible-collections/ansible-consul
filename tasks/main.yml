@@ -26,12 +26,8 @@
   ignore_errors: true
   tags: always
 
-- name: Add Consul user
-  user:
-    name: "{{ consul_user }}"
-    comment: "Consul user"
-    group: "{{ consul_group }}"
-    system: yes
+- name: Include user/group settings
+  include: user_group.yml
 
 - name: Create directories
   file:
