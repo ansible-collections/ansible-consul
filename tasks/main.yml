@@ -8,6 +8,26 @@
   include_vars: "{{ ansible_os_family }}.yml"
   tags: always
 
+- name: debug
+  debug:
+    var: consul_servers
+
+- name: debug
+  debug:
+    var: play_hosts
+
+# Gathers facts from servers not currently targeted
+- name: Gather facts from servers
+  setup:
+  delegate_to: "{{ item }}"
+  delegate_facts: True
+  with_items: "{{ consul_servers|difference(play_hosts) }}"
+  #ignore_errors: yes
+
+- name: debug
+  debug:
+    var: hostvars
+
 - name: Check bootstrapped state
   stat:
     path: /etc/consul/.consul_bootstrapped
@@ -124,16 +144,6 @@
   become: no
   run_once: true
   delegate_to: localhost
-
-- name: Select Consul network interface for Linux
-  set_fact:
-    consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'] }}"
-  when: ansible_os_family == "Linux"
-
-- name: Select Consul network interface for BSD and SmartOS
-  set_fact:
-    consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4'][0]['address'] }}"
-  when: ansible_os_family == "FreeBSD" or ansible_os_family == "SmartOS"
 
 - name: Bootstrap configuration
   template:

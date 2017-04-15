@@ -2,6 +2,8 @@
 # File: main.yml - Default variables for Consul
 
 ## Core
+
+### Package
 consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.8.0', true) }}"
 consul_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
@@ -11,33 +13,62 @@ consul_architecture_map:
   aarch64: arm64
 consul_architecture: "{{ consul_architecture_map[ansible_architecture] }}"
 consul_os: "{{ ansible_system|lower }}"
+consul_pkg: "consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
+
+### Install Method
+consul_install_remotely: false
+
+### Path's
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul.d"
 consul_data_path: "/var/consul"
 consul_log_path: "/var/log/consul"
+
+### System user and group
 consul_user: "consul"
 consul_group: "bin"
-consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('cluster_nodes', true) }}"
+
+### Consul settings
 consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) }}"
 consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
 consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
 consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
-consul_iface: "{{ lookup('env','CONSUL_IFACE') | default(hostvars.consul_iface, true) }}"
-vault_address: "0.0.0.0"
-consul_bind_address: "{{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'], true) }}"
+consul_iface: "{{ lookup('env','CONSUL_IFACE') | default(ansible_default_ipv4.interface, true) }}"
+consul_node_name: "{{ inventory_hostname_short }}"
+consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
+
+### Addresses
+consul_bind_address: "\
+  {% if ansible_system == 'FreeBSD' %}\
+    {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4'][0]['address'], true) }}\
+  {% else %}\
+    {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'], true) }}\
+  {% endif %}"
 consul_dns_bind_address: "127.0.0.1"
 consul_http_bind_address: "0.0.0.0"
 consul_https_bind_address: "0.0.0.0"
 consul_rpc_bind_address: "0.0.0.0"
-consul_node_name: "{{ inventory_hostname_short }}"
-consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
+vault_address: "0.0.0.0"
+
+### Ports
 consul_ports:
   rpc: 8400
   http: 8500
   https: -1
   dns: 8600
+
+### Servers
+consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('cluster_nodes', true) }}"
+consul_servers: "\
+  {% set _consul_servers=[] %}\
+  {% for host in groups[consul_group_name] %}\
+  {% if (hostvars[host]['consul_node_role'] == 'server' or hostvars[host]['consul_node_role'] == 'bootstrap') %}\
+      {% do _consul_servers.append(host) %}\
+    {% endif %}\
+  {% endfor %}\
+  {{ _consul_servers }}"
 
 ## ACL
 consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
@@ -66,10 +97,3 @@ consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false
 consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
 
 ## Distribution
-
-### Consul
-
-consul_pkg: "consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
-
-### Install Method
-consul_install_remotely: false

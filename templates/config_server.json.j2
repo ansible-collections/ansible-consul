@@ -1,6 +1,3 @@
-{% set comma = joiner(", ") %}
-{% set comma_nodes = joiner(", ") %}
-
 {
   "bind_addr": "{{ consul_bind_address }}",
   "addresses": {
@@ -13,10 +10,12 @@
   "ports": {{ consul_ports | to_nice_json }},
   {% endif %}
   {%- if consul_recursors|length > 0 -%}
-  "recursors": [ {% for recursor in consul_recursors -%}
-                     {{ comma() }}"{{ recursor }}"
-                 {%- endfor %} ],
-  {% endif %}
+  "recursors": [
+    {% set comma = joiner(", ") %}
+    {% for recursor in consul_recursors -%}
+      {{ comma() }}"{{ recursor }}"
+    {%- endfor %}
+    ],
   "bootstrap": false,
   "server": true,
   "node_name": "{{ consul_node_name }}",
@@ -26,18 +25,10 @@
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable|lower }},
   "start_join": [
-    {% set interface = 'ansible_' ~ consul_iface %}
-    {% for host in groups[consul_group_name] %}
-    {% if ansible_system == 'FreeBSD' %}
-      {% if host != inventory_hostname and (hostvars[host]['consul_node_role'] == 'server' or hostvars[host]['consul_node_role'] == 'bootstrap') %}
-      {{ comma_nodes() }}"{{ hostvars[host][interface]['ipv4'][0]['address'] }}"
-      {% endif %}
-    {% else %}
-      {% if host != inventory_hostname and (hostvars[host]['consul_node_role'] == 'server' or hostvars[host]['consul_node_role'] == 'bootstrap') %}
-      {{ comma_nodes() }}"{{ hostvars[host][interface]['ipv4']['address'] }}"
-      {% endif %}
-    {% endif %}
+    {% set comma_nodes = joiner(", ") %}
+    {% for server in consul_servers %}
+      {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] }}"
     {% endfor %}
-   ],
+    ],
   "ui": true
 }
