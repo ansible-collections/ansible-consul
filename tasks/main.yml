@@ -29,29 +29,8 @@
 - name: Include user/group settings
   include: user_group.yml
 
-- name: Create directories
-  file:
-    dest: "{{ item }}"
-    state: directory
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-  with_items:
-    - /etc/consul
-    - /opt/consul
-    - /var/consul
-    - /var/log/consul
-    - /var/run/consul
-    - /etc/consul.d
-    - /etc/consul.d/bootstrap
-    - /etc/consul.d/client
-    - /etc/consul.d/server
-
-- name: Ensure bin path
-  file:
-    path: "{{ consul_bin_path }}"
-    state: directory
-    owner: root
-    mode: 0755
+- name: Include dir settings
+  include: dirs.yml
 
 - name: Install OS packages and consul - locally
   include: install.yml
