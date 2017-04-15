@@ -4,29 +4,20 @@
 - name: Include checks/asserts
   include: asserts.yml
 
-- name: OS-specific variables
+- name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
   tags: always
 
-- name: debug
-  debug:
-    var: consul_servers
-
-- name: debug
-  debug:
-    var: play_hosts
-
-# Gathers facts from servers not currently targeted
-- name: Gather facts from servers
+# Gathers facts (bind address) from servers not currently targeted.
+# 'delegate_facts' is currently rather buggy in Ansible so this might not
+# always work. Hence 'consul_gather_server_facts' defaults to 'no'.
+- name: Gather facts from other servers
   setup:
   delegate_to: "{{ item }}"
   delegate_facts: True
   with_items: "{{ consul_servers|difference(play_hosts) }}"
-  #ignore_errors: yes
-
-- name: debug
-  debug:
-    var: hostvars
+  ignore_errors: yes
+  when: consul_gather_server_facts|string in 'True,true,Yes,yes,Y,y,1'
 
 - name: Check bootstrapped state
   stat:

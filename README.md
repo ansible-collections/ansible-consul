@@ -100,6 +100,25 @@ inventory file (see below):
   - Override with `CONSUL_GROUP_NAME` environment variable
 - Default value: *cluster_nodes*
 
+### `consul_servers`
+
+Although overwritable, it should not be necessary to manually alter this list.
+
+- List of server nodes
+- Default value: List of all nodes in `consul_group_name` with
+  `consul_node_role` set to *server* or *bootstrap*
+
+### `consul_gather_server_facts`
+
+This feature makes it possible to gather the `consul_bind_address` from servers
+that are currently not targeted by the playbook.
+
+To make this possible the `delegate_facts` option is used. This option is broken
+in many Ansible versions, so this feature might not always work.
+
+- Gather facts from servers that are not currently targeted
+- Default value: 'no'
+
 ### `consul_datacenter`
 
 - Datacenter label
