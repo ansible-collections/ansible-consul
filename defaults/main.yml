@@ -68,7 +68,7 @@ consul_servers: "\
   {% set _consul_servers=[] %}\
   {% for host in groups[consul_group_name] %}\
   {% if (hostvars[host]['consul_node_role'] == 'server' or hostvars[host]['consul_node_role'] == 'bootstrap') %}\
-      {% do _consul_servers.append(host) %}\
+      {% if _consul_servers.append(host) %}{% endif %}\
     {% endif %}\
   {% endfor %}\
   {{ _consul_servers }}"
