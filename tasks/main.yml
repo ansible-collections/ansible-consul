@@ -19,6 +19,10 @@
   ignore_errors: yes
   when: consul_gather_server_facts|string in 'True,true,Yes,yes,Y,y,1'
 
+- name: Expose consul_bind_address as fact
+  set_fact:
+    consul_bind_address: "{{ consul_bind_address }}"
+
 - name: Check bootstrapped state
   stat:
     path: /etc/consul/.consul_bootstrapped
