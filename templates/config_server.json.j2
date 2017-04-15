@@ -16,6 +16,7 @@
       {{ comma() }}"{{ recursor }}"
     {%- endfor %}
     ],
+  {% endif %}
   "bootstrap": false,
   "server": true,
   "node_name": "{{ consul_node_name }}",

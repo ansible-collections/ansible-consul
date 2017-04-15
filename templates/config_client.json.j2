@@ -6,6 +6,9 @@
     "https": "{{ consul_https_bind_address }}",
     "rpc": "{{ consul_rpc_bind_address }}"
   },
+  {% if consul_ports %}
+  "ports": {{ consul_ports | to_nice_json }},
+  {% endif %}
   {%- if consul_recursors|length > 0 -%}
   "recursors": [
     {% set comma = joiner(", ") %}
@@ -13,9 +16,6 @@
       {{ comma() }}"{{ recursor }}"
     {%- endfor %}
     ],
-  {% endif %}
-  {% if consul_ports %}
-  "ports": {{ consul_ports | to_nice_json }},
   {% endif %}
   "bootstrap": false,
   "server": false,
