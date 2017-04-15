@@ -37,6 +37,7 @@ consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }
 consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
 consul_iface: "{{ lookup('env','CONSUL_IFACE') | default(ansible_default_ipv4.interface, true) }}"
 consul_node_name: "{{ inventory_hostname_short }}"
+consul_node_role: "{{ lookup('env','CONSUL_NODE_ROLE') | default('client', true) }}"
 consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
 
 ### Addresses
