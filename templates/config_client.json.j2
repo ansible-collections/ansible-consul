@@ -6,17 +6,17 @@
     "https": "{{ consul_https_bind_address }}",
     "rpc": "{{ consul_rpc_bind_address }}"
   },
-  {% if consul_ports %}
-  "ports": {{ consul_ports | to_nice_json }},
-  {% endif %}
-  {%- if consul_recursors|length > 0 -%}
-  "recursors": [
-    {% set comma = joiner(", ") %}
-    {% for recursor in consul_recursors -%}
-      {{ comma() }}"{{ recursor }}"
-    {%- endfor %}
+  {% if consul_ports -%}
+    "ports": {{ consul_ports | to_nice_json }},
+  {% endif -%}
+  {% if consul_recursors|length > 0 -%}
+    "recursors": [
+      {%- set comma = joiner(", ") -%}
+      {% for recursor in consul_recursors -%}
+        {{ comma() }}"{{ recursor }}"
+      {%- endfor -%}
     ],
-  {% endif %}
+  {% endif -%}
   "bootstrap": false,
   "server": false,
   "node_name": "{{ consul_node_name }}",
@@ -26,9 +26,9 @@
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable|lower }},
   "start_join": [
-    {% set comma_nodes = joiner(", ") %}
-    {% for server in consul_servers %}
+    {%- set comma_nodes = joiner(", ") -%}
+    {% for server in consul_servers -%}
       {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] }}"
-    {% endfor %}
-    ]
+    {%- endfor -%}
+  ]
 }

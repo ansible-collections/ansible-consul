@@ -11,5 +11,5 @@
     comment: "Consul user"
     group: "{{ consul_group }}"
     system: yes
-  when: consul_manage_user|string in 'True,true,Yes,yes,Y,y,1'
+  when: consul_manage_user|bool
 

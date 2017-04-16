@@ -17,7 +17,7 @@
   delegate_facts: True
   with_items: "{{ consul_servers|difference(play_hosts) }}"
   ignore_errors: yes
-  when: consul_gather_server_facts|string in 'True,true,Yes,yes,Y,y,1'
+  when: consul_gather_server_facts|bool
 
 - name: Expose consul_bind_address as fact
   set_fact:

@@ -27,9 +27,9 @@ consul_data_path: "/var/consul"
 consul_log_path: "/var/log/consul"
 
 ### System user and group
-consul_manage_user: 'yes'
+consul_manage_user: yes
 consul_user: "consul"
-#consul_manage_group: 'no'
+#consul_manage_group: no
 consul_group: "bin"
 
 ### Consul settings
@@ -53,7 +53,7 @@ consul_dns_bind_address: "127.0.0.1"
 consul_http_bind_address: "0.0.0.0"
 consul_https_bind_address: "0.0.0.0"
 consul_rpc_bind_address: "0.0.0.0"
-consul_vault_address: "{{ vault_address | default('0.0.0.0') }}"
+consul_vault_address: "{{ vault_address | default('0.0.0.0', true) }}"
 
 ### Ports
 consul_ports:
@@ -72,7 +72,7 @@ consul_servers: "\
     {% endif %}\
   {% endfor %}\
   {{ _consul_servers }}"
-consul_gather_server_facts: 'no'
+consul_gather_server_facts: no
 
 ## ACL
 consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
