@@ -10,12 +10,10 @@
     "ports": {{ consul_ports | to_nice_json }},
   {% endif -%}
   {% if consul_recursors|length > 0 -%}
-    "recursors": [
-      {%- set comma = joiner(", ") -%}
+    "recursors": [ {% set comma = joiner(", ") -%}
       {% for recursor in consul_recursors -%}
         {{ comma() }}"{{ recursor }}"
-      {%- endfor -%}
-    ],
+      {%- endfor %} ],
   {% endif -%}
   "bootstrap": true,
   "server": true,
