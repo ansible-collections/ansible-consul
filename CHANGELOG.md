@@ -527,3 +527,8 @@
 - Standing corrected - put node_role back into defaults as it will still be
   overridden by host vars (sorry @groggemans)
 - Update documentation
+
+## v1.16.3
+
+- Consul 0.8.1
+- Update documentation

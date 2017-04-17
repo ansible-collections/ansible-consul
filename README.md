@@ -18,7 +18,7 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
-* Consul: 0.8.0
+* Consul: 0.8.1
 * Ansible: 2.2.2.0
 * CentOS 7
 * Debian: 8
@@ -36,7 +36,7 @@ inventory file (see below):
 ### `consul_version`
 
 - Version to install
-- Default value: *0.8.0*
+- Default value: *0.8.1*
 
 ### `consul_architecture_map`
 
