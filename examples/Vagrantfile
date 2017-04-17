@@ -138,10 +138,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # extra Ansible variables can be defined here as well. Wheeee!
       #
       ansible.extra_vars = {
-        consul_iface: CONSUL_IFACE,
-        consul_acl_enable: CONSUL_ACL_ENABLE,
-        consul_dnsmasq_enable: CONSUL_DNSMASQ_ENABLE,
-        consul_log_level: CONSUL_LOGLEVEL
+        consul_node_role: "server"
       }
       ansible.playbook = ANSIBLE_PLAYBOOK
       ansible.limit = "all"

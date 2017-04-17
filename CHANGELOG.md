@@ -500,3 +500,19 @@
     - Override with elsewhere or with `CONSUL_IFACE` environment variable
     - Closes #40
 - Update documentation
+
+## v1.16.0
+
+- Cleanup templates and default vars (thanks @groggemans)
+- Add default consul_node_role (client) (thanks @groggemans)
+- Update 'gather server facts' task/option (thanks @groggemans)
+- Make user management optional + move to own file (thanks @groggemans)
+- Properly name-space all vars (thanks @groggemans)
+- Move directory settings to own file (thanks @groggemans)
+- Replace unsupported Jinja do with if/else (thanks @groggemans)
+- Fix missing endif in server configuration template (thanks @groggemans)
+- Re-expose consul_bind_address as fact (thanks @groggemans)
+- Template output improvements and style changes (thanks @groggemans)
+- Add spaces at front end back of JSON arrays (thanks @groggemans)
+- Update Vagrantfile
+- Update documentation

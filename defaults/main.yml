@@ -20,7 +20,7 @@ consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_versi
 ### Install Method
 consul_install_remotely: false
 
-### Path's
+### Paths
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul.d"
 consul_data_path: "/var/consul"
@@ -99,5 +99,3 @@ consul_tls_verify_server_hostname: false
 ## Other Options
 consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
 consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
-
-## Distribution
