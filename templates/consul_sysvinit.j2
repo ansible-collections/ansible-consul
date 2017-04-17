@@ -12,7 +12,8 @@
 {% endif %}
 
 CONSUL={{ consul_bin_path }}/consul
-CONFIG=/etc/consul.d/{{ consul_node_role }}
+CONFIG={{ consul_config_path }}/config.json
+CONFIGD={{ consul_configd_path }}
 PID_FILE=/var/run/consul/consul.pid
 
 [ -e /etc/sysconfig/consul ] && . /etc/sysconfig/consul
@@ -42,7 +43,7 @@ start() {
         # [ -f "${PID_FILE}" ] && rm "${PID_FILE}"
         daemon --user={{ consul_user }} \
             --pidfile="${PID_FILE}" \
-            "${CONSUL}" agent -pid-file "${PID_FILE}" -config-dir "${CONFIG}" &
+            "${CONSUL}" agent -config-file="${CONFIG}" -config-dir="${CONFIGD}" -pid-file="${PID_FILE}" &
         retcode=$?
         touch /var/lock/subsys/consul
         return "${retcode}"

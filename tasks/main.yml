@@ -49,7 +49,7 @@
 - block:
     - name: Check for key on previously boostrapped server
       slurp:
-        src: "{{ consul_config_path }}/bootstrap/config.json"
+        src: "{{ consul_config_path }}/config.json"
       register: consul_config_b64
       ignore_errors: yes
 
@@ -67,7 +67,7 @@
   when:
     - consul_raw_key is not defined
     - bootstrap_marker.stat.exists
-    - (consul_node_role == "bootstrap" or consul_node_role == "server")
+    - inventory_hostname in consul_servers
 
 # Key provided by extra vars or the above block
 - name: Write key locally to share with new servers
@@ -115,49 +115,16 @@
   run_once: true
   delegate_to: localhost
 
-- name: Bootstrap configuration
-  template:
-    src: config_bootstrap.json.j2
-    dest: "{{ consul_config_path }}/bootstrap/config.json"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-  notify:
-    - restart consul
+- name: Consul config
+  include: config.yml
 
-- name: Client configuration
-  template:
-    src: config_client.json.j2
-    dest: "{{ consul_config_path }}/client/config.json"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-  notify:
-    - restart consul
-
-- name: Server configuration
-  template:
-    src: config_server.json.j2
-    dest: "{{ consul_config_path }}/server/config.json"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-  notify:
-    - restart consul
-
-- name: Extra configurations
-  template:
-    src: _config_custom.json.j2
-    dest: "{{ consul_config_path }}/{{ item }}/config_z_custom.json"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-  with_items:
-    - [ "bootstrap", "client", "server" ]
-  when:
-    - consul_config_custom is defined
-    - item == consul_node_role
-  notify:
-    - restart consul
-
-- include: ../tasks/acl.yml
+- name: ACL config
+  include: acl.yml
   when: consul_acl_enable
+
+- name: TLS config
+  include: tls.yml
+  when: consul_tls_enable
 
 - block:
 
@@ -230,8 +197,6 @@
       - smfmanifest|changed
       - ansible_os_family == "Solaris"
 
-  - include: ../tasks/tls.yml
-    when: consul_tls_enable
 
   - name: Start Consul
     service:
