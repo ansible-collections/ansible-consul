@@ -100,6 +100,25 @@ inventory file (see below):
   - Override with `CONSUL_GROUP_NAME` environment variable
 - Default value: *cluster_nodes*
 
+### `consul_servers`
+
+Although overwritable, it should not be necessary to manually alter this list.
+
+- List of server nodes
+- Default value: List of all nodes in `consul_group_name` with
+  `consul_node_role` set to *server* or *bootstrap*
+
+### `consul_gather_server_facts`
+
+This feature makes it possible to gather the `consul_bind_address` from servers
+that are currently not targeted by the playbook.
+
+To make this possible the `delegate_facts` option is used. This option is broken
+in many Ansible versions, so this feature might not always work.
+
+- Gather facts from servers that are not currently targeted
+- Default value: 'no'
+
 ### `consul_datacenter`
 
 - Datacenter label
@@ -128,7 +147,7 @@ inventory file (see below):
 
 - Consul network interface
   - Override with `CONSUL_IFACE` environment variable
-- Default value: determined from host inventory
+- Default value: `{{ ansible_default_ipv4.interface }}`
 
 ### `consul_bind_address`
 
@@ -301,6 +320,25 @@ inventory file (see below):
 - Whether to download the files for installation directly on the remote hosts
 - Default value: *false*
 
+### `consul_node_role`
+
+- Consul server role, one of: *bootstrap*, *server*, or *client*
+- Default value: *client*
+
+One server should be designated as the bootstrap
+server that uses the `bootstrap_expect` configuration directive, and the other
+servers will connect to this server. You can also specify *client* as the
+role, and Consul will be configured as a client agent instead of a server.
+
+Here is an example of how the hosts inventory could be defined for a simple
+cluster of 3 servers:
+
+```
+consul1.local consul_node_role=bootstrap
+consul2.local consul_node_role=server
+consul3.local consul_node_role=server
+```
+
 #### Custom Configuration Section
 
 As Consul loads the configuration from files and directories in lexical order,
@@ -319,33 +357,6 @@ An example usage for enabling `telemetry`:
           - "security"
           - "compliance"
         disable_hostname: true
-```
-
-## Host Inventory Variables
-
-This role also uses a host inventory variable to define the server's role
-when forming a cluster. One server should be designated as the bootstrap
-server that uses the `bootstrap_expect` configuration directive, and the other
-servers will connect to this server. You can also specify *client* as the
-role, and Consul will be configured as a client agent instead of a server.
-
-### `consul_iface`
-
-- Consul server role, one of: *bootstrap*, *server*, or *client*
-- Default value: NONE
-
-### `consul_node_role`
-
-- Consul server role, one of: *bootstrap*, *server*, or *client*
-- Default value: NONE
-
-Here is an example of how the hosts inventory could be defined for a simple
-cluster of 3 servers:
-
-```
-consul1.local consul_node_role=bootstrap
-consul2.local consul_node_role=server
-consul3.local consul_node_role=server
 ```
 
 ## OS Distribution Variables

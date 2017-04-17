@@ -4,9 +4,24 @@
 - name: Include checks/asserts
   include: asserts.yml
 
-- name: OS-specific variables
+- name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
   tags: always
+
+# Gathers facts (bind address) from servers not currently targeted.
+# 'delegate_facts' is currently rather buggy in Ansible so this might not
+# always work. Hence 'consul_gather_server_facts' defaults to 'no'.
+- name: Gather facts from other servers
+  setup:
+  delegate_to: "{{ item }}"
+  delegate_facts: True
+  with_items: "{{ consul_servers|difference(play_hosts) }}"
+  ignore_errors: yes
+  when: consul_gather_server_facts|bool
+
+- name: Expose consul_bind_address as fact
+  set_fact:
+    consul_bind_address: "{{ consul_bind_address }}"
 
 - name: Check bootstrapped state
   stat:
@@ -15,36 +30,11 @@
   ignore_errors: true
   tags: always
 
-- name: Add Consul user
-  user:
-    name: "{{ consul_user }}"
-    comment: "Consul user"
-    group: "{{ consul_group }}"
-    system: yes
+- name: Include user/group settings
+  include: user_group.yml
 
-- name: Create directories
-  file:
-    dest: "{{ item }}"
-    state: directory
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-  with_items:
-    - /etc/consul
-    - /opt/consul
-    - /var/consul
-    - /var/log/consul
-    - /var/run/consul
-    - /etc/consul.d
-    - /etc/consul.d/bootstrap
-    - /etc/consul.d/client
-    - /etc/consul.d/server
-
-- name: Ensure bin path
-  file:
-    path: "{{ consul_bin_path }}"
-    state: directory
-    owner: root
-    mode: 0755
+- name: Include dir settings
+  include: dirs.yml
 
 - name: Install OS packages and consul - locally
   include: install.yml
@@ -124,16 +114,6 @@
   become: no
   run_once: true
   delegate_to: localhost
-
-- name: Select Consul network interface for Linux
-  set_fact:
-    consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'] }}"
-  when: ansible_os_family == "Linux"
-
-- name: Select Consul network interface for BSD and SmartOS
-  set_fact:
-    consul_bind_address: "{{ hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4'][0]['address'] }}"
-  when: ansible_os_family == "FreeBSD" or ansible_os_family == "SmartOS"
 
 - name: Bootstrap configuration
   template:

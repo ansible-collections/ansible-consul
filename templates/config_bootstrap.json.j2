@@ -1,5 +1,3 @@
-{% set comma = joiner(", ") %}
-
 {
   "bind_addr": "{{ consul_bind_address }}",
   "addresses": {
@@ -8,14 +6,15 @@
     "https": "{{ consul_https_bind_address }}",
     "rpc": "{{ consul_rpc_bind_address }}"
   },
-  {%- if consul_recursors|length > 0 -%}
-  "recursors": [ {% for recursor in consul_recursors -%}
-                     {{ comma() }}"{{ recursor }}"
-                 {%- endfor %} ],
-  {% endif %}
-  {% if consul_ports %}
-  "ports": {{ consul_ports | to_nice_json }},
-  {% endif %}
+  {% if consul_ports -%}
+    "ports": {{ consul_ports | to_nice_json }},
+  {% endif -%}
+  {% if consul_recursors|length > 0 -%}
+    "recursors": [ {% set comma = joiner(", ") -%}
+      {% for recursor in consul_recursors -%}
+        {{ comma() }}"{{ recursor }}"
+      {%- endfor %} ],
+  {% endif -%}
   "bootstrap": true,
   "server": true,
   "node_name": "{{ consul_node_name }}",
