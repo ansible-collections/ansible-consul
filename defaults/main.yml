@@ -67,9 +67,10 @@ consul_ports:
 ### Servers
 consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('cluster_nodes', true) }}"
 consul_servers: "\
-  {% set _consul_servers=[] %}\
+  {% set _consul_servers = [] %}\
   {% for host in groups[consul_group_name] %}\
-  {% if (hostvars[host]['consul_node_role'] == 'server' or hostvars[host]['consul_node_role'] == 'bootstrap') %}\
+    {% set _consul_node_role = hostvars[host]['consul_node_role']|default('client', true) %}\
+    {% if ( _consul_node_role == 'server' or _consul_node_role == 'bootstrap') %}\
       {% if _consul_servers.append(host) %}{% endif %}\
     {% endif %}\
   {% endfor %}\
