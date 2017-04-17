@@ -521,3 +521,9 @@
 
 - Revert node_role addition to default vars so clusters will still properly
   come up since we basically lost access the bootstrap role
+
+## v1.16.2
+
+- Standing corrected - put node_role back into defaults as it will still be
+  overridden by host vars (sorry @groggemans)
+- Update documentation

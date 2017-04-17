@@ -323,7 +323,7 @@ in many Ansible versions, so this feature might not always work.
 ### `consul_node_role`
 
 - Consul server role, one of: *bootstrap*, *server*, or *client*
-- Default value: determined from host inventory variable
+- Default value: *client*
 
 One server should be designated as the bootstrap
 server that uses the `bootstrap_expect` configuration directive, and the other
