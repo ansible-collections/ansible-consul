@@ -516,3 +516,8 @@
 - Add spaces at front end back of JSON arrays (thanks @groggemans)
 - Update Vagrantfile
 - Update documentation
+
+## v1.16.1
+
+- Revert node_role addition to default vars so clusters will still properly
+  come up since we basically lost access the bootstrap role
