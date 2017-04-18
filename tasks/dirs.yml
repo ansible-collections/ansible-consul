@@ -14,9 +14,6 @@
     - /var/log/consul
     - /var/run/consul
     - /etc/consul.d
-    - /etc/consul.d/bootstrap
-    - /etc/consul.d/client
-    - /etc/consul.d/server
 
 - name: Ensure bin path
   file:

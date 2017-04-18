@@ -1,0 +1,62 @@
+---
+# File: config.yml - Consul configuration tasks
+
+- name: Bootstrap configuration
+  template:
+    src: config_bootstrap.json.j2
+    dest: "{{ item.dest }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
+  with_items:
+    - dest: "{{ consul_config_path }}/config.json"
+      when: "{{ consul_node_role == 'bootstrap' }}"
+    - dest: "{{ consul_config_path }}/bootstrap.json"
+      when: "{{ consul_debug|bool }}"
+  when:
+    - item.when
+  notify:
+    - restart consul
+
+- name: Server configuration
+  template:
+    src: config_server.json.j2
+    dest: "{{ item.dest }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
+  with_items:
+    - dest: "{{ consul_config_path }}/config.json"
+      when: "{{ consul_node_role == 'server' }}"
+    - dest: "{{ consul_config_path }}/server.json"
+      when: "{{ consul_debug|bool }}"
+  when:
+    - item.when
+  notify:
+    - restart consul
+
+- name: Client configuration
+  template:
+    src: config_client.json.j2
+    dest: "{{ item.dest }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
+  with_items:
+    - dest: "{{ consul_config_path }}/config.json"
+      when: "{{ consul_node_role == 'client' }}"
+    - dest: "{{ consul_config_path }}/client.json"
+      when: "{{ consul_debug|bool }}"
+  when:
+    - item.when
+  notify:
+    - restart consul
+
+- name: Extra configurations
+  template:
+    src: configd_50custom.json.j2
+    dest: "{{ consul_configd_path }}/50custom.json"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
+  when:
+    - consul_config_custom is defined
+  notify:
+    - restart consul
+

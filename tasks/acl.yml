@@ -32,28 +32,11 @@
   run_once: True
   when: consul_acl_replication_token_display
 
-- name: ACL bootstrap configuration
-  template:
-    src: config_acl.json.j2
-    dest: "{{ consul_config_path }}/{{ item }}/config_acl.json"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-  with_items:
-    - bootstrap
-    - client
-    - server
-  notify:
-    - restart consul
-
 - name: ACL policy configuration
   template:
-    src: config_acl_policy.hcl.j2
-    dest: "{{ consul_config_path }}/{{ item }}/config_acl_policy.hcl"
+    src: configd_50acl_policy.hcl.j2
+    dest: "{{ consul_configd_path }}/50acl_policy.hcl"
     owner: "{{ consul_user }}"
     group: "{{ consul_group}}"
-  with_items:
-    - bootstrap
-    - client
-    - server
   notify:
     - restart consul

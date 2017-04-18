@@ -35,14 +35,3 @@
       mode: 0600
 
   when: consul_tls_copy_keys == true
-
-- name: Write TLS configuration
-  template:
-    src: config_tls.json.j2
-    dest: "{{ consul_config_path }}/{{ item }}/config_tls.json"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-  with_items:
-    - bootstrap
-    - client
-    - server
