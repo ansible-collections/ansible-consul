@@ -71,7 +71,12 @@ inventory file (see below):
 
 ### `consul_config_path`
 
-- Configuration file path
+- Base configuration file path
+- Default value: `/etc/consul`
+
+### `consul_configd_path`
+
+- Additional configuration directory
 - Default value: `/etc/consul.d`
 
 ### `consul_data_path`

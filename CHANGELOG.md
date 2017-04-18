@@ -532,3 +532,16 @@
 
 - Consul 0.8.1
 - Update documentation
+
+## v1.17.0
+
+- Updated configuration directory structure (thanks @groggemans)
+  - Updated `consul_config_path` to point to `/etc/consul`
+  - Added `consul_configd_path` defaulting to `/etc/consul.d`
+- Added `consul_debug` variable - defaults to *no* (thanks @groggemans)
+- Moved all config related tasks to `tasks/config.yml` (thanks @groggemans)
+- Added ACL and TLS parameters to the main `config.json` (thanks @groggemans)
+- Now using `/etc/consul/config.json` for all consul roles (thanks @groggemans)
+- Fix small bug preventing RPC gossip key to be read (thanks @groggemans)
+- Exposed `consul_node_role` as a fact (thanks @groggemans)
+- Update documentation
