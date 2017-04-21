@@ -545,3 +545,7 @@
 - Fix small bug preventing RPC gossip key to be read (thanks @groggemans)
 - Exposed `consul_node_role` as a fact (thanks @groggemans)
 - Update documentation
+
+## v1.17.1
+
+- Fix template filename (addresses #58)
