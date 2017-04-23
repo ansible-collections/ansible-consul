@@ -549,3 +549,8 @@
 ## v1.17.1
 
 - Fix template filename (addresses #58)
+
+## v1.17.2
+
+- Switch to local_action for local tasks
+- Wrap IPv6 addresses (thanks @tbartelmess)
