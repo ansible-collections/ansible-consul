@@ -25,7 +25,7 @@
   "enable_syslog": {{ consul_syslog_enable|lower }},
   "start_join": [ {% set comma_nodes = joiner(", ") -%}
     {% for server in consul_servers -%}
-      {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] }}"
+      {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] | ipwrap }}"
     {%- endfor %} ],
   "ui": true
 }
