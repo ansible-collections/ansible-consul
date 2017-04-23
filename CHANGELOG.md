@@ -554,3 +554,10 @@
 
 - Switch to local_action for local tasks
 - Wrap IPv6 addresses (thanks @tbartelmess)
+
+## v1.17.3
+
+- Revert local_action tasks
+  - Ansible generally spazzes out with  "no action detected in task"
+    for any variation of local_task I tried
+
