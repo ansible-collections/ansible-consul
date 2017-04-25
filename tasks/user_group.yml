@@ -12,4 +12,3 @@
     group: "{{ consul_group }}"
     system: yes
   when: consul_manage_user|bool
-

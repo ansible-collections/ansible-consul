@@ -24,17 +24,17 @@
     consul_bind_address: "{{ consul_bind_address }}"
     consul_node_role: "{{ consul_node_role }}"
 
-- name: Check bootstrapped state
+- name: Read bootstrapped state
   stat:
     path: /etc/consul/.consul_bootstrapped
   register: bootstrap_marker
   ignore_errors: true
   tags: always
 
-- name: Include user/group settings
+- name: Include user and group settings
   include: user_group.yml
 
-- name: Include dir settings
+- name: Include directory settings
   include: dirs.yml
 
 - name: Install OS packages and consul - locally
@@ -48,18 +48,18 @@
 # - include: ../tasks/encrypt_gossip.yml
 
 - block:
-    - name: Check for key on previously boostrapped server
+    - name: Check for gossip encryption key on previously boostrapped server
       slurp:
         src: "{{ consul_config_path }}/config.json"
       register: consul_config_b64
       ignore_errors: yes
 
-    - name: Deserialize existing config
+    - name: Deserialize existing configuration
       set_fact:
         consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
       when: consul_config_b64.content is defined
 
-    - name: Save encryption key (from existing config)
+    - name: Save gossip encryption key from existing configuration
       set_fact:
         consul_raw_key: "{{ consul_config.encrypt }}"
       when: consul_config is defined
@@ -71,7 +71,7 @@
     - inventory_hostname in consul_servers
 
 # Key provided by extra vars or the above block
-- name: Write key locally to share with new servers
+- name: Write gossip encryption key locally for use with new servers
   copy:
     content: "{{ consul_raw_key }}"
     dest: '/tmp/consul_raw.key'
@@ -101,14 +101,14 @@
     - not consul_local_key.changed
     - not bootstrap_marker.stat.exists
 
-- name: Read key for servers that require it
+- name: Read gossip encryption key for servers that require it
   set_fact:
     consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
   no_log: true
   when:
     - consul_raw_key is not defined
 
-- name: Deleting key file
+- name: Delete gossip encryption key file
   file:
     path: '/tmp/consul_raw.key'
     state: absent
@@ -116,20 +116,20 @@
   run_once: true
   delegate_to: localhost
 
-- name: Consul config
+- name: Create Consul configuration
   include: config.yml
 
-- name: ACL config
+- name: Create ACL configuration
   include: acl.yml
   when: consul_acl_enable
 
-- name: TLS config
+- name: Create TLS configuration
   include: tls.yml
   when: consul_tls_enable
 
 - block:
 
-  - name: BSD init script
+  - name: Create BSD init script
     template:
       src: consul_bsdinit.j2
       dest: /etc/rc.d/consul
@@ -138,7 +138,7 @@
       mode: 0755
     when: ansible_os_family == "FreeBSD"
 
-  - name: SYSV init script
+  - name: Create SYSV init script
     template:
       src: consul_sysvinit.j2
       dest: /etc/init.d/consul
@@ -151,7 +151,7 @@
       - not ansible_os_family == "FreeBSD"
       - not ansible_os_family == "Solaris"
 
-  - name: Debian init script
+  - name: Create Debian init script
     template:
       src: consul_debianinit.j2
       dest: /etc/init.d/consul
@@ -164,7 +164,7 @@
       - not ansible_os_family == "FreeBSD"
       - not ansible_os_family == "Solaris"
 
-  - name: systemd script
+  - name: Create systemd script
     template:
       src: consul_systemd.service.j2
       dest: /lib/systemd/system/consul.service
@@ -176,7 +176,7 @@
       - not ansible_os_family == "FreeBSD"
       - not ansible_os_family == "Solaris"
 
-  - name: smf manifest
+  - name: Create smf manifest
     template:
       src: consul_smf_manifest.j2
       dest: "{{ consul_smf_manifest }}"
@@ -186,13 +186,13 @@
     when: ansible_os_family == "Solaris"
     register: smfmanifest
 
-  - name: import smf manifest
+  - name: Import smf manifest
     shell: "svccfg import {{ consul_smf_manifest }}"
     when:
       - smfmanifest|changed
       - ansible_os_family == "Solaris"
 
-  - name: import smf script
+  - name: Import smf script
     shell: "svcadm refresh consul"
     when:
       - smfmanifest|changed
@@ -205,12 +205,12 @@
       state: started
       enabled: yes
 
-  - name: Consul HTTP API reachable?
+  - name: Check Consul HTTP API
     wait_for:
       delay: 15
       port: 8500
 
-  - name: Create bootstrapped marker
+  - name: Create bootstrapped state file
     file:
       dest: /etc/consul/.consul_bootstrapped
       state: touch

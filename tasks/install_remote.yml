@@ -1,25 +1,25 @@
 ---
 # File: install_remote.yml - package installation tasks for Consul
 
-- name: OS packages
+- name: Install OS packages
   package:
     name: "{{ item }}"
     state: present
   with_items: "{{ consul_os_packages }}"
   tags: installation
 
-- name: Ensure remote consul dir exists
+- name: Validate remote Consul directory
   file:
     path: /tmp/consul
     state: directory
 
-- name: Check Consul package checksum file
+- name: Read Consul package checksum file
   stat:
     path: "/tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
   register: consul_checksum
   tags: installation
 
-- name: Get Consul package checksum file
+- name: Download Consul package checksum file
   get_url:
     url: "{{ consul_checksum_file_url }}"
     dest: "/tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
@@ -27,7 +27,7 @@
   tags: installation
   when: consul_checksum.stat.exists == False
 
-- name: Get Consul package checksum
+- name: Read Consul package checksum
   shell: "grep {{ consul_pkg }} /tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
   register: consul_sha256
   tags: installation

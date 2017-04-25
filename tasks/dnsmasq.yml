@@ -1,33 +1,33 @@
 ---
 # File: dnsmasq.yml - Dnsmasq tasks for Consul
 
-- name: Dnsmasq package
+- name: Install Dnsmasq package
   yum:
     name: dnsmasq
     state: present
   when: ansible_os_family == "RedHat"
   tags: dnsmasq, installation
 
-- name: Dnsmasq package
+- name: Install Dnsmasq package
   apt:
     name: dnsmasq
     state: present
   when: ansible_os_family == "Debian"
   tags: dnsmasq, installation
 
-- name: Dnsmasq package
+- name: Install Dnsmasq package
   pkgng:
     name: dnsmasq
     state: present
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq, installation
 
-- name: Stop Dnsmasq
+- name: Stop Dnsmasq service
   service:
     name: dnsmasq
     state: stopped
 
-- name: Dnsmasq setup
+- name: Create Dnsmasq configuration
   copy:
     src: ../files/dnsmasq-10-consul
     dest: /etc/dnsmasq.d/10-consul
@@ -38,7 +38,7 @@
   when: ansible_os_family == "Debian"
   tags: dnsmasq
 
-- name: Dnsmasq configuration directory
+- name: Create Dnsmasq configuration directory
   file:
     path: /usr/local/etc/dnsmasq.d
     state: directory
@@ -47,14 +47,14 @@
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
-- name: Dnsmasq Configuration addition
+- name: Create FreeBSD-specific configuration
   lineinfile:
     dest: /usr/local/etc/dnsmasq.conf
     line: 'conf-dir=/usr/local/etc/dnsmasq.d/,*.conf'
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
-- name: "Dnsmasq setup"
+- name: Create FreeBSD-specific Dnsmasq configuration
   copy:
     src: ../files/dnsmasq-10-consul
     dest: /usr/local/etc/dnsmasq.d/consul.conf

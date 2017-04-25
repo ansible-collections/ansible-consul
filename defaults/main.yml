@@ -7,7 +7,8 @@ consul_debug: no
 ### Package
 consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.8.1', true) }}"
 consul_architecture_map:
-  # this first entry seems... redundant (but it's required for reasons)
+  # this first entry seems... redundant
+  #(but it's required for reasons)
   amd64: amd64
   x86_64: amd64
   armv7l: arm

@@ -1,8 +1,9 @@
 ---
 # File: client.yml - Ansible dependencies for Consul
 
-# Apt cache should be updated here
-- name: Install dependencies for configuration by ansible (1/2)
+# Apt cache should be updated here - do not remove `update_cache`
+
+- name: Install additional Python dependencies for Ansible
   apt:
     name: "{{ item }}"
     state: installed
@@ -10,5 +11,6 @@
   with_items:
     - python-pip
     - python-setuptools
-- name: Install dependencies for configuration by ansible (2/2)
+
+- name: Install Consul Python package
   pip: executable=pip name=python-consul

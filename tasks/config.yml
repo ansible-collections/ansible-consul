@@ -1,7 +1,7 @@
 ---
 # File: config.yml - Consul configuration tasks
 
-- name: Bootstrap configuration
+- name: Create bootstrap configuration
   template:
     src: config_bootstrap.json.j2
     dest: "{{ item.dest }}"
@@ -17,7 +17,7 @@
   notify:
     - restart consul
 
-- name: Server configuration
+- name: Create server configuration
   template:
     src: config_server.json.j2
     dest: "{{ item.dest }}"
@@ -33,7 +33,7 @@
   notify:
     - restart consul
 
-- name: Client configuration
+- name: Create client configuration
   template:
     src: config_client.json.j2
     dest: "{{ item.dest }}"
@@ -49,7 +49,7 @@
   notify:
     - restart consul
 
-- name: Extra configurations
+- name: Create custom configuration
   template:
     src: configd_50custom.json.j2
     dest: "{{ consul_configd_path }}/50custom.json"
@@ -59,4 +59,3 @@
     - consul_config_custom is defined
   notify:
     - restart consul
-

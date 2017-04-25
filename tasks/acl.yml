@@ -32,7 +32,7 @@
   run_once: True
   when: consul_acl_replication_token_display
 
-- name: ACL policy configuration
+- name: Create ACL policy configuration
   template:
     src: configd_50acl_policy.hcl.j2
     dest: "{{ consul_configd_path }}/50acl_policy.hcl"

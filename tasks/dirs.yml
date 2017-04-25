@@ -1,5 +1,5 @@
 ---
-# File: dirs.yml - Directory settings
+# File: dirs.yml - Consul directories
 
 - name: Create directories
   file:
@@ -15,7 +15,8 @@
     - /var/run/consul
     - /etc/consul.d
 
-- name: Ensure bin path
+# This could be a stat instead
+- name: Verify binary path
   file:
     path: "{{ consul_bin_path }}"
     state: directory

@@ -561,3 +561,8 @@
   - Ansible generally spazzes out with  "no action detected in task"
     for any variation of local_task I tried
 
+## v1.17.4
+
+- Clean up task names and make more detailed; use consistent verb intros
+- Switch to local_action on all local install tasks
+- Already using grep, so let's just awk for the SHA and then register it
