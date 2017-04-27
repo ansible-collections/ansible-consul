@@ -6,7 +6,7 @@
     command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
     register: consul_acl_master_token_keygen
     run_once: true
-  - name: Save ACL master yoken
+  - name: Save ACL master token
     set_fact:
       consul_acl_master_token: "{{ consul_acl_master_token_keygen.stdout }}"
   when: consul_acl_master_token is not defined and not bootstrap_marker.stat.exists
@@ -21,7 +21,7 @@
     command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
     register: consul_acl_replication_token_keygen
     run_once: true
-  - name: Save ACL replication yoken
+  - name: Save ACL replication token
     set_fact:
       consul_acl_replication_token: "{{ consul_acl_replication_token_keygen.stdout }}"
   when: (consul_acl_replication_token is not defined or consul_acl_replication_token == '') and not bootstrap_marker.stat.exists

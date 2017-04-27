@@ -89,6 +89,11 @@ inventory file (see below):
 - Log path
 - Default value: `/var/log/consul`
 
+### `consul_run_path`
+
+- Run path for PID file
+- Default value: `/var/run/consul`
+
 ### `consul_user`
 
 - OS user

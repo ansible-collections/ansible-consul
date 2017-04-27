@@ -566,3 +566,9 @@
 - Clean up task names and make more detailed; use consistent verb intros
 - Switch to local_action on all local install tasks
 - Already using grep, so let's just awk for the SHA and then register it
+
+## v1.18.0 (URELEASED)
+
+- Add new vars
+  - `consul_run_path` for the PID
+- Update documentation
