@@ -9,7 +9,7 @@
   - name: Save ACL master token
     set_fact:
       consul_acl_master_token: "{{ consul_acl_master_token_keygen.stdout }}"
-  when: consul_acl_master_token is not defined and not bootstrap_marker.stat.exists
+  when: consul_acl_master_token is not defined and not bootstrap_state.stat.exists
 
 - name: Display ACL Master Token
   debug: msg="{{ consul_acl_master_token }}"
@@ -24,7 +24,7 @@
   - name: Save ACL replication token
     set_fact:
       consul_acl_replication_token: "{{ consul_acl_replication_token_keygen.stdout }}"
-  when: (consul_acl_replication_token is not defined or consul_acl_replication_token == '') and not bootstrap_marker.stat.exists
+  when: (consul_acl_replication_token is not defined or consul_acl_replication_token == '') and not bootstrap_state.stat.exists
 
 - name: Display ACL Replication Token
   debug:

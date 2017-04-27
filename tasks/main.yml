@@ -26,8 +26,8 @@
 
 - name: Read bootstrapped state
   stat:
-    path: /etc/consul/.consul_bootstrapped
-  register: bootstrap_marker
+    path: "{{ consul_bootstrap_state }}"
+  register: bootstrap_state
   ignore_errors: true
   tags: always
 
@@ -37,14 +37,23 @@
 - name: Include directory settings
   include: dirs.yml
 
+- name: Check for existing Consul binary
+  stat: "{{ consul_bin_path}}/consul"
+  register: consul_binary_installed
+
 - name: Install OS packages and consul - locally
   include: install.yml
-  when: not consul_install_remotely
+  when:
+    - not consul_binary_installed.stat.exists
+    - not consul_install_remotely
 
 - name: Install OS packages and consul - remotely
   include: install_remote.yml
-  when: consul_install_remotely
+  when:
+    - not consul_binary_installed.stat.exists
+    - consul_install_remotely
 
+# XXX: Individual gossip tasks are deprecated and need to be removed
 # - include: ../tasks/encrypt_gossip.yml
 
 - block:
@@ -67,7 +76,7 @@
   no_log: true
   when:
     - consul_raw_key is not defined
-    - bootstrap_marker.stat.exists
+    - bootstrap_state.stat.exists
     - inventory_hostname in consul_servers
 
 # Key provided by extra vars or the above block
@@ -99,7 +108,7 @@
   run_once: true
   when:
     - not consul_local_key.changed
-    - not bootstrap_marker.stat.exists
+    - not bootstrap_state.stat.exists
 
 - name: Read gossip encryption key for servers that require it
   set_fact:
@@ -226,4 +235,4 @@
       - consul_node_role == "client"
       - ansible_os_family == "Debian"
 
-  when: not bootstrap_marker.stat.exists
+  when: not bootstrap_state.stat.exists

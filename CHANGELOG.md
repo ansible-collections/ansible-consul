@@ -567,8 +567,16 @@
 - Switch to local_action on all local install tasks
 - Already using grep, so let's just awk for the SHA and then register it
 
-## v1.18.0 (URELEASED)
+## v1.18.0
 
 - Add new vars
-  - `consul_run_path` for the PID
+  - `consul_run_path` for the PID file
+- Add bootstrap-expect toggle option (thanks @groggemans)
+- Use directory variables in dirs tasks
+- Do not attempt to install Consul binary if already found on consul_bin_path
+  - Fixes #60
+- Rename intermediate `boostrap_marker` var
+- Formatting on CONTRIBUTING
+- Update CONTRIBUTORS
+- Updated tested versions
 - Update documentation

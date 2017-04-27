@@ -49,7 +49,7 @@ CONSUL_LOGLEVEL = ENV['CONSUL_LOGLEVEL'] || "INFO"
 CONSUL_NODE_OS = ENV['CONSUL_NODE_OS'] || "Linux"
 VAGRANTFILE_API_VERSION = "2"
 
-Vagrant.require_version ">= 1.8.0"
+Vagrant.require_version ">= 1.9.0"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if BOX_NAME.include? "freebsd"

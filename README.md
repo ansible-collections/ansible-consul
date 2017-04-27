@@ -12,6 +12,13 @@ It can also bootstrap a development or evaluation cluster of 3 server
 agents running in a Vagrant and VirtualBox based environment. See
 [README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-consul/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
+> “Another flaw in the human character is that everybody wants to build and nobody wants to do maintenance.”
+> ― Kurt Vonnegut, Hocus Pocus
+
+Note that this role is more concerned with bootstrapping a running cluster
+environment and does not currently concern itself (much) with performing
+maintenance of an existing cluster.
+
 ## Requirements
 
 This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
@@ -19,7 +26,7 @@ might work with other software versions, but does work with the following
 specific software and versions:
 
 * Consul: 0.8.1
-* Ansible: 2.2.2.0
+* Ansible: 2.3.0.0
 * CentOS 7
 * Debian: 8
 * FreeBSD 11

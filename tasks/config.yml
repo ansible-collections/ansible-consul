@@ -11,7 +11,7 @@
     - dest: "{{ consul_config_path }}/config.json"
       when: "{{ consul_node_role == 'bootstrap' }}"
     - dest: "{{ consul_config_path }}/bootstrap.json"
-      when: "{{ consul_debug|bool }}"
+      when: "{{ consul_debug | bool }}"
   when:
     - item.when
   notify:
