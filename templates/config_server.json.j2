@@ -16,6 +16,9 @@
       {%- endfor %} ],
   {% endif -%}
   "bootstrap": false,
+  {% if consul_bootstrap_expect -%}
+    "bootstrap_expect": {{ consul_servers|length }},
+  {% endif -%}
   "server": true,
   "node_name": "{{ consul_node_name }}",
   "datacenter": "{{ consul_datacenter }}",
