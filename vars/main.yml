@@ -1,0 +1,11 @@
+# Pure internal helper variables
+_consul_bootstrap_servers: "\
+  {% set __consul_bootstrap_servers = [] %}\
+  {% for host in groups[consul_group_name] %}\
+    {% set _consul_node_role = hostvars[host]['consul_node_role']|default('client', true) %}\
+    {% if _consul_node_role == 'bootstrap' %}\
+      {% if __consul_bootstrap_servers.append(host) %}{% endif %}\
+    {% endif %}\
+  {% endfor %}\
+  {{ __consul_bootstrap_servers }}"
+_consul_bootstrap_server: "{{ _consul_bootstrap_servers[0] }}"
