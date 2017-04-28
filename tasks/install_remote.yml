@@ -13,10 +13,6 @@
     path: /tmp/consul
     state: directory
 
-- name: Check for existing Consul binary
-  stat: "{{ consul_bin_path}}/consul"
-  register: consul_binary_installed
-
 - name: Read Consul package checksum file
   stat:
     path: "/tmp/consul/consul_{{ consul_version }}_SHA256SUMS"

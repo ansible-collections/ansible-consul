@@ -584,3 +584,7 @@
 ## v1.18.1
 
 - Update stat task
+
+## v1.18.2
+
+- Remove check from install_remote

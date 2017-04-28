@@ -30,6 +30,7 @@ consul_configd_path: "/etc/consul.d"
 consul_data_path: "/var/consul"
 consul_log_path: "/var/log/consul"
 consul_run_path: "/var/run/consul"
+consul_binary: "{{ consul_bin_path }}/consul"
 
 ### System user and group
 consul_manage_user: yes

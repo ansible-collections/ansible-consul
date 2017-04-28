@@ -39,7 +39,7 @@
 
 - name: Check for existing Consul binary
   stat:
-    path: "{{ consul_bin_path }}/consul"
+    path: "{{ consul_binary }}"
   register: consul_binary_installed
 
 - name: Install OS packages and consul - locally
