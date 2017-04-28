@@ -580,3 +580,7 @@
 - Update CONTRIBUTORS
 - Updated tested versions
 - Update documentation
+
+## v1.18.1
+
+- Update stat task

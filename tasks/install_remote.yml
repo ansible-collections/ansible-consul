@@ -49,7 +49,6 @@
     checksum: "sha256:{{ consul_sha256.stdout.split(' ')|first }}"
     timeout: 42
   tags: installation
-  when: consul_package.stat.exists == False
 
 - name: Unarchive Consul and install binary
   unarchive:

@@ -38,7 +38,8 @@
   include: dirs.yml
 
 - name: Check for existing Consul binary
-  stat: "{{ consul_bin_path}}/consul"
+  stat:
+    path: "{{ consul_bin_path }}/consul"
   register: consul_binary_installed
 
 - name: Install OS packages and consul - locally
