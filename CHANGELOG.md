@@ -588,3 +588,8 @@
 ## v1.18.2
 
 - Remove check from install_remote
+
+## v1.18.3 (UNRELEASED)
+
+Generate correct JSON with TLS and ACL enabled (thanks @tbartelmess)
+- Switch local tasks to `delegate_to` which should cover all concerns
