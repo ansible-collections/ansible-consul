@@ -12,12 +12,13 @@ It can also bootstrap a development or evaluation cluster of 3 server
 agents running in a Vagrant and VirtualBox based environment. See
 [README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-consul/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
-> “Another flaw in the human character is that everybody wants to build and nobody wants to do maintenance.”
+> “Another flaw in the human character is that everybody wants to build and nobody wants to do maintenance.”<br>
 > ― Kurt Vonnegut, Hocus Pocus
 
-Note that this role is more concerned with bootstrapping a running cluster
-environment and does not currently concern itself (much) with performing
-maintenance of an existing cluster.
+Note that this role is more concerned with the initial installation and
+bootstrapping of a running cluster environment and does not currently concern
+itself (all that much) with performing ongoing drif^H^H^H^H *maintenance* of
+an existing cluster.
 
 ## Requirements
 
