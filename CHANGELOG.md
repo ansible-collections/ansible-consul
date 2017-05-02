@@ -593,3 +593,8 @@
 
 - Generate correct JSON with TLS and ACL enabled (thanks @tbartelmess)
 - Switch local tasks to `delegate_to` which should cover most concerns
+
+## v1.18.4
+
+- Correct links in README (thanks @MurphyMarkW)
+- Lower minimum Debian version from 8.5. to 8 (addresses #63)
