@@ -5,20 +5,25 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Percentage of issues still open")
 
-This Ansible role installs [Consul](https://consul.io/), including filesystem
-structure and server or client configuration.
+This Ansible role installs [Consul](https://consul.io/), including establishing
+a filesystem structure and server or client agent configuration with support
+for some common operational features.
 
-It can also bootstrap a development or evaluation cluster of 3 server
-agents running in a Vagrant and VirtualBox based environment. See
+It can bootstrap a development or evaluation cluster of 3 server agents running
+in a Vagrant and VirtualBox based environment. See
 [README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-consul/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
 > “Another flaw in the human character is that everybody wants to build and nobody wants to do maintenance.”<br>
 > ― Kurt Vonnegut, Hocus Pocus
 
-Note that this role is more concerned with the initial installation and
+Please note that this role is more concerned with the initial installation and
 bootstrapping of a running cluster environment and does not currently concern
 itself (all that much) with performing ongoing drif^H^H^H^H *maintenance* of
 an existing cluster.
+
+Many users have expressed that the Vagrant based environment makes getting a
+working local cluster environment up and running an easy process — so this
+role will target that experience as a primary motivator for existing.
 
 ## Requirements
 
@@ -28,18 +33,24 @@ specific software and versions:
 
 * Consul: 0.8.1
 * Ansible: 2.3.0.0
-* CentOS 7
+* CentOS: 7
 * Debian: 8
-* FreeBSD 11
-* RHEL 7
-* Ubuntu 16.04
+* FreeBSD: 11
+* RHEL: 7
+* Ubuntu: 16.04
 
 Sorry, there is no planned support at the moment for Windows.
 
 ## Role Variables
 
-The role defines variables in `defaults/main.yml` and in the hosts
-inventory file (see below):
+The role uses variables define in these three sources:
+
+- `defaults/main.yml`
+- `vars/*.yml`
+- Hosts inventory file (see `examples/vagrant_hosts` for an example)
+
+many of these can also be further overridden by environment variables as well;
+the variables are named and described below:
 
 ### `consul_version`
 
@@ -587,12 +598,12 @@ By default these are named:
 - `server.key` (can be overridden by {{ consul_server_key }})
 
 Then either set the environment variable `CONSUL_TLS_ENABLE=true` or use the
-Ansible variable `consul_tls_enable=true` when launching the role.
+Ansible variable `consul_tls_enable=true` at role runtime.
 
 ### Vagrant and VirtualBox
 
 See `examples/README_VAGRANT.md` for details on quick Vagrant deployments
-under VirtualBox for testing, etc.
+under VirtualBox for development, evaluation, testing, etc.
 
 ## License
 
@@ -608,4 +619,4 @@ Special thanks to the folks listed in [CONTRIBUTORS.md](https://github.com/brian
 contributions to this project.
 
 Contributions are welcome, provided that you can agree to the terms outlined
-in [CONTRIBUTING.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTING.md)
+in [CONTRIBUTING.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTING.md).
