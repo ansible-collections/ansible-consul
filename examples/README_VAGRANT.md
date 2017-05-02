@@ -2,7 +2,7 @@
 
 This project provides documentation and a collection of scripts to help you
 automate the deployment of Consul using
-[Ansible](http://www.ansibleworks.com/). These are the instructions for
+[Ansible](https://www.ansible.com/). These are the instructions for
 deploying a development cluster on Vagrant and VirtualBox.
 
 The documentation and scripts are merely a starting point designed to both
@@ -20,7 +20,7 @@ following technologies:
 * [VirtualBox](https://www.virtualbox.org/)
 * [Vagrant](http://www.vagrantup.com/) with Ansible provisioner and
   supporting plugin
-* [Ansible](http://www.ansibleworks.com/)
+* [Ansible](https://www.ansible.com/)
 
 Each of the virtual machines for this guide are configured with
 1GB RAM, 2 CPU cores, and 2 network interfaces. The first interface uses
@@ -63,7 +63,7 @@ Change `PATH_TO_ROLES` to a directory that you have write access to.
 Begin from the top level directory of this project and use the following
 steps to get up and running:
 
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](http://downloads.vagrantup.com/), [vagrant-hosts](https://github.com/adrienthebo/vagrant-hosts), and [Ansible](http://www.ansibleworks.com/docs/intro_installation.html#latest-releases-via-pip).
+1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](http://downloads.vagrantup.com/), [vagrant-hosts](https://github.com/adrienthebo/vagrant-hosts), and [Ansible](http://docs.ansible.com/ansible/intro_installation.html).
 2. Edit `/etc/hosts` or use the included `bin/preinstall` script to add
    the following entries to your development system's `/etc/hosts` file:
  * 10.1.42.210 consul1.local consul1
