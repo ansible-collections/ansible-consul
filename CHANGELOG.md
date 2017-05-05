@@ -603,3 +603,7 @@
 
 - Set `| bool` where needed to stop warnings about template delimiters
 - Add consul group when managing the consul user
+
+## v1.19.0 (UNRELEASED)
+
+- Enable consul_manage_group var and conditional in user_group tasks

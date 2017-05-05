@@ -6,7 +6,7 @@
   group:
     name: "{{ consul_group }}"
     state: present
-  when: consul_manage_user | bool
+  when: consul_manage_group | bool
 
 # Add user
 - name: Add Consul user
