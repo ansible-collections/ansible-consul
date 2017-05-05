@@ -598,3 +598,8 @@
 
 - Correct links in README (thanks @MurphyMarkW)
 - Lower minimum Debian version from 8.5. to 8 (addresses #63)
+
+## v1.18.5
+
+- Set `| bool` where needed to stop warnings about template delimiters
+- Add consul group when managing the consul user

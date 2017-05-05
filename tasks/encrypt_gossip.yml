@@ -11,21 +11,29 @@
       set_fact: consul_raw_key={{ consul_key_read.stdout }}
       ignore_errors: yes
 
-  when: consul_raw_key is not defined and bootstrap_state.stat.exists
+  when:
+    - consul_raw_key is not defined
+    - bootstrap_state.stat.exists | bool
 
 - name: Write gossip encryption key locally for use with new servers
   local_action: copy content={{ consul_raw_key }} dest=/tmp/consul_raw.key
   become: no
-  when: consul_raw_key is defined and bootstrap_state.stat.exists
+  when:
+    - consul_raw_key is defined
+    - bootstrap_state.stat.exists | bool
 
 - name: Read gossip encryption key for servers that require it
   set_fact: consul_raw_key="{{ lookup('file', '/tmp/consul_raw.key') }}"
-  when: consul_raw_key is not defined and bootstrap_state.stat.exists
+  when:
+    - consul_raw_key is not defined
+    - bootstrap_state.stat.exists | bool
 
 - name: Delete gossip encryption key file
   local_action: file path=/tmp/consul_raw.key state=absent
   become: no
-  when: consul_raw_key is defined and bootstrap_state.stat.exists
+  when:
+    - consul_raw_key is defined
+    - bootstrap_state.stat.exists | bool
 
 - block:
     - name: Generate gossip encryption key
@@ -35,4 +43,6 @@
 
     - name: Write gossip encryption key to fact
       set_fact: consul_raw_key={{ consul_keygen.stdout }}
-  when: consul_raw_key is not defined and not bootstrap_state.stat.exists
+  when:
+    - consul_raw_key is not defined
+    - not bootstrap_state.stat.exists | bool

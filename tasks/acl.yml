@@ -9,12 +9,14 @@
   - name: Save ACL master token
     set_fact:
       consul_acl_master_token: "{{ consul_acl_master_token_keygen.stdout }}"
-  when: consul_acl_master_token is not defined and not bootstrap_state.stat.exists
+  when:
+    - consul_acl_master_token is not defined
+    - not bootstrap_state.stat.exists | bool
 
 - name: Display ACL Master Token
   debug: msg="{{ consul_acl_master_token }}"
   run_once: True
-  when: consul_acl_master_token_display
+  when: consul_acl_master_token_display | bool
 
 - block:
   - name: Generate ACL replication token
@@ -24,13 +26,15 @@
   - name: Save ACL replication token
     set_fact:
       consul_acl_replication_token: "{{ consul_acl_replication_token_keygen.stdout }}"
-  when: (consul_acl_replication_token is not defined or consul_acl_replication_token == '') and not bootstrap_state.stat.exists
+  when:
+    - (consul_acl_replication_token is not defined or consul_acl_replication_token == '')
+    - not bootstrap_state.stat.exists | bool
 
 - name: Display ACL Replication Token
   debug:
     msg: "{{ consul_acl_replication_token }}"
   run_once: True
-  when: consul_acl_replication_token_display
+  when: consul_acl_replication_token_display | bool
 
 - name: Create ACL policy configuration
   template:

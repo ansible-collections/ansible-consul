@@ -2,13 +2,14 @@
 
 # File: preinstall - convenience script to add Consul
 # VM node host information to /etc/hosts for Vagrant
+# shellcheck disable=SC2059
 
 consul1="10\.1\.42\.210"
-txtblu='\e[0;34m' # Blue
-txtgrn='\e[0;32m' # Green
-txtred='\e[0;31m' # Red
-txtylw='\e[0;33m' # Yellow
-txtwht='\e[0;37m' # White
+export txtblu='\e[0;34m' # Blue
+export txtgrn='\e[0;32m' # Green
+export txtred='\e[0;31m' # Red
+export txtylw='\e[0;33m' # Yellow
+export txtwht='\e[0;37m' # White
 
 # Log stuff
 function logmsg {
@@ -44,7 +45,7 @@ function sudocheck {
 
 # Add hosts entries if necessary
 function add_hosts {
-  if grep consul1 /etc/hosts > /dev/null 2>&1; then
+  if grep "${consul1}" /etc/hosts > /dev/null 2>&1; then
     logmsg success "Consul VM node information present in /etc/hosts"
   else
     sudocheck

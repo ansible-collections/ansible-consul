@@ -20,7 +20,7 @@
   become: no
   run_once: true
   tags: installation
-  when: consul_checksum.stat.exists == False
+  when: not consul_checksum.stat.exists | bool
 
 - name: Read package checksum
   local_action: shell grep "{{ consul_pkg }}" "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS" | awk '{print $1}'
@@ -41,7 +41,7 @@
   become: no
   run_once: true
   tags: installation
-  when: consul_package.stat.exists == False
+  when: not consul_package.stat.exists | bool
 
 - name: Unarchive Consul package
   local_action: unarchive src="{{ role_path }}/files/{{ consul_pkg }}" dest="{{ role_path }}/files/" creates="{{ role_path }}/files/consul"

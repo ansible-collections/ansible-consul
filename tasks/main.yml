@@ -17,7 +17,7 @@
   delegate_facts: True
   with_items: "{{ consul_servers|difference(play_hosts) }}"
   ignore_errors: yes
-  when: consul_gather_server_facts|bool
+  when: consul_gather_server_facts | bool
 
 - name: Expose consul_bind_address and consul_node_role as facts
   set_fact:
@@ -45,14 +45,14 @@
 - name: Install OS packages and consul - locally
   include: install.yml
   when:
-    - not consul_binary_installed.stat.exists
-    - not consul_install_remotely
+    - not consul_binary_installed.stat.exists | bool
+    - not consul_install_remotely | bool
 
 - name: Install OS packages and consul - remotely
   include: install_remote.yml
   when:
-    - not consul_binary_installed.stat.exists
-    - consul_install_remotely
+    - not consul_binary_installed.stat.exists | bool
+    - consul_install_remotely | bool
 
 # XXX: Individual gossip tasks are deprecated and need to be removed
 # - include: ../tasks/encrypt_gossip.yml
@@ -77,7 +77,7 @@
   no_log: true
   when:
     - consul_raw_key is not defined
-    - bootstrap_state.stat.exists
+    - bootstrap_state.stat.exists | bool
     - inventory_hostname in consul_servers
 
 # Key provided by extra vars or the above block
@@ -109,7 +109,7 @@
   run_once: true
   when:
     - not consul_local_key.changed
-    - not bootstrap_state.stat.exists
+    - not bootstrap_state.stat.exists | bool
 
 - name: Read gossip encryption key for servers that require it
   set_fact:
@@ -131,11 +131,11 @@
 
 - name: Create ACL configuration
   include: acl.yml
-  when: consul_acl_enable
+  when: consul_acl_enable | bool
 
 - name: Create TLS configuration
   include: tls.yml
-  when: consul_tls_enable
+  when: consul_tls_enable | bool
 
 - block:
 
@@ -226,10 +226,10 @@
       state: touch
 
   - include: ../tasks/dnsmasq.yml
-    when: consul_dnsmasq_enable
+    when: consul_dnsmasq_enable | bool
 
   - include: ../tasks/iptables.yml
-    when: consul_iptables_enable
+    when: consul_iptables_enable | bool
 
   - include: ../tasks/client.yml
     when:

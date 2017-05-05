@@ -25,7 +25,7 @@
     dest: "/tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
     validate_certs: no
   tags: installation
-  when: consul_checksum.stat.exists == False
+  when: not consul_checksum.stat.exists | bool
 
 - name: Read Consul package checksum
   shell: "grep {{ consul_pkg }} /tmp/consul/consul_{{ consul_version }}_SHA256SUMS"

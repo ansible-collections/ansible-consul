@@ -2,7 +2,11 @@
 # File: user_group.yml - User and group settings
 
 # Add group
-# @TODO
+- name: Add Consul group
+  group:
+    name: "{{ consul_group }}"
+    state: present
+  when: consul_manage_user | bool
 
 # Add user
 - name: Add Consul user
@@ -11,4 +15,4 @@
     comment: "Consul user"
     group: "{{ consul_group }}"
     system: yes
-  when: consul_manage_user|bool
+  when: consul_manage_user | bool

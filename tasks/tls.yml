@@ -34,4 +34,4 @@
       group: "{{ consul_group }}"
       mode: 0600
 
-  when: consul_tls_copy_keys == true
+  when: consul_tls_copy_keys | bool
