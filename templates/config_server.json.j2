@@ -17,7 +17,7 @@
   {% endif -%}
   "bootstrap": false,
   {% if consul_bootstrap_expect -%}
-    "bootstrap_expect": {{ consul_servers|length }},
+    "bootstrap_expect": {{ _consul_lan_servers|length }},
   {% endif -%}
   "server": true,
   "node_name": "{{ consul_node_name }}",
@@ -27,8 +27,14 @@
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable|lower }},
   "start_join": [ {% set comma_nodes = joiner(", ") -%}
-    {% for server in consul_servers -%}
+    {% for server in _consul_lan_servers -%}
       {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] | ipwrap }}"
     {%- endfor %} ],
+  {% if _consul_wan_servers|length > 0 -%}
+    "start_join_wan": [ {% set comma_nodes = joiner(", ") -%}
+        {% for server in _consul_wan_servers -%}
+        {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] | ipwrap }}"
+        {%- endfor %} ],
+  {% endif -%}
   "ui": true
 }
