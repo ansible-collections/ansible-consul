@@ -19,9 +19,10 @@
   ignore_errors: yes
   when: consul_gather_server_facts | bool
 
-- name: Expose consul_bind_address and consul_node_role as facts
+- name: Expose bind_address, datacenter and node_role as facts
   set_fact:
     consul_bind_address: "{{ consul_bind_address }}"
+    consul_datacenter: "{{ consul_datacenter }}"
     consul_node_role: "{{ consul_node_role }}"
 
 - name: Read bootstrapped state
