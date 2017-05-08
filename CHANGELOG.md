@@ -607,3 +607,4 @@
 ## v1.19.0 (UNRELEASED)
 
 - Enable consul_manage_group var and conditional in user_group tasks
+- Initial multi datacenter awareness bits (thanks @groggemans)
