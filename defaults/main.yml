@@ -14,7 +14,7 @@ consul_architecture_map:
   armv7l: arm
   aarch64: arm64
 consul_architecture: "{{ consul_architecture_map[ansible_architecture] }}"
-consul_os: "{{ ansible_system|lower }}"
+consul_os: "{{ ansible_system | lower }}"
 consul_pkg: "consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
@@ -74,7 +74,7 @@ consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('cluster_node
 consul_servers: "\
   {% set _consul_servers = [] %}\
   {% for host in groups[consul_group_name] %}\
-    {% set _consul_node_role = hostvars[host]['consul_node_role']|default('client', true) %}\
+    {% set _consul_node_role = hostvars[host]['consul_node_role'] | default('client', true) %}\
     {% if ( _consul_node_role == 'server' or _consul_node_role == 'bootstrap') %}\
       {% if _consul_servers.append(host) %}{% endif %}\
     {% endif %}\

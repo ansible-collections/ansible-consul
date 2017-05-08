@@ -9,7 +9,7 @@
   {% if consul_ports -%}
     "ports": {{ consul_ports | to_nice_json }},
   {% endif -%}
-  {% if consul_recursors|length > 0 -%}
+  {% if consul_recursors | length > 0 -%}
     "recursors": [ {% set comma = joiner(", ") -%}
       {% for recursor in consul_recursors -%}
         {{ comma() }}"{{ recursor }}"
@@ -22,7 +22,7 @@
   "data_dir": "{{ consul_data_path }}",
   "encrypt": "{{ consul_raw_key }}",
   "log_level": "{{ consul_log_level }}",
-  "enable_syslog": {{ consul_syslog_enable|lower }},
+  "enable_syslog": {{ consul_syslog_enable | lower }},
   "domain": "{{ consul_domain }}",
   {% if consul_tls_enable -%}
     "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
@@ -37,6 +37,12 @@
     "acl_down_policy": "{{ consul_acl_down_policy }}",
     "acl_master_token": "{{ consul_acl_master_token }}",
     "acl_replication_token": "{{ consul_acl_replication_token }}",
+  {% endif -%}
+  {% if _consul_wan_servers | length > 0 -%}
+    "start_join_wan": [ {% set comma_nodes = joiner(", ") -%}
+        {% for server in _consul_wan_servers -%}
+        {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] | ipwrap }}"
+        {%- endfor %} ],
   {% endif -%}
   "ui": true
 }

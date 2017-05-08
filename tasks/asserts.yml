@@ -11,28 +11,28 @@
     msg: "{{ ansible_distribution_version }} is not a supported version."
   when:
     - ansible_distribution in ['RedHat', 'CentOS']
-    - ansible_distribution_version|version_compare(6, '<')
+    - ansible_distribution_version | version_compare(6, '<')
 
 - name: Check Debian version
   fail:
     msg: "{{ ansible_distribution_version }} is not a supported version."
   when:
     - ansible_distribution == "Debian"
-    - ansible_distribution_version|version_compare(8, '<')
+    - ansible_distribution_version | version_compare(8, '<')
 
 - name: Check FreeBSD version
   fail:
     msg: "{{ ansible_distribution_version }} is not a supported version."
   when:
     - ansible_distribution == "FreeBSD"
-    - ansible_distribution_version|version_compare(10, '<')
+    - ansible_distribution_version | version_compare(10, '<')
 
 - name: Check Ubuntu version
   fail:
     msg: "{{ ansible_distribution_version }} is not a supported version."
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version|version_compare(13.04, '<')
+    - ansible_distribution_version | version_compare(13.04, '<')
 
 - name: Check specified ethernet interface
   fail:
@@ -45,7 +45,7 @@
   when:
     - consul_iptables_enable | bool
     - ansible_distribution in ['RedHat', 'CentOS']
-    - ansible_distribution_version|version_compare(6, '>=')
+    - ansible_distribution_version | version_compare(6, '>=')
 
 - name: Check for both Dnsmasq and iptables enabled
   fail:
@@ -59,13 +59,13 @@
     msg: "Recursors are required if iptables is enabled."
   when:
     - consul_iptables_enable | bool
-    - consul_recursors|length == 0
+    - consul_recursors | length == 0
 
 - name: Fail if more then one bootstrap server is defined
   fail:
     msg: "You can not define more then one bootstrap server."
   when:
-    - _consul_bootstrap_servers|length > 1
+    - _consul_bootstrap_servers | length > 1
 
 - name: Fail if a bootstrap server is defined and bootstrap_expect is true
   fail:

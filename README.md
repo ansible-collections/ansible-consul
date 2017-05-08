@@ -71,7 +71,7 @@ the variables are named and described below:
 ### `consul_os`
 
 - Node operating system name in lowercase representation
-- Default value: `{{ ansible_os_family|lower }}`
+- Default value: `{{ ansible_os_family | lower }}`
 
 ### `consul_zip_url`
 
