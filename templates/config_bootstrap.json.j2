@@ -38,5 +38,11 @@
     "acl_master_token": "{{ consul_acl_master_token }}",
     "acl_replication_token": "{{ consul_acl_replication_token }}",
   {% endif -%}
+  {% if _consul_wan_servers | length > 0 -%}
+    "start_join_wan": [ {% set comma_nodes = joiner(", ") -%}
+        {% for server in _consul_wan_servers -%}
+        {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] | ipwrap }}"
+        {%- endfor %} ],
+  {% endif -%}
   "ui": true
 }
