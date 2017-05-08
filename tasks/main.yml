@@ -15,7 +15,7 @@
   setup:
   delegate_to: "{{ item }}"
   delegate_facts: True
-  with_items: "{{ consul_servers|difference(play_hosts) }}"
+  with_items: "{{ consul_servers | difference(play_hosts) }}"
   ignore_errors: yes
   when: consul_gather_server_facts | bool
 
@@ -200,13 +200,13 @@
   - name: Import smf manifest
     shell: "svccfg import {{ consul_smf_manifest }}"
     when:
-      - smfmanifest|changed
+      - smfmanifest | changed
       - ansible_os_family == "Solaris"
 
   - name: Import smf script
     shell: "svcadm refresh consul"
     when:
-      - smfmanifest|changed
+      - smfmanifest | changed
       - ansible_os_family == "Solaris"
 
 

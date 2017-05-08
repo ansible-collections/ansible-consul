@@ -3,7 +3,7 @@
 _consul_lan_servers: "\
   {% set __consul_lan_servers = [] %}\
   {% for server in consul_servers %}\
-    {% set _consul_datacenter = hostvars[server]['consul_datacenter']|default('dc1', true) %}\
+    {% set _consul_datacenter = hostvars[server]['consul_datacenter'] | default('dc1', true) %}\
     {% if _consul_datacenter == consul_datacenter %}\
       {% if __consul_lan_servers.append(server) %}{% endif %}\
     {% endif %}\
@@ -13,7 +13,7 @@ _consul_lan_servers: "\
 _consul_wan_servers: "\
   {% set __consul_wan_servers = [] %}\
   {% for server in consul_servers %}\
-    {% set _consul_datacenter = hostvars[server]['consul_datacenter']|default('dc1', true) %}\
+    {% set _consul_datacenter = hostvars[server]['consul_datacenter'] | default('dc1', true) %}\
     {% if _consul_datacenter != consul_datacenter %}\
       {% if __consul_wan_servers.append(server) %}{% endif %}\
     {% endif %}\
@@ -23,7 +23,7 @@ _consul_wan_servers: "\
 _consul_bootstrap_servers: "\
   {% set __consul_bootstrap_servers = [] %}\
   {% for server in _consul_lan_servers %}\
-    {% set _consul_node_role = hostvars[server]['consul_node_role']|default('client', true) %}\
+    {% set _consul_node_role = hostvars[server]['consul_node_role'] | default('client', true) %}\
     {% if _consul_node_role == 'bootstrap' %}\
       {% if __consul_bootstrap_servers.append(server) %}{% endif %}\
     {% endif %}\

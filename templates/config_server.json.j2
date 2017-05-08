@@ -9,7 +9,7 @@
   {% if consul_ports -%}
     "ports": {{ consul_ports | to_nice_json }},
   {% endif -%}
-  {% if consul_recursors|length > 0 -%}
+  {% if consul_recursors | length > 0 -%}
     "recursors": [ {% set comma = joiner(", ") -%}
       {% for recursor in consul_recursors -%}
         {{ comma() }}"{{ recursor }}"
@@ -17,7 +17,7 @@
   {% endif -%}
   "bootstrap": false,
   {% if consul_bootstrap_expect -%}
-    "bootstrap_expect": {{ _consul_lan_servers|length }},
+    "bootstrap_expect": {{ _consul_lan_servers | length }},
   {% endif -%}
   "server": true,
   "node_name": "{{ consul_node_name }}",
@@ -25,12 +25,12 @@
   "data_dir": "{{ consul_data_path }}",
   "encrypt": "{{ consul_raw_key }}",
   "log_level": "{{ consul_log_level }}",
-  "enable_syslog": {{ consul_syslog_enable|lower }},
+  "enable_syslog": {{ consul_syslog_enable | lower }},
   "start_join": [ {% set comma_nodes = joiner(", ") -%}
     {% for server in _consul_lan_servers -%}
       {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] | ipwrap }}"
     {%- endfor %} ],
-  {% if _consul_wan_servers|length > 0 -%}
+  {% if _consul_wan_servers | length > 0 -%}
     "start_join_wan": [ {% set comma_nodes = joiner(", ") -%}
         {% for server in _consul_wan_servers -%}
         {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] | ipwrap }}"
