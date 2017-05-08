@@ -9,7 +9,7 @@
   {% if consul_ports -%}
     "ports": {{ consul_ports | to_nice_json }},
   {% endif -%}
-  {% if consul_recursors|length > 0 -%}
+  {% if consul_recursors | length > 0 -%}
     "recursors": [ {% set comma = joiner(", ") -%}
       {% for recursor in consul_recursors -%}
         {{ comma() }}"{{ recursor }}"
@@ -22,9 +22,9 @@
   "data_dir": "{{ consul_data_path }}",
   "encrypt": "{{ consul_raw_key }}",
   "log_level": "{{ consul_log_level }}",
-  "enable_syslog": {{ consul_syslog_enable|lower }},
+  "enable_syslog": {{ consul_syslog_enable | lower }},
   "start_join": [ {% set comma_nodes = joiner(", ") -%}
-    {% for server in consul_servers -%}
+    {% for server in _consul_lan_servers -%}
       {{ comma_nodes() }}"{{ hostvars[server]['consul_bind_address'] | ipwrap }}"
     {%- endfor %} ]
 }
