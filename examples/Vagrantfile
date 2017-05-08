@@ -74,6 +74,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ["modifyvm", :id, "--cpus", "2"]
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    consul1_config.vm.post_up_message = "Consul server 1 spun up!"
     end
     consul1_config.vm.provision :hosts do |provisioner|
         provisioner.sync_hosts = false
@@ -99,6 +100,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ["modifyvm", :id, "--cpus", "2"]
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    consul2_config.vm.post_up_message = "Consul server 2 spun up!"
     end
     consul2_config.vm.provision :hosts do |provisioner|
         provisioner.sync_hosts = false
@@ -124,6 +126,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ["modifyvm", :id, "--cpus", "2"]
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    consul3_config.vm.post_up_message = "Consul server 3 spun up!\n\nAccess http://consul1.local:8500/ui/ in a browser for Consul UI."
     end
     consul3_config.vm.provision :hosts do |provisioner|
         provisioner.sync_hosts = false
