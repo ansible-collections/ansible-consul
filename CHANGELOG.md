@@ -604,7 +604,8 @@
 - Set `| bool` where needed to stop warnings about template delimiters
 - Add consul group when managing the consul user
 
-## v1.19.0 (UNRELEASED)
+## v1.19.0
 
+- Consul version 0.8.2
 - Enable consul_manage_group var and conditional in user_group tasks
 - Initial multi datacenter awareness bits (thanks @groggemans)
