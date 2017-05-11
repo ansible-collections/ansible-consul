@@ -609,3 +609,7 @@
 - Consul version 0.8.2
 - Enable consul_manage_group var and conditional in user_group tasks
 - Initial multi datacenter awareness bits (thanks @groggemans)
+
+## v1.19.1 (UNRELEASED)
+
+- Recurse perms through config, data, and log directories (thanks @misho-kr)
