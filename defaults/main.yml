@@ -17,7 +17,7 @@ consul_architecture_map:
   64-bit: amd64
 consul_architecture: "{{ consul_architecture_map[ansible_architecture] }}"
 consul_os: "\
-  {% if ansible_os_family == "Windows" %}\
+  {% if ansible_os_family == 'Windows' %}\
     {{ 'windows' }}\
   {% else %}\
     {{ ansible_system | lower }}\
@@ -51,7 +51,7 @@ consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
 consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
 consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
 consul_iface: "\
-  {% if ansible_os_family == "Windows" %}\
+  {% if ansible_os_family == 'Windows' %}\
     {{ lookup('env','CONSUL_IFACE') | default(ansible_interfaces[0].interface_name, true) }}\
   {% else %}\
     {{ lookup('env','CONSUL_IFACE') | default(ansible_default_ipv4.interface, true) }}\
@@ -65,7 +65,7 @@ consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(f
 consul_bind_address: "\
   {% if ansible_system == 'FreeBSD' %}\
     {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4'][0]['address'], true) }}\
-  {% elif ansible_os_family == "Windows"  %}\
+  {% elif ansible_os_family == 'Windows'  %}\
     {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_ip_addresses'][0], true) }}\
   {% else %}\
     {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'], true) }}\
