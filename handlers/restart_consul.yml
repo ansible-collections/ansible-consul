@@ -1,0 +1,12 @@
+---
+- name: restart consul on linux
+  service:
+    name: consul
+    state: restarted
+  when: ansible_os_family != "Windows"
+
+- name: restart consul on windows
+  win_nssm:
+    name: consul
+    state: restarted
+  when: ansible_os_family == "Windows"

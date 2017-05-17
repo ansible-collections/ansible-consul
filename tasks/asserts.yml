@@ -4,7 +4,9 @@
 - name: Check distribution compatibility
   fail:
     msg: "{{ ansible_distribution }} is not currently supported by this role."
-  when: ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu']
+  when:
+    - ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu']
+    - ansible_os_family != 'Windows'
 
 - name: Check CentOS or Red Hat version
   fail:
@@ -37,7 +39,9 @@
 - name: Check specified ethernet interface
   fail:
     msg: "The ethernet interface specified by consul_iface was not found."
-  when: consul_iface not in ansible_interfaces
+  when:
+    - ansible_os_family != 'Windows'
+    - consul_iface not in ansible_interfaces
 
 - name: Check iptables on Red Hat or CentOS
   fail:

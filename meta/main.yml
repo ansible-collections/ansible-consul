@@ -21,6 +21,9 @@ galaxy_info:
   - name: Debian
     versions:
     - jessie
+  - name: Windows
+    versions:
+    - Windows Server 2012 R2
   galaxy_tags:
   - clustering
   - monitoring

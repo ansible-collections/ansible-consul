@@ -1,0 +1,53 @@
+---
+# File: config.yml - Consul configuration tasks
+
+- name: Create bootstrap configuration
+  win_template:
+    src: config_bootstrap.json.j2
+    dest: "{{ item.dest }}"
+  with_items:
+    - dest: "{{ consul_config_path }}/config.json"
+      when: "{{ consul_node_role == 'bootstrap' }}"
+    - dest: "{{ consul_config_path }}/bootstrap.json"
+      when: consul_debug | bool
+  when:
+    - item.when
+  notify:
+    - restart consul
+
+- name: Create server configuration
+  win_template:
+    src: config_server.json.j2
+    dest: "{{ item.dest }}"
+  with_items:
+    - dest: "{{ consul_config_path }}/config.json"
+      when: "{{ consul_node_role == 'server' }}"
+    - dest: "{{ consul_config_path }}/server.json"
+      when: consul_debug | bool
+  when:
+    - item.when
+  notify:
+    - restart consul
+
+- name: Create client configuration
+  win_template:
+    src: config_client.json.j2
+    dest: "{{ item.dest }}"
+  with_items:
+    - dest: "{{ consul_config_path }}/config.json"
+      when: "{{ consul_node_role == 'client' }}"
+    - dest: "{{ consul_config_path }}/client.json"
+      when: consul_debug | bool
+  when:
+    - item.when
+  notify:
+    - restart consul
+
+- name: Create custom configuration
+  win_template:
+    src: configd_50custom.json.j2
+    dest: "{{ consul_configd_path }}/50custom.json"
+  when:
+    - consul_config_custom is defined
+  notify:
+    - restart consul
