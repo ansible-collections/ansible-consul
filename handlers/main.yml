@@ -2,15 +2,10 @@
 # File: main.yml - Handlers for Consul
 
 - name: restart consul
-  service:
-    name: consul
-    state: restarted
+  include: restart_consul.yml
 
 - name: start consul
-  service:
-    name: consul
-    enabled: yes
-    state: started
+  include: start_consul.yml
 
 - name: restart dnsmasq
   service:

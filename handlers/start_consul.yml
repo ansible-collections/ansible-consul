@@ -1,0 +1,12 @@
+---
+- name: start consul on linux
+  service:
+    name: consul
+    state: started
+  when: ansible_os_family != "Windows"
+
+- name: start consul on windows
+  win_nssm:
+    name: consul
+    state: started
+  when: ansible_os_family == "Windows"

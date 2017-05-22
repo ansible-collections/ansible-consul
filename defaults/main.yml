@@ -5,7 +5,7 @@
 consul_debug: no
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.8.2', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.8.3', true) }}"
 consul_architecture_map:
   # this first entry seems... redundant
   #(but it's required for reasons)
@@ -13,12 +13,18 @@ consul_architecture_map:
   x86_64: amd64
   armv7l: arm
   aarch64: arm64
+  32-bit: "386"
+  64-bit: amd64
 consul_architecture: "{{ consul_architecture_map[ansible_architecture] }}"
-consul_os: "{{ ansible_system | lower }}"
+consul_os: "\
+  {% if ansible_os_family == 'Windows' %}\
+    {{ 'windows' }}\
+  {% else %}\
+    {{ ansible_system | lower }}\
+  {% endif %}"
 consul_pkg: "consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
-consul_bootstrap_state: "/etc/consul/.consul_bootstrapped"
 
 ### Install Method
 consul_install_remotely: false
@@ -27,6 +33,7 @@ consul_install_remotely: false
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul"
 consul_configd_path: "/etc/consul.d"
+consul_bootstrap_state: "/etc/consul/.consul_bootstrapped"
 consul_data_path: "/var/consul"
 consul_log_path: "/var/log/consul"
 consul_run_path: "/var/run/consul"
@@ -43,7 +50,12 @@ consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) 
 consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
 consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
 consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
-consul_iface: "{{ lookup('env','CONSUL_IFACE') | default(ansible_default_ipv4.interface, true) }}"
+consul_iface: "\
+  {% if ansible_os_family == 'Windows' %}\
+    {{ lookup('env','CONSUL_IFACE') | default(ansible_interfaces[0].interface_name, true) }}\
+  {% else %}\
+    {{ lookup('env','CONSUL_IFACE') | default(ansible_default_ipv4.interface, true) }}\
+  {% endif %}"
 consul_node_name: "{{ inventory_hostname_short }}"
 consul_node_role: "{{ lookup('env','CONSUL_NODE_ROLE') | default('client', true) }}"
 consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
@@ -53,6 +65,8 @@ consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(f
 consul_bind_address: "\
   {% if ansible_system == 'FreeBSD' %}\
     {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4'][0]['address'], true) }}\
+  {% elif ansible_os_family == 'Windows'  %}\
+    {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_ip_addresses'][0], true) }}\
   {% else %}\
     {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'], true) }}\
   {% endif %}"
