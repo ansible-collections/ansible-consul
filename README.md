@@ -85,44 +85,44 @@ the variables are named and described below:
 ### `consul_bin_path`
 
 - Binary installation path
-- Default linux value: `/usr/local/bin`
-- Default windows value: `C:\ProgramData\consul\bin`
+- Default Linux value: `/usr/local/bin`
+- Default Windows value: `C:\ProgramData\consul\bin`
 
 ### `consul_config_path`
 
 - Base configuration file path
-- Default linux value: `/etc/consul`
-- Default windows value: `C:\ProgramData\consul\config`
+- Default Linux value: `/etc/consul`
+- Default Windows value: `C:\ProgramData\consul\config`
 
 ### `consul_configd_path`
 
 - Additional configuration directory
-- Default linux value: `/etc/consul.d`
-- Default windows value: `C:\ProgramData\consul\config.d`
+- Default Linux value: `/etc/consul.d`
+- Default Windows value: `C:\ProgramData\consul\config.d`
 
 ### `consul_data_path`
 
 - Data path
-- Default linux value: `/var/consul`
-- Default windows value: `C:\ProgramData\consul\data`
+- Default Linux value: `/var/consul`
+- Default Windows value: `C:\ProgramData\consul\data`
 
 ### `consul_log_path`
 
 - Log path
-- Default linux value: `/var/log/consul`
-- Default windows value: `C:\ProgramData\consul\log`
+- Default Linux value: `/var/log/consul`
+- Default Windows value: `C:\ProgramData\consul\log`
 
 ### `consul_run_path`
 
 - Run path for PID file
-- Default linux value: `/var/run/consul`
-- Default windows value: `C:\ProgramData\consul`
+- Default Linux value: `/var/run/consul`
+- Default Windows value: `C:\ProgramData\consul`
 
 ### `consul_user`
 
 - OS user
-- Default linux value: *consul*
-- Default linux value: *LocalSystem*
+- Default Linux value: *consul*
+- Default Windows value: *LocalSystem*
 
 ### `consul_group`
 
@@ -137,7 +137,7 @@ the variables are named and described below:
 
 ### `consul_servers`
 
-Although overwritable, it should not be necessary to manually alter this list.
+It's typically not necessary to manually alter this list.
 
 - List of server nodes
 - Default value: List of all nodes in `consul_group_name` with
@@ -176,8 +176,8 @@ in many Ansible versions, so this feature might not always work.
 
 - Log to syslog
   - Override with `CONSUL_SYSLOG_ENABLE` environment variable
-- Default linux value: *true*
-- Default windows value: *false*
+- Default Linux value: *true*
+- Default Windows value: *false*
 
 ### `consul_iface`
 
@@ -354,7 +354,7 @@ in many Ansible versions, so this feature might not always work.
 ### `consul_install_remotely`
 
 - Whether to download the files for installation directly on the remote hosts
-- This is the only option on Windows as WinRM is somewhat limited in this scope.
+- This is the only option on Windows as WinRM is somewhat limited in this scope
 - Default value: *false*
 
 ### `consul_node_role`

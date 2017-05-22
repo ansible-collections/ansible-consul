@@ -615,3 +615,9 @@
 - Consul version 0.8.3
 - Recurse perms through config, data, and log directories (thanks @misho-kr)
 - Update documentation
+
+## v1.20.0
+
+- Initial Windows support (thanks @judy)
+- Update documentation
+- Update CONTRIBUTORS
