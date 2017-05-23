@@ -621,3 +621,7 @@
 - Initial Windows support (thanks @judy)
 - Update documentation
 - Update CONTRIBUTORS
+
+## v1.20.1
+
+- Update main tasks to move Windows specific tasks into blocks
