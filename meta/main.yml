@@ -4,7 +4,7 @@ galaxy_info:
   description: Consul cluster role
   company:
   license: BSD
-  min_ansible_version: 2.1.0.0
+  min_ansible_version: 2.2.0.0
   platforms:
   - name: EL
     versions:
@@ -23,7 +23,7 @@ galaxy_info:
     - jessie
   - name: Windows
     versions:
-    - Windows Server 2012 R2
+    - 2012R2
   galaxy_tags:
   - clustering
   - monitoring

@@ -625,3 +625,9 @@
 ## v1.20.1
 
 - Update main tasks to move Windows specific tasks into blocks
+
+## v1.20.2
+
+- Correct meta for Windows platform
+- Update supported versions
+- Update documentation
