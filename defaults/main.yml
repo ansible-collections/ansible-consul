@@ -32,6 +32,7 @@ consul_install_remotely: false
 ### Paths
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul"
+consul_configd_path: "/etc/consul.d"
 consul_bootstrap_state: "/etc/consul/.consul_bootstrapped"
 consul_data_path: "/var/consul"
 consul_log_path: "/var/log/consul"
@@ -104,6 +105,7 @@ consul_acl_master_token: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN') | default('
 consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
 consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
 consul_acl_replication_token_display: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN_DISPLAY') | default(false, true) }}"
+consul_acl_policy: false
 
 ## TLS
 consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"

@@ -90,9 +90,15 @@ the variables are named and described below:
 
 ### `consul_config_path`
 
-- Configuration file path
+- Base configuration file path
 - Default Linux value: `/etc/consul`
 - Default Windows value: `C:\ProgramData\consul\config`
+
+### `consul_configd_path`
+
+- Additional configuration directory
+- Default Linux value: `/etc/consul.d`
+- Default Windows value: `C:\ProgramData\consul\config.d`
 
 ### `consul_data_path`
 

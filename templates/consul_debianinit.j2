@@ -18,7 +18,7 @@ DESC="Consul service discovery framework"
 NAME="consul"
 DAEMON="{{ consul_bin_path }}/${NAME}"
 PIDFILE="/var/run/${NAME}/${NAME}.pid"
-DAEMON_ARGS="agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_config_path }}"
+DAEMON_ARGS="agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_configd_path }}"
 USER={{ consul_user }}
 SCRIPTNAME=/etc/init.d/"${NAME}"
 
