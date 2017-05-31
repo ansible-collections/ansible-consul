@@ -631,3 +631,10 @@
 - Correct meta for Windows platform
 - Update supported versions
 - Update documentation
+
+## v1.21.0
+
+- Move all configuration into `consul_config_path`
+- Remove `consul_configd_path`
+- Rename `configd_50custom.json.j2` to `user_custom.json.j2`
+- Rename `50custom.json` to `user_custom.json`

@@ -51,8 +51,8 @@
 
 - name: Create custom configuration
   template:
-    src: configd_50custom.json.j2
-    dest: "{{ consul_configd_path }}/50custom.json"
+    src: user_custom.json.j2
+    dest: "{{ consul_config_path }}/user_custom.json"
     owner: "{{ consul_user }}"
     group: "{{ consul_group}}"
   when:
