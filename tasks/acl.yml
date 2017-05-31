@@ -36,11 +36,13 @@
   run_once: True
   when: consul_acl_replication_token_display | bool
 
-- name: Create ACL policy configuration
-  template:
-    src: user_acl_policy.hcl.j2
-    dest: "{{ consul_config_path }}/50acl_policy.hcl"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-  notify:
-    - restart consul
+# XXX: Revisit this as it can cause interesting head scratching vs. stock
+#
+#- name: Create ACL policy configuration
+#  template:
+#    src: user_acl_policy.hcl.j2
+#    dest: "{{ consul_config_path }}/50acl_policy.hcl"
+#    owner: "{{ consul_user }}"
+#    group: "{{ consul_group}}"
+#  notify:
+#    - restart consul
