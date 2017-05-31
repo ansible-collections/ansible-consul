@@ -638,3 +638,10 @@
 - Remove `consul_configd_path`
 - Rename `configd_50custom.json.j2` to `user_custom.json.j2`
 - Rename `50custom.json` to `user_custom.json`
+
+## v1.21.1
+
+- Update ACL tasks
+- Rename `configd_50custom.json.j2` template tp `user_custom.json.j2`
+- Rename `configd_50acl_policy.hcl` template to `user_acl_policy.hcl.j2`
+- Do not enable a default set of ACL policies

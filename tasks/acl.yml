@@ -38,7 +38,7 @@
 
 - name: Create ACL policy configuration
   template:
-    src: configd_50acl_policy.hcl.j2
+    src: user_acl_policy.hcl.j2
     dest: "{{ consul_config_path }}/50acl_policy.hcl"
     owner: "{{ consul_user }}"
     group: "{{ consul_group}}"
