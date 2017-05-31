@@ -645,3 +645,7 @@
 - Rename `configd_50custom.json.j2` template tp `user_custom.json.j2`
 - Rename `configd_50acl_policy.hcl` template to `user_acl_policy.hcl.j2`
 - Do not enable a default set of ACL policies
+
+## v1.21.2
+
+- Actually add new template files :facepalm:
