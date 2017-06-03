@@ -357,6 +357,11 @@ in many Ansible versions, so this feature might not always work.
 - This is the only option on Windows as WinRM is somewhat limited in this scope
 - Default value: *false*
 
+### `consul_ui`
+
+- Enable the consul ui?
+- Default value: *true*
+
 ### `consul_node_role`
 
 - Consul server role, one of: *bootstrap*, *server*, or *client*

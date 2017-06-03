@@ -1,0 +1,85 @@
+{# This template will be passed through the 'to_nice_json' filter #}
+{# The filter fixes whitespace, indentation and comma's on the last item #}
+{
+    {# Common Settings #}
+
+    {## Node ##}
+    "node_name": "{{ consul_node_name }}",
+    "datacenter": "{{ consul_datacenter }}",
+    "domain": "{{ consul_domain }}",
+
+    {## Addresses and ports ##}
+    "bind_addr": "{{ consul_bind_address }}",
+    "addresses": {
+        "dns": "{{ consul_dns_bind_address }}",
+        "http": "{{ consul_http_bind_address }}",
+        "https": "{{ consul_https_bind_address }}",
+        "rpc": "{{ consul_rpc_bind_address }}",
+    },
+    {% if consul_ports %}
+        "ports": {{ consul_ports | to_json }},
+    {% endif %}
+
+    {## DNS ##}
+    {% if consul_recursors | length > 0 %}
+        "recursors": [
+            {% for recursor in consul_recursors %}
+                "{{ recursor }}",
+            {% endfor %} ],
+    {% endif %}
+
+    {## Agent ##}
+    "data_dir": "{{ consul_data_path }}",
+    "log_level": "{{ consul_log_level }}",
+    "enable_syslog": {{ consul_syslog_enable | bool | to_json }},
+
+    {# Encryption and TLS ##}
+    "encrypt": "{{ consul_raw_key }}",
+    {% if consul_tls_enable %}
+        "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
+        "cert_file": "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}",
+        "key_file": "{{ consul_tls_dir }}/{{ consul_server_key }}",
+        "verify_incoming": {{ consul_tls_verify_incoming | bool | to_json }},
+        "verify_outgoing": {{ consul_tls_verify_outgoing | bool | to_json }},
+    {% endif %}
+
+    {## LAN Join ##}
+    "start_join": [
+        {% for server in _consul_lan_servers %}
+            "{{ hostvars[server]['consul_bind_address'] | ipwrap }}",
+        {% endfor %} ],
+
+    {## Server/Client ##}
+    "server": {{ (item.config_version != 'client') | bool | to_json }},
+
+    {## UI ##}
+    "ui": {{ consul_ui | bool | to_json }},
+
+    {# Server Settings #}
+
+    {% if (item.config_version == 'server') or (item.config_version == 'bootstrap') %}
+
+        {## Bootstrap settings ##}
+        "bootstrap": {{ (item.config_version == 'bootstrap') | bool | to_json }},
+        {% if consul_bootstrap_expect and not (item.config_version == 'bootstrap') %}
+            "bootstrap_expect": {{ _consul_lan_servers | length }},
+        {% endif %}
+
+        {## WAN Join ##}
+        {% if _consul_wan_servers | length > 0 %}
+            "start_join_wan": [
+                {% for server in _consul_wan_servers %}
+                    "{{ hostvars[server]['consul_bind_address'] | ipwrap }}",
+                {% endfor %} ],
+        {% endif %}
+
+        {## ACL's ##}
+        {% if consul_acl_enable %}
+            "acl_datacenter": "{{ consul_acl_datacenter }}",
+            "acl_default_policy": "{{ consul_acl_default_policy }}",
+            "acl_down_policy": "{{ consul_acl_down_policy }}",
+            "acl_master_token": "{{ consul_acl_master_token }}",
+            "acl_replication_token": "{{ consul_acl_replication_token }}",
+        {% endif %}
+    {% endif %}
+}
