@@ -606,6 +606,37 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ;;
 ```
 
+### `consul_dnsmasq_cache`
+
+- dnsmasq cache-size
+- If smaller then 0, the default dnsmasq setting will be used.
+- Default value: *-1*
+
+### `consul_dnsmasq_servers`
+
+- Upstream DNS servers used by dnsmasq
+- Default value: *8.8.8.8* and *8.8.4.4*
+
+### `consul_dnsmasq_revservers`
+
+- Reverse lookup subnets
+- Default value: *{}*
+
+### `consul_dnsmasq_no_poll`
+
+- Do not poll /etc/resolv.conf
+- Default value: false
+
+### `consul_dnsmasq_no_resolv`
+
+- Ignore /etc/resolv.conf file
+- Default value: false
+
+### `consul_dnsmasq_local_service`
+
+- Only allow requests from local subnets
+- Default value: false
+
 ### iptables DNS Forwarding Support
 
 This role can also use iptables instead of Dnsmasq for forwarding DNS queries

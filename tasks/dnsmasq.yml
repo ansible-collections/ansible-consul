@@ -28,8 +28,8 @@
     state: stopped
 
 - name: Create Dnsmasq configuration
-  copy:
-    src: ../files/dnsmasq-10-consul
+  template:
+    src: dnsmasq-10-consul.j2
     dest: /etc/dnsmasq.d/10-consul
     owner: root
     group: root
@@ -55,8 +55,8 @@
   tags: dnsmasq
 
 - name: Create FreeBSD-specific Dnsmasq configuration
-  copy:
-    src: ../files/dnsmasq-10-consul
+  template:
+    src: dnsmasq-10-consul.j2
     dest: /usr/local/etc/dnsmasq.d/consul.conf
     owner: root
     group: wheel

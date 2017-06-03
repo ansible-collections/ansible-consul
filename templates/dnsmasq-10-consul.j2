@@ -1,0 +1,32 @@
+{# Enable forward lookups for the consul domain -#}
+server=/{{ consul_domain }}/{{ consul_dns_bind_address }}#{{ consul_ports['dns'] }}
+
+{# Reverse DNS lookups -#}
+{% for revserver in consul_dnsmasq_revservers -%}
+    rev-server={{ revserver }},{{ consul_dns_bind_address }}#{{ consul_ports['dns'] }}
+{% endfor -%}
+
+{# Only accept DNS queries from hosts in the local subnet -#}
+{% if consul_dnsmasq_local_service -%}
+    local-service
+{% endif -%}
+
+{# Don't poll /etc/resolv.conf for changes -#}
+{% if consul_dnsmasq_no_poll -%}
+    no-poll
+{% endif -%}
+
+{# Dont use /etc/resolv.conf to get upstream servers -#}
+{% if consul_dnsmasq_no_resolv -%}
+    no-resolv
+{% endif -%}
+
+{# Upstream DNS servers -#}
+{% for server in consul_dnsmasq_servers -%}
+    server={{ server }}
+{% endfor -%}
+
+{# Cache size -#}
+{% if consul_dnsmasq_cache > 0 -%}
+    cache-size={{ consul_dnsmasq_cache }}
+{% endif -%}
