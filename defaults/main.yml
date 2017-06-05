@@ -60,6 +60,7 @@ consul_node_name: "{{ inventory_hostname_short }}"
 consul_node_role: "{{ lookup('env','CONSUL_NODE_ROLE') | default('client', true) }}"
 consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
 consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(false, true) }}"
+consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
 
 ### Addresses
 consul_bind_address: "\
