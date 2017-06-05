@@ -646,3 +646,8 @@ Actually add new template files :facepalm:
 ## v1.22.0
 
 - Revert changes from v1.21.2 and v1.21.1
+
+## v1.23.0 (UNRELEASED)
+
+- Combines all (client/server/bootstrap) config templates (thanks @groggemans)
+- Template for dnsmasq settings (thanks @groggemans)
