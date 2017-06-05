@@ -651,3 +651,7 @@ Actually add new template files :facepalm:
 
 - Combines all (client/server/bootstrap) config templates (thanks @groggemans)
 - Template for dnsmasq settings (thanks @groggemans)
+
+## v1.23.1
+
+- Add files directory
