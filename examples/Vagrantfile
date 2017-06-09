@@ -54,8 +54,6 @@ Vagrant.require_version ">= 1.9.0"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if BOX_NAME.include? "freebsd"
     CONSUL_IFACE = "em1"
-  else
-    CONSUL_IFACE = ENV['CONSUL_IFACE'] || "eth1"
   end
   # Configure 3 Consul nodes
   config.vm.define :consul1 do |consul1_config|

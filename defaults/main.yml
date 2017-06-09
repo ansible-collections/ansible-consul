@@ -106,6 +106,8 @@ consul_acl_master_token: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN') | default('
 consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
 consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
 consul_acl_replication_token_display: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN_DISPLAY') | default(false, true) }}"
+consul_acl_agent_token: "{{ lookup('env','CONSUL_ACL_AGENT_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
+consul_acl_agent_master_token: "{{ lookup('env','CONSUL_ACL_AGENT_MASTER_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
 consul_acl_policy: false
 
 ## TLS

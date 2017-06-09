@@ -291,6 +291,18 @@ in many Ansible versions, so this feature might not always work.
   - Override with `CONSUL_ACL_REPLICATION_TOKEN_DISPLAY` environment variable
 - Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
 
+### `consul_acl_agent_token`
+
+- Used for clients and servers to perform internal operations to the service catalog. See: [acl_agent_token](https://www.consul.io/docs/agent/options.html#acl_agent_token)
+  - Override with `CONSUL_ACL_AGENT_TOKEN` environment variable
+- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
+
+### `consul_acl_agent_master_token`
+
+- A [special access token](https://www.consul.io/docs/agent/options.html#acl_agent_master_token) that has agent ACL policy write privileges on each agent where it is configured
+  - Override with `CONSUL_ACL_AGENT_MASTER_TOKEN` environment variable
+- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
+
 ### `consul_tls_enable`
 
 - Enable TLS
