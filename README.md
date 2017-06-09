@@ -27,12 +27,12 @@ role will target that experience as a primary motivator for existing.
 
 ## Requirements
 
-This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
-might work with other software versions, but does work with the following
-specific software and versions:
+This role requires FreeBSD, or a Debian or RHEL based Linux distribution or
+Windows Server 2012 R2. It might work with other software versions, but does
+definitely work with the following specific software and versions:
 
 * Consul: 0.8.3
-* Ansible: 2.3.0.0
+* Ansible: 2.3.1.0
 * CentOS: 7
 * Debian: 8
 * FreeBSD: 11
