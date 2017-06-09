@@ -656,13 +656,13 @@ Actually add new template files :facepalm:
 
 - Add files directory
 
-## v1.23.2 (UNRELEASED)
+## v1.24.0
 
+- Consul 0.8.4
 - Remove `user_acl_policy.hcl.j2` and `user_custom.json.j2`
 - Update configuration template with new ACL variables
 - Remove consul_iface from vagrant_hosts
-- Add new ACL variables to help with 0.8.x ACLs
-  - consul_acl_agent_token
-  - consul_acl_agent_master_token
+- Simplify ACL configuration
+- Remove checks for `consul_acl_replication_token_display`
 - Update Vagrantfile
 - Update README

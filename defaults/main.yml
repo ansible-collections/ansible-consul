@@ -5,7 +5,7 @@
 consul_debug: no
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.8.3', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.8.4', true) }}"
 consul_architecture_map:
   # this first entry seems... redundant
   #(but it's required for reasons)
@@ -101,13 +101,9 @@ consul_gather_server_facts: no
 consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
 consul_acl_datacenter: "{{ lookup('env','CONSUL_ACL_DATACENTER') | default(consul_datacenter, true) }}"
 consul_acl_default_policy: "{{ lookup('env','CONSUL_ACL_DEFAULT_POLICY') | default('allow', true) }}"
-consul_acl_down_policy: "{{ lookup('env','CONSUL_ACL_DOWN_POLICY') | default('allow', true) }}"
-consul_acl_master_token: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
+consul_acl_master_token: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN') | default('42424242-4242-4242-4242-424242424242', true) }}"
 consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
-consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
 consul_acl_replication_token_display: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN_DISPLAY') | default(false, true) }}"
-consul_acl_agent_token: "{{ lookup('env','CONSUL_ACL_AGENT_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
-consul_acl_agent_master_token: "{{ lookup('env','CONSUL_ACL_AGENT_MASTER_TOKEN') | default('SN4K3OILSN4K3OILSN4K3OILSN4K3OIL', true) }}"
 consul_acl_policy: false
 
 ## TLS

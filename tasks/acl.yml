@@ -30,12 +30,6 @@
     - (consul_acl_replication_token is not defined or consul_acl_replication_token == '')
     - not bootstrap_state.stat.exists | bool
 
-- name: Display ACL Replication Token
-  debug:
-    msg: "{{ consul_acl_replication_token }}"
-  run_once: True
-  when: consul_acl_replication_token_display | bool
-
 - name: Create ACL policy configuration
   template:
     src: configd_50acl_policy.hcl.j2
