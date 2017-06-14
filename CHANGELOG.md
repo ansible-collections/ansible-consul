@@ -666,3 +666,7 @@ Actually add new template files :facepalm:
 - Remove checks for `consul_acl_replication_token_display`
 - Update Vagrantfile
 - Update README
+
+## v1.24.1 (UNRELEASED)
+
+- Add `ansible.cfg` for examples and install netaddr (thanks @arehmandev)
