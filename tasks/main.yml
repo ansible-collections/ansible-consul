@@ -6,6 +6,12 @@
 # dicts, and being so over YAML that this stuff just needs to get pitched
 # into the rubbish bin at some point in the immediate future :lol:
 
+- name: Install netaddr dependency locally
+  pip:
+    name: netaddr
+  delegate_to: 127.0.0.1
+  become: false
+
 - name: Include checks/asserts
   include: asserts.yml
 
