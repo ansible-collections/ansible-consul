@@ -670,3 +670,5 @@ Actually add new template files :facepalm:
 ## v1.24.1 (UNRELEASED)
 
 - Add `ansible.cfg` for examples and install netaddr (thanks @arehmandev)
+- Improve HTTP API check (thanks @dmke)
+- Update CONTRIBUTORS
