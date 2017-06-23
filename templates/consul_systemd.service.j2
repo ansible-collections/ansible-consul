@@ -16,14 +16,14 @@ After=network-online.target
 [Service]
 User={{ consul_user }}
 Group={{ consul_group }}
-PIDFile=/var/run/consul/consul.pid
+PIDFile={{ consul_run_path }}/consul.pid
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir {{ consul_run_path }}
-ExecStartPre=/bin/chown -R {{ consul_user }}:{{ consul_group }} /var/run/consul/
+ExecStartPre=/bin/chown -R {{ consul_user }}:{{ consul_group }} {{ consul_run_path }}
 ExecStart={{ consul_bin_path }}/consul agent \
     -config-file={{ consul_config_path }}/config.json \
     -config-dir={{ consul_configd_path}} \
-    -pid-file=/var/run/consul/consul.pid
+    -pid-file={{ consul_run_path }}/consul.pid
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 KillSignal=SIGTERM
