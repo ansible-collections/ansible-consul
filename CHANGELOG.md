@@ -667,8 +667,14 @@ Actually add new template files :facepalm:
 - Update Vagrantfile
 - Update README
 
-## v1.24.1 (UNRELEASED)
+## v1.24.1
 
 - Add `ansible.cfg` for examples and install netaddr (thanks @arehmandev)
 - Improve HTTP API check (thanks @dmke)
+- Update CONTRIBUTORS
+
+## v1.24.2 (UNRELEASED)
+
+- Use consul_run_path variable (thanks @vincent-legoll)
+- CHANGELOG++
 - Update CONTRIBUTORS
