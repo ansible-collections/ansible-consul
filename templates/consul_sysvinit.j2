@@ -15,6 +15,7 @@ CONSUL={{ consul_bin_path }}/consul
 CONFIG={{ consul_config_path }}/config.json
 CONFIGD={{ consul_configd_path }}
 PID_FILE={{ consul_run_path }}/consul.pid
+LOCK_FILE=/var/lock/subsys/consul
 
 [ -e /etc/sysconfig/consul ] && . /etc/sysconfig/consul
 
@@ -45,7 +46,7 @@ start() {
             --pidfile="${PID_FILE}" \
             "${CONSUL}" agent -config-file="${CONFIG}" -config-dir="${CONFIGD}" -pid-file="${PID_FILE}" &
         retcode=$?
-        touch /var/lock/subsys/consul
+        touch ${LOCK_FILE}
         return "${retcode}"
 }
 
@@ -59,7 +60,7 @@ stop() {
         killproc "${KILLPROC_OPT}" "${CONSUL}" -9
 
         retcode=$?
-        rm -f /var/lock/subsys/consul "${PID_FILE}"
+        rm -f "${LOCK_FILE}" "${PID_FILE}"
         return "${retcode}"
 }
 
@@ -82,7 +83,7 @@ case "$1" in
         killproc "${KILLPROC_OPT}" "${CONSUL}" -HUP
         ;;
     condrestart)
-        [ -f /var/lock/subsys/consul ] && restart || :
+        [ -f ${LOCK_FILE} ] && restart || :
         ;;
     *)
         echo "Usage: consul {start|stop|status|reload|restart}"
