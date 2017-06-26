@@ -673,8 +673,11 @@ Actually add new template files :facepalm:
 - Improve HTTP API check (thanks @dmke)
 - Update CONTRIBUTORS
 
-## v1.24.2 (UNRELEASED)
+## v1.24.2
 
 - Use consul_run_path variable (thanks @vincent-legoll)
+- Replace remaining hardcoded paths (thanks @vincent-legoll)
+- Factorize LOCK_FILE (thanks @vincent-legoll)
 - CHANGELOG++
 - Update CONTRIBUTORS
+- Update README

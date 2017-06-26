@@ -48,7 +48,11 @@ The role uses variables define in these three sources:
 - `vars/*.yml`
 - Hosts inventory file (see `examples/vagrant_hosts` for an example)
 
-many of these can also be further overridden by environment variables as well;
+NOTE: The label for servers in the hosts inventory file must be
+`[cluster_nodes]` as shown in the example. The role will not function
+properly if the label name is anything else.
+
+Many of these can also be further overridden by environment variables as well;
 the variables are named and described below:
 
 ### `consul_version`
