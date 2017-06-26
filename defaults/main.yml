@@ -79,7 +79,6 @@ consul_vault_address: "{{ vault_address | default('0.0.0.0', true) }}"
 
 ### Ports
 consul_ports:
-  rpc: 8400
   http: 8500
   https: -1
   dns: 8600
