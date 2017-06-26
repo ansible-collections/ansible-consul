@@ -17,7 +17,7 @@ PATH="{{ consul_bin_path }}:/usr/sbin:/usr/bin:/sbin:/bin"
 DESC="Consul service discovery framework"
 NAME="consul"
 DAEMON="{{ consul_bin_path }}/${NAME}"
-PIDFILE="/var/run/${NAME}/${NAME}.pid"
+PIDFILE="{{ consul_run_path }}/${NAME}.pid"
 DAEMON_ARGS="agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_configd_path }}"
 USER={{ consul_user }}
 SCRIPTNAME=/etc/init.d/"${NAME}"
@@ -36,8 +36,8 @@ SCRIPTNAME=/etc/init.d/"${NAME}"
 
 # Make sure PID dir exists
 mkrundir() {
-        [ ! -d /var/run/consul ] && mkdir -p /var/run/consul
-        chown {{ consul_user }} /var/run/consul
+        [ ! -d {{ consul_run_path }} ] && mkdir -p {{ consul_run_path }}
+        chown {{ consul_user }} {{ consul_run_path }}
 }
 
 # Start the Consul service

@@ -28,9 +28,9 @@ stop_cmd=consul_stop
 consul_start() {
     echo "Starting ${name}."
     for user in ${consul_users}; do
-        mkdir /var/run/consul
-        chown -R "{{ consul_user }}:{{ consul_group }}" /var/run/consul/
-        su -m "${user}" -c "{{ consul_bin_path }}/consul agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_configd_path }} -pid-file=/var/run/consul/consul.pid&"
+        mkdir {{ consul_run_path }}
+        chown -R "{{ consul_user }}:{{ consul_group }}" {{ consul_run_path }}
+        su -m "${user}" -c "{{ consul_bin_path }}/consul agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_configd_path }} -pid-file={{ consul_run_path }}/consul.pid&"
     done
 }
 

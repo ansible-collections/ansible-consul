@@ -3,7 +3,7 @@
 # chkconfig:   2345 95 95
 # description: Consul service discovery framework
 # processname: consul
-# pidfile: /var/run/consul/pidfile
+# pidfile: {{ consul_run_path }}/consul.pid
 
 {% if ansible_distribution == "Ubuntu" %}
 . /lib/lsb/init-functions
@@ -14,22 +14,23 @@
 CONSUL={{ consul_bin_path }}/consul
 CONFIG={{ consul_config_path }}/config.json
 CONFIGD={{ consul_configd_path }}
-PID_FILE=/var/run/consul/consul.pid
+PID_FILE={{ consul_run_path }}/consul.pid
+LOCK_FILE=/var/lock/subsys/consul
 
 [ -e /etc/sysconfig/consul ] && . /etc/sysconfig/consul
 
 export GOMAXPROCS=$(nproc)
 
 mkrundir() {
-        [ ! -d /var/run/consul ] && mkdir -p /var/run/consul
-        chown {{ consul_user }} /var/run/consul
+        [ ! -d {{ consul_run_path }} ] && mkdir -p {{ consul_run_path }}
+        chown {{ consul_user }} {{ consul_run_path }}
 }
 
 KILLPROC_OPT="-p ${PID_FILE}"
 mkpidfile() {
         mkrundir
         [ ! -f "${PID_FILE}" ] && pidofproc "${CONSUL}" > "${PID_FILE}"
-        chown -R {{ consul_user }} /var/run/consul
+        chown -R {{ consul_user }} {{ consul_run_path }}
         if [ $? -ne 0 ] ; then
             rm "${PID_FILE}"
             KILLPROC_OPT=""
@@ -45,7 +46,7 @@ start() {
             --pidfile="${PID_FILE}" \
             "${CONSUL}" agent -config-file="${CONFIG}" -config-dir="${CONFIGD}" -pid-file="${PID_FILE}" &
         retcode=$?
-        touch /var/lock/subsys/consul
+        touch ${LOCK_FILE}
         return "${retcode}"
 }
 
@@ -59,7 +60,7 @@ stop() {
         killproc "${KILLPROC_OPT}" "${CONSUL}" -9
 
         retcode=$?
-        rm -f /var/lock/subsys/consul "${PID_FILE}"
+        rm -f "${LOCK_FILE}" "${PID_FILE}"
         return "${retcode}"
 }
 
@@ -82,7 +83,7 @@ case "$1" in
         killproc "${KILLPROC_OPT}" "${CONSUL}" -HUP
         ;;
     condrestart)
-        [ -f /var/lock/subsys/consul ] && restart || :
+        [ -f ${LOCK_FILE} ] && restart || :
         ;;
     *)
         echo "Usage: consul {start|stop|status|reload|restart}"

@@ -246,7 +246,7 @@
 
       - name: Create bootstrapped state file
         file:
-          dest: /etc/consul/.consul_bootstrapped
+          dest: "{{ consul_bootstrap_state }}"
           state: touch
 
       - include: ../tasks/dnsmasq.yml
