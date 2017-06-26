@@ -74,7 +74,6 @@ consul_bind_address: "\
 consul_dns_bind_address: "127.0.0.1"
 consul_http_bind_address: "0.0.0.0"
 consul_https_bind_address: "0.0.0.0"
-consul_rpc_bind_address: "0.0.0.0"
 consul_vault_address: "{{ vault_address | default('0.0.0.0', true) }}"
 
 ### Ports

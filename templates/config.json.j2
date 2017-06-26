@@ -14,7 +14,6 @@
         "dns": "{{ consul_dns_bind_address }}",
         "http": "{{ consul_http_bind_address }}",
         "https": "{{ consul_https_bind_address }}",
-        "rpc": "{{ consul_rpc_bind_address }}",
     },
     {% if consul_ports %}
         "ports": {{ consul_ports | to_json }},
