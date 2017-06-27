@@ -241,8 +241,8 @@
       - name: Check Consul HTTP API (via unix socket)
         wait_for:
           delay: 15
-          path: consul_http_bind_address
-        when: consul_http_bind_address | match("unix:/*")
+          path: "{{ consul_http_bind_address | replace('unix://', '', 1) }}"
+        when: consul_http_bind_address | match("unix://*")
 
       - name: Create bootstrapped state file
         file:
