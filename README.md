@@ -210,11 +210,6 @@ in many Ansible versions, so this feature might not always work.
 - HTTPS API bind address
 - Default value: *0.0.0.0*
 
-### `consul_rpc_bind_address`
-
-- RPC bind address
-- Default value: *0.0.0.0*
-
 ### `consul_ports`
 
 - Port Mappings
