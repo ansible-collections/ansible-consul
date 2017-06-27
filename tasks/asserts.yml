@@ -65,9 +65,9 @@
     - consul_iptables_enable | bool
     - consul_recursors | length == 0
 
-- name: Fail if more then one bootstrap server is defined
+- name: Fail if more than one bootstrap server is defined
   fail:
-    msg: "You can not define more then one bootstrap server."
+    msg: "You can not define more than one bootstrap server."
   when:
     - _consul_bootstrap_servers | length > 1
 
