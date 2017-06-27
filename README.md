@@ -380,22 +380,39 @@ in many Ansible versions, so this feature might not always work.
 
 ### `consul_node_role`
 
-- Consul server role, one of: *bootstrap*, *server*, or *client*
+- The Consul role of the node, one of: *bootstrap*, *server*, or *client*
 - Default value: *client*
 
-One server should be designated as the bootstrap
-server that uses the `bootstrap_expect` configuration directive, and the other
+One server should be designated as the bootstrap server, and the other
 servers will connect to this server. You can also specify *client* as the
 role, and Consul will be configured as a client agent instead of a server.
 
-Here is an example of how the hosts inventory could be defined for a simple
-cluster of 3 servers:
+There are two methods to setup a cluster, the first one is to explicitly choose
+the bootstrap server, the other one is to let the servers elect a leader among
+themselves.
 
-```
+Here is an example of how the hosts inventory could be defined for a simple
+cluster of 3 servers, the first one being the designated bootstrap / leader:
+
+```yaml
+[cluster_nodes]
 consul1.local consul_node_role=bootstrap
 consul2.local consul_node_role=server
 consul3.local consul_node_role=server
+consul4.local consul_node_role=client
 ```
+
+Or you can use the simpler method of letting them do their election process:
+
+```yaml
+[cluster_nodes]
+consul1.local consul_node_role=server consul_bootstrap_expect=true
+consul2.local consul_node_role=server consul_bootstrap_expect=true
+consul3.local consul_node_role=server consul_bootstrap_expect=true
+consul4.local consul_node_role=client
+```
+
+> Note that this second form is the prefered one, because it is simpler.
 
 #### Custom Configuration Section
 
