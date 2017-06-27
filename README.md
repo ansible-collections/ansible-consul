@@ -42,7 +42,7 @@ definitely work with the following specific software and versions:
 
 ## Role Variables
 
-The role uses variables define in these three sources:
+The role uses variables defined in these three sources:
 
 - `defaults/main.yml`
 - `vars/*.yml`
