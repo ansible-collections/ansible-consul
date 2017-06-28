@@ -682,9 +682,11 @@ Actually add new template files :facepalm:
 - Update CONTRIBUTORS
 - Update README
 
-## v1.24.3 (UNRELEASED)
+## v1.24.3
 
+- Consul v0.8.5
 - Fix "Check Consul HTTP API" via unix socket (thanks @vincent-legoll)
 - Avoid warning about already existing directory (thanks @vincent-legoll)
 - Fix typos in messages (thanks @vincent-legoll)
 - Fix documentation about `consul_node_role` (thanks @vincent-legoll)
+- Update documentation
