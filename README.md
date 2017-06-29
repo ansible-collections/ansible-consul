@@ -106,13 +106,13 @@ the variables are named and described below:
 
 ### `consul_data_path`
 
-- Data path
+- Data path as defined in [data_dir or -data-dir](https://www.consul.io/docs/agent/options.html#_data_dir)
 - Default Linux value: `/var/consul`
 - Default Windows value: `C:\ProgramData\consul\data`
 
 ### `consul_log_path`
 
-- Log path
+- Log path (not implemented)
 - Default Linux value: `/var/log/consul`
 - Default Windows value: `C:\ProgramData\consul\log`
 
@@ -149,11 +149,11 @@ It's typically not necessary to manually alter this list.
 
 ### `consul_gather_server_facts`
 
-This feature makes it possible to gather the `consul_bind_address` from servers
-that are currently not targeted by the playbook.
+This feature makes it possible to gather the `consul_bind_address` from
+servers that are currently not targeted by the playbook.
 
-To make this possible the `delegate_facts` option is used. This option is broken
-in many Ansible versions, so this feature might not always work.
+To make this possible the `delegate_facts` option is used; note that his
+option has been problematic.
 
 - Gather facts from servers that are not currently targeted
 - Default value: 'no'
@@ -166,19 +166,19 @@ in many Ansible versions, so this feature might not always work.
 
 ### `consul_domain`
 
-- Consul domain name
+- Consul domain name as defined in [domain or -domain](https://www.consul.io/docs/agent/options.html#_domain)
   - Override with `CONSUL_DOMAIN` environment variable
 - Default value: *consul*
 
 ### `consul_log_level`
 
-- Log level
+- Log level as defined in [log_level or -log-level](https://www.consul.io/docs/agent/options.html#_log_level)
   - Override with `CONSUL_LOG_LEVEL` environment variable
 - Default value: *INFO*
 
 ### `consul_syslog_enable`
 
-- Log to syslog
+- Log to syslog as defined in [enable_syslog or -syslog](https://www.consul.io/docs/agent/options.html#_syslog)
   - Override with `CONSUL_SYSLOG_ENABLE` environment variable
 - Default Linux value: *true*
 - Default Windows value: *false*
