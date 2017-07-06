@@ -75,14 +75,14 @@ steps to get up and running:
 6. You can also `ssh` into a node and verify the cluster members directly
    from the RAFT peers list:
 
-       ```
-     vagrant ssh consul1
-     consul operator raft -list-peers
-     Node     ID                Address           State     Voter
-     consul1  10.1.42.210:8300  10.1.42.210:8300  follower  true
-     consul2  10.1.42.220:8300  10.1.42.220:8300  follower  true
-     consul3  10.1.42.230:8300  10.1.42.230:8300  leader    true
-       ```
+    ```
+    vagrant ssh consul1
+    consul operator raft -list-peers
+    Node     ID                Address           State     Voter
+    consul1  10.1.42.210:8300  10.1.42.210:8300  follower  true
+    consul2  10.1.42.220:8300  10.1.42.220:8300  follower  true
+    consul3  10.1.42.230:8300  10.1.42.230:8300  leader    true
+    ```
 
 By default, this project will install Debian 8 based cluster nodes. If you
 prefer, it can also install CentOS 7 based nodes by changing the command
