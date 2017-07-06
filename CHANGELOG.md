@@ -695,3 +695,5 @@ Actually add new template files :facepalm:
 
 - Add `consul_tls_verify_server_hostname` to TLS configuration template
 - Begin to add relevant Consul docs links to variable descriptions in README
+- Fix formatting in README_VAGRANT (thanks @jstoja)
+- Update CONTRIBUTORS
