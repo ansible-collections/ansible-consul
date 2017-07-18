@@ -56,6 +56,14 @@
     mode: 0755
   tags: installation
 
+- name: Daemon reload systemd in case the binaries upgraded
+  command: systemctl daemon-reload
+  become: yes
+  notify: restart consul
+  when:
+    - ansible_service_mgr == "systemd"
+    - consul_install_upgrade
+
 - name: Cleanup
   file:
     path: "{{ item }}"
