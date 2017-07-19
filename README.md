@@ -213,16 +213,34 @@ option has been problematic.
 ### `consul_rpc_bind_address`
 
 - RPC bind address
-- Default value: *0.0.0.0*
+- Default value:
+  - consul version < 0.8: *0.0.0.0*
+  - consul version >= 0.8: ""
 
 ### `consul_ports`
 
-- Port Mappings
-- Default value:
-  - `rpc`: `8400`
-  - `http`: `8500`
-  - `https`: `-1`
-  - `dns`: `8600`
+- The official documentation on the [Ports Used](https://www.consul.io/docs/agent/options.html#ports)
+- The ports mapping is a nested dict object that allows setting the bind ports for the following keys:
+  - dns - The DNS server, -1 to disable. Default 8600.
+  - http - The HTTP API, -1 to disable. Default 8500.
+  - https - The HTTPS API, -1 to disable. Default -1 (disabled).
+  - rpc - The CLI RPC endpoint. Default 8400. This is deprecated in Consul 0.8 and later.
+  - serf_lan - The Serf LAN port. Default 8301.
+  - serf_wan - The Serf WAN port. Default 8302.
+  - server - Server RPC address. Default 8300.
+- This variable expects a nested dict object that can directly be passed through `to_json` inside the template.
+
+For example, to enable the consul HTTPS API it is possible to set the variable as follows:
+
+```yaml
+  vars:
+    consul_ports:
+      dns: 8600
+      http: 8500
+      https: 8501
+```
+
+Notice that the dict object has to use precisely the names stated in the documentation!
 
 ### `consul_node_name`
 
