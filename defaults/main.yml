@@ -108,8 +108,8 @@ consul_acl_policy: false
 
 ## TLS
 consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"
-consul_tls_src_files: "{{ lookup('env','CONSUL_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
-consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default('{{ consul_config_path }}/ssl', true) }}"
+consul_tls_src_files: "{{ lookup('env','CONSUL_TLS_SRC_FILES') | default(role_path + '/files', true) }}"
+consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default(consul_config_path + '/ssl', true) }}"
 consul_tls_ca_crt: "{{ lookup('env','CONSUL_TLS_CA_CRT') | default('ca.crt', true) }}"
 consul_tls_server_crt: "{{ lookup('env','CONSUL_SERVER_CRT') | default('server.crt', true) }}"
 consul_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key', true) }}"
