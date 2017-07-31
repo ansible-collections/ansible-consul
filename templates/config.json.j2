@@ -8,16 +8,44 @@
     "datacenter": "{{ consul_datacenter }}",
     "domain": "{{ consul_domain }}",
 
-    {## Addresses and ports ##}
+    {## Addresses ##}
     "bind_addr": "{{ consul_bind_address }}",
     "addresses": {
+      {% if consul_dns_bind_address | trim != '' %}
         "dns": "{{ consul_dns_bind_address }}",
+      {% endif %}
+      {% if consul_http_bind_address | trim != '' %}
         "http": "{{ consul_http_bind_address }}",
+      {% endif %}
+      {% if consul_https_bind_address | trim != '' %}
         "https": "{{ consul_https_bind_address }}",
+      {% endif %}
+      {% if consul_rpc_bind_address | trim != '' %}
         "rpc": "{{ consul_rpc_bind_address }}",
+      {% endif %}
     },
-    {% if consul_ports %}
-        "ports": {{ consul_ports | to_json }},
+    {## Ports Used ##}
+    {% if consul_ports | length > 0 %}
+      "ports": {{ consul_ports | to_json }},
+    {% else %}
+      "ports": {
+        {% if _consul_default_port_rpc | trim != '' %}
+          {% set _ = consul_ports.__setitem__('rpc', _consul_default_port_rpc) %}
+          "rpc": "{{ _consul_default_port_rpc }}",
+        {% endif %}
+        {% if _consul_default_port_http | trim != '' %}
+          {% set _ = consul_ports.__setitem__('http', _consul_default_port_http) %}
+          "http": "{{ _consul_default_port_http }}",
+        {% endif %}
+        {% if _consul_default_port_https | trim != '' %}
+          {% set _ = consul_ports.__setitem__('https', _consul_default_port_https) %}
+          "https": "{{ _consul_default_port_https }}",
+        {% endif %}
+        {% if _consul_default_port_dns | trim != '' %}
+          {% set _ = consul_ports.__setitem__('dns', _consul_default_port_dns) %}
+          "dns": "{{ _consul_default_port_dns }}",
+        {% endif %}
+      },
     {% endif %}
 
     {## DNS ##}
