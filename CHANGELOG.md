@@ -698,3 +698,7 @@ Actually add new template files :facepalm:
 - Begin to add relevant Consul docs links to variable descriptions in README
 - Fix formatting in README_VAGRANT (thanks @jstoja)
 - Update CONTRIBUTORS
+
+## v1.25.1 (UNRELEASED)
+
+- Support rolling upgrades on systemd based Linux (thanks oliverprater)
