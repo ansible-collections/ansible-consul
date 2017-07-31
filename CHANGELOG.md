@@ -702,3 +702,4 @@ Actually add new template files :facepalm:
 ## v1.25.1 (UNRELEASED)
 
 - Support rolling upgrades on systemd based Linux (thanks oliverprater)
+- Fix breaking change in paths and runtime warnings (thanks oliverprater)
