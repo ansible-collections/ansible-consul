@@ -31,7 +31,7 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution or
 Windows Server 2012 R2. It might work with other software versions, but does
 definitely work with the following specific software and versions:
 
-* Consul: 0.8.5
+* Consul: 0.9.0
 * Ansible: 2.3.1.0
 * CentOS: 7
 * Debian: 8
@@ -58,7 +58,7 @@ the variables are named and described below:
 ### `consul_version`
 
 - Version to install
-- Default value: *0.8.5*
+- Default value: *0.9.0*
 
 ### `consul_architecture_map`
 
@@ -389,6 +389,13 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - Whether to download the files for installation directly on the remote hosts
 - This is the only option on Windows as WinRM is somewhat limited in this scope
+- Default value: *false*
+
+### `consul_install_upgrade`
+
+- Whether to [upgrade consul](https://www.consul.io/docs/upgrading.html) when a new version is specified
+- The role does not handle the orchestration of a rolling update of servers followed by client nodes
+- This option is not available for Windows, yet. (PR welcome)
 - Default value: *false*
 
 ### `consul_ui`

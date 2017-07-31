@@ -691,9 +691,14 @@ Actually add new template files :facepalm:
 - Fix documentation about `consul_node_role` (thanks @vincent-legoll)
 - Update documentation
 
-## v1.24.4 (UNRELEASED)
+## v1.25.0
 
+- Consul version 0.9.0
 - Add `consul_tls_verify_server_hostname` to TLS configuration template
 - Begin to add relevant Consul docs links to variable descriptions in README
 - Fix formatting in README_VAGRANT (thanks @jstoja)
 - Update CONTRIBUTORS
+
+## v1.25.1 (UNRELEASED)
+
+- Support rolling upgrades on systemd based Linux (thanks oliverprater)

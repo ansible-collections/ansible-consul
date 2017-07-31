@@ -59,16 +59,20 @@
         path: "{{ consul_binary }}"
       register: consul_binary_installed
 
+    - name: Calculate whether to install consul binary
+      set_fact:
+        consul_install_binary: "{{ consul_install_upgrade or not consul_binary_installed.stat.exists }}"
+
     - name: Install OS packages and consul - locally
       include: install.yml
       when:
-        - not consul_binary_installed.stat.exists | bool
+        - consul_install_binary | bool
         - not consul_install_remotely | bool
 
     - name: Install OS packages and consul - remotely
       include: install_remote.yml
       when:
-        - not consul_binary_installed.stat.exists | bool
+        - consul_install_binary | bool
         - consul_install_remotely | bool
 
     # XXX: Individual gossip tasks are deprecated and need to be removed

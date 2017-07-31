@@ -5,7 +5,7 @@
 consul_debug: no
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.8.5', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.9.0', true) }}"
 consul_architecture_map:
   # this first entry seems... redundant
   #(but it's required for reasons)
@@ -28,6 +28,7 @@ consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_versi
 
 ### Install Method
 consul_install_remotely: false
+consul_install_upgrade: false
 
 ### Paths
 consul_bin_path: "/usr/local/bin"
@@ -108,8 +109,8 @@ consul_acl_policy: false
 
 ## TLS
 consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"
-consul_tls_src_files: "{{ lookup('env','CONSUL_TLS_SRC_FILES') | default(role_path + '/files', true) }}"
-consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default(consul_config_path + '/ssl', true) }}"
+consul_tls_src_files: "{{ lookup('env','CONSUL_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
+consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default({{ consul_config_path }}/ssl, true) }}"
 consul_tls_ca_crt: "{{ lookup('env','CONSUL_TLS_CA_CRT') | default('ca.crt', true) }}"
 consul_tls_server_crt: "{{ lookup('env','CONSUL_SERVER_CRT') | default('server.crt', true) }}"
 consul_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key', true) }}"
