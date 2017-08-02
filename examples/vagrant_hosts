@@ -6,7 +6,7 @@
 #     be only one node with consul_node_role = "bootstrap"
 #     Do not modify the labels (text appearing between []), however
 
-[cluster_nodes]
+[consul_instances]
 consul1.local consul_node_role=bootstrap ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/consul1/virtualbox/private_key
 consul2.local consul_node_role=server ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/consul2/virtualbox/private_key
 consul3.local consul_node_role=server ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/consul3/virtualbox/private_key

@@ -49,7 +49,7 @@ The role uses variables defined in these three sources:
 - Hosts inventory file (see `examples/vagrant_hosts` for an example)
 
 NOTE: The label for servers in the hosts inventory file must be
-`[cluster_nodes]` as shown in the example. The role will not function
+`[consul_instances]` as shown in the example. The role will not function
 properly if the label name is anything else.
 
 Many of these can also be further overridden by environment variables as well;
@@ -137,7 +137,7 @@ the variables are named and described below:
 
 - Inventory group name
   - Override with `CONSUL_GROUP_NAME` environment variable
-- Default value: *cluster_nodes*
+- Default value: *consul_instances*
 
 ### `consul_servers`
 
@@ -420,7 +420,7 @@ Here is an example of how the hosts inventory could be defined for a simple
 cluster of 3 servers, the first one being the designated bootstrap / leader:
 
 ```yaml
-[cluster_nodes]
+[consul_instances]
 consul1.local consul_node_role=bootstrap
 consul2.local consul_node_role=server
 consul3.local consul_node_role=server
@@ -430,7 +430,7 @@ consul4.local consul_node_role=client
 Or you can use the simpler method of letting them do their election process:
 
 ```yaml
-[cluster_nodes]
+[consul_instances]
 consul1.local consul_node_role=server consul_bootstrap_expect=true
 consul2.local consul_node_role=server consul_bootstrap_expect=true
 consul3.local consul_node_role=server consul_bootstrap_expect=true

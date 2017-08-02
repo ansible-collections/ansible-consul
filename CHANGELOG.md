@@ -704,3 +704,7 @@ Actually add new template files :facepalm:
 - Support rolling upgrades on systemd based Linux (thanks oliverprater)
 - Fix breaking change in paths and runtime warnings (thanks oliverprater)
 - Set CONSUL_TLS_DIR default to `/etc/consul/ssl` for #95
+
+## v1.25.2
+
+- Rename `cluster_nodes` label to `consul_instances`

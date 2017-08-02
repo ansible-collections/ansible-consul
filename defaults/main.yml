@@ -86,7 +86,7 @@ consul_ports:
   dns: 8600
 
 ### Servers
-consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('cluster_nodes', true) }}"
+consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
 consul_servers: "\
   {% set _consul_servers = [] %}\
   {% for host in groups[consul_group_name] %}\
