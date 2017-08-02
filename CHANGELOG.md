@@ -699,7 +699,8 @@ Actually add new template files :facepalm:
 - Fix formatting in README_VAGRANT (thanks @jstoja)
 - Update CONTRIBUTORS
 
-## v1.25.1 (UNRELEASED)
+## v1.25.1
 
 - Support rolling upgrades on systemd based Linux (thanks oliverprater)
 - Fix breaking change in paths and runtime warnings (thanks oliverprater)
+- Set CONSUL_TLS_DIR default to `/etc/consul/ssl` for #95
