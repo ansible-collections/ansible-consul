@@ -708,3 +708,7 @@ Actually add new template files :facepalm:
 ## v1.25.2
 
 - Rename `cluster_nodes` label to `consul_instances`
+
+## v1.25.3 (UNRELEASED)
+
+- Add enable_script_checks parameter (thanks @groggemans)
