@@ -709,6 +709,8 @@ Actually add new template files :facepalm:
 
 - Rename `cluster_nodes` label to `consul_instances`
 
-## v1.25.3 (UNRELEASED)
+## v1.25.3
 
+- Consul v0.9.2
 - Add enable_script_checks parameter (thanks @groggemans)
+- Update documentation
