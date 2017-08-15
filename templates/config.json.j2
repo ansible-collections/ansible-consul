@@ -10,43 +10,34 @@
 
     {## Addresses ##}
     "bind_addr": "{{ consul_bind_address }}",
+    "advertise_addr": "{{ consul_advertise_address }}",
+    "advertise_addr_wan": "{{ consul_advertise_address_wan }}",
+    "advertise_addrs": {
+        "serf_lan": "{{ consul_advertise_addresses.serf_lan }}",
+        "serf_wan": "{{ consul_advertise_addresses.serf_wan }}",
+        "rpc": "{{ consul_advertise_addresses.rpc }}",
+    },
+    "client_addr": "{{ consul_client_address }}",
     "addresses": {
-      {% if consul_dns_bind_address | trim != '' %}
-        "dns": "{{ consul_dns_bind_address }}",
-      {% endif %}
-      {% if consul_http_bind_address | trim != '' %}
-        "http": "{{ consul_http_bind_address }}",
-      {% endif %}
-      {% if consul_https_bind_address | trim != '' %}
-        "https": "{{ consul_https_bind_address }}",
-      {% endif %}
-      {% if consul_rpc_bind_address | trim != '' %}
-        "rpc": "{{ consul_rpc_bind_address }}",
-      {% endif %}
+        "dns": "{{ consul_addresses.dns }}",
+        "http": "{{ consul_addresses.http }}",
+        "https": "{{ consul_addresses.https }}",
+        {% if consul_version | version_compare('8.0', '<') %}
+            "rpc": "{{ consul_addresses.rpc }}",
+        {% endif %}
     },
     {## Ports Used ##}
-    {% if consul_ports | length > 0 %}
-      "ports": {{ consul_ports | to_json }},
-    {% else %}
-      "ports": {
-        {% if _consul_default_port_rpc | trim != '' %}
-          {% set _ = consul_ports.__setitem__('rpc', _consul_default_port_rpc) %}
-          "rpc": "{{ _consul_default_port_rpc }}",
+    "ports": {
+        "dns": {{ consul_ports.dns }},
+        "http": {{ consul_ports.http }},
+        "https": {{ consul_ports.https }},
+        {% if consul_version | version_compare('8.0', '<') %}
+            "rpc": {{ consul_ports.rpc}},
         {% endif %}
-        {% if _consul_default_port_http | trim != '' %}
-          {% set _ = consul_ports.__setitem__('http', _consul_default_port_http) %}
-          "http": "{{ _consul_default_port_http }}",
-        {% endif %}
-        {% if _consul_default_port_https | trim != '' %}
-          {% set _ = consul_ports.__setitem__('https', _consul_default_port_https) %}
-          "https": "{{ _consul_default_port_https }}",
-        {% endif %}
-        {% if _consul_default_port_dns | trim != '' %}
-          {% set _ = consul_ports.__setitem__('dns', _consul_default_port_dns) %}
-          "dns": "{{ _consul_default_port_dns }}",
-        {% endif %}
-      },
-    {% endif %}
+        "serf_lan": {{ consul_ports.serf_lan }},
+        "serf_wan": {{ consul_ports.serf_wan }},
+        "server": {{ consul_ports.server }},
+    },
 
     {## DNS ##}
     {% if consul_recursors | length > 0 %}
