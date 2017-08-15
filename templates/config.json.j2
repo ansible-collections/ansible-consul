@@ -62,7 +62,7 @@
     "enable_syslog": {{ consul_syslog_enable | bool | to_json }},
     "enable_script_checks": {{ consul_enable_script_checks | bool | to_json }},
 
-    {# Encryption and TLS ##}
+    {## Encryption and TLS ##}
     "encrypt": "{{ consul_raw_key }}",
     {% if consul_tls_enable %}
         "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
@@ -73,20 +73,39 @@
         "verify_server_hostname": {{ consul_tls_verify_server_hostname | bool | to_json }},
     {% endif %}
 
+    {## ACLs ##}
+    {% if consul_acl_enable %}
+        "acl_ttl": "{{ consul_acl_ttl }}",
+        "acl_datacenter": "{{ consul_acl_datacenter }}",
+        "acl_down_policy": "{{ consul_acl_down_policy }}",
+        {% if consul_acl_token | trim != '' %}
+            "acl_token": "{{ consul_acl_token }}",
+        {% endif %}
+        {% if consul_acl_agent_token | trim != '' %}
+            "acl_agent_token": "{{ consul_acl_agent_token }}",
+        {% endif %}
+        {% if consul_acl_agent_master_token | trim != '' %}
+            "acl_agent_master_token": "{{ consul_acl_agent_master_token }}"
+        {% endif %}
+    {% endif %}
+
     {## LAN Join ##}
     "start_join": [
         {% for server in _consul_lan_servers %}
             "{{ hostvars[server]['consul_bind_address'] | ipwrap }}",
         {% endfor %} ],
 
-    {## Server/Client ##}
-    "server": {{ (item.config_version != 'client') | bool | to_json }},
-
     {## UI ##}
     "ui": {{ consul_ui | bool | to_json }},
 
-    {# Server Settings #}
+    {## Server/Client ##}
+    "server": {{ (item.config_version != 'client') | bool | to_json }},
 
+    {# Client Settings #}
+    {% if (item.config_version == 'client') %}
+    {% endif %}
+
+    {# Server Settings #}
     {% if (item.config_version == 'server') or (item.config_version == 'bootstrap') %}
 
         {## Bootstrap settings ##}
@@ -103,11 +122,16 @@
                 {% endfor %} ],
         {% endif %}
 
-        {## ACLs ##}
+        {## Server ACLs ##}
         {% if consul_acl_enable %}
-            "acl_datacenter": "{{ consul_acl_datacenter }}",
             "acl_default_policy": "{{ consul_acl_default_policy }}",
-            "acl_master_token": "{{ consul_acl_master_token }}"
+            "acl_master_token": "{{ consul_acl_master_token }}",
+            {% if consul_acl_replication_enable | trim != '' %}
+                "enable_acl_replication": {{ consul_acl_replication_enable | bool | to_json }},
+            {% endif %}
+            {% if consul_acl_replication_token | trim != '' %}
+                "acl_replication_token": "{{ consul_acl_replication_token }}",
+            {% endif %}
         {% endif %}
     {% endif %}
 }

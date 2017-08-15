@@ -271,11 +271,23 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_IPTABLES_ENABLE` environment variable
 - Default value: *false*
 
+### `consul_acl_policy`
+
+- Add basic ACL config file
+  - Override with `CONSUL_ACL_POLICY` environment variable
+- Default value: *false*
+
 ### `consul_acl_enable`
 
 - Enable ACLs
   - Override with `CONSUL_ACL_ENABLE` environment variable
 - Default value: *false*
+
+### `consul_acl_ttl`
+
+- TTL for ACL's
+  - Override with `CONSUL_ACL_TTL` environment variable
+- Default value: *30s*
 
 ### `consul_acl_datacenter`
 
@@ -283,16 +295,34 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_ACL_DATACENTER` environment variable
 - Default value: *dc1*
 
-### `consul_acl_default_policy`
-
-- Default ACL policy
-  - Override with `CONSUL_ACL_DEFAULT_POLICY` environment variable
-- Default value: *allow*
-
 ### `consul_acl_down_policy`
 
 - Default ACL down policy
   - Override with `CONSUL_ACL_DOWN_POLICY` environment variable
+- Default value: *allow*
+
+### `consul_acl_token`
+
+- Default ACL token, only set if provided
+  - Override with `CONSUL_ACL_TOKEN` environment variable
+- Default value: /
+
+### `consul_acl_agent_token`
+
+- Used for clients and servers to perform internal operations to the service catalog. See: [acl_agent_token](https://www.consul.io/docs/agent/options.html#acl_agent_token)
+  - Override with `CONSUL_ACL_AGENT_TOKEN` environment variable
+- Default value: /
+
+### `consul_acl_agent_master_token`
+
+- A [special access token](https://www.consul.io/docs/agent/options.html#acl_agent_master_token) that has agent ACL policy write privileges on each agent where it is configured
+  - Override with `CONSUL_ACL_AGENT_MASTER_TOKEN` environment variable
+- Default value: /
+
+### `consul_acl_default_policy`
+
+- Default ACL policy
+  - Override with `CONSUL_ACL_DEFAULT_POLICY` environment variable
 - Default value: *allow*
 
 ### `consul_acl_master_token`
@@ -307,22 +337,17 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_ACL_MASTER_TOKEN_DISPLAY` environment variable
 - Default value: *false*
 
+### `consul_acl_replication_enable`
+
+- Enable ACL replication without token (makes it possible to set the token
+  trough the API)
+  - Override with `CONSUL_ACL_REPLICATION_TOKEN_ENABLE` environment variable
+- Default value: /
+
 ### `consul_acl_replication_token`
 
 - ACL replication token
   - Override with `CONSUL_ACL_REPLICATION_TOKEN_DISPLAY` environment variable
-- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
-
-### `consul_acl_agent_token`
-
-- Used for clients and servers to perform internal operations to the service catalog. See: [acl_agent_token](https://www.consul.io/docs/agent/options.html#acl_agent_token)
-  - Override with `CONSUL_ACL_AGENT_TOKEN` environment variable
-- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
-
-### `consul_acl_agent_master_token`
-
-- A [special access token](https://www.consul.io/docs/agent/options.html#acl_agent_master_token) that has agent ACL policy write privileges on each agent where it is configured
-  - Override with `CONSUL_ACL_AGENT_MASTER_TOKEN` environment variable
 - Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
 
 ### `consul_tls_enable`
