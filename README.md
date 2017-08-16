@@ -456,6 +456,13 @@ ports can be done using the `consul_ports_*` variables.
 - Enable script based checks?
 - Default vaule: *false*
 
+### `consul_raft_protocol`
+
+- Raft protocol to use.
+- Default vaule:
+- `consul_version` <= `0.7.0`: *1*
+- `consul_version` > `0.7.0`: *3*
+
 ### `consul_node_role`
 
 - The Consul role of the node, one of: *bootstrap*, *server*, or *client*

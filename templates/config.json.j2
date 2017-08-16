@@ -22,7 +22,7 @@
         "dns": "{{ consul_addresses.dns }}",
         "http": "{{ consul_addresses.http }}",
         "https": "{{ consul_addresses.https }}",
-        {% if consul_version | version_compare('8.0', '<') %}
+        {% if consul_version | version_compare('0.8.0', '<') %}
             "rpc": "{{ consul_addresses.rpc }}",
         {% endif %}
     },
@@ -31,13 +31,16 @@
         "dns": {{ consul_ports.dns }},
         "http": {{ consul_ports.http }},
         "https": {{ consul_ports.https }},
-        {% if consul_version | version_compare('8.0', '<') %}
+        {% if consul_version | version_compare('0.8.0', '<') %}
             "rpc": {{ consul_ports.rpc}},
         {% endif %}
         "serf_lan": {{ consul_ports.serf_lan }},
         "serf_wan": {{ consul_ports.serf_wan }},
         "server": {{ consul_ports.server }},
     },
+
+    {## Raft protocol ##}
+    "raft_protocol": {{ consul_raft_protocol }},
 
     {## DNS ##}
     {% if consul_recursors | length > 0 %}
