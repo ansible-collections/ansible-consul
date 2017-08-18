@@ -14,7 +14,8 @@
     - not bootstrap_state.stat.exists | bool
 
 - name: Display ACL Master Token
-  debug: msg="{{ consul_acl_master_token }}"
+  debug:
+    msg: "{{ consul_acl_master_token }}"
   run_once: True
   when: consul_acl_master_token_display | bool
 

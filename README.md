@@ -193,29 +193,47 @@ option has been problematic.
 
 - Bind address
   - Override with `CONSUL_BIND_ADDRESS` environment variable
-- Default value: *127.0.0.1*
+- Default value: default ipv4 address, or address of interface configured by
+  `consul_iface`
 
-### `consul_dns_bind_address`
+### `consul_advertise_address`
 
-- DNS API bind address
-- Default value: *127.0.0.1*
+- Lan advertise address
+- Default value: `consul_bind_address`
 
-### `consul_http_bind_address`
+### `consul_advertise_address_wan`
 
-- HTTP API bind address
-- Default value: *0.0.0.0*
+- Wan advertise address
+- Default value: `consul_bind_address`
 
-### `consul_https_bind_address`
+### `consul_advertise_addresses`
 
-- HTTPS API bind address
-- Default value: *0.0.0.0*
-
-### `consul_rpc_bind_address`
-
-- RPC bind address
+- Advanced advertise addresses settings
+- Individual addresses kan be overwritten using the `consul_advertise_addresses_*` variables
 - Default value:
-  - consul version < 0.8: *0.0.0.0*
-  - consul version >= 0.8: ""
+  ```yaml
+  consul_advertise_addresses:
+    serf_lan: "{{ consul_advertise_addresses_serf_lan | default(consul_advertise_address+':'+consul_ports.serf_lan) }}"
+    serf_wan: "{{ consul_advertise_addresses_serf_wan | default(consul_advertise_address_wan+':'+consul_ports.serf_wan) }}"
+    rpc: "{{ consul_advertise_addresses_rpc | default(consul_bind_address+':'+consul_ports.server) }}"
+  ```
+### `consul_client_address`
+
+- Client address
+- Default value: *127.0.0.1*
+
+### `consul_addresses`
+
+- Advanced address settings
+- Individual addresses kan be overwritten using the `consul_addresses_*` variables
+- Default value:
+  ```yaml
+  consul_addresses:
+    dns: "{{ consul_addresses_dns | default(consul_client_address, true) }}"
+    http: "{{ consul_addresses_http | default(consul_client_address, true) }}"
+    https: "{{ consul_addresses_https | default(consul_client_address, true) }}"
+    rpc: "{{ consul_addresses_rpc | default(consul_client_address, true) }}"
+  ```
 
 ### `consul_ports`
 
@@ -228,19 +246,24 @@ option has been problematic.
   - serf_lan - The Serf LAN port. Default 8301.
   - serf_wan - The Serf WAN port. Default 8302.
   - server - Server RPC address. Default 8300.
-- This variable expects a nested dict object that can directly be passed through `to_json` inside the template.
 
 For example, to enable the consul HTTPS API it is possible to set the variable as follows:
 
+- Default values:
 ```yaml
-  vars:
-    consul_ports:
-      dns: 8600
-      http: 8500
-      https: 8501
+  consul_ports:
+    dns: "{{ consul_ports_dns | default('8600', true) }}"
+    http: "{{ consul_ports_http | default('8500', true) }}"
+    https: "{{ consul_ports_https | default('-1', true) }}"
+    rpc: "{{ consul_ports_rpc | default('8400', true) }}"
+    serf_lan: "{{ consul_ports_serf_lan | default('8301', true) }}"
+    serf_wan: "{{ consul_ports_serf_wan | default('8302', true) }}"
+    server: "{{ consul_ports_server | default('8300', true) }}"
 ```
 
-Notice that the dict object has to use precisely the names stated in the documentation!
+Notice that the dict object has to use precisely the names stated in the
+documentation! And all ports must be specified. Overwriting one or multiple
+ports can be done using the `consul_ports_*` variables.
 
 ### `consul_node_name`
 
@@ -271,11 +294,23 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_IPTABLES_ENABLE` environment variable
 - Default value: *false*
 
+### `consul_acl_policy`
+
+- Add basic ACL config file
+  - Override with `CONSUL_ACL_POLICY` environment variable
+- Default value: *false*
+
 ### `consul_acl_enable`
 
 - Enable ACLs
   - Override with `CONSUL_ACL_ENABLE` environment variable
 - Default value: *false*
+
+### `consul_acl_ttl`
+
+- TTL for ACL's
+  - Override with `CONSUL_ACL_TTL` environment variable
+- Default value: *30s*
 
 ### `consul_acl_datacenter`
 
@@ -283,16 +318,34 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_ACL_DATACENTER` environment variable
 - Default value: *dc1*
 
-### `consul_acl_default_policy`
-
-- Default ACL policy
-  - Override with `CONSUL_ACL_DEFAULT_POLICY` environment variable
-- Default value: *allow*
-
 ### `consul_acl_down_policy`
 
 - Default ACL down policy
   - Override with `CONSUL_ACL_DOWN_POLICY` environment variable
+- Default value: *allow*
+
+### `consul_acl_token`
+
+- Default ACL token, only set if provided
+  - Override with `CONSUL_ACL_TOKEN` environment variable
+- Default value: /
+
+### `consul_acl_agent_token`
+
+- Used for clients and servers to perform internal operations to the service catalog. See: [acl_agent_token](https://www.consul.io/docs/agent/options.html#acl_agent_token)
+  - Override with `CONSUL_ACL_AGENT_TOKEN` environment variable
+- Default value: /
+
+### `consul_acl_agent_master_token`
+
+- A [special access token](https://www.consul.io/docs/agent/options.html#acl_agent_master_token) that has agent ACL policy write privileges on each agent where it is configured
+  - Override with `CONSUL_ACL_AGENT_MASTER_TOKEN` environment variable
+- Default value: /
+
+### `consul_acl_default_policy`
+
+- Default ACL policy
+  - Override with `CONSUL_ACL_DEFAULT_POLICY` environment variable
 - Default value: *allow*
 
 ### `consul_acl_master_token`
@@ -307,22 +360,17 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_ACL_MASTER_TOKEN_DISPLAY` environment variable
 - Default value: *false*
 
+### `consul_acl_replication_enable`
+
+- Enable ACL replication without token (makes it possible to set the token
+  trough the API)
+  - Override with `CONSUL_ACL_REPLICATION_TOKEN_ENABLE` environment variable
+- Default value: /
+
 ### `consul_acl_replication_token`
 
 - ACL replication token
   - Override with `CONSUL_ACL_REPLICATION_TOKEN_DISPLAY` environment variable
-- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
-
-### `consul_acl_agent_token`
-
-- Used for clients and servers to perform internal operations to the service catalog. See: [acl_agent_token](https://www.consul.io/docs/agent/options.html#acl_agent_token)
-  - Override with `CONSUL_ACL_AGENT_TOKEN` environment variable
-- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
-
-### `consul_acl_agent_master_token`
-
-- A [special access token](https://www.consul.io/docs/agent/options.html#acl_agent_master_token) that has agent ACL policy write privileges on each agent where it is configured
-  - Override with `CONSUL_ACL_AGENT_MASTER_TOKEN` environment variable
 - Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
 
 ### `consul_tls_enable`
@@ -407,6 +455,13 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - Enable script based checks?
 - Default vaule: *false*
+
+### `consul_raft_protocol`
+
+- Raft protocol to use.
+- Default vaule:
+- `consul_version` <= `0.7.0`: *1*
+- `consul_version` > `0.7.0`: *3*
 
 ### `consul_node_role`
 
