@@ -714,3 +714,9 @@ Actually add new template files :facepalm:
 - Consul v0.9.2
 - Add enable_script_checks parameter (thanks @groggemans)
 - Update documentation
+
+## v1.25.4 (UNRELEASED)
+
+- Add raft_protocol parameter, fix version compares (thanks @groggemans)
+- Add missing address and port config (thanks @groggemans)
+- Add missing ACL config options (thanks @groggemans)
