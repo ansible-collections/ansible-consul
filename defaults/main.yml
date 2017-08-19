@@ -150,6 +150,13 @@ consul_tls_verify_server_hostname: false
 
 ## DNS
 consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
+consul_dnsmasq_consul_address: "\
+  {# Use localhost if DNS is listening on all interfaces #}\
+  {% if consul_addresses.dns == '0.0.0.0' %}\
+    127.0.0.1\
+  {% else %}\
+    {{ consul_addresses.dns }}\
+  {% endif %}"
 consul_dnsmasq_cache: -1
 consul_dnsmasq_servers:
   - 8.8.8.8
