@@ -26,6 +26,11 @@ server=/{{ consul_domain }}/{{ consul_dnsmasq_consul_address }}#{{ consul_ports.
     server={{ server }}
 {% endfor -%}
 
+{# Custom listen addresses -#}
+{% for address in consul_dnsmasq_listen_addresses -%}
+    listen-address={{ address }}
+{% endfor -%}
+
 {# Cache size -#}
 {% if consul_dnsmasq_cache > 0 -%}
     cache-size={{ consul_dnsmasq_cache }}
