@@ -84,7 +84,7 @@
     {% endif %}
 
     {## LAN Join ##}
-    "start_join": [
+    "retry_join": [
         {% for server in _consul_lan_servers %}
             "{{ hostvars[server]['consul_bind_address'] | ipwrap }}",
         {% endfor %} ],
@@ -110,7 +110,7 @@
 
         {## WAN Join ##}
         {% if _consul_wan_servers | length > 0 %}
-            "start_join_wan": [
+            "retry_join_wan": [
                 {% for server in _consul_wan_servers %}
                     "{{ hostvars[server]['consul_bind_address'] | ipwrap }}",
                 {% endfor %} ],
