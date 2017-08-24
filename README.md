@@ -729,6 +729,12 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ;;
 ```
 
+### `consul_dnsmasq_consul_address`
+
+- Address used by dnsmasq to query consul
+- Default value: `consul_address.dns`
+- Defaults to 127.0.0.1 if consul's DNS is bound to all interfaces (eg `0.0.0.0`)
+
 ### `consul_dnsmasq_cache`
 
 - dnsmasq cache-size
@@ -759,6 +765,12 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 
 - Only allow requests from local subnets
 - Default value: false
+
+### `consul_dnsmasq_listen_addresses`
+
+- Custom list of addresses to listen on.
+- Default value: *{}*
+
 
 ### iptables DNS Forwarding Support
 

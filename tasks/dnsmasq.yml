@@ -22,20 +22,10 @@
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq, installation
 
-- name: Stop Dnsmasq service
+- name: Enable dnsmasq service
   service:
     name: dnsmasq
-    state: stopped
-
-- name: Create Dnsmasq configuration
-  template:
-    src: dnsmasq-10-consul.j2
-    dest: /etc/dnsmasq.d/10-consul
-    owner: root
-    group: root
-    mode: 0644
-  notify: start dnsmasq
-  when: ansible_os_family == "Debian"
+    enabled: yes
   tags: dnsmasq
 
 - name: Create Dnsmasq configuration directory
@@ -47,10 +37,22 @@
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
+- name: Create Dnsmasq configuration
+  template:
+    src: dnsmasq-10-consul.j2
+    dest: /etc/dnsmasq.d/10-consul
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart dnsmasq
+  when: ansible_os_family == "Debian"
+  tags: dnsmasq
+
 - name: Create FreeBSD-specific configuration
   lineinfile:
     dest: /usr/local/etc/dnsmasq.conf
     line: 'conf-dir=/usr/local/etc/dnsmasq.d/,*.conf'
+  notify: restart dnsmasq
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
@@ -61,6 +63,6 @@
     owner: root
     group: wheel
     mode: 0644
-  notify: start dnsmasq
+  notify: restart dnsmasq
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq

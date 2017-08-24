@@ -1,9 +1,9 @@
 {# Enable forward lookups for the consul domain -#}
-server=/{{ consul_domain }}/{{ consul_addresses.dns }}#{{ consul_ports.dns }}
+server=/{{ consul_domain }}/{{ consul_dnsmasq_consul_address }}#{{ consul_ports.dns }}
 
 {# Reverse DNS lookups -#}
 {% for revserver in consul_dnsmasq_revservers -%}
-    rev-server={{ revserver }},{{ consul_addresses.dns }}#{{ consul_ports.dns }}
+    rev-server={{ revserver }},{{ consul_dnsmasq_consul_address }}#{{ consul_ports.dns }}
 {% endfor -%}
 
 {# Only accept DNS queries from hosts in the local subnet -#}
@@ -24,6 +24,11 @@ server=/{{ consul_domain }}/{{ consul_addresses.dns }}#{{ consul_ports.dns }}
 {# Upstream DNS servers -#}
 {% for server in consul_dnsmasq_servers -%}
     server={{ server }}
+{% endfor -%}
+
+{# Custom listen addresses -#}
+{% for address in consul_dnsmasq_listen_addresses -%}
+    listen-address={{ address }}
 {% endfor -%}
 
 {# Cache size -#}
