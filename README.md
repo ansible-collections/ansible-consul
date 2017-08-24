@@ -139,6 +139,26 @@ the variables are named and described below:
   - Override with `CONSUL_GROUP_NAME` environment variable
 - Default value: *consul_instances*
 
+### `consul_retry_interval`
+
+- Interval for reconnection attempts to LAN servers
+- Default value: *30s*
+
+### `consul_retry_interval_wan`
+
+- Interval for reconnection attempts to WAN servers
+- Default value: *30s*
+
+### `consul_retry_max`
+
+- Max reconnection attempts to LAN servers before failing, 0=infinit
+- Default value: *0*
+
+### `consul_retry_max_wan`
+
+- Max reconnection attempts to WAN servers before failing, 0=infinit
+- Default value: *0*
+
 ### `consul_servers`
 
 It's typically not necessary to manually alter this list.
