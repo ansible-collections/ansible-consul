@@ -69,6 +69,10 @@ consul_raft_protocol: "\
   {% else %}\
     3\
   {% endif %}"
+consul_retry_interval: "30s"
+consul_retry_interval_wan: "30s"
+consul_retry_max: 0
+consul_retry_max_wan: 0
 
 ### Addresses
 consul_bind_address: "\
