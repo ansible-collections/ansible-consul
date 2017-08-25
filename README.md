@@ -18,7 +18,7 @@ in a Vagrant and VirtualBox based environment. See
 
 Please note that this role is more concerned with the initial installation and
 bootstrapping of a running cluster environment and does not currently concern
-itself (all that much) with performing ongoing drif^H^H^H^H *maintenance* of
+itself (all that much) with performing ongoing drift *maintenance* of
 an existing cluster.
 
 Many users have expressed that the Vagrant based environment makes getting a
