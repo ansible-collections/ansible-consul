@@ -190,6 +190,19 @@ option has been problematic.
   - Override with `CONSUL_DOMAIN` environment variable
 - Default value: *consul*
 
+### `consul_node_meta`
+
+- Consul node meta data (key-value)
+- Supported in Consul version 0.7.3 or later
+- Default value: *{}*
+- Example:
+```yaml
+consul_node_meta:
+    node_type: "my-custom-type"
+    node_meta1: "metadata1"
+    node_meta2: "metadata2"
+```
+
 ### `consul_log_level`
 
 - Log level as defined in [log_level or -log-level](https://www.consul.io/docs/agent/options.html#_log_level)

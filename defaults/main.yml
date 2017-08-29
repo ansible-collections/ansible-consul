@@ -49,6 +49,7 @@ consul_group: "bin"
 ### Consul settings
 consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) }}"
 consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
+consul_node_meta: {}
 consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
 consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
 consul_iface: "\
