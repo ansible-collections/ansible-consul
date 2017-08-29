@@ -722,3 +722,8 @@ Actually add new template files :facepalm:
 - Add missing ACL config options (thanks @groggemans)
 - Prefer retry_join and retry_join_wan instead of start_join / start_join_wan
 - DNSMasq updates (thanks @groggemans)
+
+## v1.25.5 (UNRELEASED)
+
+- Add node_meta config (thanks @groggemans)
+- Add additional retry-join parameters (thanks @groggemans)
