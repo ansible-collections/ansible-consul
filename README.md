@@ -484,6 +484,11 @@ ports can be done using the `consul_ports_*` variables.
 - Enable the consul ui?
 - Default value: *true*
 
+### `consul_disable_update_check`
+
+- Disable the consul update check?
+- Default vaule: *false*
+
 ### `consul_enable_script_checks`
 
 - Enable script based checks?
