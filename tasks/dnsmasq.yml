@@ -45,7 +45,7 @@
     group: root
     mode: 0644
   notify: restart dnsmasq
-  when: ansible_os_family == "Debian"
+  when: ansible_os_family in ["Debian", "RedHat"]
   tags: dnsmasq
 
 - name: Create FreeBSD-specific configuration
