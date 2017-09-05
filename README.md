@@ -32,7 +32,7 @@ Windows Server 2012 R2. It might work with other software versions, but does
 definitely work with the following specific software and versions:
 
 * Consul: 0.9.2
-* Ansible: 2.3.1.0
+* Ansible: 2.3.2.0
 * CentOS: 7
 * Debian: 8
 * FreeBSD: 11
@@ -839,7 +839,7 @@ Ansible variable `consul_tls_enable=true` at role runtime.
 
 ### Vagrant and VirtualBox
 
-See `examples/README_VAGRANT.md` for details on quick Vagrant deployments
+See [examples/README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) for details on quick Vagrant deployments
 under VirtualBox for development, evaluation, testing, etc.
 
 ## License
