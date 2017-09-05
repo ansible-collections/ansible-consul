@@ -807,7 +807,7 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ### `consul_dnsmasq_listen_addresses`
 
 - Custom list of addresses to listen on.
-- Default value: *{}*
+- Default value: *[]*
 
 
 ### iptables DNS Forwarding Support
