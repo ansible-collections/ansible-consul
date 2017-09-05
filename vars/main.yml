@@ -32,9 +32,3 @@ _consul_bootstrap_servers: "\
   {% endfor %}\
   {{ __consul_bootstrap_servers }}"
 _consul_bootstrap_server: "{{ _consul_bootstrap_servers[0] }}"
-
-# Default Ports Used
-_consul_default_port_rpc: "{% if consul_version | version_compare('0.8', '<') %}8400{% endif %}" # Deprecated with version 0.8
-_consul_default_port_https: "-1" # Defaults to disabled
-_consul_default_port_http: "8500"
-_consul_default_port_dns: "8600"
