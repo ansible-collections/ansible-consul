@@ -131,7 +131,10 @@
         {## Server ACLs ##}
         {% if consul_acl_enable %}
             "acl_default_policy": "{{ consul_acl_default_policy }}",
-            "acl_master_token": "{{ consul_acl_master_token }}",
+            {% if consul_version | version_compare('0.9.1', '<') or
+                  consul_acl_master_token | trim != '' %}
+                "acl_master_token": "{{ consul_acl_master_token }}",
+            {% endif %}
             {% if consul_acl_replication_enable | trim != '' %}
                 "enable_acl_replication": {{ consul_acl_replication_enable | bool | to_json }},
             {% endif %}
