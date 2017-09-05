@@ -50,9 +50,9 @@ function add_hosts {
   else
     sudocheck
     sudo sh -c "echo '# Consul Vagrant virtual machine hosts
-10.1.42.210 consul1.local consul1
-10.1.42.220 consul2.local consul2
-10.1.42.230 consul3.local consul3
+10.1.42.210 consul1.consul consul1
+10.1.42.220 consul2.consul consul2
+10.1.42.230 consul3.consul consul3
 ' >> /etc/hosts"
     logmsg success "Consul node host information added to /etc/hosts"
   fi

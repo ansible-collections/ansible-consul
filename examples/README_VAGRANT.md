@@ -66,12 +66,12 @@ steps to get up and running:
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](http://downloads.vagrantup.com/), [vagrant-hosts](https://github.com/adrienthebo/vagrant-hosts), and [Ansible](http://docs.ansible.com/ansible/intro_installation.html).
 2. Edit `/etc/hosts` or use the included `bin/preinstall` script to add
    the following entries to your development system's `/etc/hosts` file:
- * 10.1.42.210 consul1.local consul1
- * 10.1.42.220 consul2.local consul2
- * 10.1.42.230 consul3.local consul3
+ * 10.1.42.210 consul1.consul consul1
+ * 10.1.42.220 consul2.consul consul2
+ * 10.1.42.230 consul3.consul consul3
 3. cd `$PATH_TO_ROLES/brianshumate.conusul/examples`
 4. `vagrant up`
-5. Access the cluster web UI at http://consul1.local:8500/ui/
+5. Access the cluster web UI at http://consul1.consul:8500/ui/
 6. You can also `ssh` into a node and verify the cluster members directly
    from the RAFT peers list:
 
@@ -133,9 +133,9 @@ CONSUL_DNSMASQ_ENABLE=true vagrant up
 Then you can query any of the agents via DNS directly via port 53:
 
 ```
-dig @consul1.local consul3.node.consul
+dig @consul1.consul consul3.node.consul
 
-; <<>> DiG 9.8.3-P1 <<>> @consul1.local consul3.node.consul
+; <<>> DiG 9.8.3-P1 <<>> @consul1.consul consul3.node.consul
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:

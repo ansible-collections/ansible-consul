@@ -519,9 +519,9 @@ cluster of 3 servers, the first one being the designated bootstrap / leader:
 
 ```yaml
 [consul_instances]
-consul1.local consul_node_role=bootstrap
-consul2.local consul_node_role=server
-consul3.local consul_node_role=server
+consul1.consul consul_node_role=bootstrap
+consul2.consul consul_node_role=server
+consul3.consul consul_node_role=server
 consul4.local consul_node_role=client
 ```
 
@@ -529,9 +529,9 @@ Or you can use the simpler method of letting them do their election process:
 
 ```yaml
 [consul_instances]
-consul1.local consul_node_role=server consul_bootstrap_expect=true
-consul2.local consul_node_role=server consul_bootstrap_expect=true
-consul3.local consul_node_role=server consul_bootstrap_expect=true
+consul1.consul consul_node_role=server consul_bootstrap_expect=true
+consul2.consul consul_node_role=server consul_bootstrap_expect=true
+consul3.consul consul_node_role=server consul_bootstrap_expect=true
 consul4.local consul_node_role=client
 ```
 
@@ -746,9 +746,9 @@ Then, you can query any of the agents via DNS directly via port 53,
 for example:
 
 ```
-dig @consul1.local consul3.node.consul
+dig @consul1.consul consul3.node.consul
 
-; <<>> DiG 9.8.3-P1 <<>> @consul1.local consul3.node.consul
+; <<>> DiG 9.8.3-P1 <<>> @consul1.consul consul3.node.consul
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:

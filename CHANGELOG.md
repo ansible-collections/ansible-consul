@@ -733,3 +733,8 @@ Actually add new template files :facepalm:
 - Add disable_update_check to config options (thanks @groggemans)
 - Fix list example data type (thanks @vincent-legoll)
 - Remove tasks for installation of python-consul (thanks @vincent-legoll)
+
+## v1.26.1
+
+- Fix deprecation notice on include
+- Change example server hostnames
