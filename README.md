@@ -787,7 +787,7 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ### `consul_dnsmasq_revservers`
 
 - Reverse lookup subnets
-- Default value: *{}*
+- Default value: *[]*
 
 ### `consul_dnsmasq_no_poll`
 
