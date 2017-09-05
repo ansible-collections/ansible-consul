@@ -439,11 +439,6 @@
       - include: ../tasks/iptables.yml
         when: consul_iptables_enable | bool
 
-      - include: ../tasks/client.yml
-        when:
-          - consul_node_role == "client"
-          - ansible_os_family == "Debian"
-
       when: not bootstrap_state.stat.exists
 
   when: ansible_os_family == 'Windows'
