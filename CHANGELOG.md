@@ -732,3 +732,4 @@ Actually add new template files :facepalm:
 - Allow post setup bootstrapping of ACLs (thanks @groggemans)
 - Add disable_update_check to config options (thanks @groggemans)
 - Fix list example data type (thanks @vincent-legoll)
+- Remove tasks for installation of python-consul (thanks @vincent-legoll)
