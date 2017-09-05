@@ -99,7 +99,8 @@
             "{{ server | ipwrap }}",
         {% endfor %}
         {% for server in _consul_lan_servers %}
-            "{{ hostvars[server]['consul_bind_address'] | ipwrap }}",
+            "{{ hostvars[server]['consul_advertise_address'] |
+                default(hostvars[server]['consul_bind_address']) | ipwrap }}",
         {% endfor %} ],
 
     {## UI ##}
@@ -130,7 +131,8 @@
                     "{{ server | ipwrap }}",
                 {% endfor %}
                 {% for server in _consul_wan_servers %}
-                    "{{ hostvars[server]['consul_bind_address'] | ipwrap }}",
+                    "{{ hostvars[server]['consul_advertise_address_wan'] |
+                        default(hostvars[server]['consul_bind_address']) | ipwrap }}",
                 {% endfor %} ],
         {% endif %}
 
