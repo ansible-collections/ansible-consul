@@ -95,6 +95,9 @@
     "retry_interval": "{{ consul_retry_interval }}",
     "retry_max": {{ consul_retry_max | int }},
     "retry_join": [
+        {% for server in consul_join %}
+            "{{ server | ipwrap }}",
+        {% endfor %}
         {% for server in _consul_lan_servers %}
             "{{ hostvars[server]['consul_bind_address'] | ipwrap }}",
         {% endfor %} ],
@@ -115,14 +118,17 @@
         {## Bootstrap settings ##}
         "bootstrap": {{ (item.config_version == 'bootstrap') | bool | to_json }},
         {% if consul_bootstrap_expect and not (item.config_version == 'bootstrap') %}
-            "bootstrap_expect": {{ _consul_lan_servers | length }},
+            "bootstrap_expect": {{ _consul_lan_servercount | int }},
         {% endif %}
 
         {## WAN Join ##}
         "retry_interval_wan": "{{ consul_retry_interval_wan }}",
         "retry_max_wan": {{ consul_retry_max_wan | int }},
-        {% if _consul_wan_servers | length > 0 %}
+        {% if _consul_wan_servercount | int > 0 %}
             "retry_join_wan": [
+                {% for server in consul_join_wan %}
+                    "{{ server | ipwrap }}",
+                {% endfor %}
                 {% for server in _consul_wan_servers %}
                     "{{ hostvars[server]['consul_bind_address'] | ipwrap }}",
                 {% endfor %} ],

@@ -110,6 +110,8 @@ consul_ports:
 
 ### Servers
 consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
+consul_join: []
+consul_join_wan: []
 consul_servers: "\
   {% set _consul_servers = [] %}\
   {% for host in groups[consul_group_name] %}\

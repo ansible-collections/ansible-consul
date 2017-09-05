@@ -159,6 +159,16 @@ the variables are named and described below:
 - Max reconnection attempts to WAN servers before failing, 0=infinit
 - Default value: *0*
 
+### `consul_join`
+
+- List of LAN servers, not managed by this role, to join (ipv4 ipv6 or dns addresses)
+- Default value: *[]*
+
+### `consul_join_wan`
+
+- List of WAN servers, not managed by this role, to join (ipv4 ipv6 or dns addresses)
+- Default value: *[]*
+
 ### `consul_servers`
 
 It's typically not necessary to manually alter this list.
