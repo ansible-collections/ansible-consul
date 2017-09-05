@@ -113,7 +113,7 @@
       delegate_to: localhost
       when: consul_raw_key is defined
 
-    # Generate new key if non was found
+    # Generate new key if none was found
     - block:
         - name: Generate gossip encryption key
           shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
