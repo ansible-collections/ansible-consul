@@ -727,3 +727,7 @@ Actually add new template files :facepalm:
 
 - Add node_meta config (thanks @groggemans)
 - Add additional retry-join parameters (thanks @groggemans)
+- Add DNSMasq for Red Hat (thanks @giannidallatorre)
+- Fix typo (thanks @vincent-legoll)
+- Allow post setup bootstrapping of ACLs (thanks @groggemans)
+- Add disable_update_check to config options (thanks @groggemans)
