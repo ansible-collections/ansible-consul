@@ -723,7 +723,7 @@ Actually add new template files :facepalm:
 - Prefer retry_join and retry_join_wan instead of start_join / start_join_wan
 - DNSMasq updates (thanks @groggemans)
 
-## v1.25.5 (UNRELEASED)
+## v1.26.0 (UNRELEASED)
 
 - Add node_meta config (thanks @groggemans)
 - Add additional retry-join parameters (thanks @groggemans)
@@ -731,3 +731,4 @@ Actually add new template files :facepalm:
 - Fix typo (thanks @vincent-legoll)
 - Allow post setup bootstrapping of ACLs (thanks @groggemans)
 - Add disable_update_check to config options (thanks @groggemans)
+- Fix list example data type (thanks @vincent-legoll)
