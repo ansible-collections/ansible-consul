@@ -738,3 +738,9 @@ Actually add new template files :facepalm:
 
 - Fix deprecation notice on include
 - Change example server hostnames
+
+## v1.27.0
+
+- Consul v0.9.3
+- Update server joining (thanks @groggemans)
+- Fix types that should be lists (thanks @vincent-legoll)
