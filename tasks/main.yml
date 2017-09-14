@@ -35,8 +35,10 @@
       ignore_errors: yes
       when: consul_gather_server_facts | bool
 
-    - name: Expose bind_address, datacenter and node_role as facts
+    - name: Expose advertise_address(_wan) datacenter and node_role as facts
       set_fact:
+        consul_advertise_address_wan: "{{ consul_advertise_address_wan }}"
+        consul_advertise_address: "{{ consul_advertise_address }}"
         consul_bind_address: "{{ consul_bind_address }}"
         consul_datacenter: "{{ consul_datacenter }}"
         consul_node_role: "{{ consul_node_role }}"

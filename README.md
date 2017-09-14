@@ -159,6 +159,16 @@ the variables are named and described below:
 - Max reconnection attempts to WAN servers before failing, 0=infinit
 - Default value: *0*
 
+### `consul_join`
+
+- List of LAN servers, not managed by this role, to join (ipv4 ipv6 or dns addresses)
+- Default value: *[]*
+
+### `consul_join_wan`
+
+- List of WAN servers, not managed by this role, to join (ipv4 ipv6 or dns addresses)
+- Default value: *[]*
+
 ### `consul_servers`
 
 It's typically not necessary to manually alter this list.
@@ -169,7 +179,7 @@ It's typically not necessary to manually alter this list.
 
 ### `consul_gather_server_facts`
 
-This feature makes it possible to gather the `consul_bind_address` from
+This feature makes it possible to gather the `consul_advertise_address(_wan)` from
 servers that are currently not targeted by the playbook.
 
 To make this possible the `delegate_facts` option is used; note that his
