@@ -10,7 +10,7 @@
     {% if consul_version | version_compare('0.7.3', '>=') and
           consul_node_meta | length > 0 %}
         "node_meta": {
-            {% for _meta_key, _meta_value in consul_node_meta.iteritems() %}
+            {% for _meta_key, _meta_value in consul_node_meta.items() %}
                 "{{ _meta_key }}": "{{ _meta_value }}",
             {% endfor %} },
     {% endif %}
