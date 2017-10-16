@@ -5,7 +5,7 @@
 consul_debug: no
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('0.9.3', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.0.0', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)

@@ -745,6 +745,7 @@ Actually add new template files :facepalm:
 - Update server joining (thanks @groggemans)
 - Fix types that should be lists (thanks @vincent-legoll)
 
-## v1.28.0 (UNRELEASED)
+## v1.28.0
 
+- Consul 1.0!
 - Fix python3 compatibility for meta data (thanks @groggemans)
