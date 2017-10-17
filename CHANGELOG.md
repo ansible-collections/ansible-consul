@@ -749,3 +749,7 @@ Actually add new template files :facepalm:
 
 - Consul 1.0!
 - Fix python3 compatibility for meta data (thanks @groggemans)
+
+## v1.28.1
+
+- Remove deprecated advertise_addrs to resolve #123 so that role works again

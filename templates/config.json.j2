@@ -19,11 +19,6 @@
     "bind_addr": "{{ consul_bind_address }}",
     "advertise_addr": "{{ consul_advertise_address }}",
     "advertise_addr_wan": "{{ consul_advertise_address_wan }}",
-    "advertise_addrs": {
-        "serf_lan": "{{ consul_advertise_addresses.serf_lan }}",
-        "serf_wan": "{{ consul_advertise_addresses.serf_wan }}",
-        "rpc": "{{ consul_advertise_addresses.rpc }}",
-    },
     "client_addr": "{{ consul_client_address }}",
     "addresses": {
         "dns": "{{ consul_addresses.dns }}",
