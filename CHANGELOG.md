@@ -753,3 +753,8 @@ Actually add new template files :facepalm:
 ## v1.28.1
 
 - Remove deprecated advertise_addrs to resolve #123 so that role works again
+
+## v1.29.0 (UNRELEASED)
+
+- Fix idempotency (thanks @issmirnov)
+- Update CONTRIBUTORS
