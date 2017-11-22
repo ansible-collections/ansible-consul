@@ -60,7 +60,9 @@
     "enable_script_checks": {{ consul_enable_script_checks | bool | to_json }},
 
     {## Encryption and TLS ##}
-    "encrypt": "{{ consul_raw_key }}",
+    {% if consul_encrypt_enable %}
+        "encrypt": "no key",
+    {% endif %}
     {% if consul_tls_enable %}
         "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
         "cert_file": "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}",
