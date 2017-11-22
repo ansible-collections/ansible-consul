@@ -317,74 +317,78 @@
         - not consul_binary_installed.stat.exists | bool
 
     - block:
-        - name: (Windows) Check for gossip encryption key on previously boostrapped server
-          slurp:
-            src: "{{ consul_config_path }}/config.json"
-          register: consul_config_b64
-          ignore_errors: yes
+        - block:
+            - name: (Windows) Check for gossip encryption key on previously boostrapped server
+              slurp:
+                src: "{{ consul_config_path }}/config.json"
+              register: consul_config_b64
+              ignore_errors: yes
 
-        - name: (Windows) Deserialize existing configuration
-          set_fact:
-            consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
-          when: consul_config_b64.content is defined
+            - name: (Windows) Deserialize existing configuration
+              set_fact:
+                consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
+              when: consul_config_b64.content is defined
 
-        - name: (Windows) Save gossip encryption key from existing configuration
-          set_fact:
-            consul_raw_key: "{{ consul_config.encrypt }}"
-          when: consul_config is defined
+            - name: (Windows) Save gossip encryption key from existing configuration
+              set_fact:
+                consul_raw_key: "{{ consul_config.encrypt }}"
+              when: consul_config is defined
 
-      no_log: true
-      when:
-        - consul_raw_key is not defined
-        - bootstrap_state.stat.exists | bool
-        - inventory_hostname in consul_servers
+          no_log: true
+          when:
+            - consul_raw_key is not defined
+            - bootstrap_state.stat.exists | bool
+            - inventory_hostname in consul_servers
 
-    # Key provided by extra vars or the above block
-    - name: (Windows) Write gossip encryption key locally for use with new servers
-      copy:
-        content: "{{ consul_raw_key }}"
-        dest: '/tmp/consul_raw.key'
-      become: no
-      no_log: true
-      run_once: true
-      register: consul_local_key
-      delegate_to: localhost
-      when: consul_raw_key is defined
-
-    # Generate new key if non was found
-    - block:
-
-        - name: (Windows) Generate gossip encryption key
-          win_shell: "{{consul_binary}} keygen"
-          register: consul_keygen
-
-        - name: (Windows) Write key locally to share with other nodes
+        # Key provided by extra vars or the above block
+        - name: (Windows) Write gossip encryption key locally for use with new servers
           copy:
-            content: "{{ consul_keygen.stdout }}"
+            content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
           become: no
+          no_log: true
+          run_once: true
+          register: consul_local_key
           delegate_to: localhost
+          when: consul_raw_key is defined
 
+        # Generate new key if non was found
+        - block:
+
+            - name: (Windows) Generate gossip encryption key
+              win_shell: "{{consul_binary}} keygen"
+              register: consul_keygen
+
+            - name: (Windows) Write key locally to share with other nodes
+              copy:
+                content: "{{ consul_keygen.stdout }}"
+                dest: '/tmp/consul_raw.key'
+              become: no
+              delegate_to: localhost
+
+          no_log: true
+          run_once: true
+          when:
+            - not consul_local_key.changed
+            - not bootstrap_state.stat.exists | bool
+
+        - name: (Windows) Read gossip encryption key for servers that require it
+          set_fact:
+            consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
+          no_log: true
+          when:
+            - consul_raw_key is not defined
+
+        - name: (Windows) Delete gossip encryption key file
+          file:
+            path: '/tmp/consul_raw.key'
+            state: absent
+          become: no
+          run_once: true
+          delegate_to: localhost
       no_log: true
-      run_once: true
       when:
-        - not consul_local_key.changed
-        - not bootstrap_state.stat.exists | bool
-
-    - name: (Windows) Read gossip encryption key for servers that require it
-      set_fact:
-        consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
-      no_log: true
-      when:
-        - consul_raw_key is not defined
-
-    - name: (Windows) Delete gossip encryption key file
-      file:
-        path: '/tmp/consul_raw.key'
-        state: absent
-      become: no
-      run_once: true
-      delegate_to: localhost
+        - consul_encrypt_enable
 
     - name: (Windows) Create Consul configuration
       include: config_windows.yml
