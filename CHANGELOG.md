@@ -757,4 +757,5 @@ Actually add new template files :facepalm:
 ## v1.29.0 (UNRELEASED)
 
 - Fix idempotency (thanks @issmirnov)
+- Make gossip encryption optional (thanks @hwmrocker)
 - Update CONTRIBUTORS
