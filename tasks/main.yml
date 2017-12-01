@@ -1,14 +1,10 @@
 ---
 # File: main.yml - Main tasks for Consul
-#
-# Unfortunately, this playbook violates DRY somewhat to handle installation
-# on both non-Windows and Windows systems due to such bad words as casting
-# dicts, and being so over YAML that this stuff just needs to get pitched
-# into the rubbish bin at some point in the immediate future :lol:
 
-- name: Install netaddr dependency locally
+- name: Install netaddr dependency on controlling host as user
   pip:
     name: netaddr
+  extra_args: --user
   delegate_to: 127.0.0.1
   become: false
 

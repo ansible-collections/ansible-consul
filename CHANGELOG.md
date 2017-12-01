@@ -754,8 +754,11 @@ Actually add new template files :facepalm:
 
 - Remove deprecated advertise_addrs to resolve #123 so that role works again
 
-## v1.29.0 (UNRELEASED)
+## v1.29.0
 
+- Consul v1.0.1
 - Fix idempotency (thanks @issmirnov)
 - Make gossip encryption optional (thanks @hwmrocker)
+- Install netaddr with `--user`
+- Update documentation
 - Update CONTRIBUTORS
