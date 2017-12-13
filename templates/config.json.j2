@@ -61,7 +61,7 @@
 
     {## Encryption and TLS ##}
     {% if consul_encrypt_enable %}
-        "encrypt": "no key",
+        "encrypt": "{{ consul_raw_key }}",
     {% endif %}
     {% if consul_tls_enable %}
         "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
