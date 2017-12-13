@@ -108,6 +108,14 @@
 
     {# Client Settings #}
     {% if (item.config_version == 'client') %}
+    "retry_join": [
+    {% for server in consul_join %}
+        "{{ server | ipwrap }}",
+    {% endfor %}
+    {% for server in _consul_lan_servers %}
+        "{{ hostvars[server]['consul_advertise_address'] |
+            default(hostvars[server]['consul_bind_address']) | ipwrap }}",
+    {% endfor %} ],
     {% endif %}
 
     {# Server Settings #}
