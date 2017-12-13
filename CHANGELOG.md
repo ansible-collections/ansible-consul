@@ -762,3 +762,7 @@ Actually add new template files :facepalm:
 - Install netaddr with `--user`
 - Update documentation
 - Update CONTRIBUTORS
+
+## v1.30.0 (UNRELEASED)
+
+- Add `retry_join` block to the client configuration also
