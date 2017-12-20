@@ -10,6 +10,8 @@ help familiarize you with the processes and quickly bootstrap an environment
 for development. You may wish to expand on them and customize
 them with additional features specific to your needs later.
 
+If you are looking for the main role documentation, it is in the [README.md](https://github.com/brianshumate/ansible-consul/blob/master/README.md).
+
 ## Vagrant Development Cluster
 
 In some situations deploying a small cluster on your local development
@@ -32,8 +34,7 @@ The Vagrant configuration file (`Vagrantfile`) is responsible for
 configuring the virtual machines and a baseline OS installation.
 
 The Ansible playbooks then further refine OS configuration, perform Consul
-software download and installation, and the initialization of nodes
-into a ready to use cluster.
+software download, installation, configuration, and the joining of server nodes into a ready to use cluster.
 
 ## Designed for Ansible Galaxy
 
@@ -107,11 +108,11 @@ BOX_NAME=freebsd/FreeBSD-11.0-STABLE CONSUL_IFACE=em1 vagrant up
 ## Notes
 
 1. This project functions with the following software versions:
-  * Consul version 1.0.1
-  * Ansible: 2.3.2.0
-  * VirtualBox version 5.1.28
-  * Vagrant version 2.0.0
-  * Vagrant Hosts version 2.8.0
+  * Consul version 1.0.2
+  * Ansible: 2.4.2.0
+  * VirtualBox version 5.1.30
+  * Vagrant version 2.0.1
+  * Vagrant Hosts plugin version 2.8.0
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable
 3. The `bin/preinstall` shell script performs the following actions for you:

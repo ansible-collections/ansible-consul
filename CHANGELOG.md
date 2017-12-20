@@ -763,6 +763,7 @@ Actually add new template files :facepalm:
 - Update documentation
 - Update CONTRIBUTORS
 
-## v1.30.0 (UNRELEASED)
+## v1.30.0
 
-- Add `retry_join` block to the client configuration also
+- Consul v1.0.2
+- Update documentation
