@@ -10,10 +10,11 @@ addons:
   apt:
     packages:
     - python-pip
+    - jq
 
 install:
-  # Install ansible
-  - pip install ansible
+  # Install ansible netaddr
+  - pip install ansible netaddr
 
   # Check ansible version
   - ansible --version
@@ -24,6 +25,8 @@ install:
 script:
   # Basic role syntax check
   - ANSIBLE_ROLES_PATH=.. ansible-playbook -i tests/inventory tests/test.yml --syntax-check
+  - ansible all -i localhost, -c local -m template -a "src=templates/config.json.j2 dest=./tests/test_results.json" --extra-vars=@tests/test_vars.yml
+  - cat ./tests/test_results.json | jq .
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

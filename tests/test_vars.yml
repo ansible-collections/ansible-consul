@@ -1,5 +1,19 @@
 ---
-# File: main.yml - Default variables for Consul
+
+ansible_os_family: unix
+ansible_default_ipv4:
+  interface: eth0
+ansible_eth0:
+  ipv4:
+     address: "1.1.1.1"
+ansible_system: ubuntu
+consul_raw_key: consul_raw_key
+_consul_lan_servers: 
+  - localhost
+_consul_wan_servercount: 0
+
+item:
+  config_version: bootstrap
 
 ## Core
 consul_debug: no
@@ -50,7 +64,10 @@ consul_group: "bin"
 ### Consul settings
 consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) }}"
 consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
-consul_node_meta: {}
+consul_node_meta: 
+  meta_1: 1
+  meta_2: 2
+
 consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
 consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
 consul_iface: "\
@@ -111,7 +128,7 @@ consul_ports:
 
 ### Servers
 consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
-consul_join: []
+consul_join: ["127.0.0.1"]
 consul_join_wan: []
 consul_servers: "\
   {% set _consul_servers = [] %}\

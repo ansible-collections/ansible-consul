@@ -7,16 +7,14 @@
     "node_name": "{{ consul_node_name }}",
     "datacenter": "{{ consul_datacenter }}",
     "domain": "{{ consul_domain }}",
+    "consul_version": "{{consul_version}}",
     {% if consul_version | version_compare('0.7.3', '>=') and
           consul_node_meta | length > 0 %}
-        "node_meta": {
-            {% for _meta_key, _meta_value in consul_node_meta.items() %}
-                "{{ _meta_key }}": "{{ _meta_value }}",
-            {% endfor %} },
+        "node_meta": {{ consul_node_meta | default({})| to_json }},
     {% endif %}
 
-    {# Performances Settings #}
-    "performance": "{{ consul_performance | to_json }}"
+    {# Performance Settings #}
+    "performance": {{ consul_performance | to_json }},
 
     {## Addresses ##}
     "bind_addr": "{{ consul_bind_address }}",
@@ -24,12 +22,13 @@
     "advertise_addr_wan": "{{ consul_advertise_address_wan }}",
     "client_addr": "{{ consul_client_address }}",
     "addresses": {
-        "dns": "{{ consul_addresses.dns }}",
-        "http": "{{ consul_addresses.http }}",
-        "https": "{{ consul_addresses.https }}",
         {% if consul_version | version_compare('0.8.0', '<') %}
             "rpc": "{{ consul_addresses.rpc }}",
         {% endif %}
+        "dns": "{{ consul_addresses.dns }}",
+        "http": "{{ consul_addresses.http }}",
+        "https": "{{ consul_addresses.https }}"
+        
     },
     {## Ports Used ##}
     "ports": {
@@ -41,7 +40,7 @@
         {% endif %}
         "serf_lan": {{ consul_ports.serf_lan }},
         "serf_wan": {{ consul_ports.serf_wan }},
-        "server": {{ consul_ports.server }},
+        "server": {{ consul_ports.server }}
     },
 
     {## Raft protocol ##}
@@ -49,10 +48,11 @@
 
     {## DNS ##}
     {% if consul_recursors | length > 0 %}
-        "recursors": [
-            {% for recursor in consul_recursors %}
-                "{{ recursor }}",
-            {% endfor %} ],
+        "recursors": {{ consul_recursors | to_json }}
+
+            # {% for recursor in consul_recursors %}
+            #     "{{ recursor }}",
+            # {% endfor %} ],
     {% endif %}
 
     {## Agent ##}
@@ -94,17 +94,10 @@
     {## LAN Join ##}
     "retry_interval": "{{ consul_retry_interval }}",
     "retry_max": {{ consul_retry_max | int }},
-    "retry_join": [
-        {% for server in consul_join %}
-            "{{ server | ipwrap }}",
-        {% endfor %}
-        {% for server in _consul_lan_servers %}
-            "{{ hostvars[server]['consul_advertise_address'] |
-                default(hostvars[server]['consul_bind_address']) | ipwrap }}",
-        {% endfor %} ],
-
-    {## UI ##}
-    "ui": {{ consul_ui | bool | to_json }},
+     "retry_join": {% for server in _consul_lan_servers %}
+    {% set consul_join = consul_join + [ hostvars[server]['consul_advertise_address'] | default(hostvars[server]['consul_bind_address']) ] %}{% if loop.last %}
+    {{ consul_join | map('ipwrap') | list | to_json }},
+    {% endif %}{% endfor %}
 
     {## Server/Client ##}
     "server": {{ (item.config_version != 'client') | bool | to_json }},
@@ -151,4 +144,7 @@
             {% endif %}
         {% endif %}
     {% endif %}
+
+    {## UI ##}
+    "ui": {{ consul_ui | bool | to_json }}
 }
