@@ -15,6 +15,9 @@
             {% endfor %} },
     {% endif %}
 
+    {# Performances Settings #}
+    "performance": "{{ consul_performance | to_json }}"
+
     {## Addresses ##}
     "bind_addr": "{{ consul_bind_address }}",
     "advertise_addr": "{{ consul_advertise_address }}",

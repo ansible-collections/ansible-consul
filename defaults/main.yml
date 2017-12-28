@@ -179,3 +179,9 @@ consul_dnsmasq_no_resolv: false
 consul_dnsmasq_local_service: false
 consul_dnsmasq_listen_addresses: []
 consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
+
+# Consul performance
+consul_performance:
+  raft_multiplier: 0
+  leave_drain_time: 5s
+  rpc_hold_timeout: 7s
