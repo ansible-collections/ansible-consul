@@ -1,5 +1,4 @@
 ---
-
 ansible_os_family: unix
 ansible_default_ipv4:
   interface: eth0
@@ -10,7 +9,9 @@ ansible_system: ubuntu
 consul_raw_key: consul_raw_key
 _consul_lan_servers: 
   - localhost
-_consul_wan_servercount: 0
+_consul_wan_servercount: 1
+_consul_wan_servers:
+  - localhost
 
 item:
   config_version: bootstrap
@@ -78,7 +79,9 @@ consul_iface: "\
   {% endif %}"
 consul_node_name: "{{ inventory_hostname_short }}"
 consul_node_role: "{{ lookup('env','CONSUL_NODE_ROLE') | default('client', true) }}"
-consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
+consul_recursors: 
+  - "8.8.8.8"
+  - "8.8.8.6"
 consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(false, true) }}"
 consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
 consul_disable_update_check: no
@@ -129,7 +132,7 @@ consul_ports:
 ### Servers
 consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
 consul_join: ["127.0.0.1"]
-consul_join_wan: []
+consul_join_wan: ["127.0.0.1"]
 consul_servers: "\
   {% set _consul_servers = [] %}\
   {% for host in groups[consul_group_name] %}\
@@ -145,7 +148,7 @@ consul_gather_server_facts: no
 consul_acl_policy: false
 
 ### Shared ACL config ###
-consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
+consul_acl_enable: true
 consul_acl_ttl: "{{ lookup('env','CONSUL_ACL_TTL') | default('30s', true)}}"
 consul_acl_datacenter: "{{ lookup('env','CONSUL_ACL_DATACENTER') | default(consul_datacenter, true) }}"
 consul_acl_down_policy: "{{ lookup('env','CONSUL_ACL_DOWN_POLICY') | default('extend-cache', true) }}"
