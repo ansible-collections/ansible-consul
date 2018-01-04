@@ -109,6 +109,7 @@
           run_once: true
           register: consul_local_key
           delegate_to: localhost
+          changed_when: false
           when: consul_raw_key is defined
 
         # Generate new key if none was found
@@ -144,6 +145,7 @@
           become: no
           run_once: true
           delegate_to: localhost
+          changed_when: false
       no_log: true
       when:
         - consul_encrypt_enable
