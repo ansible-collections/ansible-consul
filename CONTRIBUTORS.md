@@ -29,6 +29,7 @@ Thank you to all these fine folks for helping with ansible-consul!
 - [@hwmrocker](https://github.com/hwmrocker)
 - [@timvaillancourt](https://github.com/timvaillancourt)
 - [@chrisparnin](https://github.com/chrisparnin)
+- [@MattBurgess](https://github.com/MattBurgess)
 
 If you have contributed but do not appear here, please fear not and accept
 apologies for the omission. Contact `brian <at> brianshumate <dot> com` and
