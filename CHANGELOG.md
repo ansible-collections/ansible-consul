@@ -767,3 +767,7 @@ Actually add new template files :facepalm:
 
 - Consul v1.0.2
 - Update documentation
+
+## v1.30.1 (UNRELEASED)
+
+- Add performance tuning configuration (thanks @t0k4rt)
