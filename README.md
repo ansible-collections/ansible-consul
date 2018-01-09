@@ -813,6 +813,21 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 - Custom list of addresses to listen on.
 - Default value: *[]*
 
+### `consul_performance`
+
+This is a nested object of Consul performance related options.
+
+#### `consul_performance.raft_multiplier`
+
+This is the [raft multiplier](https://www.consul.io/docs/agent/options.html#raft_multiplier). See also [Server Performance](https://www.consul.io/docs/guides/performance.html).
+
+#### `consul_performance.leave_drain_time`
+
+This is the [leave drain time](https://www.consul.io/docs/agent/options.html#leave_drain_time).
+
+#### `consul_performance.rpc_hold_timeout`
+
+This is the [RPC hold timeout](https://www.consul.io/docs/agent/options.html#rpc_hold_timeout).
 
 ### iptables DNS Forwarding Support
 
