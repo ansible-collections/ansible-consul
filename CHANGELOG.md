@@ -771,6 +771,7 @@ Actually add new template files :facepalm:
 ## v1.30.1 (UNRELEASED)
 
 - Add performance tuning configuration (thanks @t0k4rt)
+  - Set raft multiplier to 1
 - Update documentation
 - Conditionally install Python dependency baed on virtualenv or --user
   Addresses https://github.com/brianshumate/ansible-consul/issues/129#issuecomment-356095611

@@ -183,6 +183,6 @@ consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(fal
 
 # Consul performace
 consul_performance:
-  raft_multiplier: 0
+  raft_multiplier: 1
   leave_drain_time: 5s
   rpc_hold_timeout: 7s
