@@ -28,7 +28,7 @@ definitely known to work with the following specific software versions:
 * Consul: 1.0.2
 * Ansible: 2.4.2.0
 * CentOS: 7
-* Debian: 8
+* Debian: 9
 * FreeBSD: 11
 * RHEL: 7
 * Ubuntu: 16.04
@@ -667,6 +667,27 @@ packages with different package names.
 - List of OS packages to install
 - Default value: list
 
+### `consul_performance`
+
+- List of Consul performance tuning items
+- Default value: list
+
+#### `raft_multiplier`
+
+- [Raft multiplier](https://www.consul.io/docs/agent/options.html#raft_multiplier) scales key Raft timing parameters
+- Default value: 1
+
+#### `leave_drain_time`
+
+- [Node leave drain time](https://www.consul.io/docs/agent/options.html#leave_drain_time) is the dwell time for a server to honor requests while gracefully leaving
+
+- Default value: 5s
+
+#### `rpc_hold_timeout`
+
+- [RPC hold timeout](https://www.consul.io/docs/agent/options.html#rpc_hold_timeout) is the duration that a client or server will retry internal RPC requests during leader elections
+- Default value: 7s
+
 ## Dependencies
 
 Ansible requires GNU tar and this role performs some local use of the
@@ -813,21 +834,6 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 - Custom list of addresses to listen on.
 - Default value: *[]*
 
-### `consul_performance`
-
-This is a nested object of Consul performance related options.
-
-#### `consul_performance.raft_multiplier`
-
-This is the [raft multiplier](https://www.consul.io/docs/agent/options.html#raft_multiplier). See also [Server Performance](https://www.consul.io/docs/guides/performance.html).
-
-#### `consul_performance.leave_drain_time`
-
-This is the [leave drain time](https://www.consul.io/docs/agent/options.html#leave_drain_time).
-
-#### `consul_performance.rpc_hold_timeout`
-
-This is the [RPC hold timeout](https://www.consul.io/docs/agent/options.html#rpc_hold_timeout).
 
 ### iptables DNS Forwarding Support
 

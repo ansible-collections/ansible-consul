@@ -17,7 +17,7 @@
   when: is_virtualenv is defined
 
 - name: Include checks/asserts
-  include: asserts.yml
+  import_tasks: asserts.yml
 
 - name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
@@ -55,10 +55,10 @@
       tags: always
 
     - name: Include user and group settings
-      include: user_group.yml
+      import_tasks: user_group.yml
 
     - name: Include directory settings
-      include: dirs.yml
+      import_tasks: dirs.yml
 
     - name: Check for existing Consul binary
       stat:
@@ -70,19 +70,19 @@
         consul_install_binary: "{{ consul_install_upgrade or not consul_binary_installed.stat.exists }}"
 
     - name: Install OS packages and consul - locally
-      include: install.yml
+      include_tasks: install.yml
       when:
         - consul_install_binary | bool
         - not consul_install_remotely | bool
 
     - name: Install OS packages and consul - remotely
-      include: install_remote.yml
+      include_tasks: install_remote.yml
       when:
         - consul_install_binary | bool
         - consul_install_remotely | bool
 
     # XXX: Individual gossip tasks are deprecated and need to be removed
-    # - include: ../tasks/encrypt_gossip.yml
+    # - include_tasks: ../tasks/encrypt_gossip.yml
     - block:
         - block:
             - name: Check for gossip encryption key on previously boostrapped server
@@ -159,14 +159,14 @@
         - consul_encrypt_enable
 
     - name: Create Consul configuration
-      include: config.yml
+      import_tasks: config.yml
 
     - name: Create ACL configuration
-      include: acl.yml
+      include_tasks: acl.yml
       when: consul_acl_enable | bool
 
     - name: Create TLS configuration
-      include: tls.yml
+      include_tasks: tls.yml
       when: consul_tls_enable | bool
 
     - block:
@@ -240,7 +240,6 @@
           - smfmanifest | changed
           - ansible_os_family == "Solaris"
 
-
       - name: Start Consul
         service:
           name: consul
@@ -250,7 +249,7 @@
       - name: Check Consul HTTP API (via TCP socket)
         wait_for:
           delay: 15
-          port: "{{consul_ports.http|int}}"
+          port: "{{ consul_ports.http|int }}"
           host: "{{ consul_addresses.http }}"
         when: (consul_ports.http|int > -1) and (consul_addresses.http|ipaddr)
 
@@ -265,10 +264,10 @@
           dest: "{{ consul_bootstrap_state }}"
           state: touch
 
-      - include: ../tasks/dnsmasq.yml
+      - include_tasks: ../tasks/dnsmasq.yml
         when: consul_dnsmasq_enable | bool
 
-      - include: ../tasks/iptables.yml
+      - include_tasks: ../tasks/iptables.yml
         when: consul_iptables_enable | bool
 
       when: not bootstrap_state.stat.exists
@@ -310,7 +309,7 @@
       tags: always
 
     - name: (Windows) Include directory settings
-      include: dirs.yml
+      import_tasks: dirs.yml
 
     - name: (Windows) Check for existing Consul binary
       win_stat:
@@ -318,7 +317,7 @@
       register: consul_binary_installed
 
     - name: (Windows) Install OS packages and consul
-      include: install_windows.yml
+      include_tasks: install_windows.yml
       when:
         - not consul_binary_installed.stat.exists | bool
 
@@ -397,7 +396,7 @@
         - consul_encrypt_enable
 
     - name: (Windows) Create Consul configuration
-      include: config_windows.yml
+      import_tasks: config_windows.yml
 
     - name: (Windows) Ensure neither ACL nor TLS are requested
       fail:
@@ -406,11 +405,11 @@
         - (consul_acl_enable | bool) or (consul_tls_enable | bool)
 
     - name: (Windows) Create ACL configuration
-      include: acl.yml
+      include_tasks: acl.yml
       when: consul_acl_enable | bool
 
     - name: (Windows) Create TLS configuration
-      include: tls.yml
+      include_tasks: tls.yml
       when: consul_tls_enable | bool
 
     - block:
@@ -436,17 +435,16 @@
           host: "{{inventory_hostname_short}}"
           port: 8500
 
-
       - name: (Windows) Create bootstrapped state file
         win_file:
           dest: "{{consul_bootstrap_state}}"
           state: touch
         when: ansible_os_family == "Windows"
 
-      - include: ../tasks/dnsmasq.yml
+      - include_tasks: ../tasks/dnsmasq.yml
         when: consul_dnsmasq_enable | bool
 
-      - include: ../tasks/iptables.yml
+      - include_tasks: ../tasks/iptables.yml
         when: consul_iptables_enable | bool
 
       when: not bootstrap_state.stat.exists

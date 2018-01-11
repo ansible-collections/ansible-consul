@@ -181,7 +181,7 @@ consul_dnsmasq_local_service: false
 consul_dnsmasq_listen_addresses: []
 consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
 
-# Consul performace
+# Performance
 consul_performance:
   raft_multiplier: 1
   leave_drain_time: 5s
