@@ -5,8 +5,8 @@
   file:
     dest: "{{ consul_tls_dir }}"
     state: directory
-    owner: root
-    group: root
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
     mode: 0755
 
 - block:

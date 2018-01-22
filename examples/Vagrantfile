@@ -40,7 +40,7 @@ SCRIPT
 
 ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
 BOX_MEM = ENV['BOX_MEM'] || "1024"
-BOX_NAME =  ENV['BOX_NAME'] || "debian/jessie64"
+BOX_NAME =  ENV['BOX_NAME'] || "debian/stretch64"
 CLUSTER_HOSTS = ENV['CLUSTER_HOSTS'] || "vagrant_hosts"
 CONSUL_ACL_ENABLE = ENV['CONSUL_ACL_ENABLE'] || "false"
 CONSUL_ATLAS_ENABLE = ENV['CONSUL_ATLAS_ENABLE'] || "false"
@@ -139,10 +139,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # extra Ansible variables can be defined here as well. Wheeee!
       #
       ansible.extra_vars = {
-        consul_log_level: "DEBUG"
+        consul_log_level: "DEBUG",
+        consul_client_address: "10.1.42.230"
       }
       ansible.playbook = ANSIBLE_PLAYBOOK
       ansible.limit = "all"
+      compatibility_mode = "2.0"
     end
   end
 end

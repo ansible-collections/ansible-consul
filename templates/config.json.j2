@@ -7,13 +7,11 @@
     "node_name": "{{ consul_node_name }}",
     "datacenter": "{{ consul_datacenter }}",
     "domain": "{{ consul_domain }}",
-    {% if consul_version | version_compare('0.7.3', '>=') and
-          consul_node_meta | length > 0 %}
-        "node_meta": {
-            {% for _meta_key, _meta_value in consul_node_meta.items() %}
-                "{{ _meta_key }}": "{{ _meta_value }}",
-            {% endfor %} },
+    {% if consul_version | version_compare('0.7.3', '>=') and consul_node_meta | length > 0 %}
+    "node_meta": {{ consul_node_meta | default({})| to_json }},
     {% endif %}
+    {# Performance Settings #}
+    "performance": {{ consul_performance | to_json }},
 
     {## Addresses ##}
     "bind_addr": "{{ consul_bind_address }}",
@@ -21,24 +19,25 @@
     "advertise_addr_wan": "{{ consul_advertise_address_wan }}",
     "client_addr": "{{ consul_client_address }}",
     "addresses": {
-        "dns": "{{ consul_addresses.dns }}",
-        "http": "{{ consul_addresses.http }}",
-        "https": "{{ consul_addresses.https }}",
         {% if consul_version | version_compare('0.8.0', '<') %}
             "rpc": "{{ consul_addresses.rpc }}",
         {% endif %}
+        "dns": "{{ consul_addresses.dns }}",
+        "http": "{{ consul_addresses.http }}",
+        "https": "{{ consul_addresses.https }}"
+
     },
     {## Ports Used ##}
     "ports": {
+        {% if consul_version | version_compare('0.8.0', '<') %}
+        "rpc": {{ consul_ports.rpc}},
+        {% endif %}
         "dns": {{ consul_ports.dns }},
         "http": {{ consul_ports.http }},
         "https": {{ consul_ports.https }},
-        {% if consul_version | version_compare('0.8.0', '<') %}
-            "rpc": {{ consul_ports.rpc}},
-        {% endif %}
         "serf_lan": {{ consul_ports.serf_lan }},
         "serf_wan": {{ consul_ports.serf_wan }},
-        "server": {{ consul_ports.server }},
+        "server": {{ consul_ports.server }}
     },
 
     {## Raft protocol ##}
@@ -46,10 +45,7 @@
 
     {## DNS ##}
     {% if consul_recursors | length > 0 %}
-        "recursors": [
-            {% for recursor in consul_recursors %}
-                "{{ recursor }}",
-            {% endfor %} ],
+        "recursors": {{ consul_recursors | to_json }},
     {% endif %}
 
     {## Agent ##}
@@ -61,47 +57,41 @@
 
     {## Encryption and TLS ##}
     {% if consul_encrypt_enable %}
-        "encrypt": "no key",
+    "encrypt": "{{ consul_raw_key }}",
     {% endif %}
     {% if consul_tls_enable %}
-        "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
-        "cert_file": "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}",
-        "key_file": "{{ consul_tls_dir }}/{{ consul_server_key }}",
-        "verify_incoming": {{ consul_tls_verify_incoming | bool | to_json }},
-        "verify_outgoing": {{ consul_tls_verify_outgoing | bool | to_json }},
-        "verify_server_hostname": {{ consul_tls_verify_server_hostname | bool | to_json }},
+    "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
+    "cert_file": "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}",
+    "key_file": "{{ consul_tls_dir }}/{{ consul_server_key }}",
+    "verify_incoming": {{ consul_tls_verify_incoming | bool | to_json }},
+    "verify_outgoing": {{ consul_tls_verify_outgoing | bool | to_json }},
+    "verify_server_hostname": {{ consul_tls_verify_server_hostname | bool | to_json }},
     {% endif %}
 
     {## ACLs ##}
     {% if consul_acl_enable %}
-        "acl_ttl": "{{ consul_acl_ttl }}",
-        "acl_datacenter": "{{ consul_acl_datacenter }}",
-        "acl_down_policy": "{{ consul_acl_down_policy }}",
-        {% if consul_acl_token | trim != '' %}
-            "acl_token": "{{ consul_acl_token }}",
-        {% endif %}
-        {% if consul_acl_agent_token | trim != '' %}
-            "acl_agent_token": "{{ consul_acl_agent_token }}",
-        {% endif %}
-        {% if consul_acl_agent_master_token | trim != '' %}
-            "acl_agent_master_token": "{{ consul_acl_agent_master_token }}"
-        {% endif %}
+    {% if consul_acl_token | trim != '' %}
+    "acl_token": "{{ consul_acl_token }}",
+    {% endif %}
+    {% if consul_acl_agent_token | trim != '' %}
+    "acl_agent_token": "{{ consul_acl_agent_token }}",
+    {% endif %}
+    {% if consul_acl_agent_master_token | trim != '' %}
+    "acl_agent_master_token": "{{ consul_acl_agent_master_token }}",
+    {% endif %}
+    "acl_ttl": "{{ consul_acl_ttl }}",
+    "acl_datacenter": "{{ consul_acl_datacenter }}",
+    "acl_down_policy": "{{ consul_acl_down_policy }}",
     {% endif %}
 
     {## LAN Join ##}
     "retry_interval": "{{ consul_retry_interval }}",
     "retry_max": {{ consul_retry_max | int }},
-    "retry_join": [
-        {% for server in consul_join %}
-            "{{ server | ipwrap }}",
-        {% endfor %}
-        {% for server in _consul_lan_servers %}
-            "{{ hostvars[server]['consul_advertise_address'] |
-                default(hostvars[server]['consul_bind_address']) | ipwrap }}",
-        {% endfor %} ],
-
-    {## UI ##}
-    "ui": {{ consul_ui | bool | to_json }},
+    "retry_join":
+    {% for server in _consul_lan_servers %}
+    {% set consul_join = consul_join + [ hostvars[server]['consul_advertise_address'] | default(hostvars[server]['consul_bind_address']) ] %}{% if loop.last %}
+    {{ consul_join | map('ipwrap') | list | to_json }},
+    {% endif %}{% endfor %}
 
     {## Server/Client ##}
     "server": {{ (item.config_version != 'client') | bool | to_json }},
@@ -113,39 +103,39 @@
     {# Server Settings #}
     {% if (item.config_version == 'server') or (item.config_version == 'bootstrap') %}
 
-        {## Bootstrap settings ##}
-        "bootstrap": {{ (item.config_version == 'bootstrap') | bool | to_json }},
-        {% if consul_bootstrap_expect and not (item.config_version == 'bootstrap') %}
-            "bootstrap_expect": {{ _consul_lan_servercount | int }},
-        {% endif %}
-
-        {## WAN Join ##}
-        "retry_interval_wan": "{{ consul_retry_interval_wan }}",
-        "retry_max_wan": {{ consul_retry_max_wan | int }},
-        {% if _consul_wan_servercount | int > 0 %}
-            "retry_join_wan": [
-                {% for server in consul_join_wan %}
-                    "{{ server | ipwrap }}",
-                {% endfor %}
-                {% for server in _consul_wan_servers %}
-                    "{{ hostvars[server]['consul_advertise_address_wan'] |
-                        default(hostvars[server]['consul_bind_address']) | ipwrap }}",
-                {% endfor %} ],
-        {% endif %}
-
-        {## Server ACLs ##}
-        {% if consul_acl_enable %}
-            "acl_default_policy": "{{ consul_acl_default_policy }}",
-            {% if consul_version | version_compare('0.9.1', '<') or
-                  consul_acl_master_token | trim != '' %}
-                "acl_master_token": "{{ consul_acl_master_token }}",
-            {% endif %}
-            {% if consul_acl_replication_enable | trim != '' %}
-                "enable_acl_replication": {{ consul_acl_replication_enable | bool | to_json }},
-            {% endif %}
-            {% if consul_acl_replication_token | trim != '' %}
-                "acl_replication_token": "{{ consul_acl_replication_token }}",
-            {% endif %}
-        {% endif %}
+    {## Bootstrap settings ##}
+    "bootstrap": {{ (item.config_version == 'bootstrap') | bool | to_json }},
+    {% if consul_bootstrap_expect and not (item.config_version == 'bootstrap') %}
+        "bootstrap_expect": {{ _consul_lan_servercount | int }},
     {% endif %}
+
+    {## WAN Join ##}
+    "retry_interval_wan": "{{ consul_retry_interval_wan }}",
+    "retry_max_wan": {{ consul_retry_max_wan | int }},
+    {% if _consul_wan_servercount | int > 0 %}
+    "retry_join_wan":
+    {% for server in _consul_wan_servers %}
+    {% set consul_join_wan = consul_join_wan + [ hostvars[server]['consul_advertise_address_wan'] | default(hostvars[server]['consul_bind_address']) ] %}{% if loop.last %}
+    {{ consul_join_wan | map('ipwrap') | list | to_json }},
+    {% endif %}{% endfor %}
+    {% endif %}
+
+    {## Server ACLs ##}
+    {% if consul_acl_enable %}
+    {% if consul_version | version_compare('0.9.1', '<') or
+                consul_acl_master_token | trim != '' %}
+    "acl_master_token": "{{ consul_acl_master_token }}",
+    {% endif %}
+    {% if consul_acl_replication_enable | trim != '' %}
+    "enable_acl_replication": {{ consul_acl_replication_enable | bool | to_json }},
+    {% endif %}
+    {% if consul_acl_replication_token | trim != '' %}
+    "acl_replication_token": "{{ consul_acl_replication_token }}",
+    {% endif %}
+    {% endif %}
+    "acl_default_policy": "{{ consul_acl_default_policy }}",
+    {% endif %}
+
+    {## UI ##}
+    "ui": {{ consul_ui | bool | to_json }}
 }

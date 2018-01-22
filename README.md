@@ -5,36 +5,30 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Percentage of issues still open")
 
-This Ansible role installs [Consul](https://consul.io/), including establishing
-a filesystem structure and server or client agent configuration with support
-for some common operational features.
+This Ansible role installs [Consul](https://consul.io/), including establishing a filesystem structure and server or client agent configuration with support for some common operational features.
 
-It can bootstrap a development or evaluation cluster of 3 server agents running
-in a Vagrant and VirtualBox based environment. See
-[README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-consul/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
+It can bootstrap a development or evaluation cluster of 3 server agents running in a Vagrant and VirtualBox based environment. See [README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-consul/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
 > “Another flaw in the human character is that everybody wants to build and nobody wants to do maintenance.”<br>
 > ― Kurt Vonnegut, Hocus Pocus
 
-Please note that this role is more concerned with the initial installation and
-bootstrapping of a running cluster environment and does not currently concern
-itself (all that much) with performing ongoing drif^H^H^H^H *maintenance* of
-an existing cluster.
+Please note that this role is more concerned with the initial installation and bootstrapping of a running cluster environment and does not currently concern itself (all that much) with performing ongoing drif^H^H^H^H *maintenance* of an existing cluster.
 
 Many users have expressed that the Vagrant based environment makes getting a
-working local cluster environment up and running an easy process — so this
-role will target that experience as a primary motivator for existing.
+working local Consul server cluster environment up and running an easy process — so this role will target that experience as a primary motivator for existing.
+
+If you get some mileage from it in other ways, then all the better!
 
 ## Requirements
 
-This role requires FreeBSD, or a Debian or RHEL based Linux distribution or
-Windows Server 2012 R2. It might work with other software versions, but does
-definitely work with the following specific software and versions:
+This role requires a FreeBSD, Debian, or RHEL based Linux distribution or
+Windows Server 2012 R2. It might work with other software versions, but is
+definitely known to work with the following specific software versions:
 
-* Consul: 1.0.0
-* Ansible: 2.3.2.0
+* Consul: 1.0.2
+* Ansible: 2.4.2.0
 * CentOS: 7
-* Debian: 8
+* Debian: 9
 * FreeBSD: 11
 * RHEL: 7
 * Ubuntu: 16.04
@@ -58,7 +52,7 @@ the variables are named and described below:
 ### `consul_version`
 
 - Version to install
-- Default value: *1.0.0*
+- Default value: *1.0.2*
 
 ### `consul_architecture_map`
 
@@ -672,6 +666,27 @@ packages with different package names.
 
 - List of OS packages to install
 - Default value: list
+
+### `consul_performance`
+
+- List of Consul performance tuning items
+- Default value: list
+
+#### `raft_multiplier`
+
+- [Raft multiplier](https://www.consul.io/docs/agent/options.html#raft_multiplier) scales key Raft timing parameters
+- Default value: 1
+
+#### `leave_drain_time`
+
+- [Node leave drain time](https://www.consul.io/docs/agent/options.html#leave_drain_time) is the dwell time for a server to honor requests while gracefully leaving
+
+- Default value: 5s
+
+#### `rpc_hold_timeout`
+
+- [RPC hold timeout](https://www.consul.io/docs/agent/options.html#rpc_hold_timeout) is the duration that a client or server will retry internal RPC requests during leader elections
+- Default value: 7s
 
 ## Dependencies
 
