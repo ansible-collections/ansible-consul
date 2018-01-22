@@ -779,3 +779,7 @@ Actually add new template files :facepalm:
 - Update Vagrantfile
   - Set client address to 0.0.0.0 so Vagrant based deploy checks now pass
 - Update documentation
+
+## v1.30.2
+
+- Correct retry_join block (@thanks hwmrocker)
