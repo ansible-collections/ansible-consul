@@ -783,3 +783,10 @@ Actually add new template files :facepalm:
 ## v1.30.2
 
 - Correct retry_join block (@thanks hwmrocker)
+
+## v1.40.0
+
+- Consul v1.0.3
+- It's 2018!
+- Update confiuration
+- Update documentation
