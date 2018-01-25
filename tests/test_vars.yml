@@ -7,7 +7,7 @@ ansible_eth0:
      address: "1.1.1.1"
 ansible_system: ubuntu
 consul_raw_key: consul_raw_key
-_consul_lan_servers: 
+_consul_lan_servers:
   - localhost
 _consul_wan_servercount: 1
 _consul_wan_servers:
@@ -20,7 +20,7 @@ item:
 consul_debug: no
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.0.2', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.0.3', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
