@@ -71,6 +71,7 @@ consul_node_meta:
 
 consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
 consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
+consul_syslog_facility: "{{ lookup('env','CONSUL_SYSLOG_FACILITY') | default('local0', true) }}"
 consul_iface: "\
   {% if ansible_os_family == 'Windows' %}\
     {{ lookup('env','CONSUL_IFACE') | default(ansible_interfaces[0].interface_name, true) }}\
