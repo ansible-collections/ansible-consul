@@ -1,0 +1,6 @@
+---
+- name: reload rsyslog
+  service:
+    name: rsyslog
+    state: reloaded
+  when: ansible_os_family != "Windows"
