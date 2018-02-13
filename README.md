@@ -459,7 +459,7 @@ ports can be done using the `consul_ports_*` variables.
 
 ## `consul_raw_key`
 
-- Set the encryption key; should be the same across a cluster. If not present the key will be will be generated & retrieved from the bootstrapped server.
+- Set the encryption key; should be the same across a cluster. If not present the key will be generated & retrieved from the bootstrapped server.
 - Default value: ``
 
 ### `consul_tls_verify_incoming`
