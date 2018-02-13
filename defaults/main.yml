@@ -38,7 +38,8 @@ consul_config_path: "/etc/consul"
 consul_configd_path: "{{ consul_config_path }}/consul.d"
 consul_bootstrap_state: "{{ consul_config_path }}/.consul_bootstrapped"
 consul_data_path: "/var/consul"
-consul_log_path: "/var/log/consul"
+consul_log_path: "{{ lookup('env','CONSUL_LOG_PATH') | default('/var/log/consul', true) }}"
+consul_log_file: "{{ lookup('env','CONSUL_LOG_FILE') | default('consul.log', true) }}"
 consul_run_path: "/var/run/consul"
 consul_binary: "{{ consul_bin_path }}/consul"
 
@@ -48,12 +49,17 @@ consul_user: "consul"
 consul_manage_group: no
 consul_group: "bin"
 
+### Log user, group, facility
+syslog_user: "{{ lookup('env','SYSLOG_USER') | default('syslog', true) }}"
+syslog_group: "{{ lookup('env','SYSLOG_GROUP') | default('adm', true) }}"
+consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
+consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
+consul_syslog_facility: "{{ lookup('env','CONSUL_SYSLOG_FACILITY') | default('local0', true) }}"
+
 ### Consul settings
 consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) }}"
 consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
 consul_node_meta: {}
-consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
-consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
 consul_iface: "\
   {% if ansible_os_family == 'Windows' %}\
     {{ lookup('env','CONSUL_IFACE') | default(ansible_interfaces[0].interface_name, true) }}\

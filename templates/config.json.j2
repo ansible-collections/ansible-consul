@@ -52,6 +52,7 @@
     "data_dir": "{{ consul_data_path }}",
     "log_level": "{{ consul_log_level }}",
     "enable_syslog": {{ consul_syslog_enable | bool | to_json }},
+    "syslog_facility": "{{ consul_syslog_facility }}",
     "disable_update_check": {{ consul_disable_update_check | bool | to_json }},
     "enable_script_checks": {{ consul_enable_script_checks | bool | to_json }},
 
