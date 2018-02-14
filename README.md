@@ -478,6 +478,16 @@ ports can be done using the `consul_ports_*` variables.
   - Override with `CONSUL_TLS_SERVER_KEY` environment variable
 - Default value: `server.key`
 
+## `consul_encrypt_enable`
+
+- Enable Gossip Encryption
+- Default value: `true`
+
+## `consul_raw_key`
+
+- Set the encryption key; should be the same across a cluster. If not present the key will be generated & retrieved from the bootstrapped server.
+- Default value: ``
+
 ### `consul_tls_verify_incoming`
 
 - Verify incoming connections
