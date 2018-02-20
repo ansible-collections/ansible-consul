@@ -797,3 +797,7 @@ Actually add new template files :facepalm:
 - Update configuration
 - Update tests
 - Update documentation
+
+## v1.40.1
+
+- Add support for setting syslog facility and syslog file.
