@@ -788,5 +788,12 @@ Actually add new template files :facepalm:
 
 - Consul v1.0.3
 - It's 2018!
-- Update confiuration
+- Update configuration
+- Update documentation
+
+## v1.50.0
+
+- Consul v1.0.6
+- Update configuration
+- Update tests
 - Update documentation
