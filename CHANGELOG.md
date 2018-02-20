@@ -794,10 +794,7 @@ Actually add new template files :facepalm:
 ## v1.50.0
 
 - Consul v1.0.6
+- Add support for setting syslog facility and syslog file (thanks @ykhemani)
 - Update configuration
 - Update tests
-- Update documentation
-
-## v1.40.1
-
-- Add support for setting syslog facility and syslog file.
+- Update documentation (thanks also to @ChrisMcKee)
