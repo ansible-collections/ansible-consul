@@ -169,6 +169,9 @@
       include_tasks: tls.yml
       when: consul_tls_enable | bool
 
+    - name: Create rsyslogd configuration
+      import_tasks: syslog.yml
+
     - block:
 
       - name: Create BSD init script

@@ -1,0 +1,16 @@
+---
+# File: syslog.yml - rsyslogd config for Consul logging
+
+- name: Install rsyslogd config
+  template:
+    src: rsyslogd_00-consul.conf.j2
+    dest: /etc/rsyslog.d/00-consul.conf
+    owner: root
+    group: root
+    mode: 0444
+  when:
+    - ansible_os_family != 'Windows'
+    - consul_syslog_enable | bool
+  notify:
+    - restart rsyslog
+    - restart consul

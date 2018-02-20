@@ -106,9 +106,35 @@ the variables are named and described below:
 
 ### `consul_log_path`
 
-- Log path (not implemented)
+- Log path for use in rsyslogd configuration on Linux.
 - Default Linux value: `/var/log/consul`
+  - Override with `CONSUL_LOG_PATH` environment variable
 - Default Windows value: `C:\ProgramData\consul\log`
+
+### `consul_log_file`
+
+- Log file for use in rsyslogd configuration on Linux.
+  - Override with `CONSUL_LOG_FILE` environment variable
+- Default Linux value: `consul.log`
+
+### `consul_syslog_facility`
+
+- Syslog facility as defined in [syslog_facility](https://www.consul.io/docs/agent/options.html#syslog_facility)
+  - Override with `CONSUL_SYSLOG_FACILITY` environment variable
+- Default Linux value: *local0*
+
+### `syslog_user`
+
+- Owner of `rsyslogd` process on Linux. `consul_log_path`'s ownership is set to this user on Linux.
+  - Override with `SYSLOG_USER` environment variable
+- Default Linux value: *syslog*
+
+
+### `syslog_group`
+
+- Group of user running `rsyslogd` process on Linux. `consul_log_path`'s group ownership is set to this group on Linux.
+  - Override with `SYSLOG_GROUP` environment variable
+- Default value: *adm*
 
 ### `consul_run_path`
 
