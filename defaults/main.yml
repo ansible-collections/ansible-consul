@@ -166,6 +166,7 @@ consul_tls_copy_keys: true
 consul_tls_verify_incoming: false
 consul_tls_verify_outgoing: true
 consul_tls_verify_server_hostname: false
+consul_tls_files_on_host: false
 
 ## DNS
 consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
