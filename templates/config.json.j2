@@ -88,6 +88,7 @@
     {## LAN Join ##}
     "retry_interval": "{{ consul_retry_interval }}",
     "retry_max": {{ consul_retry_max | int }},
+
     "retry_join": [
         {% for server in consul_join %}
             "{{ server | ipwrap }}",
@@ -96,7 +97,7 @@
             "{{ hostvars[server]['consul_advertise_address'] |
                 default(hostvars[server]['consul_bind_address']) | ipwrap }}",
         {% endfor %} ],
-    
+
 
     {## Server/Client ##}
     "server": {{ (item.config_version != 'client') | bool | to_json }},
@@ -117,6 +118,7 @@
     {## WAN Join ##}
     "retry_interval_wan": "{{ consul_retry_interval_wan }}",
     "retry_max_wan": {{ consul_retry_max_wan | int }},
+
     {% if _consul_wan_servercount | int > 0 %}
     "retry_join_wan":
     {% for server in _consul_wan_servers %}

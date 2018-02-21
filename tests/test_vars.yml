@@ -128,7 +128,7 @@ consul_ports:
 
 ### Servers
 consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
-consul_join: []
+consul_join: ["127.0.0.1"]
 consul_join_wan: []
 consul_servers: "\
   {% set _consul_servers = [] %}\
