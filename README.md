@@ -478,7 +478,7 @@ ports can be done using the `consul_ports_*` variables.
   - Override with `CONSUL_TLS_SERVER_KEY` environment variable
 - Default value: `server.key`
 
-### 'consul_tls_files_remote_src'
+### `consul_tls_files_remote_src`
 
 - Copy from remote source if TLS files are already on host
 - Default value: no
