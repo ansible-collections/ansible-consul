@@ -84,6 +84,16 @@ consul_retry_interval_wan: "30s"
 consul_retry_max: 0
 consul_retry_max_wan: 0
 
+### Autopilot
+consul_autopilot_enable: "{{ lookup('env', 'CONSUL_AUTOPILOT_ENABLE') | default(false, true) }}"
+consul_autopilot_cleanup_dead_Servers: "{{ lookup('env', 'CONSUL_AUTOPILOT_CLEANUP_DEAD_SERVERS') | default(false, true) }}"
+consul_autopilot_last_contact_threshold: "{{ lookup('env', 'CONSUL_AUTOPILOT_LAST_CONTACT_THRESHOLD') | default('200ms', true) }}"
+consul_autopilot_max_trailing_logs: "{{ lookup('env', 'CONSUL_AUTOPILOT_MAX_TRAILING_LOGS') | default(250, true) }}"
+consul_autopilot_server_stabilization_time: "{{ lookup('env', 'CONSUL_AUTOPILOT_SERVER_STABILIZATION_TIME') | default('10s', true) }}"
+consul_autopilot_redundancy_zone_tag: "{{ lookup('env', 'CONSUL_AUTOPILOT_REDUNDANCY_ZONE_TAG') | default('az', true) }}"
+consul_autopilot_disable_upgrade_migration: "{{ lookup('env', 'CONSUL_AUTOPILOT_DISABLE_UPGRADE_MIGRATION') | default(false, true) }}"
+consul_autopilot_upgrade_version_tag: "{{ lookup('env', 'CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG') | default('', true) }}"
+
 ### Addresses
 consul_bind_address: "\
   {% if ansible_system == 'FreeBSD' %}\
@@ -187,6 +197,8 @@ consul_dnsmasq_no_resolv: false
 consul_dnsmasq_local_service: false
 consul_dnsmasq_listen_addresses: []
 consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
+
+consul_enterprise: "{{ lookup('env','CONSUL_ENTERPRISE') | default(false, true) }}"
 
 # Performance
 consul_performance:
