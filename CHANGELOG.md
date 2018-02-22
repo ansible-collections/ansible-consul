@@ -798,3 +798,7 @@ Actually add new template files :facepalm:
 - Update configuration
 - Update tests
 - Update documentation (thanks also to @ChrisMcKee)
+
+## v1.50.1
+
+- Revert to old style retry_join which doesn't fail in all cases
