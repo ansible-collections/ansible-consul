@@ -215,10 +215,16 @@
         group: root
         mode: 0644
       register: systemd_unit
+      notify: restart consul on linux
       when:
         - ansible_service_mgr == "systemd"
         - not ansible_os_family == "FreeBSD"
         - not ansible_os_family == "Solaris"
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+      when: systemd_unit | changed
 
     - name: Create smf manifest
       template:
