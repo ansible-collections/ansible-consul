@@ -802,3 +802,8 @@ Actually add new template files :facepalm:
 ## v1.50.1
 
 - Revert to old style retry_join which doesn't fail in all cases
+
+## v1.60.0 (UNRELEASED)
+
+- Option for TLS files already on the remote host (thanks @calebtonn)
+- Update documentation
