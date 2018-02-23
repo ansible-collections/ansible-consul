@@ -17,6 +17,7 @@
   stat:
     path: "/tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
   register: consul_checksum
+  changed_when: false
   tags: installation
 
 - name: Download Consul package checksum file
@@ -30,6 +31,7 @@
 - name: Read Consul package checksum
   shell: "grep {{ consul_pkg }} /tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
   register: consul_sha256
+  changed_when: false
   tags: installation
 
 - name: Check Consul package file
@@ -44,6 +46,7 @@
     dest: "/tmp/consul/{{ consul_pkg }}"
     checksum: "sha256:{{ consul_sha256.stdout.split(' ')|first }}"
     timeout: 42
+  register: consul_download
   tags: installation
 
 - name: Unarchive Consul and install binary
@@ -54,6 +57,8 @@
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     mode: 0755
+  register: consul_install
+  when: consul_download | changed
   tags: installation
 
 - name: Daemon reload systemd in case the binaries upgraded
@@ -63,6 +68,7 @@
   when:
     - ansible_service_mgr == "systemd"
     - consul_install_upgrade
+    - consul_install | changed
 
 - name: Cleanup
   file:
