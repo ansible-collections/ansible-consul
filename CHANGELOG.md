@@ -807,3 +807,4 @@ Actually add new template files :facepalm:
 
 - Option for TLS files already on the remote host (thanks @calebtonn)
 - Update documentation
+- Raise minimum Ansible version to 2.4.0.0
