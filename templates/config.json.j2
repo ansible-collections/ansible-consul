@@ -10,6 +10,7 @@
     {% if consul_version | version_compare('0.7.3', '>=') and consul_node_meta | length > 0 %}
     "node_meta": {{ consul_node_meta | default({})| to_json }},
     {% endif %}
+    "dns_config": {{ consul_dns_config | default({})| to_json }},
     {# Performance Settings #}
     "performance": {{ consul_performance | to_json }},
 

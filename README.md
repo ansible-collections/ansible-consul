@@ -233,6 +233,17 @@ consul_node_meta:
     node_meta2: "metadata2"
 ```
 
+### `consul_dns_config`
+
+- Consul dns config (key-value)
+- Default value: *{}*
+- Example:
+```yaml
+consul_dns_config:
+    service_ttl: {"*": "5s", "web": "30s"}
+    node_ttl: "10s"
+```
+
 ### `consul_log_level`
 
 - Log level as defined in [log_level or -log-level](https://www.consul.io/docs/agent/options.html#_log_level)
