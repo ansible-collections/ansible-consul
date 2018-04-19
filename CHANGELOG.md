@@ -803,8 +803,9 @@ Actually add new template files :facepalm:
 
 - Revert to old style retry_join which doesn't fail in all cases
 
-## v1.60.0 (UNRELEASED)
+## v1.60.0
 
+- Consul v1.0.7
 - Option for TLS files already on the remote host (thanks @calebtonn)
 - Update documentation
 - Raise minimum Ansible version to 2.4.0.0
