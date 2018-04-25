@@ -172,76 +172,83 @@
     - name: Create rsyslogd configuration
       import_tasks: syslog.yml
 
+    - name: Create BSD init script
+      template:
+        src: consul_bsdinit.j2
+        dest: /etc/rc.d/consul
+        owner: root
+        group: wheel
+        mode: 0755
+      when: ansible_os_family == "FreeBSD"
+
+    - name: Create SYSV init script
+      template:
+        src: consul_sysvinit.j2
+        dest: /etc/init.d/consul
+        owner: root
+        group: root
+        mode: 0755
+      when:
+        - not ansible_service_mgr == "systemd"
+        - not ansible_os_family == "Debian"
+        - not ansible_os_family == "FreeBSD"
+        - not ansible_os_family == "Solaris"
+
+    - name: Create Debian init script
+      template:
+        src: consul_debianinit.j2
+        dest: /etc/init.d/consul
+        owner: root
+        group: root
+        mode: 0755
+      when:
+        - not ansible_service_mgr == "systemd"
+        - ansible_os_family == "Debian"
+        - not ansible_os_family == "FreeBSD"
+        - not ansible_os_family == "Solaris"
+
+    - name: Create systemd script
+      template:
+        src: consul_systemd.service.j2
+        dest: /lib/systemd/system/consul.service
+        owner: root
+        group: root
+        mode: 0644
+      register: systemd_unit
+      notify: restart consul on linux
+      when:
+        - ansible_service_mgr == "systemd"
+        - not ansible_os_family == "FreeBSD"
+        - not ansible_os_family == "Solaris"
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+      when: systemd_unit | changed
+
+    - name: Create smf manifest
+      template:
+        src: consul_smf_manifest.j2
+        dest: "{{ consul_smf_manifest }}"
+        owner: root
+        group: root
+        mode: 0644
+      when: ansible_os_family == "Solaris"
+      register: smfmanifest
+
+    - name: Import smf manifest
+      shell: "svccfg import {{ consul_smf_manifest }}"
+      when:
+        - smfmanifest | changed
+        - ansible_os_family == "Solaris"
+
+    - name: Import smf script
+      shell: "svcadm refresh consul"
+      when:
+        - smfmanifest | changed
+        - ansible_os_family == "Solaris"
+
     - block:
-
-      - name: Create BSD init script
-        template:
-          src: consul_bsdinit.j2
-          dest: /etc/rc.d/consul
-          owner: root
-          group: wheel
-          mode: 0755
-        when: ansible_os_family == "FreeBSD"
-
-      - name: Create SYSV init script
-        template:
-          src: consul_sysvinit.j2
-          dest: /etc/init.d/consul
-          owner: root
-          group: root
-          mode: 0755
-        when:
-          - not ansible_service_mgr == "systemd"
-          - not ansible_os_family == "Debian"
-          - not ansible_os_family == "FreeBSD"
-          - not ansible_os_family == "Solaris"
-
-      - name: Create Debian init script
-        template:
-          src: consul_debianinit.j2
-          dest: /etc/init.d/consul
-          owner: root
-          group: root
-          mode: 0755
-        when:
-          - not ansible_service_mgr == "systemd"
-          - ansible_os_family == "Debian"
-          - not ansible_os_family == "FreeBSD"
-          - not ansible_os_family == "Solaris"
-
-      - name: Create systemd script
-        template:
-          src: consul_systemd.service.j2
-          dest: /lib/systemd/system/consul.service
-          owner: root
-          group: root
-          mode: 0644
-        when:
-          - ansible_service_mgr == "systemd"
-          - not ansible_os_family == "FreeBSD"
-          - not ansible_os_family == "Solaris"
-
-      - name: Create smf manifest
-        template:
-          src: consul_smf_manifest.j2
-          dest: "{{ consul_smf_manifest }}"
-          owner: root
-          group: root
-          mode: 0644
-        when: ansible_os_family == "Solaris"
-        register: smfmanifest
-
-      - name: Import smf manifest
-        shell: "svccfg import {{ consul_smf_manifest }}"
-        when:
-          - smfmanifest | changed
-          - ansible_os_family == "Solaris"
-
-      - name: Import smf script
-        shell: "svcadm refresh consul"
-        when:
-          - smfmanifest | changed
-          - ansible_os_family == "Solaris"
 
       - name: Start Consul
         service:
