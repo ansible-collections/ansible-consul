@@ -810,3 +810,8 @@ Actually add new template files :facepalm:
 - Raise minimum Ansible version to 2.4.0.0
 - Update documentation
 - Update Vagrant documentation
+
+## v1.60.1
+
+- Update configuration directory permissions (thanks @Rtzq0)
+- Update service script dependency (thanks @mattburgess)

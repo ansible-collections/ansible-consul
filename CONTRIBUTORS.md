@@ -34,6 +34,7 @@ Thank you to all these fine folks for helping with ansible-consul!
 - [@ChrisMcKee](https://github.com/ChrisMcKee)
 - [@ykhemani](https://github.com/ykhemani)
 - [@calebtonn](https://github.com/calebtonn)
+- [@Rtzq0](https://github.com/Rtzq0)
 
 If you have contributed but do not appear here, please fear not and accept
 apologies for the omission. Contact `brian <at> brianshumate <dot> com` and
