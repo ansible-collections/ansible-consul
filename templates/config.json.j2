@@ -7,7 +7,7 @@
     "node_name": "{{ consul_node_name }}",
     "datacenter": "{{ consul_datacenter }}",
     "domain": "{{ consul_domain }}",
-    {% if consul_version | version_compare('0.7.3', '>=') and consul_node_meta | length > 0 %}
+    {% if consul_version is version_compare('0.7.3', '>=') and consul_node_meta | length > 0 %}
     "node_meta": {{ consul_node_meta | default({})| to_json }},
     {% endif %}
     {# Performance Settings #}
@@ -19,7 +19,7 @@
     "advertise_addr_wan": "{{ consul_advertise_address_wan }}",
     "client_addr": "{{ consul_client_address }}",
     "addresses": {
-        {% if consul_version | version_compare('0.8.0', '<') %}
+        {% if consul_version is version_compare('0.8.0', '<') %}
             "rpc": "{{ consul_addresses.rpc }}",
         {% endif %}
         "dns": "{{ consul_addresses.dns }}",
@@ -29,7 +29,7 @@
     },
     {## Ports Used ##}
     "ports": {
-        {% if consul_version | version_compare('0.8.0', '<') %}
+        {% if consul_version is version_compare('0.8.0', '<') %}
         "rpc": {{ consul_ports.rpc}},
         {% endif %}
         "dns": {{ consul_ports.dns }},
@@ -125,7 +125,7 @@
 
     {## Server ACLs ##}
     {% if consul_acl_enable %}
-    {% if consul_version | version_compare('0.9.1', '<') or
+    {% if consul_version is version_compare('0.9.1', '<') or
                 consul_acl_master_token | trim != '' %}
     "acl_master_token": "{{ consul_acl_master_token }}",
     {% endif %}

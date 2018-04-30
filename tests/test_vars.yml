@@ -84,7 +84,7 @@ consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
 consul_disable_update_check: no
 consul_enable_script_checks: no
 consul_raft_protocol: "\
-  {% if consul_version | version_compare('0.7.0', '<=') %}\
+  {% if consul_version is version_compare('0.7.0', '<=') %}\
     1\
   {% else %}\
     3\
