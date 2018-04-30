@@ -109,6 +109,22 @@
     "bootstrap": {{ (item.config_version == 'bootstrap') | bool | to_json }},
     {% if consul_bootstrap_expect and not (item.config_version == 'bootstrap') %}
         "bootstrap_expect": {{ _consul_lan_servercount | int }},
+
+        {## AutoPilot ##}
+        {% if consul_autopilot_enable %}
+        "autopilot": {
+            "cleanup_dead_servers": {{ consul_autopilot_cleanup_dead_Servers | bool | to_json }},
+            "last_contact_threshold": "{{ consul_autopilot_last_contact_threshold }}",
+            "max_trailing_logs": {{ consul_autopilot_max_trailing_logs }},
+            "server_stabilization_time": "{{ consul_autopilot_server_stabilization_time }}"{{ ',' if consul_enterprise else '' }}
+            {% if consul_enterprise %}
+            "redundancy_zone_tag":  "{{ consul_autopilot_redundancy_zone_tag }}",
+            "disable_upgrade_migration": {{ consul_autopilot_disable_upgrade_migration | bool | to_json }},
+            "upgrade_version_tag": "{{ consul_autopilot_upgrade_version_tag }}"
+            {% endif %}
+        },
+        {% endif %}
+
     {% endif %}
 
     {## WAN Join ##}

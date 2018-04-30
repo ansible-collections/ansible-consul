@@ -532,17 +532,17 @@ ports can be done using the `consul_ports_*` variables.
 ### `consul_disable_update_check`
 
 - Disable the consul update check?
-- Default vaule: *false*
+- Default value: *false*
 
 ### `consul_enable_script_checks`
 
 - Enable script based checks?
-- Default vaule: *false*
+- Default value: *false*
 
 ### `consul_raft_protocol`
 
 - Raft protocol to use.
-- Default vaule:
+- Default value:
 - `consul_version` <= `0.7.0`: *1*
 - `consul_version` > `0.7.0`: *3*
 
@@ -581,6 +581,69 @@ consul4.local consul_node_role=client
 ```
 
 > Note that this second form is the prefered one, because it is simpler.
+
+
+### `consul_autopilot_enable`
+
+Autopilot is a set of new features added in Consul 0.8 to allow for automatic operator-friendly management of Consul servers. It includes cleanup of dead servers, monitoring the state of the Raft cluster, and stable server introduction.
+
+https://www.consul.io/docs/guides/autopilot.html
+
+- Enable Autopilot config (will be written to bootsrapper node)
+  - Override with `CONSUL_AUTOPILOT_ENABLE` environment variable
+- Default value: *false*
+
+#### `consul_autopilot_cleanup_dead_Servers`
+
+Dead servers will periodically be cleaned up and removed from the Raft peer set, to prevent them from interfering with the quorum size and leader elections. This cleanup will also happen whenever a new server is successfully added to the cluster.
+
+- Enable Autopilot config (will be written to bootsrapper node)
+  - Override with `CONSUL_AUTOPILOT_CLEANUP_DEAD_SERVERS` environment variable
+- Default value: *false*
+
+#### `consul_autopilot_last_contact_threshold`
+
+Used in the serf health check to determine node health.
+
+- Sets the threshold for time since last contact
+  - Override with `CONSUL_AUTOPILOT_LAST_CONTACT_THRESHOLD` environment variable
+- Default value: '200ms'
+
+#### `consul_autopilot_max_trailing_logs`
+
+- Used in the serf health check to set a max-number of log entries nodes can trail the leader
+  - Override with `CONSUL_AUTOPILOT_MAX_TRAILING_LOGS` environment variable
+- Default value: 250
+
+
+#### `consul_autopilot_server_stabilization_time`
+
+- Time to allow a new node to stabilize
+  - Override with `CONSUL_AUTOPILOT_SERVER_STABILIZATION_TIME` environment variable
+- Default value: '10s'
+
+#### `consul_autopilot_redundancy_zone_tag`
+
+_Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
+
+  - Override with `CONSUL_AUTOPILOT_REDUNDANCY_ZONE_TAG` environment variable
+- Default value: 'az'
+
+#### `consul_autopilot_disable_upgrade_migration`
+
+_Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
+
+  - Override with `CONSUL_AUTOPILOT_DISABLE_UPGRADE_MIGRATION` environment variable
+- Default value: **false**
+
+#### `consul_autopilot_upgrade_version_tag`
+
+_Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
+
+  - Override with `CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG` environment variable
+- Default value: ''
+
+
 
 #### Custom Configuration Section
 
