@@ -65,6 +65,11 @@
     - consul_iptables_enable | bool
     - consul_recursors | length == 0
 
+- name: Check consul_group_name is included in groups
+  fail:
+    msg: "consul_group_name must be included in groups."
+  when: consul_group_name not in groups
+
 - name: Fail if more than one bootstrap server is defined
   fail:
     msg: "You can not define more than one bootstrap server."
