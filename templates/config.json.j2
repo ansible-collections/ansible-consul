@@ -89,11 +89,11 @@
     "retry_interval": "{{ consul_retry_interval }}",
     "retry_max": {{ consul_retry_max | int }},
 
-    "retry_join": [
+    "retry_join":
     {% for server in _consul_lan_servers %}
     {% set consul_join = consul_join + [ hostvars[server]['consul_advertise_address'] | default(hostvars[server]['consul_bind_address']) ] %}{% if loop.last %}
     {{ consul_join | map('ipwrap') | list | to_json }},
-    {% endif %}{% endfor %} ],
+    {% endif %}{% endfor %},
 
     {## Server/Client ##}
     "server": {{ (item.config_version != 'client') | bool | to_json }},
