@@ -95,7 +95,7 @@ the variables are named and described below:
 ### `consul_configd_path`
 
 - Additional configuration directory
-- Default Linux value: `/etc/consul.d`
+- Default Linux value: `{{ consul_config_path }}/consul.d`
 - Default Windows value: `C:\ProgramData\consul\config.d`
 
 ### `consul_data_path`
