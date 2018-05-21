@@ -2,6 +2,8 @@
 
 - Update configuration directory permissions (thanks @Rtzq0)
 - Update service script dependency (thanks @mattburgess)
+- Assert if consul_group_name missing from groups (thanks @suzuki-shunsuke)
+- Change syslog user to root (no syslog user on Debian/dir task fails)
 - Updated CHANGELOG ordering 🎉
 
 ## v1.60.0

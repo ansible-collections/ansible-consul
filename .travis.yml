@@ -9,8 +9,8 @@ sudo: false
 addons:
   apt:
     packages:
-    - python-pip
-    - jq
+      - python-pip
+      - jq
 
 install:
   # Install ansible netaddr
@@ -27,5 +27,6 @@ script:
   - ANSIBLE_ROLES_PATH=.. ansible-playbook -i tests/inventory tests/test.yml --syntax-check
   - ansible all -i localhost, -c local -m template -a "src=templates/config.json.j2 dest=./tests/test_results.json" --extra-vars=@tests/test_vars.yml
   - cat ./tests/test_results.json | jq .
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

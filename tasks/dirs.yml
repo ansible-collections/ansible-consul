@@ -26,7 +26,7 @@
     recurse: yes
   with_items:
     - "{{ consul_log_path }}"
-  when: 
+  when:
     - ansible_os_family != 'Windows'
     - consul_syslog_enable == true
 
