@@ -5,7 +5,7 @@
   fail:
     msg: "{{ ansible_distribution }} is not currently supported by this role."
   when:
-    - ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu']
+    - ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu', 'Archlinux']
     - ansible_os_family != 'Windows'
 
 - name: Check CentOS or Red Hat version
