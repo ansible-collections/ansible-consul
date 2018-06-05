@@ -1,10 +1,12 @@
-## v1.60.1 (UNRELEASED)
+## v2.0.0
 
+- Consul v1.1.0
 - Update configuration directory permissions (thanks @Rtzq0)
 - Update service script dependency (thanks @mattburgess)
 - Assert if consul_group_name missing from groups (thanks @suzuki-shunsuke)
 - Change syslog user to root (no syslog user on Debian/dir task fails)
 - Updated CHANGELOG ordering 🎉
+- Update documentation
 
 ## v1.60.0
 

@@ -25,8 +25,8 @@ This role requires a FreeBSD, Debian, or RHEL based Linux distribution or
 Windows Server 2012 R2. It might work with other software versions, but is
 definitely known to work with the following specific software versions:
 
-* Consul: 1.0.7
-* Ansible: 2.5
+* Consul: 1.1.0
+* Ansible: 2.5.4
 * CentOS: 7
 * Debian: 9
 * FreeBSD: 11
@@ -52,7 +52,7 @@ the variables are named and described below:
 ### `consul_version`
 
 - Version to install
-- Default value: *1.0.7*
+- Default value: *1.1.0*
 
 ### `consul_architecture_map`
 
@@ -95,7 +95,7 @@ the variables are named and described below:
 ### `consul_configd_path`
 
 - Additional configuration directory
-- Default Linux value: `/etc/consul.d`
+- Default Linux value: `{{ consul_config_path }}/consul.d`
 - Default Windows value: `C:\ProgramData\consul\config.d`
 
 ### `consul_data_path`
