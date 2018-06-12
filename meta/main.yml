@@ -6,6 +6,9 @@ galaxy_info:
   license: BSD
   min_ansible_version: 2.4.0.0
   platforms:
+  - name: Arch
+    versions:
+      - all
   - name: EL
     versions:
     - 6
