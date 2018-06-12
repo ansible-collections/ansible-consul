@@ -14,7 +14,6 @@
     - "{{ consul_configd_path }}"
     - "{{ consul_data_path }}"
     - "{{ consul_run_path }}"
-    - "{{ consul_configd_path }}"
   when: ansible_os_family != 'Windows'
 
 - name: Create log directory
