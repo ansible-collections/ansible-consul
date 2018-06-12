@@ -29,6 +29,9 @@ KillMode=process
 KillSignal=SIGTERM
 Restart=on-failure
 RestartSec=42s
+{% for var in consul_env_vars %}
+Environment={{ var }}
+{% endfor %}
 
 [Install]
 WantedBy=multi-user.target
