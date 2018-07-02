@@ -1,3 +1,8 @@
+## v2.0.2
+
+- Consul v1.2.0
+- Update documentation
+
 ## v2.0.1
 
 - Add beta UI flag (thanks @coughlanio)
