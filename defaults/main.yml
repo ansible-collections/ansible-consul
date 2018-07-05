@@ -6,7 +6,7 @@ consul_debug: no
 is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.1.0', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.2.0', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
@@ -83,6 +83,8 @@ consul_retry_interval: "30s"
 consul_retry_interval_wan: "30s"
 consul_retry_max: 0
 consul_retry_max_wan: 0
+consul_env_vars:
+  - "CONSUL_UI_BETA=false"
 
 ### Autopilot
 consul_autopilot_enable: "{{ lookup('env', 'CONSUL_AUTOPILOT_ENABLE') | default(false, true) }}"

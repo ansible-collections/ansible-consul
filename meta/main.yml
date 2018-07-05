@@ -4,8 +4,11 @@ galaxy_info:
   description: Consul cluster role
   company:
   license: BSD
-  min_ansible_version: 2.4.0.0
+  min_ansible_version: 2.5.0.0
   platforms:
+  - name: Arch
+    versions:
+      - all
   - name: EL
     versions:
     - 6
