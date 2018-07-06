@@ -1,3 +1,10 @@
+## v2.0.3 (UNRELEASED)
+
+- Fix jinja2 retry_join loops (thanks @Logan2211)
+- Dependency Management Improvements (thanks @Logan2211)
+- Update CONTRIBUTORS
+- Update documentation
+
 ## v2.0.2
 
 - Consul v1.2.0
