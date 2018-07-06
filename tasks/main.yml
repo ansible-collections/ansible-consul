@@ -11,6 +11,7 @@
         extra_args: --user
       delegate_to: 127.0.0.1
       become: false
+      run_once: true
       when: is_virtualenv is not defined
 
     - name: Install netaddr dependency on controlling host (virtualenv)
@@ -18,6 +19,7 @@
         name: netaddr
       delegate_to: 127.0.0.1
       become: false
+      run_once: true
       when: is_virtualenv is defined
 
 - name: Include checks/asserts
