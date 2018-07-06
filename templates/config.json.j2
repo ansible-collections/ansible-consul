@@ -91,9 +91,9 @@
 
     "retry_join":
     {% for server in _consul_lan_servers %}
-    {% set consul_join = consul_join + [ hostvars[server]['consul_advertise_address'] | default(hostvars[server]['consul_bind_address']) ] %}{% if loop.last %}
+    {%   set _ = consul_join.append(hostvars[server]['consul_advertise_address'] | default(hostvars[server]['consul_bind_address'])) %}
+    {% endfor %}
     {{ consul_join | map('ipwrap') | list | to_json }},
-    {% endif %}{% endfor %}
 
     {## Server/Client ##}
     "server": {{ (item.config_version != 'client') | bool | to_json }},
@@ -134,9 +134,9 @@
     {% if _consul_wan_servercount | int > 0 %}
     "retry_join_wan":
     {% for server in _consul_wan_servers %}
-    {% set consul_join_wan = consul_join_wan + [ hostvars[server]['consul_advertise_address_wan'] | default(hostvars[server]['consul_bind_address']) ] %}{% if loop.last %}
+    {%   set _ = consul_join_wan.append(hostvars[server]['consul_advertise_address_wan'] | default(hostvars[server]['consul_bind_address'])) %}
+    {% endfor %}
     {{ consul_join_wan | map('ipwrap') | list | to_json }},
-    {% endif %}{% endfor %}
     {% endif %}
 
     {## Server ACLs ##}
