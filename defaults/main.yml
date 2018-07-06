@@ -4,6 +4,7 @@
 ## Core
 consul_debug: no
 is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
+consul_install_dependencies: yes
 
 ### Package
 consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.2.0', true) }}"
