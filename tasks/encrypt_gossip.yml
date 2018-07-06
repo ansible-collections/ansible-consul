@@ -16,7 +16,10 @@
     - bootstrap_state.stat.exists | bool
 
 - name: Write gossip encryption key locally for use with new servers
-  local_action: copy content={{ consul_raw_key }} dest=/tmp/consul_raw.key
+  local_action:
+    module: copy
+    content: "{{ consul_raw_key }}"
+    dest: /tmp/consul_raw.key
   become: no
   when:
     - consul_raw_key is defined
@@ -29,7 +32,10 @@
     - bootstrap_state.stat.exists | bool
 
 - name: Delete gossip encryption key file
-  local_action: file path=/tmp/consul_raw.key state=absent
+  local_action:
+    module: file
+    path: /tmp/consul_raw.key
+    state: absent
   become: no
   when:
     - consul_raw_key is defined
