@@ -49,6 +49,13 @@
   register: consul_download
   tags: installation
 
+- name: Install unzip
+  package:
+    name: unzip
+    state: present
+  when:
+    - consul_install_dependencies | bool
+
 - name: Unarchive Consul and install binary
   unarchive:
     remote_src: yes

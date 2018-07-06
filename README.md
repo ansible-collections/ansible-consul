@@ -70,6 +70,11 @@ the variables are named and described below:
 - Node operating system name in lowercase representation
 - Default value: `{{ ansible_os_family | lower }}`
 
+### `consul_install_dependencies`
+
+- Install python and package dependencies required for the role functions.
+- Default value: yes
+
 ### `consul_zip_url`
 
 - Consul archive download URL

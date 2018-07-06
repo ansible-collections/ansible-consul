@@ -1,20 +1,26 @@
 ---
 # File: main.yml - Main tasks for Consul
 
-- name: Install netaddr dependency on controlling host (with --user)
-  pip:
-    name: netaddr
-    extra_args: --user
-  delegate_to: 127.0.0.1
-  become: false
-  when: is_virtualenv is not defined
+- name: Install python dependencies
+  when:
+    - consul_install_dependencies | bool
+  block:
+    - name: Install netaddr dependency on controlling host (with --user)
+      pip:
+        name: netaddr
+        extra_args: --user
+      delegate_to: 127.0.0.1
+      become: false
+      run_once: true
+      when: is_virtualenv is not defined
 
-- name: Install netaddr dependency on controlling host (virtualenv)
-  pip:
-    name: netaddr
-  delegate_to: 127.0.0.1
-  become: false
-  when: is_virtualenv is defined
+    - name: Install netaddr dependency on controlling host (virtualenv)
+      pip:
+        name: netaddr
+      delegate_to: 127.0.0.1
+      become: false
+      run_once: true
+      when: is_virtualenv is defined
 
 - name: Include checks/asserts
   import_tasks: asserts.yml

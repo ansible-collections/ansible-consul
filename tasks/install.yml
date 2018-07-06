@@ -9,42 +9,69 @@
   tags: installation
 
 - name: Read package checksum file
-  local_action: stat path="{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
+  local_action:
+    module: stat
+    path: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   become: no
   run_once: true
   register: consul_checksum
   tags: installation
 
 - name: Download package checksum file
-  local_action: get_url url="{{ consul_checksum_file_url }}" dest="{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
+  local_action:
+    module: get_url
+    url: "{{ consul_checksum_file_url }}"
+    dest: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   become: no
   run_once: true
   tags: installation
   when: not consul_checksum.stat.exists | bool
 
 - name: Read package checksum
-  local_action: shell grep "{{ consul_pkg }}" "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS" | awk '{print $1}'
+  local_action:
+    module: shell
+      grep "{{ consul_pkg }}" "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS" | awk '{print $1}'
   become: no
   run_once: true
   register: consul_sha256
   tags: installation
 
 - name: Check Consul package file
-  local_action: stat path="{{ role_path }}/files/{{ consul_pkg }}"
+  local_action:
+    module: stat
+    path: "{{ role_path }}/files/{{ consul_pkg }}"
   become: no
   run_once: true
   register: consul_package
   tags: installation
 
 - name: Download Consul package
-  local_action: get_url url="{{ consul_zip_url }}" dest="{{ role_path }}/files/{{ consul_pkg }}" checksum="sha256:{{ consul_sha256.stdout }}" timeout="42"
+  local_action:
+    module: get_url
+    url: "{{ consul_zip_url }}"
+    dest: "{{ role_path }}/files/{{ consul_pkg }}"
+    checksum: "sha256:{{ consul_sha256.stdout }}"
+    timeout: "42"
   become: no
   run_once: true
   tags: installation
   when: not consul_package.stat.exists | bool
 
+- name: Install unzip package
+  local_action:
+    module: package
+    name: unzip
+    state: present
+  run_once: true
+  when:
+    - consul_install_dependencies | bool
+
 - name: Unarchive Consul package
-  local_action: unarchive src="{{ role_path }}/files/{{ consul_pkg }}" dest="{{ role_path }}/files/" creates="{{ role_path }}/files/consul"
+  local_action:
+    module: unarchive
+    src: "{{ role_path }}/files/{{ consul_pkg }}"
+    dest: "{{ role_path }}/files/"
+    creates: "{{ role_path }}/files/consul"
   become: no
   run_once: true
   tags: installation
