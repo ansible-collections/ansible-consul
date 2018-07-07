@@ -1,17 +1,6 @@
 ---
 # File: site.yml - Example Consul site playbook
-- name: dependency provisioning
-  hosts: all
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  tasks:
-    - name: install python2
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-      register: output
-      changed_when: output.stdout != ""
-      tags: always
-      
+
 - name: Assemble Consul cluster
   hosts: consul_instances
   any_errors_fatal: true
