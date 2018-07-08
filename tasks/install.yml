@@ -65,6 +65,15 @@
   run_once: true
   when:
     - consul_install_dependencies | bool
+    - ansible_os_family != "Debian"
+
+- name: Install unzip package
+  apt: pkg=unzip state=present
+  run_once: true
+  when:
+    - consul_install_dependencies | bool
+    - ansible_os_family == "Debian"
+
 
 - name: Unarchive Consul package
   local_action:
