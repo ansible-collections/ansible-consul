@@ -7,6 +7,6 @@
 #     Do not modify the labels (text appearing between []), however
 
 [consul_instances]
-consul1.consul consul_iface=enp0s8 consul_node_role=bootstrap ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/consul1/virtualbox/private_key
-consul2.consul consul_iface=enp0s8 consul_node_role=server ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/consul2/virtualbox/private_key
-consul3.consul consul_iface=enp0s8 consul_node_role=server ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/consul3/virtualbox/private_key
+consul1.consul consul_iface=eth1 consul_node_role=bootstrap ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/consul1/virtualbox/private_key
+consul2.consul consul_iface=eth1 consul_node_role=server ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/consul2/virtualbox/private_key
+consul3.consul consul_iface=eth1 consul_node_role=server ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/consul3/virtualbox/private_key
