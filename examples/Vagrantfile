@@ -36,6 +36,11 @@ if test "$PLATFORM" = "freebsd"; then
       echo 2> "Problem linking Python!"
     fi
 fi
+
+if [ -f "/etc/debian_version" ]; then
+  test -e /usr/bin/python || (apt-get -y update && apt-get install -y python-minimal)
+fi
+
 SCRIPT
 
 ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
