@@ -230,7 +230,7 @@
     - name: Reload systemd
       systemd:
         daemon_reload: yes
-      when: systemd_unit | changed
+      when: systemd_unit is changed
 
     - name: Create smf manifest
       template:
@@ -245,13 +245,13 @@
     - name: Import smf manifest
       shell: "svccfg import {{ consul_smf_manifest }}"
       when:
-        - smfmanifest | changed
+        - smfmanifest is changed
         - ansible_os_family == "Solaris"
 
     - name: Import smf script
       shell: "svcadm refresh consul"
       when:
-        - smfmanifest | changed
+        - smfmanifest is changed
         - ansible_os_family == "Solaris"
 
     - block:

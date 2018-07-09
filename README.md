@@ -26,7 +26,7 @@ Windows Server 2012 R2. It might work with other software versions, but is
 definitely known to work with the following specific software versions:
 
 * Consul: 1.2.0
-* Ansible: 2.6.0
+* Ansible: 2.6.1
 * CentOS: 7
 * Debian: 9
 * FreeBSD: 11

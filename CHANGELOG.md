@@ -2,6 +2,7 @@
 
 - Fix jinja2 retry_join loops (thanks @Logan2211)
 - Dependency Management Improvements (thanks @Logan2211)
+- Update some deprecated tests in main tasks
 - Update CONTRIBUTORS
 - Update documentation
 
