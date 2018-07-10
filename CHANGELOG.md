@@ -1,4 +1,4 @@
-## v2.0.3 (UNRELEASED)
+## v2.0.3
 
 - Fix jinja2 retry_join loops (thanks @Logan2211)
 - Dependency Management Improvements (thanks @Logan2211)
