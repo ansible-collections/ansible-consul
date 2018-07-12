@@ -31,6 +31,7 @@ definitely known to work with the following specific software versions:
 * Debian: 9
 * FreeBSD: 11
 * RHEL: 7
+* OracleLinux: 7
 * Ubuntu: 16.04
 * Windows: Server 2012 R2
 
