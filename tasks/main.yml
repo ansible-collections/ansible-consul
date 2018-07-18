@@ -273,7 +273,7 @@
         wait_for:
           delay: 15
           path: "{{ consul_addresses.http | replace('unix://', '', 1) }}"
-        when: consul_addresses.http | match("unix://*")
+        when: consul_addresses.http is match("unix://*")
 
       - name: Create bootstrapped state file
         file:
