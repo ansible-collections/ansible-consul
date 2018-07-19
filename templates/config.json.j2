@@ -66,6 +66,7 @@
     "key_file": "{{ consul_tls_dir }}/{{ consul_server_key }}",
     "verify_incoming": {{ consul_tls_verify_incoming | bool | to_json }},
     "verify_outgoing": {{ consul_tls_verify_outgoing | bool | to_json }},
+    "verify_incoming_https": {{consul_tls_verify_incoming_https | bool| to_json }},
     "verify_server_hostname": {{ consul_tls_verify_server_hostname | bool | to_json }},
     {% endif %}
 
