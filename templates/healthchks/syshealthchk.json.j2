@@ -1,0 +1,63 @@
+{
+  "service": {
+    "name": "{{ consul_node_name }}",
+      "checks": [
+          {
+            "id": "consul_cpu_utilization_{{ consul_node_name }}",
+            "name": "CPU Utilization",
+            "notes": "Greater than {{ consul_cpu_chk_warn }}% warn, greater than {{ consul_cpu_chk_crit }}% fail.",
+            "args": ["{{ consul_sys_check_scripts_path }}/consul_cpu_chk.sh"],
+            "interval": "{{ consul_sys_check_interval }}",
+            "timeout": "{{ consul_sys_check_timeout }}"
+          },
+          {
+            "id": "consul_mem_utilization_{{ consul_node_name }}",
+            "name": "MEM Utilization",
+            "notes": "Greater than {{ consul_ram_chk_warn }}% warn, greater than {{ consul_ram_chk_crit }}% fail.",
+            "args": ["{{ consul_sys_check_scripts_path }}/consul_ram_chk.sh"],
+            "interval": "{{ consul_sys_check_interval }}",
+            "timeout": "{{ consul_sys_check_timeout }}"
+          },
+          {
+            "id": "consul_root_fs_utilization_{{ consul_node_name }}",
+            "name": "Root Filesystem Utilization",
+            "notes": "Greater than {{ consul_root_fs_chk_warn }}% warn, greater than {{ consul_root_fs_chk_crit }}% fail.",
+            "args": ["{{ consul_sys_check_scripts_path }}/consul_root-fs_chk.sh"],
+            "interval": "{{ consul_sys_check_interval }}",
+            "timeout": "{{ consul_sys_check_timeout }}"
+          },
+          {
+            "id": "consul_srv_fs_utilization_{{ consul_node_name }}",
+            "name": "Srv Filesystem Utilization",
+            "notes": "Greater than {{ consul_srv_fs_chk_warn }}% warn, greater than {{ consul_srv_fs_chk_crit }}% fail.",
+            "args": ["{{ consul_sys_check_scripts_path }}/consul_srv-fs_chk.sh"],
+            "interval": "{{ consul_sys_check_interval }}",
+            "timeout": "{{ consul_sys_check_timeout }}"
+          },
+          {
+            "id": "consul_var_fs_utilization_{{ consul_node_name }}",
+            "name": "Var Filesystem Utilization",
+            "notes": "Greater than {{ consul_var_fs_chk_warn }}% warn, greater than {{ consul_var_fs_chk_crit }}% fail.",
+            "args": ["{{ consul_sys_check_scripts_path }}/consul_var-fs_chk.sh"],
+            "interval": "{{ consul_sys_check_interval }}",
+            "timeout": "{{ consul_sys_check_timeout }}"
+          },
+          {
+            "id": "consul_tmp_fs_utilization_{{ consul_node_name }}",
+            "name": "Tmp Filesystem Utilization",
+            "notes": "Greater than {{ consul_tmp_fs_chk_warn }}% warn, greater than {{ consul_tmp_fs_chk_crit }}% fail.",
+            "args": ["{{ consul_sys_check_scripts_path }}/consul_var-fs_chk.sh"],
+            "interval": "{{ consul_sys_check_interval }}",
+            "timeout": "{{ consul_sys_check_timeout }}"
+          },
+          {
+            "id": "consul_audit_fs_utilization_{{ consul_node_name }}",
+            "name": "Audit Filesystem Utilization",
+            "notes": "Greater than {{ consul_audit_fs_chk_warn }}% warn, greater than {{ consul_audit_fs_chk_crit }}% fail.",
+            "args": ["{{ consul_sys_check_scripts_path }}/consul_audit-fs_chk.sh"],
+            "interval": "{{ consul_sys_check_interval }}",
+            "timeout": "{{ consul_sys_check_timeout }}"
+          }
+      ]
+  }
+}

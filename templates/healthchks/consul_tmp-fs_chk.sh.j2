@@ -1,0 +1,18 @@
+#!/bin/bash
+# TMP FS Health Check
+HDD_UTILIZATION=`df -lh | awk '{if ($6 == "/tmp") { print $5 }}' | head -1 | cut -d'%' -f1`
+HDD_UTILIZATION=${HDD_UTILIZATION%.*}
+
+echo "FS Tmp: "$HDD_UTILIZATION"%"
+
+if (( $HDD_UTILIZATION >  {{ consul_tmp_fs_chk_crit }} ));
+then
+    exit 2
+fi
+
+if (( $HDD_UTILIZATION >  {{ consul_tmp_fs_chk_warn }} ));
+then
+    exit 1
+fi
+
+exit 0

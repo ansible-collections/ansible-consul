@@ -1,0 +1,19 @@
+#!/bin/bash
+# CPU Health Check
+
+CPU_UTILIZATION=`top -b -n2 | grep "Cpu(s)" | awk '{print $2 + $4}' | tail -n 1`
+CPU_UTILIZATION=${CPU_UTILIZATION%.*}
+
+echo "CPU: "$CPU_UTILIZATION"%"
+
+if (( $CPU_UTILIZATION > {{ consul_cpu_chk_crit }} ));
+then
+    exit 2
+fi
+
+if (( $CPU_UTILIZATION > {{ consul_cpu_chk_warn }} ));
+then
+    exit 1
+fi
+
+exit 0

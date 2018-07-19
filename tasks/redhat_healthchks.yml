@@ -1,0 +1,43 @@
+---
+# File: linux_healthchks.yml - Consul system health checks for Redhat Clones
+
+- name: Create directory for health check scripts
+  file:
+    dest: "{{ consul_sys_check_scripts_path }}"
+    state: directory
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
+    mode: 0755
+    recurse: yes
+
+- name: Create health check scripts
+  template:
+    src: "healthchks/{{ item }}.j2"
+    dest: "{{ consul_sys_check_scripts_path }}/{{ item }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
+    mode: 0755
+  with_items:
+    - consul_cpu_chk.sh
+    - consul_ram_chk.sh
+    - consul_audit-fs_chk.sh
+    - consul_root-fs_chk.sh
+    - consul_srv-fs_chk.sh
+    - consul_tmp-fs_chk.sh
+    - consul_var-fs_chk.sh
+  register: consul_health_check_scripts
+  notify:
+    - restart consul on linux
+
+- name: Create health check configuration
+  template:
+    src: "healthchks/{{ item }}.j2"
+    dest: "{{ consul_configd_path }}/{{ item }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group}}"
+    mode: 0700
+  when: consul_health_check_scripts is succeeded
+  with_items:
+    - syshealthchk.json
+  notify:
+    - restart consul on linux

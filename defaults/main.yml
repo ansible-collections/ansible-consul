@@ -240,6 +240,7 @@ consul_performance:
   leave_drain_time: 5s
   rpc_hold_timeout: 7s
 
+<<<<<<< HEAD
 # Snapshot
 consul_snapshot: false
 consul_snapshot_storage: "{{ consul_config_path }}/snaps"
@@ -249,6 +250,30 @@ consul_snapshot_stale: false
 
 # services
 consul_services: []
+<<<<<<< HEAD
 
 # enable Consul Connect
 consul_connect_enabled: false
+=======
+=======
+# System Checks
+consul_sys_check_enable: "{{ lookup('env', 'CONSUL_SYS_CHECK_ENABLE') | default(false, true) }}"
+consul_sys_check_scripts_path: "{{ lookup('env', 'CONSUL_SYS_CHECK_SCRIPTS_PATH') | default('/usr/local/lib/consul/scripts', true) }}"
+consul_sys_check_interval: "{{ lookup('env', 'CONSUL_SYS_CHECK_INTERVAL') | default('4s', true) }}"
+consul_sys_check_timeout: "{{ lookup('env', 'CONSUL_SYS_CHECK_TIMEOUT') | default('10s', true) }}"
+consul_cpu_chk_warn: "{{ lookup('env', 'CONSUL_CPU_CHK_WARN') | default('75', true) }}"
+consul_cpu_chk_crit: "{{ lookup('env', 'CONSUL_CPU_CHK_CRIT') | default('90', true) }}"
+consul_ram_chk_warn: "{{ lookup('env', 'CONSUL_RAM_CHK_WARN') | default('75', true) }}"
+consul_ram_chk_crit: "{{ lookup('env', 'CONSUL_RAM_CHK_CRIT') | default('95', true) }}"
+consul_root_fs_chk_warn: "{{ lookup('env', 'CONSUL_ROOT_FS_CHK_WARN') | default('60', true) }}"
+consul_root_fs_chk_crit: "{{ lookup('env', 'CONSUL_ROOT_FS_CHK_CRIT') | default('80', true) }}"
+consul_srv_fs_chk_warn: "{{ lookup('env', 'CONSUL_SRV_FS_CHK_WARN') | default('70', true) }}"
+consul_srv_fs_chk_crit: "{{ lookup('env', 'CONSUL_SRV_FS_CHK_CRIT') | default('85', true) }}"
+consul_tmp_fs_chk_warn: "{{ lookup('env', 'CONSUL_TMP_FS_CHK_WARN') | default('72', true) }}"
+consul_tmp_fs_chk_crit: "{{ lookup('env', 'CONSUL_TMP_FS_CHK_CRIT') | default('85', true) }}"
+consul_var_fs_chk_warn: "{{ lookup('env', 'CONSUL_VAR_FS_CHK_WARN') | default('50', true) }}"
+consul_var_fs_chk_crit: "{{ lookup('env', 'CONSUL_VAR_FS_CHK_CRIT') | default('75', true) }}"
+consul_audit_fs_chk_warn: "{{ lookup('env', 'CONSUL_AUDIT_FS_CHK_WARN') | default('95', true) }}"
+consul_audit_fs_chk_crit: "{{ lookup('env', 'CONSUL_AUDIT_FS_CHK_CRIT') | default('98', true) }}"
+>>>>>>> add consul health check scripts, working on RHEL 7 but should work on other Linux Distributions too
+>>>>>>> add consul health check scripts, working on RHEL 7 but should work on other Linux Distributions too

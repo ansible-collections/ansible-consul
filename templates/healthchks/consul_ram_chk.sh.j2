@@ -1,0 +1,22 @@
+#!/bin/bash
+# RAM Health Check
+
+RAM=`free -m | grep Mem` 
+FREE_RAM=`echo $RAM | cut -f3 -d' '`
+TOTAL_RAM=`echo $RAM | cut -f2 -d' '`
+RAM_UTILIZATION=$(echo "scale = 2; $FREE_RAM/$TOTAL_RAM*100" | bc)
+RAM_UTILIZATION=${RAM_UTILIZATION%.*}
+
+echo "RAM: "$RAM_UTILIZATION"%"
+
+if (( $RAM_UTILIZATION > {{ consul_ram_chk_crit }} ));
+then
+    exit 2
+fi
+
+if (( $RAM_UTILIZATION > {{ consul_ram_chk_warn }} ));
+then
+    exit 1
+fi
+
+exit 0
