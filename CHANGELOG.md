@@ -1,3 +1,8 @@
+## v2.0.4 (UNRELEASED)
+
+- Update remaining deprecated tests (thanks @viruzzo)
+- Update CONTRIBBUTORS
+
 ## v2.0.3
 
 - Fix jinja2 retry_join loops (thanks @Logan2211)
