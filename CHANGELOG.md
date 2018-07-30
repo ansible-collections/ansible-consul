@@ -1,6 +1,7 @@
 ## v2.0.4 (UNRELEASED)
 
 - Update remaining deprecated tests (thanks @viruzzo)
+- Add support for Oracle Linux (thanks @TheLastChosenOne)
 - Update CONTRIBBUTORS
 
 ## v2.0.3
