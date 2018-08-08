@@ -164,12 +164,12 @@
       when:
         - consul_encrypt_enable
 
-    - name: Create Consul configuration
-      import_tasks: config.yml
-
     - name: Create ACL configuration
       include_tasks: acl.yml
       when: consul_acl_enable | bool
+
+    - name: Create Consul configuration
+      import_tasks: config.yml
 
     - name: Create TLS configuration
       include_tasks: tls.yml
