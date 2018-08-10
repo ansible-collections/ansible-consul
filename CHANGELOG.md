@@ -1,8 +1,11 @@
-## v2.0.4 (UNRELEASED)
+## v2.0.4
 
+- Consul 1.2.2
 - Update remaining deprecated tests (thanks @viruzzo)
+- Added handler to reload configuration on Linux (thanks @viruzzo)
 - Add support for Oracle Linux (thanks @TheLastChosenOne)
-- Update CONTRIBBUTORS
+- Fix generate `consul_acl_master_token` when not provided (thanks @abarbare)
+- Update CONTRIBUTORS
 
 ## v2.0.3
 
