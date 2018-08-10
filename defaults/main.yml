@@ -158,7 +158,6 @@ consul_acl_agent_master_token: "{{ lookup('env','CONSUL_ACL_AGENT_MASTER_TOKEN')
 
 ### Server ACL settings ###
 consul_acl_default_policy: "{{ lookup('env','CONSUL_ACL_DEFAULT_POLICY') | default('allow', true) }}"
-consul_acl_master_token: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN') | default('42424242-4242-4242-4242-424242424242', true) }}"
 consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
 consul_acl_replication_enable: "{{ lookup('env','CONSUL_ACL_REPLICATION_ENABLE') | default('',true) }}"
 consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') | default('', true) }}"

@@ -421,7 +421,7 @@ ports can be done using the `consul_ports_*` variables.
 
 - ACL master token
   - Override with `CONSUL_ACL_MASTER_TOKEN` environment variable
-- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
+- Default value: *random uuid token*
 
 ### `consul_acl_master_token_display`
 
