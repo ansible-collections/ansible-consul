@@ -1,3 +1,7 @@
+## v2.0.5
+
+- Update meta for ArchLinux to allow Galaxy import
+
 ## v2.0.4
 
 - Consul 1.2.2
