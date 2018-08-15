@@ -6,30 +6,30 @@ galaxy_info:
   license: BSD
   min_ansible_version: 2.5.0.0
   platforms:
-  - name: Arch
-    versions:
-      - all
-  - name: EL
-    versions:
-    - 6
-    - 7
-  - name: FreeBSD
-    versions:
-    - 10.0
-    - 11.0
-  - name: Ubuntu
-    versions:
-    - vivid
-    - xenial
-  - name: Debian
-    versions:
-    - jessie
-  - name: Windows
-    versions:
-    - 2012R2
+    - name: ArchLinux
+      versions:
+        - all
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: FreeBSD
+      versions:
+        - 10.0
+        - 11.0
+    - name: Ubuntu
+      versions:
+        - vivid
+        - xenial
+    - name: Debian
+      versions:
+        - jessie
+    - name: Windows
+      versions:
+        - 2012R2
   galaxy_tags:
-  - clustering
-  - monitoring
-  - networking
-  - system
+    - clustering
+    - monitoring
+    - networking
+    - system
 dependencies: []
