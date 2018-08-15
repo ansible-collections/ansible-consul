@@ -1,4 +1,4 @@
-## v2.0.5
+## v2.0.6
 
 - Update meta for ArchLinux to allow Galaxy import
 
