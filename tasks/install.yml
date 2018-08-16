@@ -62,7 +62,7 @@
     module: apk
     update_cache: yes
   run_once: true
-  when: ansible_distribution == "Alpine"
+  when: lookup('file','/etc/alpine-release')
 
 - name: Install unzip package
   local_action:
