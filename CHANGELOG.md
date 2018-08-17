@@ -1,3 +1,10 @@
+## v2.0.7 (UNRELEASED)
+
+- Add initial support for Alpine Linux (thanks @replicajune)
+- Update CONTRIBUTORS
+- Update Meta
+- Update documentation
+
 ## v2.0.6
 
 - Update meta for ArchLinux to allow Galaxy import

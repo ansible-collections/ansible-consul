@@ -27,6 +27,7 @@ definitely known to work with the following specific software versions:
 
 * Consul: 1.2.2
 * Ansible: 2.6.1
+* Alpine Linux: 3.8
 * CentOS: 7
 * Debian: 9
 * FreeBSD: 11
