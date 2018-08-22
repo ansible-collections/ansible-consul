@@ -2,6 +2,7 @@
 
 - Add initial support for Alpine Linux (thanks @replicajune)
 - Add support for verify_incoming_https (thanks @jeffwelling)
+- Fix ACL token behavior on existing configuration (thanks @abarbare)
 - Update CONTRIBUTORS
 - Update Meta
 - Update documentation
