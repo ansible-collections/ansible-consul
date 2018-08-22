@@ -1,6 +1,7 @@
 ## v2.0.7 (UNRELEASED)
 
 - Add initial support for Alpine Linux (thanks @replicajune)
+- Add support for verify_incoming_https (thanks @jeffwelling)
 - Update CONTRIBUTORS
 - Update Meta
 - Update documentation
