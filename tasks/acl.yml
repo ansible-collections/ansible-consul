@@ -2,6 +2,20 @@
 # File: acl.yml - ACL tasks for Consul
 
 - block:
+    - name: Read ACL master token from previously boostrapped server
+      shell: 'cat {{ consul_config_path }}/config.json | grep "acl_master_token" | sed -E ''s/"acl_master_token": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
+      register: consul_acl_master_token_read
+      run_once: true
+
+    - name: Save acl_master_token from existing configuration
+      set_fact: consul_acl_master_token="{{ consul_acl_master_token_read.stdout }}"
+      ignore_errors: yes
+
+  when:
+    - bootstrap_state.stat.exists | bool
+    - (consul_acl_master_token is not defined or consul_acl_master_token == '')
+
+- block:
   - name: Generate ACL master token
     command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
     register: consul_acl_master_token_keygen
@@ -10,7 +24,7 @@
     set_fact:
       consul_acl_master_token: "{{ consul_acl_master_token_keygen.stdout }}"
   when:
-    - consul_acl_master_token is not defined
+    - (consul_acl_master_token is not defined or consul_acl_master_token == '')
     - not bootstrap_state.stat.exists | bool
 
 - name: Display ACL Master Token
@@ -18,6 +32,20 @@
     msg: "{{ consul_acl_master_token }}"
   run_once: True
   when: consul_acl_master_token_display | bool
+
+- block:
+    - name: Read ACL replication token from previously boostrapped server
+      shell: 'cat {{ consul_config_path }}/config.json | grep "acl_replication_token" | sed -E ''s/"acl_replication_token": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
+      register: consul_acl_replication_token_read
+      run_once: true
+
+    - name: Save acl_replication_token from existing configuration
+      set_fact: consul_acl_replication_token="{{ consul_acl_replication_token_read.stdout }}"
+      ignore_errors: yes
+
+  when:
+    - bootstrap_state.stat.exists | bool
+    - (consul_acl_replication_token is not defined or consul_acl_replication_token == '')
 
 - block:
   - name: Generate ACL replication token
