@@ -512,6 +512,11 @@ ports can be done using the `consul_ports_*` variables.
   - Override with `CONSUL_TLS_VERIFY_OUTGOING` environment variable
 - Default value: *true*
 
+### `consul_tls_verify_incoming_https`
+- Verify incoming connections on HTTPS endpoints (client certificates)
+  - Override with `CONSUL_TLS_VERIFY_INCOMING_HTTPS` environment variable
+- Default value: *false*
+
 ### `consul_tls_verify_server_hostname`
 
 - Verify server hostname

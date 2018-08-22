@@ -177,6 +177,7 @@ consul_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key',
 consul_tls_copy_keys: true
 consul_tls_verify_incoming: false
 consul_tls_verify_outgoing: true
+consul_tls_verify_incoming_https: false
 consul_tls_verify_server_hostname: false
 consul_tls_files_remote_src: no
 
