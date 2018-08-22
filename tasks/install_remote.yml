@@ -65,7 +65,7 @@
     group: "{{ consul_group }}"
     mode: 0755
   register: consul_install
-  when: consul_download | changed
+  when: consul_download is changed
   tags: installation
 
 - name: Daemon reload systemd in case the binaries upgraded
@@ -75,7 +75,7 @@
   when:
     - ansible_service_mgr == "systemd"
     - consul_install_upgrade
-    - consul_install | changed
+    - consul_install is changed
 
 - name: Cleanup
   file:

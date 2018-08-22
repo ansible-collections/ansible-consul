@@ -40,4 +40,3 @@
   notify:
     - restart consul
   when: consul_acl_policy | bool
-

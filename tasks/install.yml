@@ -57,6 +57,13 @@
   tags: installation
   when: not consul_package.stat.exists | bool
 
+- name: Update alpine package manager (apk)
+  local_action:
+    module: apk
+    update_cache: yes
+  run_once: true
+  when: lookup('file','/etc/alpine-release')
+
 - name: Install unzip package
   local_action:
     module: package

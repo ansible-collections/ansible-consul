@@ -25,12 +25,14 @@ This role requires a FreeBSD, Debian, or RHEL based Linux distribution or
 Windows Server 2012 R2. It might work with other software versions, but is
 definitely known to work with the following specific software versions:
 
-* Consul: 1.2.0
+* Consul: 1.2.2
 * Ansible: 2.6.1
+* Alpine Linux: 3.8
 * CentOS: 7
 * Debian: 9
 * FreeBSD: 11
 * RHEL: 7
+* OracleLinux: 7
 * Ubuntu: 16.04
 * Windows: Server 2012 R2
 
@@ -52,7 +54,7 @@ the variables are named and described below:
 ### `consul_version`
 
 - Version to install
-- Default value: *1.2.0*
+- Default value: *1.2.2*
 
 ### `consul_architecture_map`
 
@@ -420,7 +422,7 @@ ports can be done using the `consul_ports_*` variables.
 
 - ACL master token
   - Override with `CONSUL_ACL_MASTER_TOKEN` environment variable
-- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
+- Default value: *random uuid token*
 
 ### `consul_acl_master_token_display`
 

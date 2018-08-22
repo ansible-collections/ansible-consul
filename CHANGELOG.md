@@ -1,3 +1,23 @@
+## v2.0.7 (UNRELEASED)
+
+- Add initial support for Alpine Linux (thanks @replicajune)
+- Update CONTRIBUTORS
+- Update Meta
+- Update documentation
+
+## v2.0.6
+
+- Update meta for ArchLinux to allow Galaxy import
+
+## v2.0.4
+
+- Consul 1.2.2
+- Update remaining deprecated tests (thanks @viruzzo)
+- Added handler to reload configuration on Linux (thanks @viruzzo)
+- Add support for Oracle Linux (thanks @TheLastChosenOne)
+- Fix generate `consul_acl_master_token` when not provided (thanks @abarbare)
+- Update CONTRIBUTORS
+
 ## v2.0.3
 
 - Fix jinja2 retry_join loops (thanks @Logan2211)
