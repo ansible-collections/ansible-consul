@@ -445,10 +445,8 @@
           stderr_file: "{{ consul_log_path }}/consul-nssm-error.log"
 
       - name: (Windows) Check Consul HTTP API
-        local_action:
-          module: wait_for
+        win_wait_for:
           delay: 5
-          host: "{{inventory_hostname_short}}"
           port: 8500
 
       - name: (Windows) Create bootstrapped state file
