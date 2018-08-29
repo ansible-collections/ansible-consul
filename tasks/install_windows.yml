@@ -28,6 +28,8 @@
 
 - name: Read Consul package checksum
   win_shell: "findstr {{ consul_pkg }} /tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
+  args:
+    chdir: /tmp/consul
   register: consul_pkg_checksum
   tags: installation
 
