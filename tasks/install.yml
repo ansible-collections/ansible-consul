@@ -57,14 +57,14 @@
   tags: installation
   when: not consul_package.stat.exists | bool
 
-- name: Update alpine package manager (apk)
+- name: Update Alpine Package Manager (apk)
   local_action:
     module: apk
     update_cache: yes
   run_once: true
-  when: lookup('file','/etc/alpine-release')
+  when: ansible_os_family == "Alpine"
 
-- name: Install unzip package
+- name: Install unzip package locally
   local_action:
     module: package
     name: unzip
@@ -72,6 +72,7 @@
   run_once: true
   when:
     - consul_install_dependencies | bool
+    - ansible_os_family != "Darwin"
 
 - name: Unarchive Consul package
   local_action:
