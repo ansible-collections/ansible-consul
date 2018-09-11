@@ -36,6 +36,11 @@ definitely known to work with the following specific software versions:
 * Ubuntu: 16.04
 * Windows: Server 2012 R2
 
+**Note:** Do not use the ansible option `-l` to limit the hosts, as
+this will break populating the variables which are required to be
+populated for your play to work. If you do use `-l' you  may encounter
+'Undefined is not JSON serializable' errors in the template.
+
 ## Role Variables
 
 The role uses variables defined in these three sources:
