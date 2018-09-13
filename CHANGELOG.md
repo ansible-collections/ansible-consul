@@ -1,6 +1,7 @@
-## v2.0.8 (UNRELEASED)
+## v2.0.8
 
 - Normalize conditionals in all tasks
+- Update documentation
 
 ## v2.0.7
 
