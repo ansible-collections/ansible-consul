@@ -12,7 +12,7 @@
   local_action:
     module: stat
     path: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
-  become: no
+  become: false
   run_once: true
   register: consul_checksum
   tags: installation
@@ -22,7 +22,7 @@
     module: get_url
     url: "{{ consul_checksum_file_url }}"
     dest: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
-  become: no
+  become: false
   run_once: true
   tags: installation
   when: not consul_checksum.stat.exists | bool
@@ -31,7 +31,7 @@
   local_action:
     module: shell
       grep "{{ consul_pkg }}" "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS" | awk '{print $1}'
-  become: no
+  become: false
   run_once: true
   register: consul_sha256
   tags: installation
@@ -40,7 +40,7 @@
   local_action:
     module: stat
     path: "{{ role_path }}/files/{{ consul_pkg }}"
-  become: no
+  become: false
   run_once: true
   register: consul_package
   tags: installation
@@ -52,19 +52,19 @@
     dest: "{{ role_path }}/files/{{ consul_pkg }}"
     checksum: "sha256:{{ consul_sha256.stdout }}"
     timeout: "42"
-  become: no
+  become: false
   run_once: true
   tags: installation
   when: not consul_package.stat.exists | bool
 
-- name: Update Alpine Package Manager (apk)
+- name: Update Alpine Package Manager (APK)
   local_action:
     module: apk
-    update_cache: yes
+    update_cache: true
   run_once: true
   when: ansible_os_family == "Alpine"
 
-- name: Install unzip package locally
+- name: Install unzip package
   local_action:
     module: package
     name: unzip
@@ -72,7 +72,6 @@
   run_once: true
   when:
     - consul_install_dependencies | bool
-    - ansible_os_family != "Darwin"
 
 - name: Unarchive Consul package
   local_action:
@@ -80,7 +79,7 @@
     src: "{{ role_path }}/files/{{ consul_pkg }}"
     dest: "{{ role_path }}/files/"
     creates: "{{ role_path }}/files/consul"
-  become: no
+  become: false
   run_once: true
   tags: installation
 
@@ -95,7 +94,7 @@
 
 - name: Daemon reload systemd in case the binaries upgraded
   command: systemctl daemon-reload
-  become: yes
+  become: true
   notify: restart consul
   when:
     - ansible_service_mgr == "systemd"
@@ -103,7 +102,7 @@
 
 - name: Cleanup
   local_action: file path="{{ item }}" state="absent"
-  become: no
+  become: false
   with_fileglob: "{{ role_path }}/files/consul"
   run_once: true
   tags: installation

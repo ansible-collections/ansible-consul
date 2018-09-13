@@ -9,7 +9,7 @@
 
     - name: Save acl_master_token from existing configuration
       set_fact: consul_acl_master_token="{{ consul_acl_master_token_read.stdout }}"
-      ignore_errors: yes
+      ignore_errors: true
 
   when:
     - bootstrap_state.stat.exists | bool
@@ -30,7 +30,7 @@
 - name: Display ACL Master Token
   debug:
     msg: "{{ consul_acl_master_token }}"
-  run_once: True
+  run_once: true
   when: consul_acl_master_token_display | bool
 
 - block:
@@ -41,7 +41,7 @@
 
     - name: Save acl_replication_token from existing configuration
       set_fact: consul_acl_replication_token="{{ consul_acl_replication_token_read.stdout }}"
-      ignore_errors: yes
+      ignore_errors: true
 
   when:
     - bootstrap_state.stat.exists | bool
@@ -52,6 +52,7 @@
     command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
     register: consul_acl_replication_token_keygen
     run_once: true
+
   - name: Save ACL replication token
     set_fact:
       consul_acl_replication_token: "{{ consul_acl_replication_token_keygen.stdout }}"

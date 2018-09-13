@@ -42,7 +42,7 @@
       delegate_to: "{{ item }}"
       delegate_facts: True
       with_items: "{{ consul_servers | difference(play_hosts) }}"
-      ignore_errors: yes
+      ignore_errors: true
       when: consul_gather_server_facts | bool
 
     - name: Expose advertise_address(_wan) datacenter and node_role as facts
@@ -95,7 +95,7 @@
               slurp:
                 src: "{{ consul_config_path }}/config.json"
               register: consul_config_b64
-              ignore_errors: yes
+              ignore_errors: true
 
             - name: Deserialize existing configuration
               set_fact:
@@ -118,7 +118,7 @@
           copy:
             content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
-          become: no
+          become: false
           no_log: true
           run_once: true
           register: consul_local_key
@@ -136,7 +136,7 @@
               copy:
                 content: "{{ consul_keygen.stdout }}"
                 dest: '/tmp/consul_raw.key'
-              become: no
+              become: false
               delegate_to: localhost
 
           no_log: true
@@ -156,7 +156,7 @@
           file:
             path: '/tmp/consul_raw.key'
             state: absent
-          become: no
+          become: false
           run_once: true
           delegate_to: localhost
           changed_when: false
@@ -229,7 +229,7 @@
 
     - name: Reload systemd
       systemd:
-        daemon_reload: yes
+        daemon_reload: true
       when: systemd_unit is changed
 
     - name: Create smf manifest
@@ -260,7 +260,7 @@
         service:
           name: consul
           state: started
-          enabled: yes
+          enabled: true
 
       - name: Check Consul HTTP API (via TCP socket)
         wait_for:
@@ -306,9 +306,9 @@
     - name: (Windows) Gather facts from other servers
       setup:
       delegate_to: "{{ item }}"
-      delegate_facts: True
+      delegate_facts: true
       with_items: "{{ consul_servers | difference(play_hosts) }}"
-      ignore_errors: yes
+      ignore_errors: true
       when: consul_gather_server_facts | bool
 
     - name: (Windows) Expose bind_address, datacenter and node_role as facts
@@ -343,7 +343,7 @@
               slurp:
                 src: "{{ consul_config_path }}/config.json"
               register: consul_config_b64
-              ignore_errors: yes
+              ignore_errors: true
 
             - name: (Windows) Deserialize existing configuration
               set_fact:
@@ -366,7 +366,7 @@
           copy:
             content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
-          become: no
+          become: false
           no_log: true
           run_once: true
           register: consul_local_key
@@ -384,7 +384,7 @@
               copy:
                 content: "{{ consul_keygen.stdout }}"
                 dest: '/tmp/consul_raw.key'
-              become: no
+              become: false
               delegate_to: localhost
 
           no_log: true
@@ -404,7 +404,7 @@
           file:
             path: '/tmp/consul_raw.key'
             state: absent
-          become: no
+          become: false
           run_once: true
           delegate_to: localhost
       no_log: true

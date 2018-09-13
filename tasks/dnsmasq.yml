@@ -25,7 +25,7 @@
 - name: Enable dnsmasq service
   service:
     name: dnsmasq
-    enabled: yes
+    enabled: true
   tags: dnsmasq
 
 - name: Create Dnsmasq configuration directory

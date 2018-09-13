@@ -15,6 +15,6 @@
     name: "{{ consul_user }}"
     comment: "Consul user"
     group: "{{ consul_group }}"
-    system: yes
+    system: true
   when:
   - consul_manage_user | bool

@@ -1,3 +1,7 @@
+## v2.0.8 (UNRELEASED)
+
+- Normalize conditionals in all tasks
+
 ## v2.0.7
 
 - Add initial support for Alpine Linux (thanks @replicajune)
