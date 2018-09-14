@@ -1,3 +1,8 @@
+## v2.0.9
+
+- Consul v1.2.3
+- Update documentation
+
 ## v2.0.8
 
 - Normalize conditionals in all tasks
@@ -750,7 +755,7 @@ Do not enable a default set of ACL policies
 
 - Still with the tests
 
-## v1.2.2
+## v1.2.3
 
 - Updated README
 
