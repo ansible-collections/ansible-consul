@@ -1,3 +1,9 @@
+## v2.1.0 (UNRELEASED)
+
+- Fix undefined is_virtualenv condition (thanks @jpiron)
+- Ensure idempotent folder permissions (thanks @jpiron)
+- Update documentation (thanks @jeffwelling)
+
 ## v2.0.9
 
 - Consul v1.2.3
