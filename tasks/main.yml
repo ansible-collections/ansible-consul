@@ -12,7 +12,7 @@
       delegate_to: 127.0.0.1
       become: false
       run_once: true
-      when: is_virtualenv is not defined
+      when: is_virtualenv == '' or is_virtualenv == None
 
     - name: Install netaddr dependency on controlling host (virtualenv)
       pip:
