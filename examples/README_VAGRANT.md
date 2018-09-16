@@ -52,7 +52,7 @@ Begin from the top level directory of this project and use the following steps t
  * 10.1.42.210 consul1.consul consul1
  * 10.1.42.220 consul2.consul consul2
  * 10.1.42.230 consul3.consul consul3
-3. cd `$PATH_TO_ROLES/brianshumate.conusul/examples`
+3. cd `$PATH_TO_ROLES/brianshumate.consul/examples`
 4. `vagrant up`
 5. Access the cluster web UI at http://consul1.consul:8500/ui/
 6. You can also `ssh` into a node and verify the cluster members directly
