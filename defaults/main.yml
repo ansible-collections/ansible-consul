@@ -49,6 +49,7 @@ consul_manage_user: yes
 consul_user: "consul"
 consul_manage_group: no
 consul_group: "bin"
+consul_systemd_restart_sec: 42
 
 ### Log user, group, facility
 syslog_user: "{{ lookup('env','SYSLOG_USER') | default('root', true) }}"
