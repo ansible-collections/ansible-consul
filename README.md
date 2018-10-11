@@ -503,7 +503,7 @@ ports can be done using the `consul_ports_*` variables.
 ## `consul_raw_key`
 
 - Set the encryption key; should be the same across a cluster. If not present the key will be generated & retrieved from the bootstrapped server.
-- Default value: ``
+- Default value: ` `
 
 ### `consul_tls_verify_incoming`
 
@@ -682,7 +682,7 @@ An example usage for enabling `telemetry`:
         disable_hostname: true
 ```
 
-## OS Distribution Variables
+## OS and Distribution Variables
 
 The `consul` binary works on most Linux platforms and is not distribution
 specific. However, some distributions require installation of specific OS
@@ -747,6 +747,11 @@ packages with different package names.
 
 - List of OS packages to install
 - Default value: list
+
+### consul_systemd_restart_sec
+
+- Integer value for systemd unit `RestartSec` option
+- Default value: 42
 
 ### `consul_ubuntu_pkg`
 

@@ -2,7 +2,8 @@
 
 - Fix undefined is_virtualenv condition (thanks @jpiron)
 - Ensure idempotent folder permissions (thanks @jpiron)
-- Update documentation (thanks @jeffwelling)
+- Add configurable systemd restart time (@thanks abarbare)
+- Update documentation (thanks @jeffwelling, @megamorf)
 
 ## v2.0.9
 
