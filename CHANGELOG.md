@@ -1,5 +1,6 @@
-## v2.1.0 (UNRELEASED)
+## v2.1.0
 
+- Consul v1.3.0
 - Fix undefined is_virtualenv condition (thanks @jpiron)
 - Ensure idempotent folder permissions (thanks @jpiron)
 - Add configurable systemd restart time (@thanks abarbare)

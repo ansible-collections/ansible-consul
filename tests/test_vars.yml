@@ -21,7 +21,7 @@ consul_debug: no
 is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.2.3', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.3.0', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
