@@ -119,6 +119,7 @@ consul_addresses:
   http: "{{ consul_addresses_http | default(consul_client_address, true) }}"
   https: "{{ consul_addresses_https | default(consul_client_address, true) }}"
   rpc: "{{ consul_addresses_rpc | default(consul_client_address, true) }}"
+  grpc: "{{ consul_addresses_grpc | default(consul_client_address, true) }}"
 
 ### Ports
 consul_ports:
@@ -129,6 +130,7 @@ consul_ports:
   serf_lan: "{{ consul_ports_serf_lan | default('8301', true) }}"
   serf_wan: "{{ consul_ports_serf_wan | default('8302', true) }}"
   server: "{{ consul_ports_server | default('8300', true) }}"
+  grpc: "{{ consul_ports_grpc | default('-1', true) }}"
 
 ### Servers
 consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"

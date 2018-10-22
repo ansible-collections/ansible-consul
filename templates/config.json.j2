@@ -24,8 +24,8 @@
         {% endif %}
         "dns": "{{ consul_addresses.dns }}",
         "http": "{{ consul_addresses.http }}",
-        "https": "{{ consul_addresses.https }}"
-
+        "https": "{{ consul_addresses.https }}",
+        "grpc": "{{ consul_addresses.grpc }}"
     },
     {## Ports Used ##}
     "ports": {
@@ -37,7 +37,8 @@
         "https": {{ consul_ports.https }},
         "serf_lan": {{ consul_ports.serf_lan }},
         "serf_wan": {{ consul_ports.serf_wan }},
-        "server": {{ consul_ports.server }}
+        "server": {{ consul_ports.server }},
+        "grpc": {{ consul_ports.grpc }}
     },
 
     {## Raft protocol ##}
