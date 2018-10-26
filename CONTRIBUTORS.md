@@ -49,6 +49,7 @@ Thank you to all these fine folks for helping with ansible-consul!
 - [@jpiron](https://github.com/jpiron)
 - [@megamorf](https://github.com/megamorf)
 - [@abarbare](https://github.com/abarbare)
+- [@RavisMsk](https://github.com/RavisMsk)
 
 If you have contributed but do not appear here, please fear not and accept
 apologies for the omission. Contact `brian <at> brianshumate <dot> com` and

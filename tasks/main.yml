@@ -40,7 +40,7 @@
     - name: Gather facts from other servers
       setup:
       delegate_to: "{{ item }}"
-      delegate_facts: True
+      delegate_facts: true
       with_items: "{{ consul_servers | difference(play_hosts) }}"
       ignore_errors: true
       when: consul_gather_server_facts | bool

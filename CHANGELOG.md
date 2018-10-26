@@ -1,3 +1,10 @@
+## v2.1.1 (UNRELEASED)
+
+- Consul v1.4.0
+- Configuration and documentation for gRPC (thanks @RavisMsk)
+- Consistent boolean use
+- Update documentation
+
 ## v2.1.0
 
 - Consul v1.3.0
