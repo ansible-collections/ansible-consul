@@ -355,11 +355,6 @@ ports can be done using the `consul_ports_*` variables.
   - Override with `CONSUL_RECURSORS` environment variable
 - Default value: Empty list
 
-### `consul_bind_address`
-
-- The interface address to bind to
-- Default value: dynamic from hosts inventory
-
 ### `consul_dnsmasq_enable`
 
 - Whether to install and configure DNS API forwarding on port 53 using DNSMasq
