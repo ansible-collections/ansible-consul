@@ -3,6 +3,7 @@
 - Consul v1.4.0
 - Configuration and documentation for gRPC (thanks @RavisMsk)
 - Consistent boolean use
+- Fix Consul restart handler reference (thanks @blaet)
 - Update documentation
 
 ## v2.1.0
