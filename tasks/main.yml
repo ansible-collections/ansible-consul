@@ -120,7 +120,6 @@
             dest: '/tmp/consul_raw.key'
           become: false
           no_log: true
-          run_once: true
           register: consul_local_key
           delegate_to: localhost
           changed_when: false
