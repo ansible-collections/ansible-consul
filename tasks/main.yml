@@ -366,6 +366,7 @@
           copy:
             content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
+            mode: 0700
           become: false
           no_log: true
           run_once: true
@@ -384,6 +385,7 @@
               copy:
                 content: "{{ consul_keygen.stdout }}"
                 dest: '/tmp/consul_raw.key'
+                mode: 0700
               become: false
               delegate_to: localhost
 
