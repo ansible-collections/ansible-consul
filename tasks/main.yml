@@ -114,13 +114,13 @@
             - inventory_hostname in consul_servers
 
         # Key provided by extra vars or the above block
+        # Searches all hosts for a retrieved encryption key
         - name: Write gossip encryption key locally for use with new servers
           copy:
             content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
           become: false
           no_log: true
-          run_once: true
           register: consul_local_key
           delegate_to: localhost
           changed_when: false
