@@ -4,6 +4,8 @@
 - Configuration and documentation for gRPC (thanks @RavisMsk)
 - Consistent boolean use
 - Fix Consul restart handler reference (thanks @blaet)
+- Write gossip key on all hosts (thanks @danielkucera)
+- Protect local consul cluster key file (thanks @blaet)
 - Update documentation
 
 ## v2.1.0
