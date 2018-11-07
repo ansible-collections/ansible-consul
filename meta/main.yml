@@ -6,6 +6,9 @@ galaxy_info:
   min_ansible_version: 2.5
 
   platforms:
+    - name: Amazon
+      versions:
+        - 2
     - name: Alpine
       versions:
         - all
