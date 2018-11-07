@@ -126,6 +126,7 @@ consul_ports:
   serf_lan: "{{ consul_ports_serf_lan | default('8301', true) }}"
   serf_wan: "{{ consul_ports_serf_wan | default('8302', true) }}"
   server: "{{ consul_ports_server | default('8300', true) }}"
+  grpc: "{{ consul_ports_grpc | default('-1', true) }}"
 
 ### Servers
 consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
