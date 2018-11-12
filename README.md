@@ -498,6 +498,11 @@ ports can be done using the `consul_ports_*` variables.
 - Enable Gossip Encryption
 - Default value: `true`
 
+## `consul_disable_keyring_file`
+
+- If set, the keyring will not be persisted to a file. Any installed keys will be lost on shutdown, and only the given -encrypt key will be available on startup.
+- Default value: `false`
+
 ## `consul_raw_key`
 
 - Set the encryption key; should be the same across a cluster. If not present the key will be generated & retrieved from the bootstrapped server.
