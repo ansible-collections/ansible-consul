@@ -164,6 +164,7 @@ consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') |
 
 ## gossip encryption
 consul_encrypt_enable: "{{ lookup('env','CONSUL_ENCRYPT_ENABLE') | default(true, true) }}"
+consul_disable_keyring_file: "{{ lookup('env','CONSUL_DISABLE_KEYRING_FILE') | default(false, true) }}"
 
 ## TLS
 consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"

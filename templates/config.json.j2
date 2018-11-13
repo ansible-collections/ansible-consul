@@ -61,6 +61,9 @@
     {% if consul_encrypt_enable %}
     "encrypt": "{{ consul_raw_key }}",
     {% endif %}
+    {% if consul_disable_keyring_file %}
+    "disable_keyring_file": true,
+    {% endif %}
     {% if consul_tls_enable %}
     "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
     "cert_file": "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}",
