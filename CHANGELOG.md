@@ -7,6 +7,9 @@
 - Write gossip key on all hosts (thanks @danielkucera)
 - Protect local consul cluster key file (thanks @blaet)
 - Support Amazon Linux (thanks @soloradish)
+- Quite ACL replication token retrieval (thanks @jpiron)
+- disable_keyring_file configuration option (thanks @vincepii)
+
 - Update documentation
 
 ## v2.1.0
