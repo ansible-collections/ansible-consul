@@ -1,6 +1,6 @@
-## v2.1.1 (UNRELEASED)
+## v2.1.1
 
-- Consul v1.4.0
+- Consul v1.3.1
 - Configuration and documentation for gRPC (thanks @RavisMsk)
 - Consistent boolean use
 - Fix Consul restart handler reference (thanks @blaet)
@@ -9,7 +9,7 @@
 - Support Amazon Linux (thanks @soloradish)
 - Quite ACL replication token retrieval (thanks @jpiron)
 - disable_keyring_file configuration option (thanks @vincepii)
-
+- Update tests
 - Update documentation
 
 ## v2.1.0
