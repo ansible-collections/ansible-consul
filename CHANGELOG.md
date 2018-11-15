@@ -1,3 +1,8 @@
+## v2.2.0
+
+- Consul v1.4.0
+- Update documentation
+
 ## v2.1.1
 
 - Consul v1.3.1
