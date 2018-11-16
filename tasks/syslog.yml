@@ -1,5 +1,27 @@
 ---
-# File: syslog.yml - rsyslogd config for Consul logging
+# File: syslog.yml - syslog config for Consul logging
+
+- name: Detect syslog program
+  stat:
+    path: /usr/sbin/syslog-ng
+  register: stat_syslogng
+  when:
+    - ansible_os_family != 'Windows'
+
+- name: Install syslog-ng config
+  template:
+    src: syslogng_consul.conf.j2
+    dest: /etc/syslog-ng/conf.d/consul.conf
+    owner: root
+    group: root
+    mode: 0444
+  when:
+    - ansible_os_family != 'Windows'
+    - consul_syslog_enable | bool
+    - stat_syslogng.stat.exists == True
+  notify:
+    - restart syslog-ng
+    - restart consul
 
 - name: Install rsyslogd config
   template:
@@ -11,6 +33,7 @@
   when:
     - ansible_os_family != 'Windows'
     - consul_syslog_enable | bool
+    - stat_syslogng.stat.exists == False
   notify:
     - restart rsyslog
     - restart consul
