@@ -451,7 +451,7 @@
       win_file:
         dest: "{{consul_bootstrap_state}}"
         state: touch
-      when: ansible_os_family == "Windows" and not bootstrap_state.stat.exists
+      when: not bootstrap_state.stat.exists
 
     - include_tasks: dnsmasq.yml
       when: consul_dnsmasq_enable | bool
