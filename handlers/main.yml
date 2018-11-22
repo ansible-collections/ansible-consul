@@ -17,3 +17,6 @@
 
 - name: restart rsyslog
   import_tasks: restart_rsyslog.yml
+
+- name: restart syslog-ng
+  import_tasks: restart_syslogng.yml
