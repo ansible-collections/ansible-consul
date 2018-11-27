@@ -213,3 +213,10 @@ consul_performance:
   raft_multiplier: 1
   leave_drain_time: 5s
   rpc_hold_timeout: 7s
+
+# Snapshot
+consul_snapshot: false
+consul_snapshot_storage: "{{ consul_config_path }}/snaps"
+consul_snapshot_interval: 1h
+consul_snapshot_retain: 30
+consul_snapshot_stale: false

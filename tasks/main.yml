@@ -253,6 +253,14 @@
         - smfmanifest is changed
         - ansible_os_family == "Solaris"
 
+    - name: Enable Consul Snapshots on servers
+      include_tasks: snapshot.yml
+      when:
+        - ansible_service_mgr == "systemd"
+        - not ansible_os_family == "FreeBSD"
+        - not ansible_os_family == "Solaris"
+        - consul_snapshot | bool
+
     - block:
 
       - name: Start Consul
