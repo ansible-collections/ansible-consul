@@ -4,7 +4,7 @@ ansible_default_ipv4:
   interface: eth0
 ansible_eth0:
   ipv4:
-     address: "1.1.1.1"
+    address: "1.1.1.1"
 ansible_system: ubuntu
 consul_raw_key: consul_raw_key
 _consul_lan_servers:
@@ -17,11 +17,11 @@ item:
   config_version: bootstrap
 
 ## Core
-consul_debug: no
+consul_debug: false
 is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.2.0', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.3.1', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
@@ -58,9 +58,9 @@ consul_run_path: "/var/run/consul"
 consul_binary: "{{ consul_bin_path }}/consul"
 
 ### System user and group
-consul_manage_user: yes
+consul_manage_user: true
 consul_user: "consul"
-consul_manage_group: no
+consul_manage_group: false
 consul_group: "bin"
 
 ### Consul settings
@@ -81,8 +81,8 @@ consul_node_role: "{{ lookup('env','CONSUL_NODE_ROLE') | default('client', true)
 consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
 consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(false, true) }}"
 consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
-consul_disable_update_check: no
-consul_enable_script_checks: no
+consul_disable_update_check: false
+consul_enable_script_checks: false
 consul_raft_protocol: "\
   {% if consul_version is version_compare('0.7.0', '<=') %}\
     1\
@@ -115,6 +115,7 @@ consul_addresses:
   http: "{{ consul_addresses_http | default(consul_client_address, true) }}"
   https: "{{ consul_addresses_https | default(consul_client_address, true) }}"
   rpc: "{{ consul_addresses_rpc | default(consul_client_address, true) }}"
+  grpc: "{{ consul_addresses_grpc | default(consul_client_address, true) }}"
 
 ### Ports
 consul_ports:
@@ -125,6 +126,7 @@ consul_ports:
   serf_lan: "{{ consul_ports_serf_lan | default('8301', true) }}"
   serf_wan: "{{ consul_ports_serf_wan | default('8302', true) }}"
   server: "{{ consul_ports_server | default('8300', true) }}"
+  grpc: "{{ consul_ports_grpc | default('-1', true) }}"
 
 ### Servers
 consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
@@ -139,7 +141,7 @@ consul_servers: "\
     {% endif %}\
   {% endfor %}\
   {{ _consul_servers }}"
-consul_gather_server_facts: no
+consul_gather_server_facts: false
 
 ## ACL
 consul_acl_policy: false
@@ -162,6 +164,7 @@ consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') |
 
 ## gossip encryption
 consul_encrypt_enable: "{{ lookup('env','CONSUL_ENCRYPT_ENABLE') | default(true, true) }}"
+consul_disable_keyring_file: "{{ lookup('env','CONSUL_DISABLE_KEYRING_FILE') | default(false, true) }}"
 
 ## TLS
 consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"
@@ -175,6 +178,7 @@ consul_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key',
 consul_tls_copy_keys: true
 consul_tls_verify_incoming: false
 consul_tls_verify_outgoing: true
+consul_tls_verify_incoming_https: false
 consul_tls_verify_server_hostname: false
 
 ## DNS

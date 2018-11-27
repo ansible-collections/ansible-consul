@@ -1,3 +1,71 @@
+## v2.2.0
+
+- Consul v1.4.0
+- Update documentation
+
+## v2.1.1
+
+- Consul v1.3.1
+- Configuration and documentation for gRPC (thanks @RavisMsk)
+- Consistent boolean use
+- Fix Consul restart handler reference (thanks @blaet)
+- Write gossip key on all hosts (thanks @danielkucera)
+- Protect local consul cluster key file (thanks @blaet)
+- Support Amazon Linux (thanks @soloradish)
+- Quite ACL replication token retrieval (thanks @jpiron)
+- disable_keyring_file configuration option (thanks @vincepii)
+- Update tests
+- Update documentation
+
+## v2.1.0
+
+- Consul v1.3.0
+- Fix undefined is_virtualenv condition (thanks @jpiron)
+- Ensure idempotent folder permissions (thanks @jpiron)
+- Add configurable systemd restart time (@thanks abarbare)
+- Update documentation (thanks @jeffwelling, @megamorf)
+
+## v2.0.9
+
+- Consul v1.2.3
+- Update documentation
+
+## v2.0.8
+
+- Normalize conditionals in all tasks
+- Update documentation
+
+## v2.0.7
+
+- Add initial support for Alpine Linux (thanks @replicajune)
+- Add support for verify_incoming_https (thanks @jeffwelling)
+- Fix ACL token behavior on existing configuration (thanks @abarbare)
+- Windows enhancements and fixes (thanks @imcitius)
+- Update CONTRIBUTORS
+- Update Meta
+- Update documentation
+
+## v2.0.6
+
+- Update meta for ArchLinux to allow Galaxy import
+
+## v2.0.4
+
+- Consul 1.2.2
+- Update remaining deprecated tests (thanks @viruzzo)
+- Added handler to reload configuration on Linux (thanks @viruzzo)
+- Add support for Oracle Linux (thanks @TheLastChosenOne)
+- Fix generate `consul_acl_master_token` when not provided (thanks @abarbare)
+- Update CONTRIBUTORS
+
+## v2.0.3
+
+- Fix jinja2 retry_join loops (thanks @Logan2211)
+- Dependency Management Improvements (thanks @Logan2211)
+- Update some deprecated tests in main tasks
+- Update CONTRIBUTORS
+- Update documentation
+
 ## v2.0.2
 
 - Consul v1.2.0
@@ -714,7 +782,7 @@ Do not enable a default set of ACL policies
 
 - Still with the tests
 
-## v1.2.2
+## v1.2.3
 
 - Updated README
 

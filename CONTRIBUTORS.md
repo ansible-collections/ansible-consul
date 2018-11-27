@@ -39,6 +39,21 @@ Thank you to all these fine folks for helping with ansible-consul!
 - [@suzuki-shunsuke](https://github.com/suzuki-shunsuke)
 - [@soloradish](https://github.com/soloradish)
 - [@coughlanio)](https://github.com/coughlanio)
+- [@Logan2211](https://github.com/Logan2211)
+- [@viruzzo](https://github.com/viruzzo)
+- [@TheLastChosenOne](https://github.com/TheLastChosenOne)
+- [@abarbare](https://github.com/abarbare)
+- [@replicajune](https://github.com/replicajune)
+- [@jeffwelling](https://github.com/jeffwelling)
+- [@imcitius](https://github.com/imcitius)
+- [@jpiron](https://github.com/jpiron)
+- [@megamorf](https://github.com/megamorf)
+- [@abarbare](https://github.com/abarbare)
+- [@RavisMsk](https://github.com/RavisMsk)
+- [@blaet](https://github.com/blaet)
+- [@danielkucera](https://github.com/danielkucera)
+- [@jpiron](https://github.com/jpiron)
+- [@vincepii](https://github.com/vincepii)
 
 If you have contributed but do not appear here, please fear not and accept
 apologies for the omission. Contact `brian <at> brianshumate <dot> com` and

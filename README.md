@@ -25,14 +25,21 @@ This role requires a FreeBSD, Debian, or RHEL based Linux distribution or
 Windows Server 2012 R2. It might work with other software versions, but is
 definitely known to work with the following specific software versions:
 
-* Consul: 1.2.0
-* Ansible: 2.6.0
+* Consul: 1.4.0
+* Ansible: 2.6.4
+* Alpine Linux: 3.8
 * CentOS: 7
 * Debian: 9
 * FreeBSD: 11
 * RHEL: 7
+* OracleLinux: 7
 * Ubuntu: 16.04
 * Windows: Server 2012 R2
+
+**Note:** Do not use the ansible option `-l` to limit the hosts, as
+this will break populating the variables which are required to be
+populated for your play to work. If you do use `-l' you  may encounter
+'Undefined is not JSON serializable' errors in the template.
 
 ## Role Variables
 
@@ -52,7 +59,7 @@ the variables are named and described below:
 ### `consul_version`
 
 - Version to install
-- Default value: *1.2.0*
+- Default value: *1.4.0*
 
 ### `consul_architecture_map`
 
@@ -69,6 +76,11 @@ the variables are named and described below:
 
 - Node operating system name in lowercase representation
 - Default value: `{{ ansible_os_family | lower }}`
+
+### `consul_install_dependencies`
+
+- Install python and package dependencies required for the role functions.
+- Default value: yes
 
 ### `consul_zip_url`
 
@@ -296,6 +308,7 @@ consul_node_meta:
     http: "{{ consul_addresses_http | default(consul_client_address, true) }}"
     https: "{{ consul_addresses_https | default(consul_client_address, true) }}"
     rpc: "{{ consul_addresses_rpc | default(consul_client_address, true) }}"
+    grpc: "{{ consul_addresses_grpc | default(consul_client_address, true) }}"
   ```
 
 ### `consul_ports`
@@ -306,6 +319,7 @@ consul_node_meta:
   - http - The HTTP API, -1 to disable. Default 8500.
   - https - The HTTPS API, -1 to disable. Default -1 (disabled).
   - rpc - The CLI RPC endpoint. Default 8400. This is deprecated in Consul 0.8 and later.
+  - grpc - The gRPC endpoint, -1 to disable. Default -1 (disabled).
   - serf_lan - The Serf LAN port. Default 8301.
   - serf_wan - The Serf WAN port. Default 8302.
   - server - Server RPC address. Default 8300.
@@ -322,6 +336,7 @@ For example, to enable the consul HTTPS API it is possible to set the variable a
     serf_lan: "{{ consul_ports_serf_lan | default('8301', true) }}"
     serf_wan: "{{ consul_ports_serf_wan | default('8302', true) }}"
     server: "{{ consul_ports_server | default('8300', true) }}"
+    grpc: "{{ consul_ports_grpc | default('-1', true) }}"
 ```
 
 Notice that the dict object has to use precisely the names stated in the
@@ -339,11 +354,6 @@ ports can be done using the `consul_ports_*` variables.
   See [recursors](https://www.consul.io/docs/agent/options.html#recursors)
   - Override with `CONSUL_RECURSORS` environment variable
 - Default value: Empty list
-
-### `consul_bind_address`
-
-- The interface address to bind to
-- Default value: dynamic from hosts inventory
 
 ### `consul_dnsmasq_enable`
 
@@ -415,7 +425,7 @@ ports can be done using the `consul_ports_*` variables.
 
 - ACL master token
   - Override with `CONSUL_ACL_MASTER_TOKEN` environment variable
-- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
+- Default value: *random uuid token*
 
 ### `consul_acl_master_token_display`
 
@@ -488,10 +498,15 @@ ports can be done using the `consul_ports_*` variables.
 - Enable Gossip Encryption
 - Default value: `true`
 
+## `consul_disable_keyring_file`
+
+- If set, the keyring will not be persisted to a file. Any installed keys will be lost on shutdown, and only the given -encrypt key will be available on startup.
+- Default value: `false`
+
 ## `consul_raw_key`
 
 - Set the encryption key; should be the same across a cluster. If not present the key will be generated & retrieved from the bootstrapped server.
-- Default value: ``
+- Default value: ` `
 
 ### `consul_tls_verify_incoming`
 
@@ -504,6 +519,11 @@ ports can be done using the `consul_ports_*` variables.
 - Verify outgoing connections
   - Override with `CONSUL_TLS_VERIFY_OUTGOING` environment variable
 - Default value: *true*
+
+### `consul_tls_verify_incoming_https`
+- Verify incoming connections on HTTPS endpoints (client certificates)
+  - Override with `CONSUL_TLS_VERIFY_INCOMING_HTTPS` environment variable
+- Default value: *false*
 
 ### `consul_tls_verify_server_hostname`
 
@@ -665,7 +685,7 @@ An example usage for enabling `telemetry`:
         disable_hostname: true
 ```
 
-## OS Distribution Variables
+## OS and Distribution Variables
 
 The `consul` binary works on most Linux platforms and is not distribution
 specific. However, some distributions require installation of specific OS
@@ -730,6 +750,11 @@ packages with different package names.
 
 - List of OS packages to install
 - Default value: list
+
+### consul_systemd_restart_sec
+
+- Integer value for systemd unit `RestartSec` option
+- Default value: 42
 
 ### `consul_ubuntu_pkg`
 

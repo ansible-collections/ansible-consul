@@ -1,20 +1,26 @@
 ---
 # File: main.yml - Main tasks for Consul
 
-- name: Install netaddr dependency on controlling host (with --user)
-  pip:
-    name: netaddr
-    extra_args: --user
-  delegate_to: 127.0.0.1
-  become: false
-  when: is_virtualenv is not defined
+- name: Install python dependencies
+  when:
+    - consul_install_dependencies | bool
+  block:
+    - name: Install netaddr dependency on controlling host (with --user)
+      pip:
+        name: netaddr
+        extra_args: --user
+      delegate_to: 127.0.0.1
+      become: false
+      run_once: true
+      when: is_virtualenv == '' or is_virtualenv == None
 
-- name: Install netaddr dependency on controlling host (virtualenv)
-  pip:
-    name: netaddr
-  delegate_to: 127.0.0.1
-  become: false
-  when: is_virtualenv is defined
+    - name: Install netaddr dependency on controlling host (virtualenv)
+      pip:
+        name: netaddr
+      delegate_to: 127.0.0.1
+      become: false
+      run_once: true
+      when: is_virtualenv is defined
 
 - name: Include checks/asserts
   import_tasks: asserts.yml
@@ -34,9 +40,9 @@
     - name: Gather facts from other servers
       setup:
       delegate_to: "{{ item }}"
-      delegate_facts: True
+      delegate_facts: true
       with_items: "{{ consul_servers | difference(play_hosts) }}"
-      ignore_errors: yes
+      ignore_errors: true
       when: consul_gather_server_facts | bool
 
     - name: Expose advertise_address(_wan) datacenter and node_role as facts
@@ -89,7 +95,7 @@
               slurp:
                 src: "{{ consul_config_path }}/config.json"
               register: consul_config_b64
-              ignore_errors: yes
+              ignore_errors: true
 
             - name: Deserialize existing configuration
               set_fact:
@@ -112,9 +118,8 @@
           copy:
             content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
-          become: no
+          become: false
           no_log: true
-          run_once: true
           register: consul_local_key
           delegate_to: localhost
           changed_when: false
@@ -130,7 +135,7 @@
               copy:
                 content: "{{ consul_keygen.stdout }}"
                 dest: '/tmp/consul_raw.key'
-              become: no
+              become: false
               delegate_to: localhost
 
           no_log: true
@@ -150,7 +155,7 @@
           file:
             path: '/tmp/consul_raw.key'
             state: absent
-          become: no
+          become: false
           run_once: true
           delegate_to: localhost
           changed_when: false
@@ -158,18 +163,18 @@
       when:
         - consul_encrypt_enable
 
-    - name: Create Consul configuration
-      import_tasks: config.yml
-
     - name: Create ACL configuration
       include_tasks: acl.yml
       when: consul_acl_enable | bool
+
+    - name: Create Consul configuration
+      import_tasks: config.yml
 
     - name: Create TLS configuration
       include_tasks: tls.yml
       when: consul_tls_enable | bool
 
-    - name: Create rsyslogd configuration
+    - name: Create syslog configuration
       import_tasks: syslog.yml
 
     - name: Create BSD init script
@@ -215,7 +220,7 @@
         group: root
         mode: 0644
       register: systemd_unit
-      notify: restart consul on linux
+      notify: restart consul on Linux
       when:
         - ansible_service_mgr == "systemd"
         - not ansible_os_family == "FreeBSD"
@@ -223,8 +228,8 @@
 
     - name: Reload systemd
       systemd:
-        daemon_reload: yes
-      when: systemd_unit | changed
+        daemon_reload: true
+      when: systemd_unit is changed
 
     - name: Create smf manifest
       template:
@@ -239,13 +244,13 @@
     - name: Import smf manifest
       shell: "svccfg import {{ consul_smf_manifest }}"
       when:
-        - smfmanifest | changed
+        - smfmanifest is changed
         - ansible_os_family == "Solaris"
 
     - name: Import smf script
       shell: "svcadm refresh consul"
       when:
-        - smfmanifest | changed
+        - smfmanifest is changed
         - ansible_os_family == "Solaris"
 
     - block:
@@ -254,7 +259,7 @@
         service:
           name: consul
           state: started
-          enabled: yes
+          enabled: true
 
       - name: Check Consul HTTP API (via TCP socket)
         wait_for:
@@ -267,7 +272,7 @@
         wait_for:
           delay: 15
           path: "{{ consul_addresses.http | replace('unix://', '', 1) }}"
-        when: consul_addresses.http | match("unix://*")
+        when: consul_addresses.http is match("unix://*")
 
       - name: Create bootstrapped state file
         file:
@@ -300,9 +305,9 @@
     - name: (Windows) Gather facts from other servers
       setup:
       delegate_to: "{{ item }}"
-      delegate_facts: True
+      delegate_facts: true
       with_items: "{{ consul_servers | difference(play_hosts) }}"
-      ignore_errors: yes
+      ignore_errors: true
       when: consul_gather_server_facts | bool
 
     - name: (Windows) Expose bind_address, datacenter and node_role as facts
@@ -337,7 +342,7 @@
               slurp:
                 src: "{{ consul_config_path }}/config.json"
               register: consul_config_b64
-              ignore_errors: yes
+              ignore_errors: true
 
             - name: (Windows) Deserialize existing configuration
               set_fact:
@@ -360,7 +365,8 @@
           copy:
             content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
-          become: no
+            mode: 0700
+          become: false
           no_log: true
           run_once: true
           register: consul_local_key
@@ -378,7 +384,8 @@
               copy:
                 content: "{{ consul_keygen.stdout }}"
                 dest: '/tmp/consul_raw.key'
-              become: no
+                mode: 0700
+              become: false
               delegate_to: localhost
 
           no_log: true
@@ -398,7 +405,7 @@
           file:
             path: '/tmp/consul_raw.key'
             state: absent
-          become: no
+          become: false
           run_once: true
           delegate_to: localhost
       no_log: true
@@ -439,10 +446,8 @@
           stderr_file: "{{ consul_log_path }}/consul-nssm-error.log"
 
       - name: (Windows) Check Consul HTTP API
-        local_action:
-          module: wait_for
+        win_wait_for:
           delay: 5
-          host: "{{inventory_hostname_short}}"
           port: 8500
 
       - name: (Windows) Create bootstrapped state file

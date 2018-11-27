@@ -24,8 +24,10 @@
         {% endif %}
         "dns": "{{ consul_addresses.dns }}",
         "http": "{{ consul_addresses.http }}",
-        "https": "{{ consul_addresses.https }}"
-
+        "https": "{{ consul_addresses.https }}",
+        {% if consul_version is version_compare('1.3.0', '>=') %}
+        "grpc": "{{ consul_addresses.grpc }}"
+        {% endif %}
     },
     {## Ports Used ##}
     "ports": {
@@ -37,7 +39,10 @@
         "https": {{ consul_ports.https }},
         "serf_lan": {{ consul_ports.serf_lan }},
         "serf_wan": {{ consul_ports.serf_wan }},
-        "server": {{ consul_ports.server }}
+        "server": {{ consul_ports.server }},
+        {% if consul_version is version_compare('1.3.0', '>=') %}
+        "grpc": {{ consul_ports.grpc }}
+        {% endif %}
     },
 
     {## Raft protocol ##}
@@ -60,12 +65,16 @@
     {% if consul_encrypt_enable %}
     "encrypt": "{{ consul_raw_key }}",
     {% endif %}
+    {% if consul_disable_keyring_file %}
+    "disable_keyring_file": true,
+    {% endif %}
     {% if consul_tls_enable %}
     "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
     "cert_file": "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}",
     "key_file": "{{ consul_tls_dir }}/{{ consul_server_key }}",
     "verify_incoming": {{ consul_tls_verify_incoming | bool | to_json }},
     "verify_outgoing": {{ consul_tls_verify_outgoing | bool | to_json }},
+    "verify_incoming_https": {{consul_tls_verify_incoming_https | bool| to_json }},
     "verify_server_hostname": {{ consul_tls_verify_server_hostname | bool | to_json }},
     {% endif %}
 
@@ -91,9 +100,9 @@
 
     "retry_join":
     {% for server in _consul_lan_servers %}
-    {% set consul_join = consul_join + [ hostvars[server]['consul_advertise_address'] | default(hostvars[server]['consul_bind_address']) ] %}{% if loop.last %}
+    {%   set _ = consul_join.append(hostvars[server]['consul_advertise_address'] | default(hostvars[server]['consul_bind_address'])) %}
+    {% endfor %}
     {{ consul_join | map('ipwrap') | list | to_json }},
-    {% endif %}{% endfor %}
 
     {## Server/Client ##}
     "server": {{ (item.config_version != 'client') | bool | to_json }},
@@ -134,9 +143,9 @@
     {% if _consul_wan_servercount | int > 0 %}
     "retry_join_wan":
     {% for server in _consul_wan_servers %}
-    {% set consul_join_wan = consul_join_wan + [ hostvars[server]['consul_advertise_address_wan'] | default(hostvars[server]['consul_bind_address']) ] %}{% if loop.last %}
+    {%   set _ = consul_join_wan.append(hostvars[server]['consul_advertise_address_wan'] | default(hostvars[server]['consul_bind_address'])) %}
+    {% endfor %}
     {{ consul_join_wan | map('ipwrap') | list | to_json }},
-    {% endif %}{% endfor %}
     {% endif %}
 
     {## Server ACLs ##}
