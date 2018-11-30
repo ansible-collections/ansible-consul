@@ -1,6 +1,11 @@
 {# Enable forward lookups for the consul domain -#}
 server=/{{ consul_domain }}/{{ consul_dnsmasq_consul_address }}#{{ consul_ports.dns }}
 
+{# Only bind to specific interfaces -#}
+{% if consul_dnsmasq_bind_interfaces -%}
+bind-interfaces
+{% endif -%}
+
 {# Reverse DNS lookups -#}
 {% for revserver in consul_dnsmasq_revservers -%}
     rev-server={{ revserver }},{{ consul_dnsmasq_consul_address }}#{{ consul_ports.dns }}
