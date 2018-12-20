@@ -1,3 +1,7 @@
+## v2.3.0 (UNRELEASED)
+
+- Snapshot agent installation and configuration (thanks @drewmullen)
+
 ## v2.2.0
 
 - Consul v1.4.0
