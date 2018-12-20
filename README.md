@@ -663,6 +663,27 @@ _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
   - Override with `CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG` environment variable
 - Default value: ''
 
+## Consul Snapshot Agent
+
+_Consul snapshot agent takes backup snaps on a set interval and stores them. Must have enterprise_
+
+### `consul_snapshot`
+
+- Bool, true will setup and start snapshot agent (enterprise only)
+- Default value: false
+
+### `consul_snapshot_storage`
+
+- Location snapshots will be stored. NOTE: path must end in snaps
+- Default value: `{{ consul_config_path }}/snaps`
+
+### `consul_snapshot_interval`
+
+- Default value: `1h`
+
+### `consul_snapshot_retain`
+
+- Default value: `30`
 
 
 #### Custom Configuration Section
