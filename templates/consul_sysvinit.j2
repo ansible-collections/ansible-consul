@@ -52,12 +52,12 @@ start() {
 
 stop() {
         echo -n "Shutting down consul: "
-        if ("${CONSUL}" info 2>/dev/null | grep -q 'server = false' 2>/dev/null) ; then
-            "${CONSUL}" leave
+        if ("${CONSUL}" info -http-addr={{ consul_bind_address }}:{{ consul_ports.http }} 2>/dev/null | grep -q 'server = false' 2>/dev/null) ; then
+            "${CONSUL}" leave -http-addr={{ consul_bind_address }}:{{ consul_ports.http }}
         fi
 
         mkpidfile
-        killproc "${KILLPROC_OPT}" "${CONSUL}" -9
+        killproc $KILLPROC_OPT $CONSUL -SIGTERM
 
         retcode=$?
         rm -f "${LOCK_FILE}" "${PID_FILE}"
@@ -72,7 +72,7 @@ case "$1" in
         stop
         ;;
     status)
-        "${CONSUL}" info
+        "${CONSUL}" info -http-addr={{ consul_bind_address }}:{{ consul_ports.http }}
         ;;
     restart)
         stop
