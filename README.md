@@ -116,16 +116,22 @@ the variables are named and described below:
 - Default Linux value: `/var/consul`
 - Default Windows value: `C:\ProgramData\consul\data`
 
+### `consul_configure_syslogd`
+
+- Enable configuration of rsyslogd or syslog-ng on Linux. If disabled, Consul will still log to syslog if `consul_syslog_enable` is true, but the syslog daemon won't be configured to write Consul logs to their own logfile.
+  - Override with `CONSUL_CONFIGURE_SYSLOGD` environment variable
+- Default Linux value: *true*
+
 ### `consul_log_path`
 
-- Log path for use in rsyslogd configuration on Linux.
+- Log path for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
 - Default Linux value: `/var/log/consul`
   - Override with `CONSUL_LOG_PATH` environment variable
 - Default Windows value: `C:\ProgramData\consul\log`
 
 ### `consul_log_file`
 
-- Log file for use in rsyslogd configuration on Linux.
+- Log file for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
   - Override with `CONSUL_LOG_FILE` environment variable
 - Default Linux value: `consul.log`
 
@@ -137,14 +143,14 @@ the variables are named and described below:
 
 ### `syslog_user`
 
-- Owner of `rsyslogd` process on Linux. `consul_log_path`'s ownership is set to this user on Linux.
+- Owner of `rsyslogd` process on Linux. `consul_log_path`'s ownership is set to this user on Linux. Ignored if `consul_configure_syslogd` is false.
   - Override with `SYSLOG_USER` environment variable
 - Default Linux value: *syslog*
 
 
 ### `syslog_group`
 
-- Group of user running `rsyslogd` process on Linux. `consul_log_path`'s group ownership is set to this group on Linux.
+- Group of user running `rsyslogd` process on Linux. `consul_log_path`'s group ownership is set to this group on Linux. Ignored if `consul_configure_syslogd` is false.
   - Override with `SYSLOG_GROUP` environment variable
 - Default value: *adm*
 
