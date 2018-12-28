@@ -11,6 +11,8 @@
         extra_args: --user
       delegate_to: 127.0.0.1
       become: false
+      vars:
+        ansible_become: false
       run_once: true
       when: is_virtualenv == '' or is_virtualenv == None
 
@@ -19,6 +21,8 @@
         name: netaddr
       delegate_to: 127.0.0.1
       become: false
+      vars:
+        ansible_become: false
       run_once: true
       when: is_virtualenv is defined
 
@@ -119,6 +123,8 @@
             content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
           become: false
+          vars:
+            ansible_become: false
           no_log: true
           register: consul_local_key
           delegate_to: localhost
@@ -136,6 +142,8 @@
                 content: "{{ consul_keygen.stdout }}"
                 dest: '/tmp/consul_raw.key'
               become: false
+              vars:
+                ansible_become: false
               delegate_to: localhost
 
           no_log: true
@@ -156,6 +164,8 @@
             path: '/tmp/consul_raw.key'
             state: absent
           become: false
+          vars:
+            ansible_become: false
           run_once: true
           delegate_to: localhost
           changed_when: false
@@ -375,6 +385,8 @@
             dest: '/tmp/consul_raw.key'
             mode: 0700
           become: false
+          vars:
+            ansible_become: false
           no_log: true
           run_once: true
           register: consul_local_key
@@ -394,6 +406,8 @@
                 dest: '/tmp/consul_raw.key'
                 mode: 0700
               become: false
+              vars:
+                ansible_become: false
               delegate_to: localhost
 
           no_log: true
@@ -414,6 +428,8 @@
             path: '/tmp/consul_raw.key'
             state: absent
           become: false
+          vars:
+            ansible_become: false
           run_once: true
           delegate_to: localhost
       no_log: true
