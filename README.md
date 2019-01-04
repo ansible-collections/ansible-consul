@@ -633,24 +633,25 @@ Used in the serf health check to determine node health.
 
 _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
 
-  - Override with `CONSUL_AUTOPILOT_REDUNDANCY_ZONE_TAG` environment variable
+- Override with `CONSUL_AUTOPILOT_REDUNDANCY_ZONE_TAG` environment variable
 - Default value: 'az'
 
 #### `consul_autopilot_disable_upgrade_migration`
 
 _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
 
-  - Override with `CONSUL_AUTOPILOT_DISABLE_UPGRADE_MIGRATION` environment variable
+- Override with `CONSUL_AUTOPILOT_DISABLE_UPGRADE_MIGRATION` environment variable
 - Default value: **false**
 
 #### `consul_autopilot_upgrade_version_tag`
 
 _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
 
-  - Override with `CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG` environment variable
+- Override with `CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG` environment variable
 - Default value: ''
+- Default value: `30`
 
-### Custom Configuration Section
+#### Custom Configuration Section
 
 As Consul loads the configuration from files and directories in lexical order,
 typically merging on top of previously parsed configuration files, you may set
@@ -669,6 +670,26 @@ An example usage for enabling `telemetry`:
           - "compliance"
         disable_hostname: true
 ```
+
+## Consul Snapshot Agent
+
+_Consul snapshot agent takes backup snaps on a set interval and stores them. Must have enterprise_
+
+### `consul_snapshot`
+
+- Bool, true will setup and start snapshot agent (enterprise only)
+- Default value: false
+
+### `consul_snapshot_storage`
+
+- Location snapshots will be stored. NOTE: path must end in snaps
+- Default value: `{{ consul_config_path }}/snaps`
+
+### `consul_snapshot_interval`
+
+- Default value: `1h`
+
+### `consul_snapshot_retain`
 
 ## OS and Distribution Variables
 

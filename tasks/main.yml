@@ -174,7 +174,7 @@
       include_tasks: tls.yml
       when: consul_tls_enable | bool
 
-    - name: Create rsyslogd configuration
+    - name: Create syslog configuration
       import_tasks: syslog.yml
 
     - name: Create BSD init script
@@ -253,6 +253,14 @@
         - smfmanifest is changed
         - ansible_os_family == "Solaris"
 
+    - name: Enable Consul Snapshots on servers
+      include_tasks: snapshot.yml
+      when:
+        - ansible_service_mgr == "systemd"
+        - not ansible_os_family == "FreeBSD"
+        - not ansible_os_family == "Solaris"
+        - consul_snapshot | bool
+
     - block:
 
       - name: Start Consul
@@ -279,13 +287,13 @@
           dest: "{{ consul_bootstrap_state }}"
           state: touch
 
-      - include_tasks: ../tasks/dnsmasq.yml
-        when: consul_dnsmasq_enable | bool
-
       - include_tasks: ../tasks/iptables.yml
         when: consul_iptables_enable | bool
 
       when: not bootstrap_state.stat.exists
+
+    - include_tasks: ../tasks/dnsmasq.yml
+      when: consul_dnsmasq_enable | bool
 
   when: ansible_os_family != 'Windows'
 
@@ -456,12 +464,12 @@
           state: touch
         when: ansible_os_family == "Windows"
 
-      - include_tasks: ../tasks/dnsmasq.yml
-        when: consul_dnsmasq_enable | bool
-
       - include_tasks: ../tasks/iptables.yml
         when: consul_iptables_enable | bool
 
       when: not bootstrap_state.stat.exists
+
+    - include_tasks: ../tasks/dnsmasq.yml
+      when: consul_dnsmasq_enable | bool
 
   when: ansible_os_family == 'Windows'
