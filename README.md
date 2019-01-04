@@ -12,21 +12,18 @@ It can bootstrap a development or evaluation cluster of 3 server agents running 
 > “Another flaw in the human character is that everybody wants to build and nobody wants to do maintenance.”<br>
 > ― Kurt Vonnegut, Hocus Pocus
 
-Please note that this role is more concerned with the initial installation and bootstrapping of a running cluster environment and does not currently concern itself (all that much) with performing ongoing drif^H^H^H^H *maintenance* of an existing cluster.
+Please note that this role is more concerned with the initial installation and bootstrapping of a running cluster environment and does not currently concern itself (all that much) with performing ongoing maintenance of a cluster.
 
-Many users have expressed that the Vagrant based environment makes getting a
-working local Consul server cluster environment up and running an easy process — so this role will target that experience as a primary motivator for existing.
+Many users have expressed that the Vagrant based environment makes getting a working local Consul server cluster environment up and running an easy process — so this role will target that experience as a primary motivator for existing.
 
 If you get some mileage from it in other ways, then all the better!
 
 ## Requirements
 
-This role requires a FreeBSD, Debian, or RHEL based Linux distribution or
-Windows Server 2012 R2. It might work with other software versions, but is
-definitely known to work with the following specific software versions:
+This role requires a FreeBSD, Debian, or RHEL based Linux distribution or Windows Server 2012 R2. It might work with other OS distributions and versions, but is definitely known to work with the following OS versions:
 
 * Consul: 1.4.0
-* Ansible: 2.6.4
+* Ansible: 2.7.2
 * Alpine Linux: 3.8
 * CentOS: 7
 * Debian: 9
@@ -36,10 +33,7 @@ definitely known to work with the following specific software versions:
 * Ubuntu: 16.04
 * Windows: Server 2012 R2
 
-**Note:** Do not use the ansible option `-l` to limit the hosts, as
-this will break populating the variables which are required to be
-populated for your play to work. If you do use `-l' you  may encounter
-'Undefined is not JSON serializable' errors in the template.
+**NOTE**: This role does not work with the `ansible` limit option (`-l`) to limit the hosts, as this will break populating the host variables which are required. If you do use the limit option, you could encounter template errors like: `Undefined is not JSON serializable`.
 
 ## Role Variables
 
@@ -49,12 +43,9 @@ The role uses variables defined in these three sources:
 - `vars/*.yml`
 - Hosts inventory file (see `examples/vagrant_hosts` for an example)
 
-NOTE: The label for servers in the hosts inventory file must be
-`[consul_instances]` as shown in the example. The role will not function
-properly if the label name is anything else.
+**NOTE**: The label for servers in the hosts inventory file must be `[consul_instances]` as shown in the example. The role will not function if the label name is anything other value.
 
-Many of these can also be further overridden by environment variables as well;
-the variables are named and described below:
+Many of these role variables can also be further overridden by environment variables as well.
 
 ### `consul_version`
 
@@ -63,7 +54,7 @@ the variables are named and described below:
 
 ### `consul_architecture_map`
 
-- Dictionary for translating ansible_architecture to HashiCorp architecture
+- Dictionary for translating _ansible_architecture_ values to go architecture values
   naming convention
 - Default value: dict
 
@@ -74,22 +65,22 @@ the variables are named and described below:
 
 ### `consul_os`
 
-- Node operating system name in lowercase representation
+- Operating system name in lowercase representation
 - Default value: `{{ ansible_os_family | lower }}`
 
 ### `consul_install_dependencies`
 
-- Install python and package dependencies required for the role functions.
+- Install python and package dependencies required for the role functions
 - Default value: yes
 
 ### `consul_zip_url`
 
-- Consul archive download URL
+- Consul archive file download URL
 - Default value: `https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip`
 
 ### `consul_checksum_file_url`
 
-- Package SHA256 summaries URL
+- Package SHA256 summaries file URL
 - Default value: `https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_version }}_SHA256SUMS`
 
 ### `consul_bin_path`
@@ -112,20 +103,20 @@ the variables are named and described below:
 
 ### `consul_data_path`
 
-- Data path as defined in [data_dir or -data-dir](https://www.consul.io/docs/agent/options.html#_data_dir)
+- Data directory path as defined in [data_dir or -data-dir](https://www.consul.io/docs/agent/options.html#_data_dir)
 - Default Linux value: `/var/consul`
 - Default Windows value: `C:\ProgramData\consul\data`
 
 ### `consul_log_path`
 
-- Log path for use in rsyslogd configuration on Linux.
+- Log file path for use in rsyslogd configuration on Linux
 - Default Linux value: `/var/log/consul`
   - Override with `CONSUL_LOG_PATH` environment variable
 - Default Windows value: `C:\ProgramData\consul\log`
 
 ### `consul_log_file`
 
-- Log file for use in rsyslogd configuration on Linux.
+- Log file for use in rsyslogd configuration on Linux
   - Override with `CONSUL_LOG_FILE` environment variable
 - Default Linux value: `consul.log`
 
@@ -137,20 +128,19 @@ the variables are named and described below:
 
 ### `syslog_user`
 
-- Owner of `rsyslogd` process on Linux. `consul_log_path`'s ownership is set to this user on Linux.
+- Owner of `rsyslogd` process on Linux; `consul_log_path`'s ownership is set to this user on Linux
   - Override with `SYSLOG_USER` environment variable
 - Default Linux value: *syslog*
 
-
 ### `syslog_group`
 
-- Group of user running `rsyslogd` process on Linux. `consul_log_path`'s group ownership is set to this group on Linux.
+- Group of user running `rsyslogd` process on Linux; `consul_log_path`'s group ownership is set to this group on Linux
   - Override with `SYSLOG_GROUP` environment variable
 - Default value: *adm*
 
 ### `consul_run_path`
 
-- Run path for PID file
+- Run path for process identifier (PID) file
 - Default Linux value: `/var/run/consul`
 - Default Windows value: `C:\ProgramData\consul`
 
@@ -183,22 +173,22 @@ the variables are named and described below:
 
 ### `consul_retry_max`
 
-- Max reconnection attempts to LAN servers before failing, 0=infinit
+- Max reconnection attempts to LAN servers before failing (0 = infinite)
 - Default value: *0*
 
 ### `consul_retry_max_wan`
 
-- Max reconnection attempts to WAN servers before failing, 0=infinit
+- Max reconnection attempts to WAN servers before failing (0 = infinite)
 - Default value: *0*
 
 ### `consul_join`
 
-- List of LAN servers, not managed by this role, to join (ipv4 ipv6 or dns addresses)
+- List of LAN servers, not managed by this role, to join (IPv4 IPv6 or DNS addresses)
 - Default value: *[]*
 
 ### `consul_join_wan`
 
-- List of WAN servers, not managed by this role, to join (ipv4 ipv6 or dns addresses)
+- List of WAN servers, not managed by this role, to join (IPv4 IPv6 or DNS addresses)
 - Default value: *[]*
 
 ### `consul_servers`
@@ -211,11 +201,9 @@ It's typically not necessary to manually alter this list.
 
 ### `consul_gather_server_facts`
 
-This feature makes it possible to gather the `consul_advertise_address(_wan)` from
-servers that are currently not targeted by the playbook.
+This feature makes it possible to gather the `consul_advertise_address(_wan)` from servers that are currently not targeted by the playbook.
 
-To make this possible the `delegate_facts` option is used; note that his
-option has been problematic.
+To make this possible the `delegate_facts` option is used; note that his option has been problematic.
 
 - Gather facts from servers that are not currently targeted
 - Default value: 'no'
@@ -273,7 +261,7 @@ consul_node_meta:
 
 ### `consul_advertise_address`
 
-- Lan advertise address
+- LAN advertise address
 - Default value: `consul_bind_address`
 
 ### `consul_advertise_address_wan`
@@ -284,7 +272,7 @@ consul_node_meta:
 ### `consul_advertise_addresses`
 
 - Advanced advertise addresses settings
-- Individual addresses kan be overwritten using the `consul_advertise_addresses_*` variables
+- Individual addresses can be overwritten using the `consul_advertise_addresses_*` variables
 - Default value:
   ```yaml
   consul_advertise_addresses:
@@ -292,6 +280,7 @@ consul_node_meta:
     serf_wan: "{{ consul_advertise_addresses_serf_wan | default(consul_advertise_address_wan+':'+consul_ports.serf_wan) }}"
     rpc: "{{ consul_advertise_addresses_rpc | default(consul_bind_address+':'+consul_ports.server) }}"
   ```
+
 ### `consul_client_address`
 
 - Client address
@@ -339,9 +328,7 @@ For example, to enable the consul HTTPS API it is possible to set the variable a
     grpc: "{{ consul_ports_grpc | default('-1', true) }}"
 ```
 
-Notice that the dict object has to use precisely the names stated in the
-documentation! And all ports must be specified. Overwriting one or multiple
-ports can be done using the `consul_ports_*` variables.
+Notice that the dict object has to use precisely the names stated in the documentation! And all ports must be specified. Overwriting one or multiple ports can be done using the `consul_ports_*` variables.
 
 ### `consul_node_name`
 
@@ -600,7 +587,7 @@ consul3.consul consul_node_role=server consul_bootstrap_expect=true
 consul4.local consul_node_role=client
 ```
 
-> Note that this second form is the prefered one, because it is simpler.
+> Note that this second form is the preferred one, because it is simpler.
 
 
 ### `consul_autopilot_enable`
@@ -663,9 +650,7 @@ _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
   - Override with `CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG` environment variable
 - Default value: ''
 
-
-
-#### Custom Configuration Section
+### Custom Configuration Section
 
 As Consul loads the configuration from files and directories in lexical order,
 typically merging on top of previously parsed configuration files, you may set
@@ -819,17 +804,11 @@ packages with different package names.
 
 ## Dependencies
 
-Ansible requires GNU tar and this role performs some local use of the
-unarchive module, so ensure that your system has `gtar` installed and
-in the PATH.
+Ansible requires GNU tar and this role performs some local use of the unarchive module, so ensure that your system has `gtar` installed and in the PATH.
 
-If you're on system with a different (i.e. BSD) `tar`, like macOS and you
-see odd errors during unarchive tasks, you could be missing `gtar`.
+If you're on system with a different (i.e. BSD) `tar`, like macOS and you see odd errors during unarchive tasks, you could be missing `gtar`.
 
-Installing Ansible on Windows requires the PowerShell Community Extensions.
-These already installed on Windows Server 2012 R2 and onward. If you're
-attempting this role on Windows Server 2008 or earlier, you'll want to install
-the extensions [here](https://pscx.codeplex.com/).
+Installing Ansible on Windows requires the PowerShell Community Extensions. These already installed on Windows Server 2012 R2 and onward. If you're attempting this role on Windows Server 2008 or earlier, you'll want to install the extensions [here](https://pscx.codeplex.com/).
 
 ## Example Playbook
 
@@ -854,23 +833,16 @@ Be aware that for clustering, the included `site.yml` does the following:
 
 ### ACL Support
 
-Basic support for ACLs is included in the role. You can set the environment
-variables `CONSUL_ACL_ENABLE` to *true*, and also set the
-`CONSUL_ACL_DATACENTER` environment variable to its correct value for your
-environment prior to executing your playbook; for example:
+Basic support for ACLs is included in the role. You can set the environment variables `CONSUL_ACL_ENABLE` to *true*, and also set the `CONSUL_ACL_DATACENTER` environment variable to its correct value for your environment prior to executing your playbook; for example:
 
 ```
 CONSUL_ACL_ENABLE=true CONSUL_ACL_DATACENTER=maui \
 CONSUL_ACL_MASTER_TOKEN_DISPLAY=true ansible-playbook -i uat_hosts aloha.yml
 ```
 
-If you want the automatically generated ACL Master Token value emitted to
-standard out during the play, set the environment variable
-`CONSUL_ACL_MASTER_TOKEN_DISPLAY` to *true* as in the above example.
+If you want the automatically generated ACL Master Token value emitted to standard out during the play, set the environment variable `CONSUL_ACL_MASTER_TOKEN_DISPLAY` to *true* as in the above example.
 
-If you want to use existing tokens, set the environment variables
-`CONSUL_ACL_MASTER_TOKEN` and `CONSUL_ACL_REPLICATION_TOKEN` as well,
-for example:
+If you want to use existing tokens, set the environment variables `CONSUL_ACL_MASTER_TOKEN` and `CONSUL_ACL_REPLICATION_TOKEN` as well, for example:
 
 ```
 CONSUL_ACL_ENABLE=true CONSUL_ACL_DATACENTER=stjohn \
@@ -879,12 +851,9 @@ CONSUL_ACL_REPLICATION_TOKEN=C609E56E-DD0B-4B99-A0AD-B079252354A0 \
 CONSUL_ACL_MASTER_TOKEN_DISPLAY=true ansible-playbook -i uat_hosts sail.yml
 ```
 
-There are a number of Ansible ACL variables you can override to further
-refine your initial ACL setup. They are not all currently picked up from
-environment variables, but do have some sensible defaults.
+There are a number of Ansible ACL variables you can override to further refine your initial ACL setup. They are not all currently picked up from environment variables, but do have some sensible defaults.
 
-Check `defaults/main.yml` to see how some of he defaults (i.e. tokens)
-are automatically generated.
+Check `defaults/main.yml` to see how some of he defaults (i.e. tokens) are automatically generated.
 
 ### Dnsmasq DNS Forwarding Support
 
@@ -966,8 +935,7 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 
 ### iptables DNS Forwarding Support
 
-This role can also use iptables instead of Dnsmasq for forwarding DNS queries
-to Consul. You can enable it like this:
+This role can also use iptables instead of Dnsmasq for forwarding DNS queries to Consul. You can enable it like this:
 
 ```
 ansible-playbook -i hosts site.yml --extra-vars "consul_iptables_enable=true"
@@ -979,8 +947,7 @@ ansible-playbook -i hosts site.yml --extra-vars "consul_iptables_enable=true"
 
 ### TLS Support
 
-You can enable TLS encryption by dropping a CA certificate, server
-certificate, and server key into the role's `files` directory.
+You can enable TLS encryption by dropping a CA certificate, server certificate, and server key into the role's `files` directory.
 
 By default these are named:
 
@@ -988,13 +955,11 @@ By default these are named:
 - `server.crt` (can be overridden by {{ consul_tls_server_crt }})
 - `server.key` (can be overridden by {{ consul_server_key }})
 
-Then either set the environment variable `CONSUL_TLS_ENABLE=true` or use the
-Ansible variable `consul_tls_enable=true` at role runtime.
+Then either set the environment variable `CONSUL_TLS_ENABLE=true` or use the Ansible variable `consul_tls_enable=true` at role runtime.
 
 ### Vagrant and VirtualBox
 
-See [examples/README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) for details on quick Vagrant deployments
-under VirtualBox for development, evaluation, testing, etc.
+See [examples/README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) for details on quick Vagrant deployments under VirtualBox for development, evaluation, testing, etc.
 
 ## License
 
@@ -1006,8 +971,6 @@ BSD
 
 ## Contributors
 
-Special thanks to the folks listed in [CONTRIBUTORS.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTORS.md) for their
-contributions to this project.
+Special thanks to the folks listed in [CONTRIBUTORS.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTORS.md) for their contributions to this project.
 
-Contributions are welcome, provided that you can agree to the terms outlined
-in [CONTRIBUTING.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTING.md).
+Contributions are welcome, provided that you can agree to the terms outlined in [CONTRIBUTING.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTING.md).
