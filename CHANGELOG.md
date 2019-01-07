@@ -1,6 +1,12 @@
 ## v2.3.0 (UNRELEASED)
 
+- The role no longer attempts to install the unzip binary locally onto
+  the Ansible control host; it is now a hard dependency and role execution
+  will fail if unzip is not in the PATH on the control host.
 - Snapshot agent installation and configuration (thanks @drewmullen)
+- Delegate Consul datacenter DNS domain to Consul (thanks @teralype)
+- Allow DNSmasq binding to particular interfaces (thanks @teralype)
+- Update documentation
 
 ## v2.2.0
 

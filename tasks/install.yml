@@ -64,15 +64,6 @@
   run_once: true
   when: ansible_os_family == "Alpine"
 
-- name: Install unzip package
-  local_action:
-    module: package
-    name: unzip
-    state: present
-  run_once: true
-  when:
-    - consul_install_dependencies | bool
-
 - name: Unarchive Consul package
   local_action:
     module: unarchive
