@@ -1,6 +1,7 @@
 ## v2.3.0 (UNRELEASED)
 
 - Snapshot agent installation and configuration (thanks @drewmullen)
+- Delegate Consul datacenter DNS domain to Consul (thanks @teralype)
 
 ## v2.2.0
 
