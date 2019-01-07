@@ -1,5 +1,5 @@
 {# Enable forward lookups for the consul domain -#}
-server=/{{ consul_domain }}/{{ consul_dnsmasq_consul_address }}#{{ consul_ports.dns }}
+server=/{{ consul_datacenter }}.{{ consul_domain }}/{{ consul_dnsmasq_consul_address }}#{{ consul_ports.dns }}
 
 {# Reverse DNS lookups -#}
 {% for revserver in consul_dnsmasq_revservers -%}
