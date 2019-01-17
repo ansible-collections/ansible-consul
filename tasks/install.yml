@@ -13,6 +13,8 @@
     module: stat
     path: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   become: false
+  vars:
+    ansible_become: false
   run_once: true
   register: consul_checksum
   tags: installation
@@ -23,6 +25,8 @@
     url: "{{ consul_checksum_file_url }}"
     dest: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   become: false
+  vars:
+    ansible_become: false
   run_once: true
   tags: installation
   when: not consul_checksum.stat.exists | bool
@@ -32,6 +36,8 @@
     module: shell
       grep "{{ consul_pkg }}" "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS" | awk '{print $1}'
   become: false
+  vars:
+    ansible_become: false
   run_once: true
   register: consul_sha256
   tags: installation
@@ -41,6 +47,8 @@
     module: stat
     path: "{{ role_path }}/files/{{ consul_pkg }}"
   become: false
+  vars:
+    ansible_become: false
   run_once: true
   register: consul_package
   tags: installation
@@ -53,6 +61,8 @@
     checksum: "sha256:{{ consul_sha256.stdout }}"
     timeout: "42"
   become: false
+  vars:
+    ansible_become: false
   run_once: true
   tags: installation
   when: not consul_package.stat.exists | bool
@@ -71,6 +81,8 @@
     dest: "{{ role_path }}/files/"
     creates: "{{ role_path }}/files/consul"
   become: false
+  vars:
+    ansible_become: false
   run_once: true
   tags: installation
 
@@ -94,6 +106,8 @@
 - name: Cleanup
   local_action: file path="{{ item }}" state="absent"
   become: false
+  vars:
+    ansible_become: false
   with_fileglob: "{{ role_path }}/files/consul"
   run_once: true
   tags: installation
