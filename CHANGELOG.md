@@ -1,3 +1,9 @@
+## v2.3.1
+
+- Add Consul 1.4.0 ACL configuration syntax support (thanks @jpiron)
+- Fix unzip installation check task check mode (thanks @jpiron)
+- Fix systemd configuration task handler notification (thanks @jpiron)
+
 ## v2.3.0
 
 - The role no longer attempts to install the unzip binary locally onto
