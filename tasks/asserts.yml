@@ -89,6 +89,8 @@
   local_action:
     module: shell command -v unzip -h >/dev/null 2>&1
   become: false
+  changed_when: false  # readonly task
+  check_mode: false
   run_once: true
   register: is_unzip_installed
   ignore_errors: true
