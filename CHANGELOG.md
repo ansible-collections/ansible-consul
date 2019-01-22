@@ -1,3 +1,7 @@
+## v2.3.2 (UNRELEASED)
+
+- Remove token generation/retrieval on clients (thanks @jpiron)
+
 ## v2.3.1
 
 - Add Consul 1.4.0 ACL configuration syntax support (thanks @jpiron)
