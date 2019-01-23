@@ -89,6 +89,7 @@ consul_raft_protocol: "\
   {% else %}\
     3\
   {% endif %}"
+consul_retry_join_skip_hosts: false
 consul_retry_interval: "30s"
 consul_retry_interval_wan: "30s"
 consul_retry_max: 0
