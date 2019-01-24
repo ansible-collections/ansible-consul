@@ -78,7 +78,8 @@
     "verify_server_hostname": {{ consul_tls_verify_server_hostname | bool | to_json }},
     {% endif %}
 
-    {## ACLs ##}
+    {## ACLs pre-1.4 ##}
+    {% if consul_version != '1.4.0' %}
     {% if consul_acl_enable %}
     {% if consul_acl_token | trim != '' %}
     "acl_token": "{{ consul_acl_token }}",
@@ -92,6 +93,16 @@
     "acl_ttl": "{{ consul_acl_ttl }}",
     "acl_datacenter": "{{ consul_acl_datacenter }}",
     "acl_down_policy": "{{ consul_acl_down_policy }}",
+    {% endif %}
+    {% endif %}
+
+    {## ACLs 1.4+ ##}
+    {% if consul_version == '1.4.0' %}
+    "acl": {
+      "enabled": false,
+      "default_policy": "allow",
+      "down_policy": "extend-cache"
+    },
     {% endif %}
 
     {## LAN Join ##}
