@@ -2,6 +2,8 @@
 
 - Consul v1.4.2
 - Remove token generation/retrieval on clients (thanks @jpiron)
+- Add listen to all the handler tasks (@pwae)
+- retry_join setup independent from the hosts servers (thanks @Fuochi-YNAP)
 
 ## v2.3.1
 
