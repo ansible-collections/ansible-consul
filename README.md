@@ -186,6 +186,11 @@ Many role variables can also take their values from environment variables as wel
 - Interval for reconnection attempts to WAN servers
 - Default value: 30s
 
+### `consul_retry_join_skip_hosts`
+
+- If true, the config value for retry_join won't be populated by the default hosts servers. The value can be initialized using consul_join
+- Default value: false
+
 ### `consul_retry_max`
 
 - Max reconnection attempts to LAN servers before failing (0 = infinite)
