@@ -1,5 +1,6 @@
-## v2.3.2 (UNRELEASED)
+## v2.3.2
 
+- Consul v1.4.2
 - Remove token generation/retrieval on clients (thanks @jpiron)
 
 ## v2.3.1

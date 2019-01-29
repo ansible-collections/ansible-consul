@@ -26,7 +26,7 @@ This role requires a FreeBSD, Debian, or Red Hat Enterprise Linux distribution o
 
 The role might work with other OS distributions and versions, but is known to function well with the following software versions:
 
-* Consul: 1.4.0
+* Consul: 1.4.2
 * Ansible: 2.7.2
 * Alpine Linux: 3.8
 * CentOS: 7
@@ -64,7 +64,7 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_version`
 
 - Version to install
-- Default value: 1.4.0
+- Default value: 1.4.2
 
 ### `consul_architecture_map`
 
