@@ -1,6 +1,26 @@
-## v2.3.0 (UNRELEASED)
+## v2.3.2
 
+- Consul v1.4.2
+- Remove token generation/retrieval on clients (thanks @jpiron)
+- Add listen to all the handler tasks (@pwae)
+- retry_join setup independent from the hosts servers (thanks @Fuochi-YNAP)
+
+## v2.3.1
+
+- Add Consul 1.4.0 ACL configuration syntax support (thanks @jpiron)
+- Fix unzip installation check task check mode (thanks @jpiron)
+- Fix systemd configuration task handler notification (thanks @jpiron)
+
+## v2.3.0
+
+- The role no longer attempts to install the unzip binary locally onto
+  the Ansible control host; it is now a hard dependency and role execution
+  will fail if unzip is not in the PATH on the control host.
 - Snapshot agent installation and configuration (thanks @drewmullen)
+- Delegate Consul datacenter DNS domain to Consul (thanks @teralype)
+- Allow DNSmasq binding to particular interfaces (thanks @teralype)
+- Update local tasks (thanks @sgrimm-sg)
+- Update documentation
 
 ## v2.2.0
 

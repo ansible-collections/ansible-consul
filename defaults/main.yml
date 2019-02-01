@@ -7,7 +7,7 @@ is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
 consul_install_dependencies: true
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.4.0', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.4.2', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
@@ -57,6 +57,7 @@ syslog_group: "{{ lookup('env','SYSLOG_GROUP') | default('adm', true) }}"
 consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
 consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
 consul_syslog_facility: "{{ lookup('env','CONSUL_SYSLOG_FACILITY') | default('local0', true) }}"
+consul_configure_syslogd: "{{ lookup('env','CONSUL_CONFIGURE_SYSLOGD') | default(true, true) }}"
 
 ### Consul settings
 consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) }}"
@@ -81,6 +82,7 @@ consul_raft_protocol: "\
   {% else %}\
     3\
   {% endif %}"
+consul_retry_join_skip_hosts: false
 consul_retry_interval: "30s"
 consul_retry_interval_wan: "30s"
 consul_retry_max: 0
@@ -188,6 +190,7 @@ consul_tls_files_remote_src: false
 
 ## DNS
 consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
+consul_dnsmasq_bind_interfaces: false
 consul_dnsmasq_consul_address: "\
   {# Use localhost if DNS is listening on all interfaces #}\
   {% if consul_addresses.dns == '0.0.0.0' %}\

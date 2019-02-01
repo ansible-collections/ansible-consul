@@ -5,3 +5,4 @@
     state: started
     enabled: true
   when: ansible_os_family != "Windows"
+  listen: 'start snapshot'
