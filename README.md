@@ -559,6 +559,12 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - Enable script based checks?
 - Default value: false
+- This is discouraged in favor of `consul_enable_local_script_checks`. 
+
+### `consul_enable_local_script_checks`
+
+- Enable locally defined script checks?
+- Default value: false
 
 ### `consul_raft_protocol`
 
