@@ -7,8 +7,7 @@
   listen: 'restart consul'
 
 - name: restart consul on Windows
-  win_nssm:
-    name: consul
-    state: restarted
+  win_command: nssm restart consul
+  register: consul_restart_out
   when: ansible_os_family == "Windows"
   listen: 'restart consul'
