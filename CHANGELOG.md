@@ -1,3 +1,7 @@
+## v2.3.3 (UNRELEASED)
+
+- Add enable_local_script_checks configuration (thanks @canardleteer)
+
 ## v2.3.2
 
 - Consul v1.4.2
