@@ -1,8 +1,74 @@
-## v2.0.7 (UNRELEASED)
+## v2.3.3 (UNRELEASED)
+
+- Add enable_local_script_checks configuration (thanks @canardleteer)
+
+## v2.3.2
+
+- Consul v1.4.2
+- Remove token generation/retrieval on clients (thanks @jpiron)
+- Add listen to all the handler tasks (@pwae)
+- retry_join setup independent from the hosts servers (thanks @Fuochi-YNAP)
+
+## v2.3.1
+
+- Add Consul 1.4.0 ACL configuration syntax support (thanks @jpiron)
+- Fix unzip installation check task check mode (thanks @jpiron)
+- Fix systemd configuration task handler notification (thanks @jpiron)
+
+## v2.3.0
+
+- The role no longer attempts to install the unzip binary locally onto
+  the Ansible control host; it is now a hard dependency and role execution
+  will fail if unzip is not in the PATH on the control host.
+- Snapshot agent installation and configuration (thanks @drewmullen)
+- Delegate Consul datacenter DNS domain to Consul (thanks @teralype)
+- Allow DNSmasq binding to particular interfaces (thanks @teralype)
+- Update local tasks (thanks @sgrimm-sg)
+- Update documentation
+
+## v2.2.0
+
+- Consul v1.4.0
+- Update documentation
+
+## v2.1.1
+
+- Consul v1.3.1
+- Configuration and documentation for gRPC (thanks @RavisMsk)
+- Consistent boolean use
+- Fix Consul restart handler reference (thanks @blaet)
+- Write gossip key on all hosts (thanks @danielkucera)
+- Protect local consul cluster key file (thanks @blaet)
+- Support Amazon Linux (thanks @soloradish)
+- Quite ACL replication token retrieval (thanks @jpiron)
+- disable_keyring_file configuration option (thanks @vincepii)
+- Update tests
+- Update documentation
+
+## v2.1.0
+
+- Consul v1.3.0
+- Fix undefined is_virtualenv condition (thanks @jpiron)
+- Ensure idempotent folder permissions (thanks @jpiron)
+- Add configurable systemd restart time (@thanks abarbare)
+- Update documentation (thanks @jeffwelling, @megamorf)
+
+## v2.0.9
+
+- Consul v1.2.3
+- Update documentation
+
+## v2.0.8
+
+- Normalize conditionals in all tasks
+- Update documentation
+
+## v2.0.7
 
 - Add initial support for Alpine Linux (thanks @replicajune)
 - Add support for verify_incoming_https (thanks @jeffwelling)
 - Fix ACL token behavior on existing configuration (thanks @abarbare)
+- Windows enhancements and fixes (thanks @imcitius)
 - Update CONTRIBUTORS
 - Update Meta
 - Update documentation
@@ -744,7 +810,7 @@ Do not enable a default set of ACL policies
 
 - Still with the tests
 
-## v1.2.2
+## v1.2.3
 
 - Updated README
 

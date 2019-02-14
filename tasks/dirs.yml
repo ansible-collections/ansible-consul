@@ -8,7 +8,6 @@
     owner: "{{ consul_user }}"
     group: "{{ consul_group}}"
     mode: 0700
-    recurse: yes
   with_items:
     - "{{ consul_config_path }}"
     - "{{ consul_configd_path }}"
@@ -22,12 +21,12 @@
     state: directory
     owner: "{{ syslog_user }}"
     group: "{{ syslog_group }}"
-    recurse: yes
   with_items:
     - "{{ consul_log_path }}"
   when:
     - ansible_os_family != 'Windows'
-    - consul_syslog_enable == true
+    - consul_syslog_enable | bool
+    - consul_configure_syslogd | bool
 
 # XXX: This could be a stat instead
 - name: Verify binary path

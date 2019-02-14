@@ -52,7 +52,7 @@ Begin from the top level directory of this project and use the following steps t
  * 10.1.42.210 consul1.consul consul1
  * 10.1.42.220 consul2.consul consul2
  * 10.1.42.230 consul3.consul consul3
-3. cd `$PATH_TO_ROLES/brianshumate.conusul/examples`
+3. cd `$PATH_TO_ROLES/brianshumate.consul/examples`
 4. `vagrant up`
 5. Access the cluster web UI at http://consul1.consul:8500/ui/
 6. You can also `ssh` into a node and verify the cluster members directly
@@ -90,10 +90,10 @@ BOX_NAME=freebsd/FreeBSD-11.0-STABLE CONSUL_IFACE=em1 vagrant up
 ## Notes
 
 1. This project functions with the following software versions:
-  * Consul version 1.2.2
-  * Ansible: 2.6.1
-  * VirtualBox version 5.2.12
-  * Vagrant version 2.1.2
+  * Consul version 1.4.2
+  * Ansible: 2.7.2
+  * VirtualBox version 5.2.22
+  * Vagrant version 2.2.1
   * Vagrant Hosts plugin version 2.8.1
 2. This project uses Debian 9 (Stretch) by default, but you can choose another OS distribution with the *BOX_NAME* environment variable
 3. The `bin/preinstall` shell script performs the following actions for you:

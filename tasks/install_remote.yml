@@ -24,7 +24,7 @@
   get_url:
     url: "{{ consul_checksum_file_url }}"
     dest: "/tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
-    validate_certs: no
+    validate_certs: false
   tags: installation
   when: not consul_checksum.stat.exists | bool
 
@@ -49,16 +49,9 @@
   register: consul_download
   tags: installation
 
-- name: Install unzip
-  package:
-    name: unzip
-    state: present
-  when:
-    - consul_install_dependencies | bool
-
 - name: Unarchive Consul and install binary
   unarchive:
-    remote_src: yes
+    remote_src: true
     src: "/tmp/consul/{{ consul_pkg }}"
     dest: "{{ consul_bin_path }}"
     owner: "{{ consul_user }}"
@@ -70,7 +63,7 @@
 
 - name: Daemon reload systemd in case the binaries upgraded
   command: systemctl daemon-reload
-  become: yes
+  become: true
   notify: restart consul
   when:
     - ansible_service_mgr == "systemd"

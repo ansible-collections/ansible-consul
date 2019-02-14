@@ -11,14 +11,18 @@
         extra_args: --user
       delegate_to: 127.0.0.1
       become: false
+      vars:
+        ansible_become: false
       run_once: true
-      when: is_virtualenv is not defined
+      when: is_virtualenv == '' or is_virtualenv == None
 
     - name: Install netaddr dependency on controlling host (virtualenv)
       pip:
         name: netaddr
       delegate_to: 127.0.0.1
       become: false
+      vars:
+        ansible_become: false
       run_once: true
       when: is_virtualenv is defined
 
@@ -40,9 +44,9 @@
     - name: Gather facts from other servers
       setup:
       delegate_to: "{{ item }}"
-      delegate_facts: True
+      delegate_facts: true
       with_items: "{{ consul_servers | difference(play_hosts) }}"
-      ignore_errors: yes
+      ignore_errors: true
       when: consul_gather_server_facts | bool
 
     - name: Expose advertise_address(_wan) datacenter and node_role as facts
@@ -95,7 +99,7 @@
               slurp:
                 src: "{{ consul_config_path }}/config.json"
               register: consul_config_b64
-              ignore_errors: yes
+              ignore_errors: true
 
             - name: Deserialize existing configuration
               set_fact:
@@ -118,9 +122,10 @@
           copy:
             content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
-          become: no
+          become: false
+          vars:
+            ansible_become: false
           no_log: true
-          run_once: true
           register: consul_local_key
           delegate_to: localhost
           changed_when: false
@@ -136,7 +141,9 @@
               copy:
                 content: "{{ consul_keygen.stdout }}"
                 dest: '/tmp/consul_raw.key'
-              become: no
+              become: false
+              vars:
+                ansible_become: false
               delegate_to: localhost
 
           no_log: true
@@ -156,7 +163,9 @@
           file:
             path: '/tmp/consul_raw.key'
             state: absent
-          become: no
+          become: false
+          vars:
+            ansible_become: false
           run_once: true
           delegate_to: localhost
           changed_when: false
@@ -175,7 +184,7 @@
       include_tasks: tls.yml
       when: consul_tls_enable | bool
 
-    - name: Create rsyslogd configuration
+    - name: Create syslog configuration
       import_tasks: syslog.yml
 
     - name: Create BSD init script
@@ -221,7 +230,7 @@
         group: root
         mode: 0644
       register: systemd_unit
-      notify: restart consul on linux
+      notify: restart consul
       when:
         - ansible_service_mgr == "systemd"
         - not ansible_os_family == "FreeBSD"
@@ -229,7 +238,7 @@
 
     - name: Reload systemd
       systemd:
-        daemon_reload: yes
+        daemon_reload: true
       when: systemd_unit is changed
 
     - name: Create smf manifest
@@ -254,13 +263,21 @@
         - smfmanifest is changed
         - ansible_os_family == "Solaris"
 
+    - name: Enable Consul Snapshots on servers
+      include_tasks: snapshot.yml
+      when:
+        - ansible_service_mgr == "systemd"
+        - not ansible_os_family == "FreeBSD"
+        - not ansible_os_family == "Solaris"
+        - consul_snapshot | bool
+
     - block:
 
       - name: Start Consul
         service:
           name: consul
           state: started
-          enabled: yes
+          enabled: true
 
       - name: Check Consul HTTP API (via TCP socket)
         wait_for:
@@ -280,13 +297,13 @@
           dest: "{{ consul_bootstrap_state }}"
           state: touch
 
-      - include_tasks: ../tasks/dnsmasq.yml
-        when: consul_dnsmasq_enable | bool
-
       - include_tasks: ../tasks/iptables.yml
         when: consul_iptables_enable | bool
 
       when: not bootstrap_state.stat.exists
+
+    - include_tasks: ../tasks/dnsmasq.yml
+      when: consul_dnsmasq_enable | bool
 
   when: ansible_os_family != 'Windows'
 
@@ -306,9 +323,9 @@
     - name: (Windows) Gather facts from other servers
       setup:
       delegate_to: "{{ item }}"
-      delegate_facts: True
+      delegate_facts: true
       with_items: "{{ consul_servers | difference(play_hosts) }}"
-      ignore_errors: yes
+      ignore_errors: true
       when: consul_gather_server_facts | bool
 
     - name: (Windows) Expose bind_address, datacenter and node_role as facts
@@ -343,7 +360,7 @@
               slurp:
                 src: "{{ consul_config_path }}/config.json"
               register: consul_config_b64
-              ignore_errors: yes
+              ignore_errors: true
 
             - name: (Windows) Deserialize existing configuration
               set_fact:
@@ -366,7 +383,10 @@
           copy:
             content: "{{ consul_raw_key }}"
             dest: '/tmp/consul_raw.key'
-          become: no
+            mode: 0700
+          become: false
+          vars:
+            ansible_become: false
           no_log: true
           run_once: true
           register: consul_local_key
@@ -384,7 +404,10 @@
               copy:
                 content: "{{ consul_keygen.stdout }}"
                 dest: '/tmp/consul_raw.key'
-              become: no
+                mode: 0700
+              become: false
+              vars:
+                ansible_become: false
               delegate_to: localhost
 
           no_log: true
@@ -404,7 +427,9 @@
           file:
             path: '/tmp/consul_raw.key'
             state: absent
-          become: no
+          become: false
+          vars:
+            ansible_become: false
           run_once: true
           delegate_to: localhost
       no_log: true
@@ -445,10 +470,8 @@
           stderr_file: "{{ consul_log_path }}/consul-nssm-error.log"
 
       - name: (Windows) Check Consul HTTP API
-        local_action:
-          module: wait_for
+        win_wait_for:
           delay: 5
-          host: "{{inventory_hostname_short}}"
           port: 8500
 
       - name: (Windows) Create bootstrapped state file
@@ -457,12 +480,12 @@
           state: touch
         when: ansible_os_family == "Windows"
 
-      - include_tasks: ../tasks/dnsmasq.yml
-        when: consul_dnsmasq_enable | bool
-
       - include_tasks: ../tasks/iptables.yml
         when: consul_iptables_enable | bool
 
       when: not bootstrap_state.stat.exists
+
+    - include_tasks: ../tasks/dnsmasq.yml
+      when: consul_dnsmasq_enable | bool
 
   when: ansible_os_family == 'Windows'

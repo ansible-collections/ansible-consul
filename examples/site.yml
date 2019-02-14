@@ -4,7 +4,7 @@
 - name: Assemble Consul cluster
   hosts: consul_instances
   any_errors_fatal: true
-  become: yes
+  become: true
   become_user: root
   roles:
-    - { role: brianshumate.consul }
+    - {role: brianshumate.consul}
