@@ -1,0 +1,37 @@
+
+- name: "Configure consul services"
+  template:
+    dest: "{{ consul_configd_path }}/service_{{ item.name }}.json"
+    src: service.json.j2
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    mode: 0644
+  with_items: "{{ consul_services }}"
+  notify:
+    - restart consul
+
+- name: Get the list of service config file
+  find:
+    paths: "{{ consul_configd_path }}"
+    file_type: file
+  register: services_enabled
+
+- name: Set fact with list of existing configuration file
+  set_fact:
+    list_current_service_config: "{{ list_current_service_config |default([]) + [item.path] }}"
+  with_items: "{{ services_enabled['files'] }}"
+
+- name: Set fact with list of service we manage
+  set_fact:
+    managed_files: "{{ managed_files |default([]) }} + \
+    [ '{{ consul_configd_path }}/service_{{ item['name'] }}.json' ]"
+  with_items: "{{ consul_services }}"
+
+- name: Delete non declared services
+  file:
+    path:  "{{ item }}"
+    state: absent
+  when: item not in managed_files
+  with_items: "{{ list_current_service_config }}"
+  notify:
+    - restart consul

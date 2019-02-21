@@ -224,3 +224,6 @@ consul_snapshot_storage: "{{ consul_config_path }}/snaps"
 consul_snapshot_interval: 1h
 consul_snapshot_retain: 30
 consul_snapshot_stale: false
+
+# services
+consul_services: []
