@@ -550,6 +550,11 @@ Notice that the dict object has to use precisely the names stated in the documen
 - Enable the consul ui?
 - Default value: true
 
+### `consul_ui_legacy`
+
+- Enable legacy consul ui mode
+- Default value: false
+
 ### `consul_disable_update_check`
 
 - Disable the consul update check?
