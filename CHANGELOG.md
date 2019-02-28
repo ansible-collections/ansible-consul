@@ -1,6 +1,8 @@
 ## v2.3.3 (UNRELEASED)
 
+- Add services management (thanks @Sispheor)
 - Add enable_local_script_checks configuration (thanks @canardleteer)
+- Add ability to enable legacy GUI (thanks @imcitius)
 
 ## v2.3.2
 
