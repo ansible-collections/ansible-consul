@@ -489,3 +489,10 @@
       when: consul_dnsmasq_enable | bool
 
   when: ansible_os_family == 'Windows'
+
+
+- name: Include services management
+  import_tasks: services.yml
+  when: consul_services is defined and consul_services|length>0
+  tags:
+    - consul_services

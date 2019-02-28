@@ -494,17 +494,17 @@ Notice that the dict object has to use precisely the names stated in the documen
 - Copy from remote source if TLS files are already on host
 - Default value: false
 
-## `consul_encrypt_enable`
+### `consul_encrypt_enable`
 
 - Enable Gossip Encryption
 - Default value: true
 
-## `consul_disable_keyring_file`
+### `consul_disable_keyring_file`
 
 - If set, the keyring will not be persisted to a file. Any installed keys will be lost on shutdown, and only the given -encrypt key will be available on startup.
 - Default value: false
 
-## `consul_raw_key`
+### `consul_raw_key`
 
 - Set the encryption key; should be the same across a cluster. If not present the key will be generated & retrieved from the bootstrapped server.
 - Default value: ''
@@ -564,7 +564,7 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - Enable script based checks?
 - Default value: false
-- This is discouraged in favor of `consul_enable_local_script_checks`. 
+- This is discouraged in favor of `consul_enable_local_script_checks`.
 
 ### `consul_enable_local_script_checks`
 
@@ -1005,6 +1005,66 @@ By default these are named:
 - `server.key` (can be overridden by {{ consul_server_key }})
 
 Then either set the environment variable `CONSUL_TLS_ENABLE=true` or use the Ansible variable `consul_tls_enable=true` at role runtime.
+
+### Service management Support
+
+You can create a configuration file for [consul services](https://www.consul.io/docs/agent/services.html).
+Add a list of service in the `consul_services`.
+
+| name            | Required | Type | Default | Comment                            |
+| --------------- | -------- | ---- | ------- | ---------------------------------- |
+| consul_services | False    | List | `[]`    | List of service object (see below) |
+
+Services object:
+
+| name                | Required | Type   | Default | Comment                                                                                                    |
+| ------------------- | -------- | ------ | ------- | ---------------------------------------------------------------------------------------------------------- |
+| name                | True     | string |         | Name of the service                                                                                        |
+| id                  | False    | string |         | Id of the service                                                                                          |
+| tags                | False    | list   |         | List of string tags                                                                                        |
+| address             | False    | string |         | service-specific IP address                                                                                |
+| meta                | False    | dict   |         | Dict of 64 key/values with string semantics                                                                |
+| port                | False    | int    |         | Port of the service                                                                                        |
+| enable_tag_override | False    | bool   |         | enable/disable the anti-entropy feature for the service                                                    |
+| kind                | False    | string |         | identify the service as a Connect proxy instance                                                           |
+| proxy               | False    | dict   |         | [proxy configuration](https://www.consul.io/docs/connect/proxies.html#complete-configuration-example)      |
+| checks              | False    | list   |         | List of [checks configuration](https://www.consul.io/docs/agent/checks.html)                               |
+| connect             | False    | dict   |         | [Connect object configuration](https://www.consul.io/docs/connect/index.html)                              |
+| weights             | False    | dict   |         | [Weight of a service in DNS SRV responses](https://www.consul.io/docs/agent/services.html#dns-srv-weights) |
+
+
+Configuration example:
+```yaml
+consul_services:
+  - name: "openshift"
+    tags: ['production']
+  - name: "redis"
+    id: "redis"
+    tags: ['primary']
+    address: ""
+    meta:
+      meta: "for my service"
+    proxy:
+      destination_service_name: "redis"
+      destination_service_id: "redis1"
+      local_service_address: "127.0.0.1"
+      local_service_port: 9090
+      config: {}
+      upstreams:  []
+    checks:
+      - args: ["/home/consul/check.sh"]
+        interval: "10s"
+```
+
+Then you can check that the service is well added to the catalog
+```
+> consul catalog services
+consul
+openshift
+redis
+```
+
+>**Note:** to delete a service that has been added from this role, remove it from the `consul_services` list and apply the role again.
 
 ### Vagrant and VirtualBox
 
