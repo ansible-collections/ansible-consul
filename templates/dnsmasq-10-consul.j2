@@ -1,5 +1,9 @@
-{# Enable forward lookups for the consul domain -#}
+{# Enable forward lookups for the consul domain with conditional delegation -#}
+{% if consul_delegate_datacenter_dns -%}
 server=/{{ consul_datacenter }}.{{ consul_domain }}/{{ consul_dnsmasq_consul_address }}#{{ consul_ports.dns }}
+{% else %}
+server=/{{ consul_domain }}/{{ consul_dnsmasq_consul_address }}#{{ consul_ports.dns }}
+{% endif -%}
 
 {# Only bind to specific interfaces -#}
 {% if consul_dnsmasq_bind_interfaces -%}

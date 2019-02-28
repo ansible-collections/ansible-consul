@@ -191,6 +191,7 @@ consul_tls_verify_server_hostname: false
 consul_tls_files_remote_src: false
 
 ## DNS
+consul_delegate_datacenter_dns: "{{ lookup('env','CONSUL_DELEGATE_DATACENTER_DNS') | default(false, true) }}"
 consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
 consul_dnsmasq_bind_interfaces: false
 consul_dnsmasq_consul_address: "\
@@ -211,6 +212,7 @@ consul_dnsmasq_local_service: false
 consul_dnsmasq_listen_addresses: []
 consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
 
+# Consul Enterprise
 consul_enterprise: "{{ lookup('env','CONSUL_ENTERPRISE') | default(false, true) }}"
 
 # Performance

@@ -929,6 +929,11 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ;; WHEN: Sun Aug  7 18:06:32 2016
 ;;
 ```
+
+### `consul_delegate_datacenter_dns`
+- Whether to delegate Consul datacenter DNS domain to Consul
+- Default value: false
+
 ### `consul_dnsmasq_enable`
 
 - Whether to install and configure DNS API forwarding on port 53 using DNSMasq

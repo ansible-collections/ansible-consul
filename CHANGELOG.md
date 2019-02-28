@@ -1,8 +1,9 @@
-## v2.3.3 (UNRELEASED)
+## v2.3.3
 
 - Add services management (thanks @Sispheor)
 - Add enable_local_script_checks configuration (thanks @canardleteer)
 - Add ability to enable legacy GUI (thanks @imcitius)
+- Optional domain datacenter delegation with `consul_delegate_datacenter_dns`
 
 ## v2.3.2
 
