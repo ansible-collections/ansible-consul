@@ -1,3 +1,8 @@
+## v2.3.4
+
+- Consul v1.4.3
+- Update documentation
+
 ## v2.3.3
 
 - Add services management (thanks @Sispheor)
