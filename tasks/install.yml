@@ -38,7 +38,6 @@
   become: false
   vars:
     ansible_become: false
-  run_once: true
   register: consul_sha256
   tags: installation
 
@@ -49,7 +48,6 @@
   become: false
   vars:
     ansible_become: false
-  run_once: true
   register: consul_package
   tags: installation
 
@@ -63,7 +61,6 @@
   become: false
   vars:
     ansible_become: false
-  run_once: true
   tags: installation
   when: not consul_package.stat.exists | bool
 
@@ -74,21 +71,29 @@
   run_once: true
   when: ansible_os_family == "Alpine"
 
+- name: Create Temporary Directory for Extraction
+  local_action:
+    module: tempfile
+    state: directory
+    prefix: ansible-consul.
+  become: false
+  register: install_temp
+  tags: installation
+
 - name: Unarchive Consul package
   local_action:
     module: unarchive
     src: "{{ role_path }}/files/{{ consul_pkg }}"
-    dest: "{{ role_path }}/files/"
-    creates: "{{ role_path }}/files/consul"
+    dest: "{{ install_temp.path }}/"
+    creates: "{{ install_temp.path }}/consul"
   become: false
   vars:
     ansible_become: false
-  run_once: true
   tags: installation
 
 - name: Install Consul
   copy:
-    src: "{{ role_path }}/files/consul"
+    src: "{{ install_temp.path }}/consul"
     dest: "{{ consul_bin_path }}/consul"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
@@ -104,10 +109,8 @@
     - consul_install_upgrade
 
 - name: Cleanup
-  local_action: file path="{{ item }}" state="absent"
+  local_action: file path="{{ install_temp.path }}" state="absent"
   become: false
   vars:
     ansible_become: false
-  with_fileglob: "{{ role_path }}/files/consul"
-  run_once: true
   tags: installation
