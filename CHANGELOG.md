@@ -1,3 +1,7 @@
+## v2.3.5 (UNRELEASED)
+
+- fixed multiarch deployment race condition (thanks @lanefu)
+
 ## v2.3.4
 
 - Consul v1.4.3
