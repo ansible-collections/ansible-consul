@@ -15,6 +15,14 @@
     paths: "{{ consul_configd_path }}"
     file_type: file
   register: services_enabled
+  when: ansible_os_family != 'Windows'
+
+- name: Get the list of service config file [Windows]
+  win_find:
+    paths: "{{ consul_configd_path }}"
+    file_type: file
+  register: services_enabled
+  when: ansible_os_family == 'Windows'
 
 - name: Set fact with list of existing configuration file
   set_fact:
@@ -31,7 +39,16 @@
   file:
     path:  "{{ item }}"
     state: absent
-  when: item not in managed_files
+  when: item not in managed_files and ansible_os_family != 'Windows'
+  with_items: "{{ list_current_service_config }}"
+  notify:
+    - restart consul
+
+- name: Delete non declared services [Windows]
+  win_file:
+    path:  "{{ item }}"
+    state: absent
+  when: item not in managed_files and ansible_os_family == 'Windows'
   with_items: "{{ list_current_service_config }}"
   notify:
     - restart consul
