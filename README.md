@@ -219,6 +219,16 @@ It's typically not necessary to manually alter this list.
 - Default value: List of all nodes in `consul_group_name` with
   `consul_node_role` set to server or bootstrap
 
+### `consul_bootstrap_expect`
+
+- Boolean that adds bootstrap_expect value on Consul servers's config file
+- Default value: false
+
+### `consul_bootstrap_expect_value`
+
+- Integer to define the minimum number of consul servers joined to the cluster in order to elect the leader.
+- Default value: Calculated at runtime based on the number of nodes
+
 ### `consul_gather_server_facts`
 
 This feature makes it possible to gather the `consul_advertise_address(_wan)` from servers that are currently not targeted by the playbook.
