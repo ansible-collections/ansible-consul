@@ -1,3 +1,5 @@
+---
+## File: services.yml - services configuration
 
 - name: "Configure consul services"
   template:
@@ -29,7 +31,7 @@
 
 - name: Delete non declared services
   file:
-    path:  "{{ item }}"
+    path: "{{ item }}"
     state: absent
   when: item not in managed_files
   with_items: "{{ list_current_service_config }}"

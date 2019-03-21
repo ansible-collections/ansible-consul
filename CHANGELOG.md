@@ -1,6 +1,15 @@
 ## v2.3.5 (UNRELEASED)
 
 - fixed multiarch deployment race condition (thanks @lanefu)
+- Switched from systemctl command to systemd module [lint]
+- Update for E504 use 'delegate_to: localhost' [lint]
+  - asserts
+  - install
+  - encrypt_gossip
+- Update for E104 in with_fileglob for install_remote [lint]
+- Update for E601 in syslog [lint]
+- Update for E602 in acl tasks [lint]
+- Update example site playbook roles format
 
 ## v2.3.4
 

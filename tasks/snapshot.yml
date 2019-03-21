@@ -1,6 +1,8 @@
 ---
+# File: snapshot.yml - Create snapshot service
 # template: consul_snapshot.service
-# template: consul_snapshot.config /etc/consul/ set snaps to {{ snap storage location }}
+# template: consul_snapshot.config /etc/consul/
+# set snaps to {{ snap storage location }}
 # create snaps folder
 # handler: start / enable service
 # add entry to tasks/main.yml
@@ -39,7 +41,7 @@
 
 - name: Reload systemd
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
   when: systemd_unit | changed
 
 - name: Create snaps storage folder

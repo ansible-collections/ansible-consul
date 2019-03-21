@@ -6,7 +6,7 @@
     dest: "{{ item }}"
     state: directory
     owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
+    group: "{{ consul_group }}"
     mode: 0700
   with_items:
     - "{{ consul_config_path }}"
@@ -28,7 +28,6 @@
     - consul_syslog_enable | bool
     - consul_configure_syslogd | bool
 
-# XXX: This could be a stat instead
 - name: Verify binary path
   file:
     path: "{{ consul_bin_path }}"
