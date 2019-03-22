@@ -477,7 +477,7 @@
 
         - name: (Windows) Create bootstrapped state file
           win_file:
-            dest: "{{consul_bootstrap_state }}"
+            dest: "{{ consul_bootstrap_state }}"
             state: touch
           when: ansible_os_family == "Windows"
 
