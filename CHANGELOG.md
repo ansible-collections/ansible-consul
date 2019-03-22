@@ -8,7 +8,9 @@
   - encrypt_gossip
 - Update for E104 in with_fileglob for install_remote [lint]
 - Update for E601 in syslog [lint]
-- Update for E602 in acl tasks [lint]
+- Update for E602 in tasks [lint]
+  - acl
+  - main
 - Update example site playbook roles format
 
 ## v2.3.4

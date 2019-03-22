@@ -82,7 +82,7 @@
     src: configd_50acl_policy.hcl.j2
     dest: "{{ consul_configd_path }}/50acl_policy.hcl"
     owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
+    group: "{{ consul_group }}"
   notify:
     - restart consul
   when: consul_acl_policy | bool

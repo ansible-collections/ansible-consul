@@ -37,7 +37,9 @@
   vars:
     ansible_become: false
   register: consul_sha256
-  tags: installation
+  tags:
+    - installation
+    - skip_ansible_lint
   delegate_to: 127.0.0.1
 
 - name: Check Consul package file
