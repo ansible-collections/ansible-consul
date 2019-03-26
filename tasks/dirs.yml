@@ -37,7 +37,6 @@
     - consul_syslog_enable | bool
     - consul_configure_syslogd | bool
 
-# XXX: This could be a stat instead
 - name: Verify binary path
   file:
     path: "{{ consul_bin_path }}"

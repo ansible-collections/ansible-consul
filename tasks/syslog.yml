@@ -20,7 +20,7 @@
     - ansible_os_family != 'Windows'
     - consul_syslog_enable | bool
     - consul_configure_syslogd | bool
-    - stat_syslogng.stat.exists == True
+    - stat_syslogng.stat.exists
   notify:
     - restart syslog-ng
     - restart consul
@@ -36,7 +36,7 @@
     - ansible_os_family != 'Windows'
     - consul_syslog_enable | bool
     - consul_configure_syslogd | bool
-    - stat_syslogng.stat.exists == False
+    - not stat_syslogng.stat.exists
   notify:
     - restart rsyslog
     - restart consul

@@ -14,7 +14,7 @@
       vars:
         ansible_become: false
       run_once: true
-      when: is_virtualenv == '' or is_virtualenv == None
+      when: not is_virtualenv or is_virtualenv == None
 
     - name: Install netaddr dependency on controlling host (virtualenv)
       pip:
@@ -33,9 +33,9 @@
   include_vars: "{{ ansible_os_family }}.yml"
   tags: always
 
-#############################################################################
+# -----------------------------------------------------------------------
 # Tasks for all *NIX operating systems
-#############################################################################
+# -----------------------------------------------------------------------
 - block:
 
     # Gathers facts (bind address) from servers not currently targeted.
@@ -256,12 +256,13 @@
       when:
         - smfmanifest is changed
         - ansible_os_family == "Solaris"
-
+      tags: skip_ansible_lint
     - name: Import smf script
       shell: "svcadm refresh consul"
       when:
         - smfmanifest is changed
         - ansible_os_family == "Solaris"
+      tags: skip_ansible_lint
 
     - name: Enable Consul Snapshots on servers
       include_tasks: snapshot.yml
@@ -273,32 +274,32 @@
 
     - block:
 
-      - name: Start Consul
-        service:
-          name: consul
-          state: started
-          enabled: true
+        - name: Start Consul
+          service:
+            name: consul
+            state: started
+            enabled: true
 
-      - name: Check Consul HTTP API (via TCP socket)
-        wait_for:
-          delay: 15
-          port: "{{ consul_ports.http|int }}"
-          host: "{{ consul_addresses.http }}"
-        when: (consul_ports.http|int > -1) and (consul_addresses.http|ipaddr)
+        - name: Check Consul HTTP API (via TCP socket)
+          wait_for:
+            delay: 15
+            port: "{{ consul_ports.http|int }}"
+            host: "{{ consul_addresses.http }}"
+          when: (consul_ports.http|int > -1) and (consul_addresses.http|ipaddr)
 
-      - name: Check Consul HTTP API (via unix socket)
-        wait_for:
-          delay: 15
-          path: "{{ consul_addresses.http | replace('unix://', '', 1) }}"
-        when: consul_addresses.http is match("unix://*")
+        - name: Check Consul HTTP API (via unix socket)
+          wait_for:
+            delay: 15
+            path: "{{ consul_addresses.http | replace('unix://', '', 1) }}"
+          when: consul_addresses.http is match("unix://*")
 
-      - name: Create bootstrapped state file
-        file:
-          dest: "{{ consul_bootstrap_state }}"
-          state: touch
+        - name: Create bootstrapped state file
+          file:
+            dest: "{{ consul_bootstrap_state }}"
+            state: touch
 
-      - include_tasks: ../tasks/iptables.yml
-        when: consul_iptables_enable | bool
+        - include_tasks: ../tasks/iptables.yml
+          when: consul_iptables_enable | bool
 
       when: not bootstrap_state.stat.exists
 
@@ -307,13 +308,13 @@
 
   when: ansible_os_family != 'Windows'
 
-#############################################################################
+# -----------------------------------------------------------------------
 # End of tasks for all *NIX operating systems
-#############################################################################
+# -----------------------------------------------------------------------
 
-#############################################################################
+# -----------------------------------------------------------------------
 # Tasks for Windows
-#############################################################################
+# -----------------------------------------------------------------------
 
 - block:
 
@@ -397,7 +398,7 @@
         - block:
 
             - name: (Windows) Generate gossip encryption key
-              win_shell: "{{consul_binary}} keygen"
+              win_shell: "{{ consul_binary }} keygen"
               register: consul_keygen
 
             - name: (Windows) Write key locally to share with other nodes
@@ -455,33 +456,33 @@
 
     - block:
 
-      - name: (Windows) Install NSSM
-        win_chocolatey:
-          name: nssm
-          state: latest
+        - name: (Windows) Install NSSM
+          win_chocolatey:
+            name: nssm
+            state: latest
 
-      - name: (Windows) Start Consul on Windows
-        win_nssm:
-          name: consul
-          state: started
-          application: "{{ consul_binary }}"
-          app_parameters_free_form: "agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_configd_path }}"
-          stdout_file: "{{ consul_log_path }}/consul-nssm-output.log"
-          stderr_file: "{{ consul_log_path }}/consul-nssm-error.log"
+        - name: (Windows) Start Consul on Windows
+          win_nssm:
+            name: consul
+            state: started
+            application: "{{ consul_binary }}"
+            app_parameters_free_form: "agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_configd_path }}"
+            stdout_file: "{{ consul_log_path }}/consul-nssm-output.log"
+            stderr_file: "{{ consul_log_path }}/consul-nssm-error.log"
 
-      - name: (Windows) Check Consul HTTP API
-        win_wait_for:
-          delay: 5
-          port: 8500
+        - name: (Windows) Check Consul HTTP API
+          win_wait_for:
+            delay: 5
+            port: 8500
 
-      - name: (Windows) Create bootstrapped state file
-        win_file:
-          dest: "{{consul_bootstrap_state}}"
-          state: touch
-        when: ansible_os_family == "Windows"
+        - name: (Windows) Create bootstrapped state file
+          win_file:
+            dest: "{{ consul_bootstrap_state }}"
+            state: touch
+          when: ansible_os_family == "Windows"
 
-      - include_tasks: ../tasks/iptables.yml
-        when: consul_iptables_enable | bool
+        - include_tasks: ../tasks/iptables.yml
+          when: consul_iptables_enable | bool
 
       when: not bootstrap_state.stat.exists
 
@@ -489,7 +490,6 @@
       when: consul_dnsmasq_enable | bool
 
   when: ansible_os_family == 'Windows'
-
 
 - name: Include services management
   import_tasks: services.yml

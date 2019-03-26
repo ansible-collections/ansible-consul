@@ -9,8 +9,7 @@
   tags: installation
 
 - name: Read package checksum file
-  local_action:
-    module: stat
+  stat:
     path: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   become: false
   vars:
@@ -18,10 +17,10 @@
   run_once: true
   register: consul_checksum
   tags: installation
+  delegate_to: 127.0.0.1
 
 - name: Download package checksum file
-  local_action:
-    module: get_url
+  get_url:
     url: "{{ consul_checksum_file_url }}"
     dest: "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
   become: false
@@ -30,30 +29,31 @@
   run_once: true
   tags: installation
   when: not consul_checksum.stat.exists | bool
+  delegate_to: 127.0.0.1
 
 - name: Read package checksum
-  local_action:
-    module: shell
-      grep "{{ consul_pkg }}" "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS" | awk '{print $1}'
+  shell: grep "{{ consul_pkg }}" "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS" | awk '{print $1}'
   become: false
   vars:
     ansible_become: false
   register: consul_sha256
-  tags: installation
+  tags:
+    - installation
+    - skip_ansible_lint
+  delegate_to: 127.0.0.1
 
 - name: Check Consul package file
-  local_action:
-    module: stat
+  stat:
     path: "{{ role_path }}/files/{{ consul_pkg }}"
   become: false
   vars:
     ansible_become: false
   register: consul_package
   tags: installation
+  delegate_to: 127.0.0.1
 
 - name: Download Consul package
-  local_action:
-    module: get_url
+  get_url:
     url: "{{ consul_zip_url }}"
     dest: "{{ role_path }}/files/{{ consul_pkg }}"
     checksum: "sha256:{{ consul_sha256.stdout }}"
@@ -63,26 +63,26 @@
     ansible_become: false
   tags: installation
   when: not consul_package.stat.exists | bool
+  delegate_to: 127.0.0.1
 
 - name: Update Alpine Package Manager (APK)
-  local_action:
-    module: apk
+  apk:
     update_cache: true
   run_once: true
   when: ansible_os_family == "Alpine"
+  delegate_to: 127.0.0.1
 
 - name: Create Temporary Directory for Extraction
-  local_action:
-    module: tempfile
+  tempfile:
     state: directory
     prefix: ansible-consul.
   become: false
   register: install_temp
   tags: installation
+  delegate_to: 127.0.0.1
 
 - name: Unarchive Consul package
-  local_action:
-    module: unarchive
+  unarchive:
     src: "{{ role_path }}/files/{{ consul_pkg }}"
     dest: "{{ install_temp.path }}/"
     creates: "{{ install_temp.path }}/consul"
@@ -90,6 +90,7 @@
   vars:
     ansible_become: false
   tags: installation
+  delegate_to: 127.0.0.1
 
 - name: Install Consul
   copy:
@@ -101,7 +102,7 @@
   tags: installation
 
 - name: Daemon reload systemd in case the binaries upgraded
-  command: systemctl daemon-reload
+  systemd: daemon_reload=yes
   become: true
   notify: restart consul
   when:
@@ -109,8 +110,11 @@
     - consul_install_upgrade
 
 - name: Cleanup
-  local_action: file path="{{ install_temp.path }}" state="absent"
+  file:
+    path: "{{ install_temp.path }}"
+    state: "absent"
   become: false
   vars:
     ansible_become: false
   tags: installation
+  delegate_to: 127.0.0.1
