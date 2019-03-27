@@ -1,5 +1,6 @@
-## v2.3.5 (UNRELEASED)
+## v2.3.5
 
+- Consul v1.4.4
 - fixed multiarch deployment race condition (thanks @lanefu)
 - Switched from systemctl command to systemd module [lint]
 - Update for E504 use 'delegate_to: localhost' [lint]
@@ -12,6 +13,11 @@
   - acl
   - main
 - Update example site playbook roles format
+- Support install on Debian Testing (thanks @gfeun)
+- Fix consul_bind_address (thanks @danielkucera)
+- Custom bootstrap expect value (thanks @Roviluca)
+- Fix Windows support for registering services (thanks @gyorgynadaban)
+- Update documentation
 
 ## v2.3.4
 
