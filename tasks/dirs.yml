@@ -4,7 +4,8 @@
 - name: Create directories
   block:
 
-    - file:
+    -name: Consul configuration paths
+      file:
         dest: "{{ item }}"
         state: directory
         owner: "{{ consul_user }}"
@@ -14,8 +15,8 @@
         - "{{ consul_config_path }}"
         - "{{ consul_configd_path }}"
         - "{{ consul_data_path }}"
-
-    - file:
+    - name: Consul run path
+      file:
         dest: "{{ consul_run_path }}"
         state: directory
         owner: "{{ consul_user }}"
