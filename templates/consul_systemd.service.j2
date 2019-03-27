@@ -21,7 +21,7 @@ PermissionsStartOnly=true
 {% if consul_ui_legacy %}
 Environment=CONSUL_UI_LEGACY=true
 {% endif %}
-ExecStartPre=-/bin/mkdir -m 0700 -p {{ consul_run_path }}
+ExecStartPre=-/bin/mkdir -m 0750 -p {{ consul_run_path }}
 ExecStartPre=/bin/chown -R {{ consul_user }}:{{ consul_group }} {{ consul_run_path }}
 ExecStart={{ consul_bin_path }}/consul agent \
     -config-file={{ consul_config_path }}/config.json \
