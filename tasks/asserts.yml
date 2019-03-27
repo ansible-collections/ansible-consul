@@ -20,7 +20,7 @@
     msg: "{{ ansible_distribution_version }} is not a supported version."
   when:
     - ansible_distribution == "Debian"
-    - ansible_distribution_version is version_compare(8, '<')
+    - (ansible_distribution_version != 'buster/sid') and (ansible_distribution_version is version_compare(8, '<'))
 
 - name: Check FreeBSD version
   fail:
