@@ -1,3 +1,7 @@
+## v2.3.6 (UNRELEASED)
+
+- Continue with task cleanup
+
 ## v2.3.5
 
 - Consul v1.4.4
