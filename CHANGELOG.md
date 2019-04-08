@@ -1,6 +1,7 @@
 ## v2.3.6 (UNRELEASED)
 
 - Continue with task cleanup
+- Fix deleting of unregistered services (thanks @Shaiou)
 
 ## v2.3.5
 
