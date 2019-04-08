@@ -16,25 +16,35 @@
   find:
     paths: "{{ consul_configd_path }}"
     file_type: file
-  register: services_enabled
+  register: services_enabled_unix
   when: ansible_os_family != 'Windows'
 
 - name: Get the list of service config file [Windows]
   win_find:
     paths: "{{ consul_configd_path }}"
     file_type: file
-  register: services_enabled
+  register: services_enabled_windows
   when: ansible_os_family == 'Windows'
 
-- name: Set fact with list of existing configuration file
+- name: set var for enabled services
   set_fact:
-    list_current_service_config: "{{ list_current_service_config |default([]) + [ item.filename ] }}"
-  with_items: "{{ services_enabled['files'] }}"
+    services_enabled_files: "{{ services_enabled_unix['files'] }}"
+  when: ansible_os_family != 'Windows'
+
+- name: set var for enabled services [Windows]
+  set_fact:
+    services_enabled_files: "{{ services_enabled_windows['files'] }}"
+  when: ansible_os_family == 'Windows'
+
+- name: Set fact with list of existing configuration files
+  set_fact:
+    list_current_service_config: "{{ list_current_service_config |default([]) + [ item.path ] }}"
+  with_items: "{{ services_enabled_files }}"
 
 - name: Set fact with list of service we manage
   set_fact:
     managed_files: "{{ managed_files |default([]) }} + \
-    [ 'service_{{ item['name'] }}.json' ]"
+    [ '{{ consul_configd_path }}/service_{{ item.name }}.json' ]"
   with_items: "{{ consul_services }}"
 
 - name: Delete non declared services
