@@ -2,6 +2,7 @@
 
 - Continue with task cleanup
 - Fix deleting of unregistered services (thanks @Shaiou)
+- Add bool filter to templates (thanks @eeroniemi)
 
 ## v2.3.5
 
