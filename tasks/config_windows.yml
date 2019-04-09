@@ -1,5 +1,5 @@
 ---
-# File: config.yml - Consul configuration tasks
+# File: config_windows.yml - Consul configuration tasks for Windows
 
 - name: Create configuration
   win_copy:

@@ -58,6 +58,10 @@ Thank you to all these fine folks for helping with ansible-consul!
 - [@pwae](https://github.com/pwae)
 - [@Fuochi-YNAP](https://github.com/Fuochi-YNAP)
 - [@canardleteer](https://github.com/canardleteer)
+- [@Sispheor](https://github.com/Sispheor)
+- [@Roviluca](https://github.com/Roviluca)
+- [@gyorgynadaban](https://github.com/gyorgynadaban)
+- [@Shaiou](https://github.com/Shaiou)
 
 If you have contributed but do not appear here, please fear not and accept
 apologies for the omission. Contact `brian <at> brianshumate <dot> com` and
