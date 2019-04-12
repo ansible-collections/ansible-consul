@@ -153,7 +153,7 @@ consul_servers: "\
 consul_gather_server_facts: false
 
 ## ACL
-consul_acl_policy: false
+consul_acl_policy: "{{ lookup('env','CONSUL_ACL_POLICY') | default(false, true) }}"
 
 ### Shared ACL config ###
 consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
