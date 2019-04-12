@@ -1,10 +1,11 @@
-## v2.3.6 (UNRELEASED)
+## v2.3.6
 
 - Continue with task cleanup
 - Fix deleting of unregistered services (thanks @Shaiou)
 - Add bool filter to templates (thanks @eeroniemi)
 - Fix CONSUL_ACL_POLICY (thanks @eeroniemi)
 - Correct cleanup task fileglob bogusness
+- Switch to SIGTERM in sysvinit stop
 
 ## v2.3.5
 
