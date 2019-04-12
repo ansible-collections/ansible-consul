@@ -3,6 +3,8 @@
 - Continue with task cleanup
 - Fix deleting of unregistered services (thanks @Shaiou)
 - Add bool filter to templates (thanks @eeroniemi)
+- Fix CONSUL_ACL_POLICY (thanks @eeroniemi)
+- Correct cleanup task fileglob bogusness
 
 ## v2.3.5
 
