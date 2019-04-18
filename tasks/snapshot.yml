@@ -25,7 +25,7 @@
     - not ansible_os_family == "Solaris"
     - consul_snapshot | bool
 
-- name: Create snapshot systemd script
+- name: Create snapshot agent config
   template:
     src: consul_snapshot.json.j2
     dest: "{{ consul_config_path }}/consul_snapshot.json"
