@@ -1,3 +1,7 @@
+## v2.3.7 (UNRELEASED)
+
+- That's about enough task cleanup for now
+
 ## v2.3.6
 
 - Continue with task cleanup

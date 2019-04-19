@@ -3,24 +3,24 @@
 
 - name: Create directories
   block:
-
-    - file:
-        dest: "{{ item }}"
-        state: directory
-        owner: "{{ consul_user }}"
-        group: "{{ consul_group }}"
-        mode: 0700
-      with_items:
-        - "{{ consul_config_path }}"
-        - "{{ consul_configd_path }}"
-        - "{{ consul_data_path }}"
-
-    - file:
-        dest: "{{ consul_run_path }}"
-        state: directory
-        owner: "{{ consul_user }}"
-        group: "{{ consul_group }}"
-        mode: 0750
+  - name: Configuration and data directories
+    file:
+      dest: "{{ item }}"
+      state: directory
+      owner: "{{ consul_user }}"
+      group: "{{ consul_group }}"
+      mode: 0700
+    with_items:
+      - "{{ consul_config_path }}"
+      - "{{ consul_configd_path }}"
+      - "{{ consul_data_path }}"
+  - name: Run directory
+    file:
+      dest: "{{ consul_run_path }}"
+      state: directory
+      owner: "{{ consul_user }}"
+      group: "{{ consul_group }}"
+      mode: 0750
 
   when: ansible_os_family != 'Windows'
 
