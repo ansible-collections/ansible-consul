@@ -31,6 +31,9 @@
         {% if item.weights is defined -%}
         "weights": {{ item.weights | to_json }},
         {% endif -%}
+        {% if item.token is defined -%}
+        "token": {{ item.token | to_json }},
+        {% endif -%}
         "tags": {% if item.tags is defined -%}{{ item.tags|to_json }}{% else %}[]{% endif -%}
     }
 }

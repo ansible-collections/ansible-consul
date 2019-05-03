@@ -1046,6 +1046,7 @@ Services object:
 | checks              | False    | list   |         | List of [checks configuration](https://www.consul.io/docs/agent/checks.html)                               |
 | connect             | False    | dict   |         | [Connect object configuration](https://www.consul.io/docs/connect/index.html)                              |
 | weights             | False    | dict   |         | [Weight of a service in DNS SRV responses](https://www.consul.io/docs/agent/services.html#dns-srv-weights) |
+| token               | False    | string |         | ACL token to use to register this service                                                                  |
 
 
 Configuration example:
