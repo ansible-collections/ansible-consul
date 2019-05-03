@@ -1,6 +1,6 @@
 ## v2.3.7 (UNRELEASED)
 
-- That's about enough task cleanup for now
+- Specify a token for a service (thanks @xeivieni)
 
 ## v2.3.6
 
