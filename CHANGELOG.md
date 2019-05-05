@@ -11,7 +11,6 @@
 - Fix CONSUL_ACL_POLICY (thanks @eeroniemi)
 - Correct cleanup task fileglob bogusness
 - Switch to SIGTERM in sysvinit stop
->>>>>>> ae67a7b56846a99480156ce694e24d396eed2778
 
 ## v2.3.5
 
