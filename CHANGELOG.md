@@ -1,6 +1,7 @@
 ## v2.3.7 (UNRELEASED)
 
 - Specify a token for a service (thanks @xeivieni)
+- Empty consul_acl_master_token check (thanks @evilhamsterman)
 
 ## v2.3.6
 
