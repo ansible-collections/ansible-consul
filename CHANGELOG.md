@@ -2,6 +2,7 @@
 
 - Continue with task cleanup
 - Fix deleting of unregistered services (thanks @Shaiou)
+- Fix issue in Amazon variables (thanks @ToROxI)
 
 ## v2.3.5
 
