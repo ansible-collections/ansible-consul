@@ -171,6 +171,16 @@
     {{ consul_join_wan | map('ipwrap') | list | to_json }},
     {% endif %}
 
+    {## WAN Leave ##}
+    {% if consul_leave_on_terminate is defined %}
+    "leave_on_terminate": {{ consul_leave_on_terminate | bool | to_json }},
+    {% endif %}
+
+    {% if consul_skip_leave_on_interrupt  is defined %}
+    "skip_leave_on_interrupt": {{ consul_skip_leave_on_interrupt | bool | to_json }},
+    {% endif %}
+
+
     {## ACLs ##}
     {% if consul_acl_enable | bool %}
         {% if consul_acl_replication_enable | trim != '' %}
