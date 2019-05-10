@@ -1,5 +1,6 @@
-## v2.3.7 (UNRELEASED)
+## v2.4.0
 
+- Consul v1.5.0
 - Specify a token for a service (thanks @xeivieni)
 - Empty consul_acl_master_token check (thanks @evilhamsterman)
 - Separate Unix and Linux tasks from Windows tasks (thanks @evilhamsterman)
@@ -16,7 +17,7 @@
 
 ## v2.3.5
 
-- Consul v1.4.4
+- Consul v1.5.0
 - fixed multiarch deployment race condition (thanks @lanefu)
 - Switched from systemctl command to systemd module [lint]
 - Update for E504 use 'delegate_to: localhost' [lint]
