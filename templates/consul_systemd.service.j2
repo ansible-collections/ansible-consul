@@ -35,6 +35,7 @@ RestartSec={{ consul_systemd_restart_sec }}s
 {% for var in consul_env_vars %}
 Environment={{ var }}
 {% endfor %}
+LimitNOFILE={{ consul_systemd_limit_nofile }}
 
 [Install]
 WantedBy=multi-user.target
