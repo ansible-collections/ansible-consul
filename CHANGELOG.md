@@ -1,3 +1,8 @@
+## v2.4.1
+
+- Add LimitNOFILE option to systemd unit (thanks @liuxu623)
+- Fix typo in in replication token check (thanks @evilhamsterman)
+
 ## v2.4.0
 
 - Consul v1.5.0
