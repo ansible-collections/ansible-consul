@@ -791,6 +791,11 @@ packages with different package names.
 - Integer value for systemd unit `RestartSec` option
 - Default value: 42
 
+### consul_systemd_limit_nofile
+
+- Integer value for systemd unit `LimitNOFILE` option
+- Default value: 65536
+
 ### `consul_ubuntu_pkg`
 
 - Consul package filename
