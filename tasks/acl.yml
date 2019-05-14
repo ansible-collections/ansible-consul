@@ -58,7 +58,7 @@
 
   when:
     - bootstrap_state.stat.exists | bool
-    - (consul_acl_replication_token is not defined consul_acl_replication_token | length == 0)
+    - (consul_acl_replication_token is not or defined consul_acl_replication_token | length == 0)
     - consul_node_role == 'server'
 
 - block:
