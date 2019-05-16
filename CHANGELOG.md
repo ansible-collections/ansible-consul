@@ -1,3 +1,9 @@
+## v2.4.2
+
+- Correct ACL typo correction (thanks @bewiwi)
+- Fix unarchive failure case (thanks @cyril-dussert)
+- Update CONTRIBUTORS
+
 ## v2.4.1
 
 - Add LimitNOFILE option to systemd unit (thanks @liuxu623)
