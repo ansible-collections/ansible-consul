@@ -77,6 +77,8 @@
     state: directory
     prefix: ansible-consul.
   become: false
+  vars:
+    ansible_become: false
   register: install_temp
   tags: installation
   delegate_to: 127.0.0.1
