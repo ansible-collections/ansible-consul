@@ -1,3 +1,8 @@
+## v2.4.3
+
+- Consul v1.5.1
+- Update documentation
+
 ## v2.4.2
 
 - Correct ACL typo correction (thanks @bewiwi)
