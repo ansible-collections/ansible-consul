@@ -1,5 +1,5 @@
 ---
-# File: checks.yml - Asserts for this playbook
+# File: asserts.yml - Asserts for this playbook
 
 - name: Check distribution compatibility
   fail:
@@ -20,7 +20,7 @@
     msg: "{{ ansible_distribution_version }} is not a supported version."
   when:
     - ansible_distribution == "Debian"
-    - ansible_distribution_version is version_compare(8, '<')
+    - (ansible_distribution_version != 'buster/sid') and (ansible_distribution_version is version_compare(8, '<'))
 
 - name: Check FreeBSD version
   fail:
@@ -86,17 +86,17 @@
 # Check for unzip binary
 
 - name: Check if unzip is installed
-  local_action:
-    module: shell command -v unzip -h >/dev/null 2>&1
+  shell: "command -v unzip -h >/dev/null 2>&1"
   become: false
-  changed_when: false  # readonly task
+  changed_when: false
   check_mode: false
   run_once: true
   register: is_unzip_installed
   ignore_errors: true
+  delegate_to: 127.0.0.1
 
 - name: Fail if unzip is not installed on control host
   fail:
-    msg: "For local installation mode, this role requires that the unzip binary is installed and available in the PATH on the Ansible control host."
+    msg: "unzip binary is not available in the PATH on the control host."
   when:
     - is_unzip_installed.rc == 1

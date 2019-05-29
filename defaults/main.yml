@@ -7,7 +7,7 @@ is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
 consul_install_dependencies: true
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.4.2', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.5.1', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
@@ -50,6 +50,7 @@ consul_user: "consul"
 consul_manage_group: false
 consul_group: "bin"
 consul_systemd_restart_sec: 42
+consul_systemd_limit_nofile: 65536
 
 ### Log user, group, facility
 syslog_user: "{{ lookup('env','SYSLOG_USER') | default('root', true) }}"
@@ -73,7 +74,9 @@ consul_node_name: "{{ inventory_hostname_short }}"
 consul_node_role: "{{ lookup('env','CONSUL_NODE_ROLE') | default('client', true) }}"
 consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
 consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(false, true) }}"
+consul_bootstrap_expect_value: "{{ _consul_lan_servercount | int }}"
 consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
+consul_ui_legacy: "{{ lookup('env', 'CONSUL_UI_LEGACY') | default(false, false) }}"
 consul_disable_update_check: false
 consul_enable_script_checks: false
 consul_enable_local_script_checks: false
@@ -108,7 +111,7 @@ consul_bind_address: "\
   {% elif ansible_os_family == 'Windows'  %}\
     {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_ip_addresses'][0], true) }}\
   {% else %}\
-    {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4']['address'], true) }}\
+    {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface | replace('-', '_')]['ipv4']['address'], true) }}\
   {% endif %}"
 consul_advertise_address: "{{ consul_bind_address }}"
 consul_advertise_address_wan: "{{ consul_bind_address }}"
@@ -151,7 +154,7 @@ consul_servers: "\
 consul_gather_server_facts: false
 
 ## ACL
-consul_acl_policy: false
+consul_acl_policy: "{{ lookup('env','CONSUL_ACL_POLICY') | default(false, true) }}"
 
 ### Shared ACL config ###
 consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
@@ -190,6 +193,7 @@ consul_tls_verify_server_hostname: false
 consul_tls_files_remote_src: false
 
 ## DNS
+consul_delegate_datacenter_dns: "{{ lookup('env','CONSUL_DELEGATE_DATACENTER_DNS') | default(false, true) }}"
 consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
 consul_dnsmasq_bind_interfaces: false
 consul_dnsmasq_consul_address: "\
@@ -208,6 +212,7 @@ consul_dnsmasq_local_service: false
 consul_dnsmasq_listen_addresses: []
 consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
 
+# Consul Enterprise
 consul_enterprise: "{{ lookup('env','CONSUL_ENTERPRISE') | default(false, true) }}"
 
 # Performance
@@ -222,3 +227,6 @@ consul_snapshot_storage: "{{ consul_config_path }}/snaps"
 consul_snapshot_interval: 1h
 consul_snapshot_retain: 30
 consul_snapshot_stale: false
+
+# services
+consul_services: []

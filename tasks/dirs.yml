@@ -2,17 +2,26 @@
 # File: dirs.yml - Consul directories
 
 - name: Create directories
-  file:
-    dest: "{{ item }}"
-    state: directory
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
-    mode: 0700
-  with_items:
-    - "{{ consul_config_path }}"
-    - "{{ consul_configd_path }}"
-    - "{{ consul_data_path }}"
-    - "{{ consul_run_path }}"
+  block:
+  - name: Configuration and data directories
+    file:
+      dest: "{{ item }}"
+      state: directory
+      owner: "{{ consul_user }}"
+      group: "{{ consul_group }}"
+      mode: 0700
+    with_items:
+      - "{{ consul_config_path }}"
+      - "{{ consul_configd_path }}"
+      - "{{ consul_data_path }}"
+  - name: Run directory
+    file:
+      dest: "{{ consul_run_path }}"
+      state: directory
+      owner: "{{ consul_user }}"
+      group: "{{ consul_group }}"
+      mode: 0750
+
   when: ansible_os_family != 'Windows'
 
 - name: Create log directory
@@ -28,7 +37,6 @@
     - consul_syslog_enable | bool
     - consul_configure_syslogd | bool
 
-# XXX: This could be a stat instead
 - name: Verify binary path
   file:
     path: "{{ consul_bin_path }}"

@@ -63,13 +63,13 @@
     "enable_local_script_checks": {{ consul_enable_local_script_checks | bool | to_json }},
 
     {## Encryption and TLS ##}
-    {% if consul_encrypt_enable %}
+    {% if consul_encrypt_enable | bool %}
     "encrypt": "{{ consul_raw_key }}",
     {% endif %}
-    {% if consul_disable_keyring_file %}
+    {% if consul_disable_keyring_file | bool %}
     "disable_keyring_file": true,
     {% endif %}
-    {% if consul_tls_enable %}
+    {% if consul_tls_enable | bool %}
     "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}",
     "cert_file": "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}",
     "key_file": "{{ consul_tls_dir }}/{{ consul_server_key }}",
@@ -97,7 +97,7 @@
     {# Client Settings #}
     {% if (item.config_version == 'client') %}
         {## ACLs ##}
-        {% if consul_acl_enable %}
+        {% if consul_acl_enable | bool %}
             {% if consul_version is version_compare('1.4.0', '>=') %}
                 "primary_datacenter": "{{ consul_acl_datacenter }}",
                 "acl": {
@@ -140,10 +140,10 @@
     {## Bootstrap settings ##}
     "bootstrap": {{ (item.config_version == 'bootstrap') | bool | to_json }},
     {% if consul_bootstrap_expect and not (item.config_version == 'bootstrap') %}
-        "bootstrap_expect": {{ _consul_lan_servercount | int }},
+        "bootstrap_expect": {{ consul_bootstrap_expect_value }},
 
         {## AutoPilot ##}
-        {% if consul_autopilot_enable %}
+        {% if consul_autopilot_enable | bool %}
         "autopilot": {
             "cleanup_dead_servers": {{ consul_autopilot_cleanup_dead_Servers | bool | to_json }},
             "last_contact_threshold": "{{ consul_autopilot_last_contact_threshold }}",
@@ -172,7 +172,7 @@
     {% endif %}
 
     {## ACLs ##}
-    {% if consul_acl_enable %}
+    {% if consul_acl_enable | bool %}
         {% if consul_acl_replication_enable | trim != '' %}
         "enable_acl_replication": {{ consul_acl_replication_enable | bool | to_json }},
         {% endif %}

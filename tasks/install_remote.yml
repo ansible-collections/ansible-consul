@@ -32,7 +32,9 @@
   shell: "grep {{ consul_pkg }} /tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
   register: consul_sha256
   changed_when: false
-  tags: installation
+  tags:
+    - installation
+    - skip_ansible_lint
 
 - name: Check Consul package file
   stat:
@@ -62,7 +64,7 @@
   tags: installation
 
 - name: Daemon reload systemd in case the binaries upgraded
-  command: systemctl daemon-reload
+  systemd: daemon_reload=yes
   become: true
   notify: restart consul
   when:
@@ -74,5 +76,5 @@
   file:
     path: "{{ item }}"
     state: absent
-  with_fileglob: "/tmp/consul"
+  with_fileglob: "/tmp/consul/*"
   tags: installation

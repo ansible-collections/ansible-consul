@@ -18,7 +18,10 @@ User={{ consul_user }}
 Group={{ consul_group }}
 PIDFile={{ consul_run_path }}/consul.pid
 PermissionsStartOnly=true
-ExecStartPre=-/bin/mkdir -m 0700 -p {{ consul_run_path }}
+{% if consul_ui_legacy %}
+Environment=CONSUL_UI_LEGACY=true
+{% endif %}
+ExecStartPre=-/bin/mkdir -m 0750 -p {{ consul_run_path }}
 ExecStartPre=/bin/chown -R {{ consul_user }}:{{ consul_group }} {{ consul_run_path }}
 ExecStart={{ consul_bin_path }}/consul agent \
     -config-file={{ consul_config_path }}/config.json \
@@ -32,6 +35,7 @@ RestartSec={{ consul_systemd_restart_sec }}s
 {% for var in consul_env_vars %}
 Environment={{ var }}
 {% endfor %}
+LimitNOFILE={{ consul_systemd_limit_nofile }}
 
 [Install]
 WantedBy=multi-user.target
