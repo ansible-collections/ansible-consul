@@ -12,3 +12,4 @@
     state: started
   when: ansible_os_family == "Windows"
   listen: 'start consul'
+
