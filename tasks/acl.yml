@@ -3,8 +3,13 @@
 
 - block:
     - name: Read ACL master token from previously boostrapped server
-      shell: 'cat {{ consul_config_path }}/config.json | grep "acl_master_token" | sed -E ''s/"acl_master_token": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
+      shell: >
+        cat {{ consul_config_path }}/config.json |
+        grep "acl_master_token" |
+        sed -E 's/"acl_master_token": "(.+)",?/\1/' |
+        sed 's/^ *//;s/ *$//'
       # XXX: Not sure if this is the correct fix for E306
+      # https://github.com/ansible/ansible-lint/issues/497
       # args:
       #   executable: "/bin/bash set -o pipefail &&"
       register: consul_acl_master_token_read
@@ -46,7 +51,11 @@
 - block:
 
     - name: Read ACL replication token from previously boostrapped server
-      shell: 'cat {{ consul_config_path }}/config.json | grep "acl_replication_token" | sed -E ''s/"acl_replication_token": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
+      shell: >
+        cat {{ consul_config_path }}/config.json |
+        grep "acl_replication_token" |
+        sed -E 's/"acl_replication_token": "(.+)",?/\1/' |
+        sed 'is/^ *//;s/ *$//'
       changed_when: false
       check_mode: false
       register: consul_acl_replication_token_read

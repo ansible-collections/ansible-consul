@@ -140,7 +140,7 @@
     - name: (Windows) Install NSSM
       win_chocolatey:
         name: nssm
-        state: latest
+        state: present
 
     - name: (Windows) Start Consul on Windows
       win_nssm:
