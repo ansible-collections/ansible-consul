@@ -1,6 +1,26 @@
 ---
 - name: Converge
   hosts: all
+
+  # workaround: until geerlingguy/docker-ubuntu* containers doesn't have iproute2 package
+  pre_tasks:
+    - name: workaround for ansible_default_ipv4
+      block:
+        - name: update apt cache
+          apt:
+            update_cache: yes
+            cache_valid_time: 3600
+        - name: Ensure that iproute2 package is installed
+          apt:
+            name: iproute2
+        - name: Gather Facts network subset
+          setup:
+            gather_subset:
+              - network
+      when:
+        - ansible_distribution == 'Ubuntu'
+        - ansible_default_ipv4 is undefined
+
   roles:
     - role: ansible-consul
 
