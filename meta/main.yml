@@ -18,6 +18,11 @@ galaxy_info:
       versions:
         - 6
         - 7
+    - name: Fedora
+      versions:
+        - 26
+        - 27
+        - 28
     - name: FreeBSD
       versions:
         - 10.0
@@ -29,6 +34,7 @@ galaxy_info:
     - name: Debian
       versions:
         - jessie
+        - stretch
     - name: Windows
       versions:
         - 2012R2

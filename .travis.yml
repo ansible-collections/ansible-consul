@@ -4,19 +4,27 @@ python: 2.7
 services: docker
 
 env:
-  matrix:
-    - MOLECULE_DISTRO: centos6
-    - MOLECULE_DISTRO: centos7
-    - MOLECULE_DISTRO: ubuntu1604
-    - MOLECULE_DISTRO: ubuntu1804
-    - MOLECULE_DISTRO: debian8
+  - SCENARIO=centos-6
+  - SCENARIO=centos-7
+  - SCENARIO=debian-8
+  - SCENARIO=debian-9
+  - SCENARIO=ubuntu-16.04
+  - SCENARIO=ubuntu-18.04
+  - SCENARIO=oraclelinux-6
+  - SCENARIO=oraclelinux-7
+  - SCENARIO=fedora-26
+  - SCENARIO=fedora-27
+  - SCENARIO=fedora-28
+
+cache:
+  - pip
 
 install:
   # Install test dependencies.
   - pip install testinfra molecule docker netaddr
 
 script:
-  - molecule test
+  - molecule --base-config molecule/_shared/base.yml test --scenario-name ${SCENARIO}
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
