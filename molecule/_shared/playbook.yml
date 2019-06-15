@@ -7,3 +7,4 @@
   vars:
     # TODO: Probably we need to install syslog-ng/rsyslog first
     consul_syslog_enable: False
+    consul_install_dependencies: False
