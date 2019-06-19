@@ -63,6 +63,13 @@
   when: consul_download is changed
   tags: installation
 
+- name: Allow Consul to bind to privileged ports
+  capabilities:
+    path: "{{ consul_binary }}"
+    capability: cap_net_bind_service+ep
+    state: present
+  tags: installation
+
 - name: Daemon reload systemd in case the binaries upgraded
   systemd: daemon_reload=yes
   become: true
