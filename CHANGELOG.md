@@ -1,6 +1,6 @@
-## NEXT
+## v2.4.4
 
-- Consul v1.5.2
+- Consul v1.5.2 (thanks @patsevanton)
 - Add Molecule support (thanks @gofrolist)
 - Correct several task issues (thanks @gofrolist)
 
