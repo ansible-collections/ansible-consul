@@ -13,7 +13,7 @@
     - name: Copy CA certificate
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
-        src: "{{ consul_tls_src_files }}/{{ consul_tls_ca_crt }}"
+        src: "{{ consul_tls_src_files }}/{{ consul_tls_ca_crt | basename }}"
         dest: "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}"
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
@@ -22,7 +22,7 @@
     - name: Copy server certificate
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
-        src: "{{ consul_tls_src_files }}/{{ consul_tls_server_crt }}"
+        src: "{{ consul_tls_src_files }}/{{ consul_tls_server_crt | basename }}"
         dest: "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}"
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
@@ -31,7 +31,7 @@
     - name: Copy server key
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
-        src: "{{ consul_tls_src_files }}/{{ consul_server_key }}"
+        src: "{{ consul_tls_src_files }}/{{ consul_server_key | basename }}"
         dest: "{{ consul_tls_dir }}/{{ consul_server_key }}"
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"

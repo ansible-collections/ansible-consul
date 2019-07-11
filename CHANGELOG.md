@@ -1,3 +1,8 @@
+## NEXT
+
+- Update molecule configuration (thanks @gofrolist)
+- Support TLS files in subdirectories - resolves #297
+
 ## v2.4.4
 
 - Consul v1.5.2 (thanks @patsevanton)
