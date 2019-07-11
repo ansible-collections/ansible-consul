@@ -1,0 +1,13 @@
+---
+scenario:
+  name: ubuntu-16.04
+platforms:
+  - name: ubuntu-16.04
+    groups:
+      - consul_instances
+    image: dokken/ubuntu-16.04
+    command: /bin/systemd
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
