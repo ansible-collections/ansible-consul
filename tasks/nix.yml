@@ -38,7 +38,7 @@
 
 - name: Calculate whether to install consul binary
   set_fact:
-    consul_install_binary: "{{ consul_install_upgrade or not consul_binary_installed.stat.exists }}"
+    consul_install_binary: "{{ consul_install_upgrade | bool or not consul_binary_installed.stat.exists }}"
 
 - name: Install OS packages and consul - locally
   include_tasks: install.yml

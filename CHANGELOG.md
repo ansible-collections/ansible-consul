@@ -2,6 +2,7 @@
 
 - Update molecule configuration (thanks @gofrolist)
 - Support TLS files in subdirectories - resolves #297
+- Update some bare variable comparisons - resolves #293
 
 ## v2.4.4
 

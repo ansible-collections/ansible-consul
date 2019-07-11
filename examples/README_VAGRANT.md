@@ -91,7 +91,7 @@ BOX_NAME=freebsd/FreeBSD-11.0-STABLE CONSUL_IFACE=em1 vagrant up
 
 1. This project functions with the following software versions:
   * Consul version 1.5.2
-  * Ansible: 2.7.2
+  * Ansible: 2.8.2
   * VirtualBox version 5.2.22
   * Vagrant version 2.2.1
   * Vagrant Hosts plugin version 2.8.1

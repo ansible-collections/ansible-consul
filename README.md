@@ -27,7 +27,7 @@ This role requires a FreeBSD, Debian, or Red Hat Enterprise Linux distribution o
 The role might work with other OS distributions and versions, but is known to function well with the following software versions:
 
 * Consul: 1.5.2
-* Ansible: 2.7.2
+* Ansible: 2.8.2
 * Alpine Linux: 3.8
 * CentOS: 7
 * Debian: 9

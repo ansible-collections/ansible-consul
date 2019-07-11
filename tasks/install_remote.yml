@@ -69,7 +69,7 @@
   notify: restart consul
   when:
     - ansible_service_mgr == "systemd"
-    - consul_install_upgrade
+    - consul_install_upgrade | bool
     - consul_install is changed
 
 - name: Cleanup
