@@ -1,9 +1,122 @@
-## v2.1.1 (UNRELEASED)
+## NEXT
+
+- Update molecule configuration (thanks @gofrolist)
+- Support TLS files in subdirectories - resolves #297
+- Update some bare variable comparisons - resolves #293
+
+## v2.4.4
+
+- Consul v1.5.2 (thanks @patsevanton)
+- Add Molecule support (thanks @gofrolist)
+- Correct several task issues (thanks @gofrolist)
+
+## v2.4.3
+
+- Consul v1.5.1
+- Update documentation
+
+## v2.4.2
+
+- Correct ACL typo correction (thanks @bewiwi)
+- Fix unarchive failure case (thanks @cyril-dussert)
+- Update CONTRIBUTORS
+
+## v2.4.1
+
+- Add LimitNOFILE option to systemd unit (thanks @liuxu623)
+- Fix typo in in replication token check (thanks @evilhamsterman)
+
+## v2.4.0
+
+- Consul v1.5.0
+- Specify a token for a service (thanks @xeivieni)
+- Empty consul_acl_master_token check (thanks @evilhamsterman)
+- Separate Unix and Linux tasks from Windows tasks (thanks @evilhamsterman)
+
+## v2.3.6
+
+- Continue with task cleanup
+- Fix deleting of unregistered services (thanks @Shaiou)
+- Fix issue in Amazon variables (thanks @ToROxI)
+- Add bool filter to templates (thanks @eeroniemi)
+- Fix CONSUL_ACL_POLICY (thanks @eeroniemi)
+- Correct cleanup task fileglob bogusness
+- Switch to SIGTERM in sysvinit stop
+
+## v2.3.5
+
+- Consul v1.5.0
+- fixed multiarch deployment race condition (thanks @lanefu)
+- Switched from systemctl command to systemd module [lint]
+- Update for E504 use 'delegate_to: localhost' [lint]
+  - asserts
+  - install
+  - encrypt_gossip
+- Update for E104 in with_fileglob for install_remote [lint]
+- Update for E601 in syslog [lint]
+- Update for E602 in tasks [lint]
+  - acl
+  - main
+- Update example site playbook roles format
+- Support install on Debian Testing (thanks @gfeun)
+- Fix consul_bind_address (thanks @danielkucera)
+- Custom bootstrap expect value (thanks @Roviluca)
+- Fix Windows support for registering services (thanks @gyorgynadaban)
+- Update documentation
+
+## v2.3.4
+
+- Consul v1.4.3
+- Update documentation
+
+## v2.3.3
+
+- Add services management (thanks @Sispheor)
+- Add enable_local_script_checks configuration (thanks @canardleteer)
+- Add ability to enable legacy GUI (thanks @imcitius)
+- Optional domain datacenter delegation with `consul_delegate_datacenter_dns`
+
+## v2.3.2
+
+- Consul v1.4.2
+- Remove token generation/retrieval on clients (thanks @jpiron)
+- Add listen to all the handler tasks (@pwae)
+- retry_join setup independent from the hosts servers (thanks @Fuochi-YNAP)
+
+## v2.3.1
+
+- Add Consul 1.4.0 ACL configuration syntax support (thanks @jpiron)
+- Fix unzip installation check task check mode (thanks @jpiron)
+- Fix systemd configuration task handler notification (thanks @jpiron)
+
+## v2.3.0
+
+- The role no longer attempts to install the unzip binary locally onto
+  the Ansible control host; it is now a hard dependency and role execution
+  will fail if unzip is not in the PATH on the control host.
+- Snapshot agent installation and configuration (thanks @drewmullen)
+- Delegate Consul datacenter DNS domain to Consul (thanks @teralype)
+- Allow DNSmasq binding to particular interfaces (thanks @teralype)
+- Update local tasks (thanks @sgrimm-sg)
+- Update documentation
+
+## v2.2.0
 
 - Consul v1.4.0
+- Update documentation
+
+## v2.1.1
+
+- Consul v1.3.1
 - Configuration and documentation for gRPC (thanks @RavisMsk)
 - Consistent boolean use
 - Fix Consul restart handler reference (thanks @blaet)
+- Write gossip key on all hosts (thanks @danielkucera)
+- Protect local consul cluster key file (thanks @blaet)
+- Support Amazon Linux (thanks @soloradish)
+- Quite ACL replication token retrieval (thanks @jpiron)
+- disable_keyring_file configuration option (thanks @vincepii)
+- Update tests
 - Update documentation
 
 ## v2.1.0

@@ -1,11 +1,11 @@
 ---
-# File: checks.yml - Asserts for this playbook
+# File: asserts.yml - Asserts for this playbook
 
 - name: Check distribution compatibility
   fail:
     msg: "{{ ansible_distribution }} is not currently supported by this role."
   when:
-    - ansible_distribution not in ['RedHat', 'CentOS', 'OracleLinux', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu', 'Archlinux', 'Alpine']
+    - ansible_distribution not in ['RedHat', 'CentOS', 'OracleLinux', 'Fedora', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu', 'Archlinux', 'Alpine', 'Amazon']
     - ansible_os_family != 'Windows'
 
 - name: Check CentOS, Red Hat or Oracle Linux version
@@ -20,7 +20,7 @@
     msg: "{{ ansible_distribution_version }} is not a supported version."
   when:
     - ansible_distribution == "Debian"
-    - ansible_distribution_version is version_compare(8, '<')
+    - (ansible_distribution_version != 'buster/sid') and (ansible_distribution_version is version_compare(8, '<'))
 
 - name: Check FreeBSD version
   fail:
@@ -82,3 +82,21 @@
   when:
     - _consul_bootstrap_servers | length > 0
     - consul_bootstrap_expect | bool
+
+# Check for unzip binary
+
+- name: Check if unzip is installed
+  shell: "command -v unzip -h >/dev/null 2>&1"
+  become: false
+  changed_when: false
+  check_mode: false
+  run_once: true
+  register: is_unzip_installed
+  ignore_errors: true
+  delegate_to: 127.0.0.1
+
+- name: Fail if unzip is not installed on control host
+  fail:
+    msg: "unzip binary is not available in the PATH on the control host."
+  when:
+    - is_unzip_installed.rc == 1

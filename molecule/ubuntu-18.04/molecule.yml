@@ -1,0 +1,13 @@
+---
+scenario:
+  name: ubuntu-18.04
+platforms:
+  - name: ubuntu-18.04
+    groups:
+      - consul_instances
+    image: dokken/ubuntu-18.04
+    command: /bin/systemd
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
