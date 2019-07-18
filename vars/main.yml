@@ -1,3 +1,4 @@
+---
 # Pure internal helper variables
 
 _consul_lan_servers: "\

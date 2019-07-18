@@ -1,3 +1,8 @@
+## NEXT
+
+- Add Molecule support (thanks @gofrolist)
+- Correct several task issues (thanks @gofrolist)
+
 ## v2.4.3
 
 - Consul v1.5.1
