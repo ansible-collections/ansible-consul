@@ -1,9 +1,14 @@
-## NEXT
+## v2.4.5
 
+- Consul v1.5.3
 - Update molecule configuration (thanks @gofrolist)
 - Support TLS files in subdirectories - resolves #297
 - Update some bare variable comparisons - resolves #293
 - Update server address for usage with --limit (thanks @danielkucera)
+- Update snapshot configuration for TLS (thanks @jasonneurohr)
+- Add TLS minimum version and ciper suite preferences (thanks @jasonneurohr)
+- Update documentation
+- Update CONTRIBUTORS
 
 ## v2.4.4
 
@@ -749,7 +754,7 @@ Do not enable a default set of ACL policies
 
 - Update start_join for client configuration template
 
-## v1.5.2
+## v1.5.3
 
 - Consul version 0.7.1
 - Consistent template names
