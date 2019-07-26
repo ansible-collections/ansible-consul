@@ -77,6 +77,11 @@
     "verify_outgoing": {{ consul_tls_verify_outgoing | bool | to_json }},
     "verify_incoming_https": {{consul_tls_verify_incoming_https | bool| to_json }},
     "verify_server_hostname": {{ consul_tls_verify_server_hostname | bool | to_json }},
+    "tls_min_version": "{{ consul_tls_min_version }}",
+    {% if consul_tls_cipher_suites is defined and consul_tls_cipher_suites %}
+    "tls_cipher_suites": "{{ vault_tls_cipher_suites}}",
+    {% endif %}
+    "tls_prefer_server_cipher_suites": {{ vault_tls_prefer_server_cipher_suites | bool | to_json }},
     {% endif %}
 
     {## LAN Join ##}
