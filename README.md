@@ -542,6 +542,23 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_TLS_VERIFY_SERVER_HOSTNAME` environment variable
 - Default value: false
 
+### `consul_tls_min_version`
+
+- [Minimum acceptable TLS version](https://www.consul.io/docs/agent/options.html#tls_min_version)
+  - Can be overridden with `CONSUL_TLS_MIN_VERSION` environment variable
+- Default value: tls12
+
+### `consul_tls_cipher_suites`
+
+- [Comma-separated list of supported ciphersuites](https://www.consul.io/docs/agent/options.html#tls_cipher_suites)
+- Default value: ""
+
+### `consul_tls_prefer_server_cipher_suites`
+
+- [Prefer server's cipher suite over client cipher suite](https://www.consul.io/docs/agent/options.html#tls_prefer_server_cipher_suites)
+  - Can be overridden with `CONSUL_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
+- Default value: false
+
 ### `consul_install_remotely`
 
 - Whether to download the files for installation directly on the remote hosts
