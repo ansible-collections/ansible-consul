@@ -1,3 +1,7 @@
+## NEXT
+
+- Add documentation for new TLS options (thanks @jasonneurohr)
+
 ## v2.4.5
 
 - Consul v1.5.3
