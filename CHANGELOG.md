@@ -1,6 +1,7 @@
 ## NEXT
 
 - Add documentation for new TLS options (thanks @jasonneurohr)
+- Add support for translate_wan_address (@calmacara)
 
 ## v2.4.5
 
