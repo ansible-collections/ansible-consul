@@ -299,6 +299,11 @@ consul_node_meta:
 - Wan advertise address
 - Default value: `consul_bind_address`
 
+### `consul_translate_wan_address`
+
+- Prefer a node's configured WAN address when serving DNS
+- Default value: false
+
 ### `consul_advertise_addresses`
 
 - Advanced advertise addresses settings
