@@ -120,20 +120,46 @@ Many role variables can also take their values from environment variables as wel
 
 - Enable configuration of rsyslogd or syslog-ng on Linux. If disabled, Consul will still log to syslog if `consul_syslog_enable` is true, but the syslog daemon won't be configured to write Consul logs to their own logfile.
   - Override with `CONSUL_CONFIGURE_SYSLOGD` environment variable
-- Default Linux value: *true*
+- Default Linux value: *false*
 
 ### `consul_log_path`
-
-- Log path for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
+- If `consul_syslog_enable` is false
+  - Log path for use in [log_file or -log-file](https://www.consul.io/docs/agent/options.html#_log_file)
+- If `consul_syslog_enable` is true
+  - Log path for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
 - Default Linux value: `/var/log/consul`
   - Override with `CONSUL_LOG_PATH` environment variable
 - Default Windows value: `C:\ProgramData\consul\log`
 
 ### `consul_log_file`
 
-- Log file for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
-  - Override with `CONSUL_LOG_FILE` environment variable
+- If `consul_syslog_enable` is false
+  - Log file for use in [log_file or -log-file](https://www.consul.io/docs/agent/options.html#_log_file)
+- If `consul_syslog_enable` is true
+  - Log file for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
+- Override with `CONSUL_LOG_FILE` environment variable
 - Default Linux value: `consul.log`
+
+### `consul_log_rotate_bytes`
+
+- Log rotate bytes as defined in [log_rotate_bytes or -log-rotate-bytes](https://www.consul.io/docs/agent/options.html#_log_rotate_bytes)
+  - Override with `CONSUL_LOG_ROTATE_BYTES` environment variable
+- Ignored if `consul_syslog_enable` is true
+- Default value: 0
+
+### `consul_log_rotate_duration`
+
+- Log rotate bytes as defined in [log_rotate_duration or -log-rotate-duration](https://www.consul.io/docs/agent/options.html#_log_rotate_duration)
+  - Override with `CONSUL_LOG_ROTATE_DURATION` environment variable
+- Ignored if `consul_syslog_enable` is true
+- Default value: 24h
+
+### `consul_log_rotate_max_files`
+
+- Log rotate bytes as defined in [log_rotate_max_files or -log-rotate-max-files](https://www.consul.io/docs/agent/options.html#_log_rotate_max_files)
+  - Override with `CONSUL_LOG_ROTATE_MAX_FILES` environment variable
+- Ignored if `consul_syslog_enable` is true
+- Default value: 0
 
 ### `consul_syslog_facility`
 
@@ -273,7 +299,7 @@ consul_node_meta:
 
 - Log to syslog as defined in [enable_syslog or -syslog](https://www.consul.io/docs/agent/options.html#_syslog)
   - Override with `CONSUL_SYSLOG_ENABLE` environment variable
-- Default Linux value: true
+- Default Linux value: false
 - Default Windows value: false
 
 ### `consul_iface`
