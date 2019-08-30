@@ -1,7 +1,9 @@
-## NEXT
+## v2.5.0
 
+- Consul v1.6.0
 - Add documentation for new TLS options (thanks @jasonneurohr)
 - Add support for translate_wan_address (@calmacara)
+- Add `-log-file` (thanks @liuxu623)
 
 ## v2.4.5
 
