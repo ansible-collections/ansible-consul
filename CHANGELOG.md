@@ -1,3 +1,7 @@
+## NEXT
+
+- Add run_once to delegated tasks (thanks @liuxu623)
+
 ## v2.5.0
 
 - Consul v1.6.0
