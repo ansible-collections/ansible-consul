@@ -105,12 +105,13 @@
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     mode: 0755
+  notify:
+    - restart consul
   tags: installation
 
 - name: Daemon reload systemd in case the binaries upgraded
   systemd: daemon_reload=yes
   become: true
-  notify: restart consul
   when:
     - ansible_service_mgr == "systemd"
     - consul_install_upgrade | bool
