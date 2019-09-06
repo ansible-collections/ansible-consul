@@ -1,6 +1,7 @@
 ## NEXT
 
 - Add run_once to delegated tasks (thanks @liuxu623)
+- Fix service restart on upgrades (thanks @jpiron)
 
 ## v2.5.0
 
