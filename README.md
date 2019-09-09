@@ -907,7 +907,7 @@ packages with different package names.
 
 ## Dependencies
 
-Ansible requires GNU tar and this role performs some local use of the unarchive module, so ensure that your system has `gtar` installed and in the PATH.
+Ansible requires GNU tar and this role performs some local use of the unarchive module for efficiency, so ensure that your system has `gtar` and `unzip` installed and in the PATH. If you don't this role will install these on the remote machines to unarchive the ZIP files.
 
 If you're on system with a different (i.e. BSD) `tar`, like macOS and you see odd errors during unarchive tasks, you could be missing `gtar`.
 
