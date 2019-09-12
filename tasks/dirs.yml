@@ -26,6 +26,17 @@
 
 - name: Create log directory
   file:
+    dest: "{{ consul_log_path }}"
+    state: directory
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+  when:
+    - ansible_os_family != 'Windows'
+    - not consul_syslog_enable | bool
+    - not consul_configure_syslogd | bool
+
+- name: Create log directory
+  file:
     dest: "{{ item }}"
     state: directory
     owner: "{{ syslog_user }}"
