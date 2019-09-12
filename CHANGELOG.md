@@ -2,6 +2,8 @@
 
 - Add run_once to delegated tasks (thanks @liuxu623)
 - Fix service restart on upgrades (thanks @jpiron)
+- Fix log directory ownership (@thanks liuxu623)
+- Handle missing unzip on control host (thanks @bbaassssiiee)
 
 ## v2.5.0
 
