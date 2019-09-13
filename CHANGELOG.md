@@ -1,5 +1,6 @@
-## NEXT
+## 2.5.1
 
+- Consul v1.6.1
 - Add run_once to delegated tasks (thanks @liuxu623)
 - Fix service restart on upgrades (thanks @jpiron)
 - Fix log directory ownership (@thanks liuxu623)
