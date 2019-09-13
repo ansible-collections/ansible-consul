@@ -64,7 +64,9 @@
     "log_file": "{{ consul_log_path }}/{{ consul_log_file }}",
     "log_rotate_bytes": {{ consul_log_rotate_bytes }},
     "log_rotate_duration": "{{ consul_log_rotate_duration }}",
+    {% if consul_version is version_compare('1.5.3', '>=') %}
     "log_rotate_max_files": {{ consul_log_rotate_max_files }},
+    {% endif %}
     {% endif %}
     "disable_update_check": {{ consul_disable_update_check | bool | to_json }},
     "enable_script_checks": {{ consul_enable_script_checks | bool | to_json }},
