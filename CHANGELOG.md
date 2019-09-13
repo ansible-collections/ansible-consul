@@ -5,6 +5,8 @@
 - Fix service restart on upgrades (thanks @jpiron)
 - Fix log directory ownership (@thanks liuxu623)
 - Handle missing unzip on control host (thanks @bbaassssiiee)
+- Add Added version check for log_rotate_max_files (thanks @jasonneurohr)
+- Update documentation
 
 ## v2.5.0
 
