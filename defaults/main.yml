@@ -111,7 +111,7 @@ consul_autopilot_upgrade_version_tag: "{{ lookup('env', 'CONSUL_AUTOPILOT_UPGRAD
 consul_cloud_autodiscovery: false
 consul_cloud_autodiscovery_provider: ""
 consul_cloud_autodiscovery_params: ""
-consul_cloud_autodiscovery_string: ["provider={{ consul_cloud_autodiscovery_provider }} {{ consul_cloud_autodiscovery_params }}"]
+consul_cloud_autodiscovery_string: "provider={{ consul_cloud_autodiscovery_provider }} {{ consul_cloud_autodiscovery_params }}"
 
 ### Addresses
 consul_bind_address: "\
