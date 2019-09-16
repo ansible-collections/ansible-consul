@@ -1,5 +1,35 @@
-## NEXT
+## v2.5.1
 
+- Consul v1.6.1
+- Add run_once to delegated tasks (thanks @liuxu623)
+- Fix service restart on upgrades (thanks @jpiron)
+- Fix log directory ownership (@thanks liuxu623)
+- Handle missing unzip on control host (thanks @bbaassssiiee)
+- Add Added version check for log_rotate_max_files (thanks @jasonneurohr)
+- Update documentation
+
+## v2.5.0
+
+- Consul v1.6.0
+- Add documentation for new TLS options (thanks @jasonneurohr)
+- Add support for translate_wan_address (@calmacara)
+- Add `-log-file` (thanks @liuxu623)
+
+## v2.4.5
+
+- Consul v1.5.3
+- Update molecule configuration (thanks @gofrolist)
+- Support TLS files in subdirectories - resolves #297
+- Update some bare variable comparisons - resolves #293
+- Update server address for usage with --limit (thanks @danielkucera)
+- Update snapshot configuration for TLS (thanks @jasonneurohr)
+- Add TLS minimum version and ciper suite preferences (thanks @jasonneurohr)
+- Update documentation
+- Update CONTRIBUTORS
+
+## v2.4.4
+
+- Consul v1.5.2 (thanks @patsevanton)
 - Add Molecule support (thanks @gofrolist)
 - Correct several task issues (thanks @gofrolist)
 
@@ -741,7 +771,7 @@ Do not enable a default set of ACL policies
 
 - Update start_join for client configuration template
 
-## v1.5.2
+## v1.5.3
 
 - Consul version 0.7.1
 - Consistent template names

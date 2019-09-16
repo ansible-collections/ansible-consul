@@ -40,6 +40,7 @@
   tags:
     - installation
     - skip_ansible_lint
+  run_once: true
   delegate_to: 127.0.0.1
 
 - name: Check Consul package file
@@ -50,6 +51,7 @@
     ansible_become: false
   register: consul_package
   tags: installation
+  run_once: true
   delegate_to: 127.0.0.1
 
 - name: Download Consul package
@@ -63,6 +65,7 @@
     ansible_become: false
   tags: installation
   when: not consul_package.stat.exists | bool
+  run_once: true
   delegate_to: 127.0.0.1
 
 - name: Update Alpine Package Manager (APK)
@@ -81,6 +84,7 @@
     ansible_become: false
   register: install_temp
   tags: installation
+  run_once: true
   delegate_to: 127.0.0.1
 
 - name: Unarchive Consul package
@@ -101,12 +105,13 @@
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     mode: 0755
+  notify:
+    - restart consul
   tags: installation
 
 - name: Daemon reload systemd in case the binaries upgraded
   systemd: daemon_reload=yes
   become: true
-  notify: restart consul
   when:
     - ansible_service_mgr == "systemd"
     - consul_install_upgrade | bool
@@ -119,4 +124,5 @@
   vars:
     ansible_become: false
   tags: installation
+  run_once: true
   delegate_to: 127.0.0.1

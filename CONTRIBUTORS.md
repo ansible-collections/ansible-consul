@@ -68,6 +68,11 @@ Thank you to all these fine folks for helping with ansible-consul!
 - [@evilhamsterman](https://github.com/evilhamsterman)
 - [@ecyril-dussert](https://github.com/cyril-dussert)
 - [@gofrolist](https://github.com/gofrolist)
+- [@patsevanton](https://github.com/patsevanton)
+- [@jasonneurohr](https://github.com/jasonneurohr)
+- [@calmacara](https://github.com/calmacara)
+- [@jpiron](https://github.com/jpiron)
+- [@bbaassssiiee](https://github.com/jpiron/bbaassssiiee)
 
 If you have contributed but do not appear here, please fear not and accept
 apologies for the omission. Contact `brian <at> brianshumate <dot> com` and

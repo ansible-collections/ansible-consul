@@ -5,7 +5,7 @@
   fail:
     msg: "{{ ansible_distribution }} is not currently supported by this role."
   when:
-    - ansible_distribution not in ['RedHat', 'CentOS', 'OracleLinux', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu', 'Archlinux', 'Alpine', 'Amazon', 'Fedora']
+    - ansible_distribution not in ['RedHat', 'CentOS', 'OracleLinux', 'Fedora', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu', 'Archlinux', 'Alpine', 'Amazon']
     - ansible_os_family != 'Windows'
 
 - name: Check CentOS, Red Hat or Oracle Linux version
@@ -85,7 +85,7 @@
 
 # Check for unzip binary
 
-- name: Check if unzip is installed
+- name: Check if unzip is installed on control host
   shell: "command -v unzip -h >/dev/null 2>&1"
   become: false
   changed_when: false
@@ -95,8 +95,8 @@
   ignore_errors: true
   delegate_to: 127.0.0.1
 
-- name: Fail if unzip is not installed on control host
-  fail:
-    msg: "unzip binary is not available in the PATH on the control host."
+- name: Install remotely if unzip is not installed on control host
+  set_fact:
+    consul_install_remotely: true
   when:
     - is_unzip_installed.rc == 1

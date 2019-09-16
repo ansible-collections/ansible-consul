@@ -26,8 +26,8 @@ This role requires a FreeBSD, Debian, or Red Hat Enterprise Linux distribution o
 
 The role might work with other OS distributions and versions, but is known to function well with the following software versions:
 
-* Consul: 1.5.1
-* Ansible: 2.7.2
+* Consul: 1.6.1
+* Ansible: 2.8.2
 * Alpine Linux: 3.8
 * CentOS: 7
 * Debian: 9
@@ -64,7 +64,7 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_version`
 
 - Version to install
-- Default value: 1.5.1
+- Default value: 1.6.1
 
 ### `consul_architecture_map`
 
@@ -120,20 +120,46 @@ Many role variables can also take their values from environment variables as wel
 
 - Enable configuration of rsyslogd or syslog-ng on Linux. If disabled, Consul will still log to syslog if `consul_syslog_enable` is true, but the syslog daemon won't be configured to write Consul logs to their own logfile.
   - Override with `CONSUL_CONFIGURE_SYSLOGD` environment variable
-- Default Linux value: *true*
+- Default Linux value: *false*
 
 ### `consul_log_path`
-
-- Log path for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
+- If `consul_syslog_enable` is false
+  - Log path for use in [log_file or -log-file](https://www.consul.io/docs/agent/options.html#_log_file)
+- If `consul_syslog_enable` is true
+  - Log path for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
 - Default Linux value: `/var/log/consul`
   - Override with `CONSUL_LOG_PATH` environment variable
 - Default Windows value: `C:\ProgramData\consul\log`
 
 ### `consul_log_file`
 
-- Log file for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
-  - Override with `CONSUL_LOG_FILE` environment variable
+- If `consul_syslog_enable` is false
+  - Log file for use in [log_file or -log-file](https://www.consul.io/docs/agent/options.html#_log_file)
+- If `consul_syslog_enable` is true
+  - Log file for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
+- Override with `CONSUL_LOG_FILE` environment variable
 - Default Linux value: `consul.log`
+
+### `consul_log_rotate_bytes`
+
+- Log rotate bytes as defined in [log_rotate_bytes or -log-rotate-bytes](https://www.consul.io/docs/agent/options.html#_log_rotate_bytes)
+  - Override with `CONSUL_LOG_ROTATE_BYTES` environment variable
+- Ignored if `consul_syslog_enable` is true
+- Default value: 0
+
+### `consul_log_rotate_duration`
+
+- Log rotate bytes as defined in [log_rotate_duration or -log-rotate-duration](https://www.consul.io/docs/agent/options.html#_log_rotate_duration)
+  - Override with `CONSUL_LOG_ROTATE_DURATION` environment variable
+- Ignored if `consul_syslog_enable` is true
+- Default value: 24h
+
+### `consul_log_rotate_max_files`
+
+- Log rotate bytes as defined in [log_rotate_max_files or -log-rotate-max-files](https://www.consul.io/docs/agent/options.html#_log_rotate_max_files)
+  - Override with `CONSUL_LOG_ROTATE_MAX_FILES` environment variable
+- Ignored if `consul_syslog_enable` is true
+- Default value: 0
 
 ### `consul_syslog_facility`
 
@@ -273,7 +299,7 @@ consul_node_meta:
 
 - Log to syslog as defined in [enable_syslog or -syslog](https://www.consul.io/docs/agent/options.html#_syslog)
   - Override with `CONSUL_SYSLOG_ENABLE` environment variable
-- Default Linux value: true
+- Default Linux value: false
 - Default Windows value: false
 
 ### `consul_iface`
@@ -298,6 +324,11 @@ consul_node_meta:
 
 - Wan advertise address
 - Default value: `consul_bind_address`
+
+### `consul_translate_wan_address`
+
+- Prefer a node's configured WAN address when serving DNS
+- Default value: false
 
 ### `consul_advertise_addresses`
 
@@ -540,6 +571,23 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - Verify server hostname
   - Override with `CONSUL_TLS_VERIFY_SERVER_HOSTNAME` environment variable
+- Default value: false
+
+### `consul_tls_min_version`
+
+- [Minimum acceptable TLS version](https://www.consul.io/docs/agent/options.html#tls_min_version)
+  - Can be overridden with `CONSUL_TLS_MIN_VERSION` environment variable
+- Default value: tls12
+
+### `consul_tls_cipher_suites`
+
+- [Comma-separated list of supported ciphersuites](https://www.consul.io/docs/agent/options.html#tls_cipher_suites)
+- Default value: ""
+
+### `consul_tls_prefer_server_cipher_suites`
+
+- [Prefer server's cipher suite over client cipher suite](https://www.consul.io/docs/agent/options.html#tls_prefer_server_cipher_suites)
+  - Can be overridden with `CONSUL_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
 - Default value: false
 
 ### `consul_install_remotely`
@@ -859,7 +907,7 @@ packages with different package names.
 
 ## Dependencies
 
-Ansible requires GNU tar and this role performs some local use of the unarchive module, so ensure that your system has `gtar` installed and in the PATH.
+Ansible requires GNU tar and this role performs some local use of the unarchive module for efficiency, so ensure that your system has `gtar` and `unzip` installed and in the PATH. If you don't this role will install `unzip` on the remote machines to unarchive the ZIP files.
 
 If you're on system with a different (i.e. BSD) `tar`, like macOS and you see odd errors during unarchive tasks, you could be missing `gtar`.
 

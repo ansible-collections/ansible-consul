@@ -4,4 +4,3 @@
     name: syslog-ng
     state: restarted
   listen: 'restart syslog-ng'
-

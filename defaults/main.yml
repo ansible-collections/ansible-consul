@@ -7,7 +7,7 @@ is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
 consul_install_dependencies: true
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.5.1', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.6.1', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
@@ -56,9 +56,12 @@ consul_systemd_limit_nofile: 65536
 syslog_user: "{{ lookup('env','SYSLOG_USER') | default('root', true) }}"
 syslog_group: "{{ lookup('env','SYSLOG_GROUP') | default('adm', true) }}"
 consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
-consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
+consul_log_rotate_bytes: "{{ lookup('env','CONSUL_LOG_ROTATE_BYTES') | default(0, true) }}"
+consul_log_rotate_duration: "{{ lookup('env','CONSUL_LOG_ROTATE_DURATION') | default('24h', true) }}"
+consul_log_rotate_max_files: "{{ lookup('env','CONSUL_LOG_ROTATE_MAX_FILES') | default(0, true) }}"
+consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(false, true) }}"
 consul_syslog_facility: "{{ lookup('env','CONSUL_SYSLOG_FACILITY') | default('local0', true) }}"
-consul_configure_syslogd: "{{ lookup('env','CONSUL_CONFIGURE_SYSLOGD') | default(true, true) }}"
+consul_configure_syslogd: "{{ lookup('env','CONSUL_CONFIGURE_SYSLOGD') | default(false, true) }}"
 
 ### Consul settings
 consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) }}"
@@ -115,6 +118,7 @@ consul_bind_address: "\
   {% endif %}"
 consul_advertise_address: "{{ consul_bind_address }}"
 consul_advertise_address_wan: "{{ consul_bind_address }}"
+consul_translate_wan_address: false
 consul_advertise_addresses:
   serf_lan: "{{ consul_advertise_addresses_serf_lan | default(consul_advertise_address+':'+consul_ports.serf_lan) }}"
   serf_wan: "{{ consul_advertise_addresses_serf_wan | default(consul_advertise_address_wan+':'+consul_ports.serf_wan) }}"
@@ -191,6 +195,10 @@ consul_tls_verify_outgoing: true
 consul_tls_verify_incoming_https: false
 consul_tls_verify_server_hostname: false
 consul_tls_files_remote_src: false
+
+consul_tls_min_version: "{{ lookup('env','CONSUL_TLS_MIN_VERSION') | default('tls12', true) }}"
+consul_tls_cipher_suites: ""
+consul_tls_prefer_server_cipher_suites: "{{ lookup('env','CONSUL_TLS_PREFER_SERVER_CIPHER_SUITES') | default('false', true) }}"
 
 ## DNS
 consul_delegate_datacenter_dns: "{{ lookup('env','CONSUL_DELEGATE_DATACENTER_DNS') | default(false, true) }}"

@@ -9,6 +9,3 @@ rules:
     level: error
   line-length: disable
   truthy: disable
-  empty-lines:
-    max-end: 1
-
