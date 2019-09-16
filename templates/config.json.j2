@@ -106,8 +106,7 @@
             {% endfor %}
         {% endif %}
     {{ consul_join | map('ipwrap') | list | to_json }},
-    {% endif %}
-    {% if consul_cloud_autodiscovery %}
+    {% else %}
     {{ consul_cloud_autodiscovery_string }},
     {% endif %}
 
