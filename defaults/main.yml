@@ -1,4 +1,4 @@
-consul_dnsmasq_servers---
+---
 # File: main.yml - Default variables for Consul
 
 ## Core
