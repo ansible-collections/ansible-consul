@@ -1,4 +1,4 @@
----
+consul_dnsmasq_servers---
 # File: main.yml - Default variables for Consul
 
 ## Core
@@ -218,7 +218,9 @@ consul_dnsmasq_consul_address: "\
     {{ consul_addresses.dns }}\
   {% endif %}"
 consul_dnsmasq_cache: -1
-consul_dnsmasq_servers: []
+consul_dnsmasq_servers:
+  - 8.8.8.8
+  - 8.8.4.4
 consul_dnsmasq_revservers: []
 consul_dnsmasq_no_poll: false
 consul_dnsmasq_no_resolv: false
