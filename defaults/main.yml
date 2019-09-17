@@ -107,7 +107,7 @@ consul_autopilot_redundancy_zone_tag: "{{ lookup('env', 'CONSUL_AUTOPILOT_REDUND
 consul_autopilot_disable_upgrade_migration: "{{ lookup('env', 'CONSUL_AUTOPILOT_DISABLE_UPGRADE_MIGRATION') | default(false, true) }}"
 consul_autopilot_upgrade_version_tag: "{{ lookup('env', 'CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG') | default('', true) }}"
 
-### Cloud auto discovery tower_settings
+### Cloud auto discovery settings
 consul_cloud_autodiscovery: false
 consul_cloud_autodiscovery_provider: ""
 consul_cloud_autodiscovery_params: ""
