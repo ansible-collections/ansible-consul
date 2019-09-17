@@ -154,7 +154,7 @@
     - name: (Windows) start consul on windows
       win_service:
         name: consul
-       	start_mode: auto
+        start_mode: auto
         state: started
 
     - name: (Windows) Check Consul HTTP API
