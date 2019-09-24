@@ -35,7 +35,7 @@
     - consul_config_custom is defined
   notify:
     - restart consul
-    
+
 - name: Set fact list with custom configuration file
   set_fact:
     managed_files: "{{ managed_files |default([]) }} + \
