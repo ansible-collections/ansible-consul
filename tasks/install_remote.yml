@@ -75,7 +75,6 @@
 
 - name: Cleanup
   file:
-    path: "{{ item }}"
+    path: "/tmp/consul"
     state: absent
-  with_fileglob: "/tmp/consul/*"
   tags: installation
