@@ -1,3 +1,11 @@
+## NEXT
+
+- Fix path / drop with_fileglob in install_remote (thanks @bbaassssiiee)
+- Handle consul_encrypt_enable variable for Nix (thanks @bbaassssiiee)
+- Parse acl_master_token from config (thanks @bbaassssiiee)
+- Fix start service on Windows (thanks @imcitius)
+- Preserve custom config (thanks @slomo)
+
 ## v2.5.1
 
 - Consul v1.6.1
