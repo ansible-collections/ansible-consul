@@ -26,10 +26,12 @@
       command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
       register: consul_acl_master_token_keygen
       run_once: true
+      no_log: true
 
     - name: Save ACL master token
       set_fact:
         consul_acl_master_token: "{{ consul_acl_master_token_keygen.stdout }}"
+      no_log: true
 
   when:
     - (consul_acl_master_token is not defined or consul_acl_master_token | length == 0)
@@ -71,11 +73,13 @@
     - name: Generate ACL replication token
       command: "echo {{ ansible_date_time.iso8601_micro | to_uuid }}"
       register: consul_acl_replication_token_keygen
+      no_log: true
       run_once: true
 
     - name: Save ACL replication token
       set_fact:
         consul_acl_replication_token: "{{ consul_acl_replication_token_keygen.stdout }}"
+      no_log: true
 
   when:
     - (consul_acl_replication_token is not defined or consul_acl_replication_token | length == 0)
