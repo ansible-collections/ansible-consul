@@ -132,7 +132,7 @@
       changed_when: false
   no_log: true
   when:
-    - consul_encrypt_enable
+    - consul_encrypt_enable | bool
 
 - name: Create ACL configuration
   include_tasks: acl.yml
