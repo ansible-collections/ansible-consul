@@ -18,6 +18,7 @@
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
         mode: 0644
+      notify: restart consul
 
     - name: Copy server certificate
       copy:
@@ -27,6 +28,7 @@
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
         mode: 0644
+      notify: restart consul
 
     - name: Copy server key
       copy:
@@ -36,5 +38,6 @@
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
         mode: 0600
+      notify: restart consul
 
   when: consul_tls_copy_keys | bool
