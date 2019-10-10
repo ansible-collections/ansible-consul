@@ -5,6 +5,7 @@
 - Parse acl_master_token from config (thanks @bbaassssiiee)
 - Fix start service on Windows (thanks @imcitius)
 - Preserve custom config (thanks @slomo)
+- Update Windows for win_service usage (thanks @FozzY1234)
 
 ## v2.5.1
 
