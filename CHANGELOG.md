@@ -6,6 +6,7 @@
 - Fix start service on Windows (thanks @imcitius)
 - Preserve custom config (thanks @slomo)
 - Update Windows for win_service usage (thanks @FozzY1234)
+- Restart when TLS material changes (Thanks @bbaassssiiee)
 
 ## v2.5.1
 
