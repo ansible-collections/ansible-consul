@@ -51,8 +51,8 @@
     - name: Read ACL replication token from previously boostrapped server
       shell: >
         cat {{ consul_config_path }}/config.json |
-        grep "acl_replication_token" |
-        sed -E 's/"acl_replication_token": "(.+)",?/\1/' |
+        grep "replication" |
+        sed -E 's/"replication": "(.+)",?/\1/' |
         sed 'is/^ *//;s/ *$//'
       changed_when: false
       check_mode: false
