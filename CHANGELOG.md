@@ -7,6 +7,10 @@
 - Preserve custom config (thanks @slomo)
 - Update Windows for win_service usage (thanks @FozzY1234)
 - Restart when TLS material changes (Thanks @bbaassssiiee)
+- No tokens in logging (Thanks @bbaassssiiee)
+- Flush handlers at the end of main (Thanks @bbaassssiiee)
+- Read tokens from from previously bootstrapped server (Thanks @bbaassssiiee)
+
 
 ## v2.5.1
 
