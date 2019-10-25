@@ -111,7 +111,7 @@
 
     {## Enable Connect on Server ##}
     {% if (item.config_version == 'server') and consul_connect_enabled %}
-    "connect" {
+    "connect": {
         "enabled": true
     },
     {% endif %}
