@@ -1050,6 +1050,11 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 - Custom list of addresses to listen on.
 - Default value: *[]*
 
+### `consul_connect_enabled`
+
+- Enable Consul Connect feature on servers
+- Default value: false
+
 ### iptables DNS Forwarding Support
 
 This role can also use iptables instead of Dnsmasq for forwarding DNS queries to Consul. You can enable it like this:

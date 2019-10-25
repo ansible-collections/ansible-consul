@@ -240,3 +240,6 @@ consul_snapshot_stale: false
 
 # services
 consul_services: []
+
+# enable Consul Connect
+consul_connect_enabled: false
