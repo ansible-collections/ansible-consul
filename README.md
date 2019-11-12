@@ -524,7 +524,7 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_TLS_SERVER_CRT` environment variable
 - Default value: `server.crt`
 
-### `consul_server_key`
+### `consul_tls_server_key`
 
 - Server key
   - Override with `CONSUL_TLS_SERVER_KEY` environment variable
@@ -1070,7 +1070,7 @@ By default these are named:
 
 - `ca.crt` (can be overridden by {{ consul_tls_ca_crt }})
 - `server.crt` (can be overridden by {{ consul_tls_server_crt }})
-- `server.key` (can be overridden by {{ consul_server_key }})
+- `server.key` (can be overridden by {{ consul_tls_server_key }})
 
 Then either set the environment variable `CONSUL_TLS_ENABLE=true` or use the Ansible variable `consul_tls_enable=true` at role runtime.
 

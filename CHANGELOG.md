@@ -10,7 +10,7 @@
 - No tokens in logging (Thanks @bbaassssiiee)
 - Flush handlers at the end of main (Thanks @bbaassssiiee)
 - Read tokens from from previously bootstrapped server (Thanks @bbaassssiiee)
-
+- Rename `consul_server_key` variable
 
 ## v2.5.1
 
@@ -553,7 +553,7 @@ Do not enable a default set of ACL policies
   - Rename `consul_copy_keys` variable
   - Rename `consul_ca_crt` variable
   - Rename `consul_server_crt` variable
-  - Rename `consul_server_key` variable
+  - Rename `consul_tls_server_key` variable
   - Rename `consul_verify_outgoing` variable
   - Rename `consul_verify_server_hostname` variable
   - Move `consul_iface` default to value of `hostvars.consul_iface`
