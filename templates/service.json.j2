@@ -17,23 +17,23 @@
         "kind": "{{ item.kind }}",
         {% endif -%}
         {% if item.proxy is defined -%}
-        "proxy": {{ item.proxy | to_json }},
+        "proxy": {{ item.proxy | to_json(sort_keys=True) }},
         {% endif -%}
         {% if item.meta is defined -%}
-        "meta": {{ item.meta | to_json }},
+        "meta": {{ item.meta | to_json(sort_keys=True) }},
         {% endif -%}
         {% if item.checks is defined -%}
-        "checks": {{ item.checks | to_json }},
+        "checks": {{ item.checks | to_json(sort_keys=True) }},
         {% endif -%}
         {% if item.connect is defined -%}
-        "connect": {{ item.connect | to_json }},
+        "connect": {{ item.connect | to_json(sort_keys=True) }},
         {% endif -%}
         {% if item.weights is defined -%}
-        "weights": {{ item.weights | to_json }},
+        "weights": {{ item.weights | to_json(sort_keys=True) }},
         {% endif -%}
         {% if item.token is defined -%}
         "token": {{ item.token | to_json }},
         {% endif -%}
-        "tags": {% if item.tags is defined -%}{{ item.tags|to_json }}{% else %}[]{% endif -%}
+        "tags": {{ item.tags|default([])|to_json(sort_keys=True) }}
     }
 }
