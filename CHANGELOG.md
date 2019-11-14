@@ -1,3 +1,8 @@
+## v2.5.3
+
+- Consul v1.6.2
+- Update documentation
+
 ## v2.5.2
 
 - Fix path / drop with_fileglob in install_remote (thanks @bbaassssiiee)
