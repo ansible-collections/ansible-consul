@@ -1,4 +1,4 @@
-## NEXT
+## v2.5.2
 
 - Fix path / drop with_fileglob in install_remote (thanks @bbaassssiiee)
 - Handle consul_encrypt_enable variable for Nix (thanks @bbaassssiiee)
@@ -11,6 +11,7 @@
 - Flush handlers at the end of main (Thanks @bbaassssiiee)
 - Read tokens from from previously bootstrapped server (Thanks @bbaassssiiee)
 - Rename `consul_server_key` variable
+- Sort keys in service configuration (thanks @slomo)
 
 ## v2.5.1
 
