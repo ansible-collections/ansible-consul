@@ -109,6 +109,13 @@
     {## Server/Client ##}
     "server": {{ (item.config_version != 'client') | bool | to_json }},
 
+    {## Enable Connect on Server ##}
+    {% if (item.config_version == 'server') and consul_connect_enabled %}
+    "connect": {
+        "enabled": true
+    },
+    {% endif %}
+
     {# Client Settings #}
     {% if (item.config_version == 'client') %}
         {## ACLs ##}
