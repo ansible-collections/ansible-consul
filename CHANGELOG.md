@@ -1,3 +1,7 @@
+## NEXT
+
+- Set consul_node_name to ansible_hostname, resolves #337
+
 ## v2.5.3
 
 - Consul v1.6.2
