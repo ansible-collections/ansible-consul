@@ -1,6 +1,7 @@
 ## NEXT
 
 - Set consul_node_name to ansible_hostname, resolves #337
+- Enable consul Connect (thanks @imcitius)
 
 ## v2.5.3
 
