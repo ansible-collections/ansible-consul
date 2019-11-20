@@ -169,6 +169,7 @@ consul_acl_policy: "{{ lookup('env','CONSUL_ACL_POLICY') | default(false, true) 
 ### Shared ACL config ###
 consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
 consul_acl_ttl: "{{ lookup('env','CONSUL_ACL_TTL') | default('30s', true)}}"
+consul_acl_token_persistence: "{{ lookup('env','CONSUL_ACL_TOKEN_PERSISTENCE') | default(true, true)}}"
 consul_acl_datacenter: "{{ lookup('env','CONSUL_ACL_DATACENTER') | default(consul_datacenter, true) }}"
 consul_acl_down_policy: "{{ lookup('env','CONSUL_ACL_DOWN_POLICY') | default('extend-cache', true) }}"
 consul_acl_token: "{{lookup('env','CONSUL_ACL_TOKEN') | default('', true) }}"
