@@ -16,14 +16,16 @@
     - bootstrap_state.stat.exists | bool
 
 - name: Write gossip encryption key locally for use with new servers
-  local_action:
-    module: copy
+  copy:
     content: "{{ consul_raw_key }}"
     dest: /tmp/consul_raw.key
   become: false
+  vars:
+    ansible_become: false
   when:
     - consul_raw_key is defined
     - bootstrap_state.stat.exists | bool
+  delegate_to: 127.0.0.1
 
 - name: Read gossip encryption key for servers that require it
   set_fact: consul_raw_key="{{ lookup('file', '/tmp/consul_raw.key') }}"
@@ -32,14 +34,16 @@
     - bootstrap_state.stat.exists | bool
 
 - name: Delete gossip encryption key file
-  local_action:
-    module: file
+  file:
     path: /tmp/consul_raw.key
     state: absent
   become: false
+  vars:
+    ansible_become: false
   when:
     - consul_raw_key is defined
     - bootstrap_state.stat.exists | bool
+  delegate_to: 127.0.0.1
 
 - block:
     - name: Generate gossip encryption key

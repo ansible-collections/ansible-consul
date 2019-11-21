@@ -1,5 +1,5 @@
 ---
-# File: config.yml - Consul configuration tasks
+# File: config_windows.yml - Consul configuration tasks for Windows
 
 - name: Create configuration
   win_copy:
@@ -31,3 +31,8 @@
     - consul_config_custom is defined
   notify:
     - restart consul
+
+- name: Set fact list with custom configuration file
+  set_fact:
+    managed_files: "{{ managed_files |default([]) }} + \
+      [ '{{ consul_configd_path }}/50custom.json' ]"

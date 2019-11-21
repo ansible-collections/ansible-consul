@@ -4,7 +4,7 @@ ansible_default_ipv4:
   interface: eth0
 ansible_eth0:
   ipv4:
-     address: "1.1.1.1"
+    address: "1.1.1.1"
 ansible_system: ubuntu
 consul_raw_key: consul_raw_key
 _consul_lan_servers:
@@ -17,11 +17,11 @@ item:
   config_version: bootstrap
 
 ## Core
-consul_debug: no
+consul_debug: false
 is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.3.0', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.3.1', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
@@ -58,9 +58,9 @@ consul_run_path: "/var/run/consul"
 consul_binary: "{{ consul_bin_path }}/consul"
 
 ### System user and group
-consul_manage_user: yes
+consul_manage_user: true
 consul_user: "consul"
-consul_manage_group: no
+consul_manage_group: false
 consul_group: "bin"
 
 ### Consul settings
@@ -81,14 +81,16 @@ consul_node_role: "{{ lookup('env','CONSUL_NODE_ROLE') | default('client', true)
 consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
 consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(false, true) }}"
 consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
-consul_disable_update_check: no
-consul_enable_script_checks: no
+consul_disable_update_check: false
+consul_enable_script_checks: false
+consul_enable_local_script_checks: false
 consul_raft_protocol: "\
   {% if consul_version is version_compare('0.7.0', '<=') %}\
     1\
   {% else %}\
     3\
   {% endif %}"
+consul_retry_join_skip_hosts: false
 consul_retry_interval: "30s"
 consul_retry_interval_wan: "30s"
 consul_retry_max: 0
@@ -141,7 +143,7 @@ consul_servers: "\
     {% endif %}\
   {% endfor %}\
   {{ _consul_servers }}"
-consul_gather_server_facts: no
+consul_gather_server_facts: false
 
 ## ACL
 consul_acl_policy: false
@@ -164,6 +166,7 @@ consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') |
 
 ## gossip encryption
 consul_encrypt_enable: "{{ lookup('env','CONSUL_ENCRYPT_ENABLE') | default(true, true) }}"
+consul_disable_keyring_file: "{{ lookup('env','CONSUL_DISABLE_KEYRING_FILE') | default(false, true) }}"
 
 ## TLS
 consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"
@@ -173,7 +176,7 @@ consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default('/etc/consul/ssl', 
 
 consul_tls_ca_crt: "{{ lookup('env','CONSUL_TLS_CA_CRT') | default('ca.crt', true) }}"
 consul_tls_server_crt: "{{ lookup('env','CONSUL_SERVER_CRT') | default('server.crt', true) }}"
-consul_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key', true) }}"
+consul_tls_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key', true) }}"
 consul_tls_copy_keys: true
 consul_tls_verify_incoming: false
 consul_tls_verify_outgoing: true
