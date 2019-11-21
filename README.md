@@ -276,6 +276,12 @@ To make this possible the `delegate_facts` option is used; note that his option 
   - Override with `CONSUL_DOMAIN` environment variable
 - Default value: consul
 
+### `consul_alt_domain`
+
+- Consul domain name as defined in [alt_domain or -alt-domain](https://www.consul.io/docs/agent/options.html#_alt_domain)
+  - Override with `CONSUL_ALT_DOMAIN` environment variable
+- Default value: Empty string
+
 ### `consul_node_meta`
 
 - Consul node meta data (key-value)

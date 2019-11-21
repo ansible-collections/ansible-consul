@@ -7,6 +7,9 @@
     "node_name": "{{ consul_node_name }}",
     "datacenter": "{{ consul_datacenter }}",
     "domain": "{{ consul_domain }}",
+    {% if consul_alt_domain %}
+    "alt_domain": "{{ consul_alt_domain }}",
+    {% endif %}
     {% if consul_version is version_compare('0.7.3', '>=') and consul_node_meta | length > 0 %}
     "node_meta": {{ consul_node_meta | default({})| to_json }},
     {% endif %}

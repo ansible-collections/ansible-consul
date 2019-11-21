@@ -66,6 +66,7 @@ consul_configure_syslogd: "{{ lookup('env','CONSUL_CONFIGURE_SYSLOGD') | default
 ### Consul settings
 consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) }}"
 consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
+consul_alt_domain: "{{ lookup('env','CONSUL_ALT_DOMAIN') | default('', true) }}"
 consul_node_meta: {}
 consul_iface: "\
   {% if ansible_os_family == 'Windows' %}\
