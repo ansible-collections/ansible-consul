@@ -53,7 +53,7 @@
         cat {{ consul_config_path }}/config.json |
         grep "replication" |
         sed -E 's/"replication": "(.+)",?/\1/' |
-        sed 'is/^ *//;s/ *$//'
+        sed 's/^ *//;s/ *$//'
       changed_when: false
       check_mode: false
       register: consul_acl_replication_token_read
