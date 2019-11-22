@@ -6,6 +6,8 @@
 - Use generated password as token UUID source (thanks @jmariondev)
 - Fix ACL Replication Token sed pattern (thanks @jmariondev)
 - Add when_false to ACL master lookup (thanks @jmariondev)
+- Ensure enable_tag_override is json (thanks @slomo)
+- Add suport for -alt-domain (thanks @soloradish)
 - Update documentation
 
 ## v2.5.3
