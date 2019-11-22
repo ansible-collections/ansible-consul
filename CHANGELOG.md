@@ -3,6 +3,10 @@
 - Set consul_node_name to ansible_hostname, resolves #337
 - Enable consul Connect (thanks @imcitius)
 - Cloud auto discovery (thanks @imcitius)
+- Use generated password as token UUID source (thanks @jmariondev)
+- Fix ACL Replication Token sed pattern (thanks @jmariondev)
+- Add when_false to ACL master lookup (thanks @jmariondev)
+- Update documentation
 
 ## v2.5.3
 
