@@ -6,6 +6,7 @@
       command: "cat {{ consul_config_path }}/config.json"
       register: config_read
       no_log: true
+      changed_when: false
       run_once: true
 
     - name: Save acl_master_token from existing configuration
