@@ -48,7 +48,7 @@ consul_binary: "{{ consul_bin_path }}/consul"
 ### System user and group
 consul_manage_user: true
 consul_user: "consul"
-consul_manage_group: false
+consul_manage_group: true
 consul_group: "bin"
 consul_systemd_restart_sec: 42
 consul_systemd_limit_nofile: 65536

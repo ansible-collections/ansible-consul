@@ -204,7 +204,7 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_manage_group`
 
 - Whether to create the group defined by `consul_group` or not
-- Default value: false
+- Default value: true
 
 ### `consul_group_name`
 

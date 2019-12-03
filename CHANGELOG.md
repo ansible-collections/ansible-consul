@@ -1,5 +1,6 @@
 ## NEXT
 
+- consul_manage_group now defaults to true
 - Set consul_node_name to ansible_hostname, resolves #337
 - Enable consul Connect (thanks @imcitius)
 - Cloud auto discovery (thanks @imcitius)

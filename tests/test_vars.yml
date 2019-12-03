@@ -61,7 +61,7 @@ consul_binary: "{{ consul_bin_path }}/consul"
 ### System user and group
 consul_manage_user: true
 consul_user: "consul"
-consul_manage_group: false
+consul_manage_group: true
 consul_group: "bin"
 
 ### Consul settings
