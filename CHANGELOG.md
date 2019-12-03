@@ -8,6 +8,7 @@
 - Add when_false to ACL master lookup (thanks @jmariondev)
 - Ensure enable_tag_override is json (thanks @slomo)
 - Add suport for -alt-domain (thanks @soloradish)
+- Add enable_token_persistence option (thanks @smutel)
 - Update documentation
 
 ## v2.5.3
