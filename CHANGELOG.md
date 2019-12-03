@@ -9,7 +9,8 @@
 - Ensure enable_tag_override is json (thanks @slomo)
 - Add suport for -alt-domain (thanks @soloradish)
 - Add enable_token_persistence option (thanks @smutel)
-- Document consul_manage_user and consul_manage_group (thanks @karras)
+- Support new ARM builds for Consul 1.6.2+ (thanks @KyleOndy)
+- Update documentation (thanks @karras)
 
 ## v2.5.3
 
