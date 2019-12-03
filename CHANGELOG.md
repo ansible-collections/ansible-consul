@@ -10,6 +10,7 @@
 - Add suport for -alt-domain (thanks @soloradish)
 - Add enable_token_persistence option (thanks @smutel)
 - Support new ARM builds for Consul 1.6.2+ (thanks @KyleOndy)
+- Add CAP_NET_BIND_SERVICE to systemd unit (thanks @smutel)
 - Update documentation (thanks @karras)
 
 ## v2.5.3
