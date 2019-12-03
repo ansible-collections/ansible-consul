@@ -9,7 +9,7 @@
 - Ensure enable_tag_override is json (thanks @slomo)
 - Add suport for -alt-domain (thanks @soloradish)
 - Add enable_token_persistence option (thanks @smutel)
-- Update documentation
+- Document consul_manage_user and consul_manage_group (thanks @karras)
 
 ## v2.5.3
 
