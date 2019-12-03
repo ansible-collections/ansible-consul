@@ -134,6 +134,7 @@
                     "default_policy": "{{ consul_acl_default_policy }}",
                     "down_policy": "{{ consul_acl_down_policy }}",
                     "token_ttl": "{{ consul_acl_ttl }}",
+                    "enable_token_persistence": {{ consul_acl_token_persistence | bool | to_json}},
                     "tokens": {
                         {% if consul_acl_token | trim != '' %}
                         "default": "{{ consul_acl_token }}",
@@ -212,6 +213,7 @@
                 "default_policy": "{{ consul_acl_default_policy }}",
                 "down_policy": "{{ consul_acl_down_policy }}",
                 "token_ttl": "{{ consul_acl_ttl }}",
+                "enable_token_persistence": {{ consul_acl_token_persistence | bool | to_json}},
                 "tokens": {
                     {% if consul_acl_token | trim != '' %}
                     "default": "{{ consul_acl_token }}",

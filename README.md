@@ -433,6 +433,12 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_ACL_TTL` environment variable
 - Default value: 30s
 
+### `consul_acl_token_persistence`
+
+- Define if tokens set using the API will be persisted to disk or not
+  - Override with `CONSUL_ACL_TOKEN_PERSISTENCE` environment variable
+- Default value: true
+
 ### `consul_acl_datacenter`
 
 - ACL authoritative datacenter name
