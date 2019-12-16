@@ -191,10 +191,20 @@ Many role variables can also take their values from environment variables as wel
 - Default Linux value: consul
 - Default Windows value: LocalSystem
 
+### `consul_manage_user`
+
+- Whether to create the user defined by `consul_user` or not
+- Default value: true
+
 ### `consul_group`
 
 - OS group
 - Default value: bin
+
+### `consul_manage_group`
+
+- Whether to create the group defined by `consul_group` or not
+- Default value: true
 
 ### `consul_group_name`
 
@@ -432,6 +442,12 @@ Notice that the dict object has to use precisely the names stated in the documen
 - TTL for ACL's
   - Override with `CONSUL_ACL_TTL` environment variable
 - Default value: 30s
+
+### `consul_acl_token_persistence`
+
+- Define if tokens set using the API will be persisted to disk or not
+  - Override with `CONSUL_ACL_TOKEN_PERSISTENCE` environment variable
+- Default value: true
 
 ### `consul_acl_datacenter`
 

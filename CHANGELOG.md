@@ -1,5 +1,6 @@
 ## NEXT
 
+- consul_manage_group now defaults to true
 - Set consul_node_name to ansible_hostname, resolves #337
 - Enable consul Connect (thanks @imcitius)
 - Cloud auto discovery (thanks @imcitius)
@@ -8,7 +9,10 @@
 - Add when_false to ACL master lookup (thanks @jmariondev)
 - Ensure enable_tag_override is json (thanks @slomo)
 - Add suport for -alt-domain (thanks @soloradish)
-- Update documentation
+- Add enable_token_persistence option (thanks @smutel)
+- Support new ARM builds for Consul 1.6.2+ (thanks @KyleOndy)
+- Add CAP_NET_BIND_SERVICE to systemd unit (thanks @smutel)
+- Update documentation (thanks @karras)
 
 ## v2.5.3
 
