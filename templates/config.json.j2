@@ -78,8 +78,8 @@
     {## Encryption and TLS ##}
     {% if consul_encrypt_enable | bool %}
     "encrypt": "{{ consul_raw_key }}",
-    "encrypt_verify_incoming": "{{ consul_encrypt_verify_incoming }}",
-    "encrypt_verify_outgoing": "{{ consul_encrypt_verify_outgoing }}",
+    "encrypt_verify_incoming": "{{ consul_encrypt_verify_incoming | bool | to_json }}",
+    "encrypt_verify_outgoing": "{{ consul_encrypt_verify_outgoing | bool | to_json }}",
     {% endif %}
     {% if consul_disable_keyring_file | bool %}
     "disable_keyring_file": true,
