@@ -565,7 +565,7 @@ Notice that the dict object has to use precisely the names stated in the documen
 ### `consul_encrypt_verify_incoming`
 
 - Verify incoming Gossip connections
-- Default value: false
+- Default value: true
 
 ### `consul_encrypt_verify_outgoing`
 
