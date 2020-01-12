@@ -1,11 +1,11 @@
 ---
 scenario:
-  name: fedora-26
+  name: oraclelinux-8
 platforms:
-  - name: fedora-26
+  - name: oraclelinux-8
     groups:
       - consul_instances
-    image: dokken/fedora-26
+    image: dokken/oraclelinux-8
     dockerfile: ../_shared/Dockerfile.j2
     capabilities:
       - SYS_ADMIN

@@ -2,16 +2,12 @@
 scenario:
   test_sequence:
     - lint
-    # - destroy
-    # - dependency
     - syntax
     - create
-    # - prepare
+    - prepare
     - converge
     - idempotence
-    # - side_effect
     - verify
-    # - cleanup
     - destroy
 dependency:
   name: galaxy
@@ -30,9 +26,8 @@ provisioner:
       forks: 100
     connection:
       pipelining: True
-  options:
-    limit: all
   playbooks:
+    prepare: ../_shared/prepare.yml
     converge: ../_shared/playbook.yml
   inventory:
     group_vars:

@@ -7,6 +7,7 @@ platforms:
       - consul_instances
     image: dokken/debian-8
     command: /lib/systemd/systemd
+    dockerfile: ../_shared/Dockerfile.j2
     privileged: True
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
