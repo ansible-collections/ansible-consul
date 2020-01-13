@@ -104,7 +104,7 @@
     "retry_max": {{ consul_retry_max | int }},
 
     "retry_join":
-    {% if not consul_cloud_autodiscovery %}
+    {% if not consul_cloud_autodiscovery | bool %}
         {% if not consul_retry_join_skip_hosts %}
             {% for server in _consul_lan_servers %}
             {%   set _ = consul_join.append(hostvars[server]['consul_advertise_address'] | default(hostvars[server]['consul_bind_address']) | default(hostvars[server]['ansible_default_ipv4']['address']) | mandatory) %}
