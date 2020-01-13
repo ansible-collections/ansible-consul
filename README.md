@@ -562,6 +562,16 @@ Notice that the dict object has to use precisely the names stated in the documen
 - Enable Gossip Encryption
 - Default value: true
 
+### `consul_encrypt_verify_incoming`
+
+- Verify incoming Gossip connections
+- Default value: true
+
+### `consul_encrypt_verify_outgoing`
+
+- Verify outgoing Gossip connections
+- Default value: true
+
 ### `consul_disable_keyring_file`
 
 - If set, the keyring will not be persisted to a file. Any installed keys will be lost on shutdown, and only the given -encrypt key will be available on startup.
