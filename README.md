@@ -182,7 +182,7 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_run_path`
 
 - Run path for process identifier (PID) file
-- Default Linux value: `/var/run/consul`
+- Default Linux value: `/run/consul`
 - Default Windows value: `C:\ProgramData\consul`
 
 ### `consul_user`
