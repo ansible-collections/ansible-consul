@@ -1,5 +1,6 @@
-## NEXT
+## v2.5.4
 
+- Consul v1.6.3
 - consul_manage_group now defaults to true
 - Set consul_node_name to ansible_hostname, resolves #337
 - Enable consul Connect (thanks @imcitius)
