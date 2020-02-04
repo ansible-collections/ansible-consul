@@ -1,3 +1,7 @@
+## NEXT
+
+- Add GitHub workflows (thanks @gofrolist )
+
 ## v2.5.4
 
 - Consul v1.6.3
