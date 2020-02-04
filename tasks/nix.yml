@@ -197,6 +197,15 @@
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
 
+- name: Enable consul at startup (systemd)
+  systemd:
+    name: consul
+    enabled: yes
+  when:
+    - ansible_service_mgr == "systemd"
+    - not ansible_os_family == "FreeBSD"
+    - not ansible_os_family == "Solaris"
+
 - name: Reload systemd
   systemd:
     daemon_reload: true
