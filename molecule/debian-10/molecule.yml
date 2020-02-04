@@ -1,13 +1,15 @@
 ---
 scenario:
-  name: fedora-27
+  name: debian-10
 platforms:
-  - name: fedora-27
+  - name: debian-10
     groups:
       - consul_instances
-    image: dokken/fedora-27
+    image: dokken/debian-10
+    command: /lib/systemd/systemd
     dockerfile: ../_shared/Dockerfile.j2
     capabilities:
       - SYS_ADMIN
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true

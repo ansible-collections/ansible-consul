@@ -1,11 +1,11 @@
 ---
 scenario:
-  name: fedora-27
+  name: fedora-30
 platforms:
-  - name: fedora-27
+  - name: fedora-30
     groups:
       - consul_instances
-    image: dokken/fedora-27
+    image: dokken/fedora-30
     dockerfile: ../_shared/Dockerfile.j2
     capabilities:
       - SYS_ADMIN

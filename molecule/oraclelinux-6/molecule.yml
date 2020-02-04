@@ -6,6 +6,6 @@ platforms:
     groups:
       - consul_instances
     image: dokken/oraclelinux-6
-    command: /sbin/init
+    dockerfile: ../_shared/Dockerfile.j2
     capabilities:
       - SYS_ADMIN
