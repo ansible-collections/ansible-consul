@@ -194,19 +194,17 @@ consul_disable_keyring_file: "{{ lookup('env','CONSUL_DISABLE_KEYRING_FILE') | d
 ## TLS
 consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"
 consul_tls_src_files: "{{ lookup('env','CONSUL_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
-
 consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default('/etc/consul/ssl', true) }}"
-
 consul_tls_ca_crt: "{{ lookup('env','CONSUL_TLS_CA_CRT') | default('ca.crt', true) }}"
 consul_tls_server_crt: "{{ lookup('env','CONSUL_SERVER_CRT') | default('server.crt', true) }}"
 consul_tls_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key', true) }}"
 consul_tls_copy_keys: true
-consul_tls_verify_incoming: false
-consul_tls_verify_outgoing: true
-consul_tls_verify_incoming_https: false
-consul_tls_verify_server_hostname: false
+consul_tls_verify_incoming: "{{ lookup('env','CONSUL_TLS_VERIFY_INCOMING') | default(false, true) }}"
+consul_tls_verify_outgoing: "{{ lookup('env','CONSUL_TLS_VERIFY_OUTGOING') | default(true, true) }}"
+consul_tls_verify_incoming_rpc: "{{ lookup('env','CONSUL_TLS_VERIFY_INCOMING_RPC') | default(false, true) }}"
+consul_tls_verify_incoming_https: "{{ lookup('env','CONSUL_TLS_VERIFY_INCOMING_HTTPS') | default(false, true) }}"
+consul_tls_verify_server_hostname: "{{ lookup('env','CONSUL_TLS_VERIFY_SERVER_HOSTNAME') | default(false, true) }}"
 consul_tls_files_remote_src: false
-
 consul_tls_min_version: "{{ lookup('env','CONSUL_TLS_MIN_VERSION') | default('tls12', true) }}"
 consul_tls_cipher_suites: ""
 consul_tls_prefer_server_cipher_suites: "{{ lookup('env','CONSUL_TLS_PREFER_SERVER_CIPHER_SUITES') | default('false', true) }}"

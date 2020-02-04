@@ -594,6 +594,11 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_TLS_VERIFY_OUTGOING` environment variable
 - Default value: true
 
+### `consul_tls_verify_incoming_rpc`
+- Verify incoming connections on RPC endpoints (client certificates)
+  - Override with `CONSUL_TLS_VERIFY_INCOMING_RPC` environment variable
+- Default value: false
+
 ### `consul_tls_verify_incoming_https`
 - Verify incoming connections on HTTPS endpoints (client certificates)
   - Override with `CONSUL_TLS_VERIFY_INCOMING_HTTPS` environment variable
