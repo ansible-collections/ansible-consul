@@ -42,7 +42,7 @@ consul_bootstrap_state: "{{ consul_config_path }}/.consul_bootstrapped"
 consul_data_path: "/var/consul"
 consul_log_path: "{{ lookup('env','CONSUL_LOG_PATH') | default('/var/log/consul', true) }}"
 consul_log_file: "{{ lookup('env','CONSUL_LOG_FILE') | default('consul.log', true) }}"
-consul_run_path: "/var/run/consul"
+consul_run_path: "/run/consul"
 consul_binary: "{{ consul_bin_path }}/consul"
 
 ### System user and group
