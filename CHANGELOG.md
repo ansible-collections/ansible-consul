@@ -3,6 +3,7 @@
 - Add GitHub workflows (thanks @gofrolist )
 - Modernize PID path (thanks @smutel)
 - Add Consul automatic startup to systemd in Nix tasks (thanks @smutel)
+- Add verify_incoming_rpc option (thanks @smutel)
 
 ## v2.5.4
 
