@@ -1,6 +1,7 @@
 ## NEXT
 
 - Add GitHub workflows (thanks @gofrolist )
+- Modernize PID path (thanks @smutel)
 
 ## v2.5.4
 
