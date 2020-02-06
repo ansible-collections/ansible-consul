@@ -1,15 +1,15 @@
 ---
 # File: tls.yml - TLS tasks for Consul
 
-- name: Create SSL directory
-  file:
-    dest: "{{ consul_tls_dir }}"
-    state: directory
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group }}"
-    mode: 0755
-
 - block:
+    - name: Create SSL directory
+      file:
+        dest: "{{ consul_tls_dir }}"
+        state: directory
+        owner: "{{ consul_user }}"
+        group: "{{ consul_group }}"
+        mode: 0755
+
     - name: Copy CA certificate
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
