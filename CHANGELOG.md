@@ -1,9 +1,12 @@
-## NEXT
+## 2.6.0
 
+- Consul v1.7.0
 - Add GitHub workflows (thanks @gofrolist )
 - Modernize PID path (thanks @smutel)
 - Add Consul automatic startup to systemd in Nix tasks (thanks @smutel)
 - Add verify_incoming_rpc option (thanks @smutel)
+- Update CONTRIBUTORS
+- Update documentation
 
 ## v2.5.4
 

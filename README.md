@@ -1,5 +1,19 @@
 # Consul
 
+## SEEKING ACTIVE MAINTAINERSHIP
+
+----
+
+It is my sincere hope that you or your organization has found some use in this project over the years that we have all worked on it together. With that said, I have largely moved on in my personal life and career path in ways that have essentially removed Ansible from daily use for me.
+
+Rather than abandon the project, I'm calling for interested parties to fork it and take over active maintainership so that it can continue on and receive more timely attention.
+
+The maintenance essentially consists of code review, issues, and merging pull requests as there are quite a few active contributors.
+
+You do not necessarily need to be a developer on the project and write code, etc. to maintain it. If you are interested in taking over maintainership of this project, please reach out and let me know.
+
+----
+
 [![Build Status](https://travis-ci.org/brianshumate/ansible-consul.svg?branch=master)](https://travis-ci.org/brianshumate/ansible-consul)
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-brianshumate.consul-blue.svg)](https://galaxy.ansible.com/brianshumate/consul/)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Average time to resolve an issue")
@@ -26,7 +40,7 @@ This role requires a FreeBSD, Debian, or Red Hat Enterprise Linux distribution o
 
 The role might work with other OS distributions and versions, but is known to function well with the following software versions:
 
-* Consul: 1.6.3
+* Consul: 1.7.0
 * Ansible: 2.8.2
 * Alpine Linux: 3.8
 * CentOS: 7
@@ -64,7 +78,7 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_version`
 
 - Version to install
-- Default value: 1.6.3
+- Default value: 1.7.0
 
 ### `consul_architecture_map`
 
