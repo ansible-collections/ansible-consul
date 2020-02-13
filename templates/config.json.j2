@@ -4,7 +4,9 @@
     {# Common Settings #}
 
     {## Node ##}
+    {% if consul_node_name is defined %}
     "node_name": "{{ consul_node_name }}",
+    {% endif %}
     "datacenter": "{{ consul_datacenter }}",
     "domain": "{{ consul_domain }}",
     {% if consul_alt_domain %}

@@ -409,8 +409,10 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 ### `consul_node_name`
 
-- Node name (should not include dots)
-- Default value: `{{ inventory_hostname_short }}`
+- Define a custom node name (should not include dots)
+  See [node_name](https://www.consul.io/docs/agent/options.html#node_name)
+  - The default value on Consul is the hostname of the server.
+- Default value: '' 
 
 ### `consul_recursors`
 
