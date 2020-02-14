@@ -67,6 +67,7 @@
   when: not consul_package.stat.exists | bool
   run_once: true
   delegate_to: 127.0.0.1
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Update Alpine Package Manager (APK)
   apk:
@@ -98,6 +99,7 @@
   tags: installation
   run_once: true
   delegate_to: 127.0.0.1
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Install Consul
   copy:
@@ -109,9 +111,11 @@
   notify:
     - restart consul
   tags: installation
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Daemon reload systemd in case the binaries upgraded
-  systemd: daemon_reload=yes
+  systemd:
+    daemon_reload: yes
   become: true
   when:
     - ansible_service_mgr == "systemd"
@@ -127,3 +131,4 @@
   tags: installation
   run_once: true
   delegate_to: 127.0.0.1
+  ignore_errors: "{{ ansible_check_mode }}"
