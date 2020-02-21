@@ -157,6 +157,15 @@
     mode: 0755
   when: ansible_os_family == "FreeBSD"
 
+- name: Create OPENRC init script
+  template:
+    src: consul_openrc.j2
+    dest: /etc/init.d/consul
+    owner: root
+    group: root
+    mode: 0755
+  when: ansible_os_family == "Alpine"
+
 - name: Create SYSV init script
   template:
     src: consul_sysvinit.j2
@@ -166,6 +175,7 @@
     mode: 0755
   when:
     - not ansible_service_mgr == "systemd"
+    - not ansible_os_family == "Alpine"
     - not ansible_os_family == "Debian"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"

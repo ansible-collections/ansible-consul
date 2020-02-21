@@ -197,6 +197,8 @@ Many role variables can also take their values from environment variables as wel
 
 - Run path for process identifier (PID) file
 - Default Linux value: `/run/consul`
+- Default Alpine value: `/var/run`
+    - This value cannot be overwritten on Alpine.[See](https://github.com/OpenRC/openrc/blob/master/service-script-guide.md#dont-let-the-user-control-the-pid-file-location)
 - Default Windows value: `C:\ProgramData\consul`
 
 ### `consul_user`

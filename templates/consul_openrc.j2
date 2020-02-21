@@ -1,0 +1,61 @@
+#!/sbin/openrc-run
+
+name=consul
+description="Consul service discovery framework"
+description_checkconfig="Verify consul configuration"
+daemon={{ consul_bin_path }}/consul
+daemon_user={{ consul_user }}
+daemon_group={{ consul_group }}
+extra_commands="checkconfig"
+pidfile="{{ consul_run_path }}/consul.pid"
+
+CONSUL_LOG_FILE="/var/log/${SVCNAME}.log"
+CONSUL_CONFIG={{ consul_config_path }}/config.json
+CONSUL_CONFIGD={{ consul_configd_path }}
+{% if consul_ui_legacy %}
+CONSUL_UI_LEGACY=true
+{% endif %}
+
+depend() {
+    need net
+    after firewall
+}
+
+checkconfig() {
+    ebegin "Checking $CONSUL_CONFIG"
+    $daemon validate $CONSUL_CONFIG
+    eend $?
+}
+
+start_pre() {
+    checkconfig
+    checkpath -f -m 0640 -o ${daemon_user}:${daemon_group} "$CONSUL_LOG_FILE"
+}
+
+start() {
+    checkconfig || return 1
+
+    ebegin "Starting ${name}"
+        start-stop-daemon --start \
+            --user ${daemon_user} --group ${daemon_group} \
+            --make-pidfile --pidfile ${pidfile} \
+            -b --stdout ${CONSUL_LOG_FILE} --stderr ${CONSUL_LOG_FILE} \
+            --exec ${daemon} -- agent --config-file="${CONSUL_CONFIG}" -config-dir="${CONSUL_CONFIGD}"
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping ${name}"
+        start-stop-daemon --stop --quiet \
+            --pidfile ${pidfile} \
+            --exec ${daemon}
+    eend $?
+}
+
+
+reload() {
+    start_pre \
+        && ebegin "Reloading ${name} configuration" \
+        && supervise-daemon ${name} --signal HUP --pidfile ${pidfile}
+    eend $?
+}
