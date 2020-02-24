@@ -13,8 +13,7 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: yamllint
 provisioner:
   name: ansible
   config_options:
