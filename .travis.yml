@@ -31,7 +31,7 @@ cache:
 
 install:
   # Install test dependencies.
-  - pip install molecule[docker] netaddr
+  - pip3 install -r requirements.txt
 
 script:
   - molecule --base-config molecule/_shared/base.yml test --scenario-name ${SCENARIO}
