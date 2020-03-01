@@ -1,32 +1,40 @@
 ---
+dist: bionic
+
 language: python
-python: "2.7"
+python: 3.6
+virtualenv:
+  system_site_packages: true
 
-# Use the new container infrastructure
-sudo: false
+services: docker
 
-# Install ansible
-addons:
-  apt:
-    packages:
-      - python-pip
-      - jq
+env:
+  - SCENARIO=centos-6
+  - SCENARIO=centos-7
+  - SCENARIO=centos-8
+  - SCENARIO=debian-8
+  - SCENARIO=debian-9
+  - SCENARIO=debian-10
+  - SCENARIO=fedora-26
+  - SCENARIO=fedora-27
+  - SCENARIO=fedora-28
+  - SCENARIO=fedora-29
+  - SCENARIO=fedora-30
+  - SCENARIO=fedora-31
+  - SCENARIO=oraclelinux-6
+  - SCENARIO=oraclelinux-7
+  - SCENARIO=ubuntu-16.04
+  - SCENARIO=ubuntu-18.04
+
+cache:
+  - pip
 
 install:
-  # Install ansible netaddr
-  - pip install ansible netaddr
-
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
-  # - printf '[defaults]\nroles_path=../' > ansible.cfg
+  # Install test dependencies.
+  - pip install molecule[docker] netaddr
 
 script:
-  # Basic role syntax check
-  - ANSIBLE_ROLES_PATH=.. ansible-playbook -i tests/inventory tests/test.yml --syntax-check
-  - ansible all -i localhost, -c local -m template -a "src=templates/config.json.j2 dest=./tests/test_results.json" --extra-vars=@tests/test_vars.yml
-  - cat ./tests/test_results.json | jq .
+  - molecule --base-config molecule/_shared/base.yml test --scenario-name ${SCENARIO}
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

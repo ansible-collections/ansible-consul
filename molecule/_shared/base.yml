@@ -1,0 +1,42 @@
+---
+scenario:
+  test_sequence:
+    - lint
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
+    - destroy
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      deprecation_warnings: False
+      callback_whitelist: timer,profile_tasks
+      fact_caching: jsonfile
+      fact_caching_connection: ./cache
+      forks: 100
+    connection:
+      pipelining: True
+  playbooks:
+    prepare: ../_shared/prepare.yml
+    converge: ../_shared/playbook.yml
+  inventory:
+    group_vars:
+      consul_instances:
+        consul_node_role: bootstrap
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  directory: ../_shared/tests
+  lint:
+    name: flake8

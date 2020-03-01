@@ -145,7 +145,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       #
       ansible.extra_vars = {
         consul_log_level: "DEBUG",
-        consul_client_address: "10.1.42.230"
+        consul_iface: "eth1"
       }
       ansible.playbook = ANSIBLE_PLAYBOOK
       ansible.limit = "all"

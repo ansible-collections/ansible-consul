@@ -27,8 +27,9 @@ consul_architecture_map:
   # (but it's required for reasons)
   amd64: amd64
   x86_64: amd64
-  armv6l: arm
-  armv7l: arm
+  # todo: arm32 / armelv5
+  armv6l: armhfv6
+  armv7l: armhfv6
   aarch64: arm64
   32-bit: "386"
   64-bit: amd64
@@ -60,7 +61,7 @@ consul_binary: "{{ consul_bin_path }}/consul"
 ### System user and group
 consul_manage_user: true
 consul_user: "consul"
-consul_manage_group: false
+consul_manage_group: true
 consul_group: "bin"
 
 ### Consul settings
@@ -83,12 +84,14 @@ consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(f
 consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
 consul_disable_update_check: false
 consul_enable_script_checks: false
+consul_enable_local_script_checks: false
 consul_raft_protocol: "\
   {% if consul_version is version_compare('0.7.0', '<=') %}\
     1\
   {% else %}\
     3\
   {% endif %}"
+consul_retry_join_skip_hosts: false
 consul_retry_interval: "30s"
 consul_retry_interval_wan: "30s"
 consul_retry_max: 0
@@ -164,6 +167,8 @@ consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') |
 
 ## gossip encryption
 consul_encrypt_enable: "{{ lookup('env','CONSUL_ENCRYPT_ENABLE') | default(true, true) }}"
+consul_encrypt_verify_incoming: true
+consul_encrypt_verify_outgoing: true
 consul_disable_keyring_file: "{{ lookup('env','CONSUL_DISABLE_KEYRING_FILE') | default(false, true) }}"
 
 ## TLS
@@ -174,10 +179,11 @@ consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default('/etc/consul/ssl', 
 
 consul_tls_ca_crt: "{{ lookup('env','CONSUL_TLS_CA_CRT') | default('ca.crt', true) }}"
 consul_tls_server_crt: "{{ lookup('env','CONSUL_SERVER_CRT') | default('server.crt', true) }}"
-consul_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key', true) }}"
+consul_tls_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key', true) }}"
 consul_tls_copy_keys: true
 consul_tls_verify_incoming: false
 consul_tls_verify_outgoing: true
+consul_tls_verify_incoming_rpc: false
 consul_tls_verify_incoming_https: false
 consul_tls_verify_server_hostname: false
 

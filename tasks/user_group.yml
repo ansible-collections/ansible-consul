@@ -17,4 +17,4 @@
     group: "{{ consul_group }}"
     system: true
   when:
-  - consul_manage_user | bool
+    - consul_manage_user | bool

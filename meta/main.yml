@@ -1,3 +1,5 @@
+---
+# File: main.yml - Meta main
 galaxy_info:
   author: Brian Shumate
   description: Consul cluster role
@@ -6,30 +8,37 @@ galaxy_info:
   min_ansible_version: 2.5
 
   platforms:
-    - name: Amazon
-      versions:
-        - 2
     - name: Alpine
       versions:
         - all
     - name: ArchLinux
       versions:
         - all
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
     - name: EL
       versions:
         - 6
         - 7
+        - 8
+    - name: Fedora
+      versions:
+        - 26
+        - 27
+        - 28
+        - 29
+        - 30
+        - 31
     - name: FreeBSD
       versions:
         - 10.0
         - 11.0
     - name: Ubuntu
       versions:
-        - vivid
         - xenial
-    - name: Debian
-      versions:
-        - jessie
+        - bionic
     - name: Windows
       versions:
         - 2012R2

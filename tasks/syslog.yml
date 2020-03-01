@@ -7,6 +7,7 @@
   register: stat_syslogng
   when:
     - ansible_os_family != 'Windows'
+    - consul_configure_syslogd | bool
 
 - name: Install syslog-ng config
   template:
@@ -18,7 +19,8 @@
   when:
     - ansible_os_family != 'Windows'
     - consul_syslog_enable | bool
-    - stat_syslogng.stat.exists == True
+    - consul_configure_syslogd | bool
+    - stat_syslogng.stat.exists
   notify:
     - restart syslog-ng
     - restart consul
@@ -33,7 +35,8 @@
   when:
     - ansible_os_family != 'Windows'
     - consul_syslog_enable | bool
-    - stat_syslogng.stat.exists == False
+    - consul_configure_syslogd | bool
+    - not stat_syslogng.stat.exists
   notify:
     - restart rsyslog
     - restart consul

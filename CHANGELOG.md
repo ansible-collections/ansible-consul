@@ -1,6 +1,175 @@
-## v2.3.0 (UNRELEASED)
+## 2.6.0
 
+- Consul v1.7.0
+- Add GitHub workflows (thanks @gofrolist )
+- Modernize PID path (thanks @smutel)
+- Add Consul automatic startup to systemd in Nix tasks (thanks @smutel)
+- Add verify_incoming_rpc option (thanks @smutel)
+- Update CONTRIBUTORS
+- Update documentation
+
+## v2.5.4
+
+- Consul v1.6.3
+- consul_manage_group now defaults to true
+- Set consul_node_name to ansible_hostname, resolves #337
+- Enable consul Connect (thanks @imcitius)
+- Cloud auto discovery (thanks @imcitius)
+- Use generated password as token UUID source (thanks @jmariondev)
+- Fix ACL Replication Token sed pattern (thanks @jmariondev)
+- Add when_false to ACL master lookup (thanks @jmariondev)
+- Ensure enable_tag_override is json (thanks @slomo)
+- Add suport for -alt-domain (thanks @soloradish)
+- Add enable_token_persistence option (thanks @smutel)
+- Support new ARM builds for Consul 1.6.2+ (thanks @KyleOndy)
+- Add CAP_NET_BIND_SERVICE to systemd unit (thanks @smutel)
+- Fix configuration template (thanks @imcitius)
+- Update documentation (thanks @karras)
+
+## v2.5.3
+
+- Consul v1.6.2
+- Update documentation
+
+## v2.5.2
+
+- Fix path / drop with_fileglob in install_remote (thanks @bbaassssiiee)
+- Handle consul_encrypt_enable variable for Nix (thanks @bbaassssiiee)
+- Parse acl_master_token from config (thanks @bbaassssiiee)
+- Fix start service on Windows (thanks @imcitius)
+- Preserve custom config (thanks @slomo)
+- Update Windows for win_service usage (thanks @FozzY1234)
+- Restart when TLS material changes (Thanks @bbaassssiiee)
+- No tokens in logging (Thanks @bbaassssiiee)
+- Flush handlers at the end of main (Thanks @bbaassssiiee)
+- Read tokens from from previously bootstrapped server (Thanks @bbaassssiiee)
+- Rename `consul_server_key` variable
+- Sort keys in service configuration (thanks @slomo)
+
+## v2.5.1
+
+- Consul v1.6.1
+- Add run_once to delegated tasks (thanks @liuxu623)
+- Fix service restart on upgrades (thanks @jpiron)
+- Fix log directory ownership (@thanks liuxu623)
+- Handle missing unzip on control host (thanks @bbaassssiiee)
+- Add Added version check for log_rotate_max_files (thanks @jasonneurohr)
+- Update documentation
+
+## v2.5.0
+
+- Consul v1.6.0
+- Add documentation for new TLS options (thanks @jasonneurohr)
+- Add support for translate_wan_address (@calmacara)
+- Add `-log-file` (thanks @liuxu623)
+
+## v2.4.5
+
+- Consul v1.5.3
+- Update molecule configuration (thanks @gofrolist)
+- Support TLS files in subdirectories - resolves #297
+- Update some bare variable comparisons - resolves #293
+- Update server address for usage with --limit (thanks @danielkucera)
+- Update snapshot configuration for TLS (thanks @jasonneurohr)
+- Add TLS minimum version and ciper suite preferences (thanks @jasonneurohr)
+- Update documentation
+- Update CONTRIBUTORS
+
+## v2.4.4
+
+- Consul v1.5.2 (thanks @patsevanton)
+- Add Molecule support (thanks @gofrolist)
+- Correct several task issues (thanks @gofrolist)
+
+## v2.4.3
+
+- Consul v1.5.1
+- Update documentation
+
+## v2.4.2
+
+- Correct ACL typo correction (thanks @bewiwi)
+- Fix unarchive failure case (thanks @cyril-dussert)
+- Update CONTRIBUTORS
+
+## v2.4.1
+
+- Add LimitNOFILE option to systemd unit (thanks @liuxu623)
+- Fix typo in in replication token check (thanks @evilhamsterman)
+
+## v2.4.0
+
+- Consul v1.5.0
+- Specify a token for a service (thanks @xeivieni)
+- Empty consul_acl_master_token check (thanks @evilhamsterman)
+- Separate Unix and Linux tasks from Windows tasks (thanks @evilhamsterman)
+
+## v2.3.6
+
+- Continue with task cleanup
+- Fix deleting of unregistered services (thanks @Shaiou)
+- Fix issue in Amazon variables (thanks @ToROxI)
+- Add bool filter to templates (thanks @eeroniemi)
+- Fix CONSUL_ACL_POLICY (thanks @eeroniemi)
+- Correct cleanup task fileglob bogusness
+- Switch to SIGTERM in sysvinit stop
+
+## v2.3.5
+
+- Consul v1.5.0
+- fixed multiarch deployment race condition (thanks @lanefu)
+- Switched from systemctl command to systemd module [lint]
+- Update for E504 use 'delegate_to: localhost' [lint]
+  - asserts
+  - install
+  - encrypt_gossip
+- Update for E104 in with_fileglob for install_remote [lint]
+- Update for E601 in syslog [lint]
+- Update for E602 in tasks [lint]
+  - acl
+  - main
+- Update example site playbook roles format
+- Support install on Debian Testing (thanks @gfeun)
+- Fix consul_bind_address (thanks @danielkucera)
+- Custom bootstrap expect value (thanks @Roviluca)
+- Fix Windows support for registering services (thanks @gyorgynadaban)
+- Update documentation
+
+## v2.3.4
+
+- Consul v1.4.3
+- Update documentation
+
+## v2.3.3
+
+- Add services management (thanks @Sispheor)
+- Add enable_local_script_checks configuration (thanks @canardleteer)
+- Add ability to enable legacy GUI (thanks @imcitius)
+- Optional domain datacenter delegation with `consul_delegate_datacenter_dns`
+
+## v2.3.2
+
+- Consul v1.4.2
+- Remove token generation/retrieval on clients (thanks @jpiron)
+- Add listen to all the handler tasks (@pwae)
+- retry_join setup independent from the hosts servers (thanks @Fuochi-YNAP)
+
+## v2.3.1
+
+- Add Consul 1.4.0 ACL configuration syntax support (thanks @jpiron)
+- Fix unzip installation check task check mode (thanks @jpiron)
+- Fix systemd configuration task handler notification (thanks @jpiron)
+
+## v2.3.0
+
+- The role no longer attempts to install the unzip binary locally onto
+  the Ansible control host; it is now a hard dependency and role execution
+  will fail if unzip is not in the PATH on the control host.
 - Snapshot agent installation and configuration (thanks @drewmullen)
+- Delegate Consul datacenter DNS domain to Consul (thanks @teralype)
+- Allow DNSmasq binding to particular interfaces (thanks @teralype)
+- Update local tasks (thanks @sgrimm-sg)
+- Update documentation
 
 ## v2.2.0
 
@@ -418,7 +587,7 @@ Do not enable a default set of ACL policies
   - Rename `consul_copy_keys` variable
   - Rename `consul_ca_crt` variable
   - Rename `consul_server_crt` variable
-  - Rename `consul_server_key` variable
+  - Rename `consul_tls_server_key` variable
   - Rename `consul_verify_outgoing` variable
   - Rename `consul_verify_server_hostname` variable
   - Move `consul_iface` default to value of `hostvars.consul_iface`
@@ -650,7 +819,7 @@ Do not enable a default set of ACL policies
 
 - Update start_join for client configuration template
 
-## v1.5.2
+## v1.5.3
 
 - Consul version 0.7.1
 - Consistent template names
