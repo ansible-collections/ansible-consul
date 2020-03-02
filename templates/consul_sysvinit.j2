@@ -61,7 +61,6 @@ stop() {
 
         mkpidfile
         killproc "${KILLPROC_OPT}" "${CONSUL}" -SIGTERM
-
         retcode=$?
         rm -f "${LOCK_FILE}" "${PID_FILE}"
         return "${retcode}"
