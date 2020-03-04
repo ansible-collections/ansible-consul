@@ -96,6 +96,7 @@
   vars:
     ansible_become: false
   tags: installation
+  run_once: true
   delegate_to: 127.0.0.1
 
 - name: Install Consul
