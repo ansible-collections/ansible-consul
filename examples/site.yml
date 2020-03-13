@@ -7,4 +7,4 @@
   become: true
   become_user: root
   roles:
-    - brianshumate.consul
+    - ansible-consul

@@ -1,27 +1,12 @@
 # Consul
 
-## SEEKING ACTIVE MAINTAINERSHIP
-
-----
-
-It is my sincere hope that you or your organization has found some use in this project over the years that we have all worked on it together. With that said, I have largely moved on in my personal life and career path in ways that have essentially removed Ansible from daily use for me.
-
-Rather than abandon the project, I'm calling for interested parties to fork it and take over active maintainership so that it can continue on and receive more timely attention.
-
-The maintenance essentially consists of code review, issues, and merging pull requests as there are quite a few active contributors.
-
-You do not necessarily need to be a developer on the project and write code, etc. to maintain it. If you are interested in taking over maintainership of this project, please reach out and let me know.
-
-----
-
-[![Build Status](https://travis-ci.org/brianshumate/ansible-consul.svg?branch=master)](https://travis-ci.org/brianshumate/ansible-consul)
-[![Ansible Galaxy](https://img.shields.io/badge/galaxy-brianshumate.consul-blue.svg)](https://galaxy.ansible.com/brianshumate/consul/)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/brianshumate/ansible-consul.svg)](http://isitmaintained.com/project/brianshumate/ansible-consul "Percentage of issues still open")
+![Molecule](https://github.com/ansible-community/ansible-consul/workflows/Molecule/badge.svg?branch=master&event=pull_request)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/ansible-community/ansible-consul.svg)](http://isitmaintained.com/project/ansible-community/ansible-consul "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/ansible-community/ansible-consul.svg)](http://isitmaintained.com/project/ansible-community/ansible-consul "Percentage of issues still open")
 
 This Ansible role installs [Consul](https://consul.io/), including establishing a filesystem structure and server or client agent configuration with support for some common operational features.
 
-It can also bootstrap a development or evaluation cluster of 3 server agents running in a Vagrant and VirtualBox based environment. See [README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-consul/blob/master/examples/Vagrantfile) for more details.
+It can also bootstrap a development or evaluation cluster of 3 server agents running in a Vagrant and VirtualBox based environment. See [README_VAGRANT.md](https://github.com/ansible-community/ansible-consul/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/ansible-community/ansible-consul/blob/master/examples/Vagrantfile) for more details.
 
 ## Role Philosophy
 
@@ -1193,7 +1178,7 @@ redis
 
 ### Vagrant and VirtualBox
 
-See [examples/README_VAGRANT.md](https://github.com/brianshumate/ansible-consul/blob/master/examples/README_VAGRANT.md) for details on quick Vagrant deployments under VirtualBox for development, evaluation, testing, etc.
+See [examples/README_VAGRANT.md](https://github.com/ansible-community/ansible-consul/blob/master/examples/README_VAGRANT.md) for details on quick Vagrant deployments under VirtualBox for development, evaluation, testing, etc.
 
 ## License
 
@@ -1205,6 +1190,6 @@ BSD
 
 ## Contributors
 
-Special thanks to the folks listed in [CONTRIBUTORS.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTORS.md) for their contributions to this project.
+Special thanks to the folks listed in [CONTRIBUTORS.md](https://github.com/ansible-community/ansible-consul/blob/master/CONTRIBUTORS.md) for their contributions to this project.
 
-Contributions are welcome, provided that you can agree to the terms outlined in [CONTRIBUTING.md](https://github.com/brianshumate/ansible-consul/blob/master/CONTRIBUTING.md).
+Contributions are welcome, provided that you can agree to the terms outlined in [CONTRIBUTING.md](https://github.com/ansible-community/ansible-consul/blob/master/CONTRIBUTING.md).
