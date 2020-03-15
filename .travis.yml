@@ -9,6 +9,7 @@ virtualenv:
 services: docker
 
 env:
+  - SCENARIO=alpine-3.11
   - SCENARIO=centos-6
   - SCENARIO=centos-7
   - SCENARIO=centos-8

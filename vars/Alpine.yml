@@ -3,6 +3,7 @@
 consul_os_packages:
   - git
   - unzip
+  - openrc
 consul_syslog_enable: false
 
 # PID file location should not be configurable for openrc

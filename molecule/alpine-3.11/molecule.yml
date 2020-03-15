@@ -1,0 +1,14 @@
+---
+scenario:
+  name: alpine-3.11
+platforms:
+  - name: alpine-3.11
+    groups:
+      - consul_instances
+    image: alpine:3.11
+    dockerfile: ../_shared/Dockerfile.j2
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true

@@ -14,6 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         scenario:
+          - alpine-3.11
           - centos-6
           - centos-7
           - centos-8
