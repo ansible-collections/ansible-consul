@@ -1,14 +1,14 @@
 ---
-## File: services.yml - services configuration
+# vim: set softtabstop=2 tabstop=2 shiftwidth=2 expandtab autoindent smartindent syntax=yaml:
 
 - name: "Configure consul services"
-  template:
-    dest: "{{ consul_configd_path }}/service_{{ item.name }}.json"
-    src: service.json.j2
+  copy:
+    content: "{{ consul_service_config | to_nice_json }}"
+    dest: "{{ consul_configd_path }}/services.json"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     mode: 0644
-  with_items: "{{ consul_services }}"
+  when: consul_service_config | length > 0
   notify:
     - restart consul
 

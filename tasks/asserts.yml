@@ -70,18 +70,18 @@
     msg: "consul_group_name must be included in groups."
   when: consul_group_name not in groups
 
-- name: Fail if more than one bootstrap server is defined
-  fail:
-    msg: "You can not define more than one bootstrap server."
-  when:
-    - _consul_bootstrap_servers | length > 1
+#- name: Fail if more than one bootstrap server is defined
+#  fail:
+#    msg: "You can not define more than one bootstrap server."
+#  when:
+#    - _consul_bootstrap_servers | length > 1
 
-- name: Fail if a bootstrap server is defined and bootstrap_expect is true
-  fail:
-    msg: "Can't use a bootstrap server and bootstrap_expect at the same time."
-  when:
-    - _consul_bootstrap_servers | length > 0
-    - consul_bootstrap_expect | bool
+#- name: Fail if a bootstrap server is defined and bootstrap_expect is true
+#  fail:
+#    msg: "Can't use a bootstrap server and bootstrap_expect at the same time."
+#  when:
+#    - _consul_bootstrap_servers | length > 0
+#    - consul_bootstrap_expect | bool
 
 # Check for unzip binary
 

@@ -1,14 +1,5 @@
 ---
-# File: snapshot.yml - Create snapshot service
-# template: consul_snapshot.service
-# template: consul_snapshot.config /etc/consul/
-# set snaps to {{ snap storage location }}
-# create snaps folder
-# handler: start / enable service
-# add entry to tasks/main.yml
-# update readme
-# update defaults/main.yml
-# update my vars file
+# vim: set softtabstop=2 tabstop=2 shiftwidth=2 expandtab autoindent smartindent syntax=yaml:
 
 - name: Create snapshot systemd script
   template:
@@ -26,8 +17,8 @@
     - consul_snapshot | bool
 
 - name: Create snapshot agent config
-  template:
-    src: consul_snapshot.json.j2
+  copy:
+    content: "{{ consul_snapshot_config | to_nice_json }}"
     dest: "{{ consul_config_path }}/consul_snapshot.json"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"

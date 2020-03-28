@@ -16,9 +16,6 @@ CONFIG={{ consul_config_path }}/config.json
 CONFIGD={{ consul_configd_path }}
 PID_FILE={{ consul_run_path }}/consul.pid
 LOCK_FILE=/var/lock/subsys/consul
-{% if consul_ui_legacy %}
-CONSUL_UI_LEGACY=true
-{% endif %}
 
 [ -e /etc/sysconfig/consul ] && . /etc/sysconfig/consul
 

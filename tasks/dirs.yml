@@ -13,7 +13,7 @@
     with_items:
       - "{{ consul_config_path }}"
       - "{{ consul_configd_path }}"
-      - "{{ consul_data_path }}"
+      - "{{ consul_config_merged.data_dir }}"
   - name: Run directory
     file:
       dest: "{{ consul_run_path }}"
@@ -63,7 +63,7 @@
   with_items:
     - "{{ consul_config_path }}"
     - "{{ consul_configd_path }}"
-    - "{{ consul_data_path }}"
+    - "{{ consul_config_merged.data_dir }}"
     - "{{ consul_log_path }}"
     - "{{ consul_bin_path }}"
   when: ansible_os_family == 'Windows'

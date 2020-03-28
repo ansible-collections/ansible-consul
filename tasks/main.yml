@@ -1,5 +1,9 @@
 ---
-# File: main.yml - Main tasks for Consul
+# vim: set softtabstop=2 tabstop=2 shiftwidth=2 expandtab autoindent smartindent syntax=yaml:
+
+- name: "Merge default and user config"
+  set_fact:
+    consul_config_merged: "{{ consul_config_defaults | combine((consul_config | default({})), recursive=True) }}"
 
 - name: Install python dependencies
   when:

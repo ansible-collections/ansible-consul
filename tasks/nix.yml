@@ -10,13 +10,13 @@
   ignore_errors: true
   when: consul_gather_server_facts | bool
 
-- name: Expose advertise_address(_wan) datacenter and node_role as facts
-  set_fact:
-    consul_advertise_address_wan: "{{ consul_advertise_address_wan }}"
-    consul_advertise_address: "{{ consul_advertise_address }}"
-    consul_bind_address: "{{ consul_bind_address }}"
-    consul_datacenter: "{{ consul_datacenter }}"
-    consul_node_role: "{{ consul_node_role }}"
+#- name: Expose advertise_address(_wan) datacenter and node_role as facts
+#  set_fact:
+#    consul_advertise_address_wan: "{{ consul_advertise_address_wan }}"
+#    consul_advertise_address: "{{ consul_advertise_address }}"
+#    consul_bind_address: "{{ consul_bind_address }}"
+#    consul_datacenter: "{{ consul_config_merged['datacenter'] }}"
+#    consul_node_role: "{{ consul_node_role }}"
 
 - name: Read bootstrapped state
   stat:
@@ -54,85 +54,85 @@
 
 # XXX: Individual gossip tasks are deprecated and need to be removed
 # - include_tasks: ../tasks/encrypt_gossip.yml
-- block:
-    - block:
-        - name: Check for gossip encryption key on previously boostrapped server
-          slurp:
-            src: "{{ consul_config_path }}/config.json"
-          register: consul_config_b64
-          ignore_errors: true
-
-        - name: Deserialize existing configuration
-          set_fact:
-            consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
-          when: consul_config_b64.content is defined
-
-        - name: Save gossip encryption key from existing configuration
-          set_fact:
-            consul_raw_key: "{{ consul_config.encrypt }}"
-          when: consul_config is defined
-
-      no_log: true
-      when:
-        - consul_raw_key is not defined
-        - bootstrap_state.stat.exists | bool
-        - inventory_hostname in consul_servers
-
-    # Key provided by extra vars or the above block
-    - name: Write gossip encryption key locally for use with new servers
-      copy:
-        content: "{{ consul_raw_key }}"
-        dest: '/tmp/consul_raw.key'
-      become: false
-      vars:
-        ansible_become: false
-      no_log: true
-      register: consul_local_key
-      delegate_to: localhost
-      changed_when: false
-      when: consul_raw_key is defined
-
-    # Generate new key if none was found
-    - block:
-        - name: Generate gossip encryption key
-          shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
-          register: consul_keygen
-
-        - name: Write key locally to share with other nodes
-          copy:
-            content: "{{ consul_keygen.stdout }}"
-            dest: '/tmp/consul_raw.key'
-          become: false
-          vars:
-            ansible_become: false
-          delegate_to: localhost
-
-      no_log: true
-      run_once: true
-      when:
-        - not consul_local_key.changed
-        - not bootstrap_state.stat.exists | bool
-
-    - name: Read gossip encryption key for servers that require it
-      set_fact:
-        consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
-      no_log: true
-      when:
-        - consul_raw_key is not defined
-
-    - name: Delete gossip encryption key file
-      file:
-        path: '/tmp/consul_raw.key'
-        state: absent
-      become: false
-      vars:
-        ansible_become: false
-      run_once: true
-      delegate_to: localhost
-      changed_when: false
-  no_log: true
-  when:
-    - consul_encrypt_enable | bool
+#- block:
+#    - block:
+#        - name: Check for gossip encryption key on previously boostrapped server
+#          slurp:
+#            src: "{{ consul_config_path }}/config.json"
+#          register: consul_config_b64
+#          ignore_errors: true
+#
+#        - name: Deserialize existing configuration
+#          set_fact:
+#            consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
+#          when: consul_config_b64.content is defined
+#
+#        - name: Save gossip encryption key from existing configuration
+#          set_fact:
+#            consul_raw_key: "{{ consul_config.encrypt }}"
+#          when: consul_config is defined
+#
+#      no_log: true
+#      when:
+#        - consul_raw_key is not defined
+#        - bootstrap_state.stat.exists | bool
+#        - inventory_hostname in consul_servers
+#
+#    # Key provided by extra vars or the above block
+#    - name: Write gossip encryption key locally for use with new servers
+#      copy:
+#        content: "{{ consul_raw_key }}"
+#        dest: '/tmp/consul_raw.key'
+#      become: false
+#      vars:
+#        ansible_become: false
+#      no_log: true
+#      register: consul_local_key
+#      delegate_to: localhost
+#      changed_when: false
+#      when: consul_raw_key is defined
+#
+#    # Generate new key if none was found
+#    - block:
+#        - name: Generate gossip encryption key
+#          shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
+#          register: consul_keygen
+#
+#        - name: Write key locally to share with other nodes
+#          copy:
+#            content: "{{ consul_keygen.stdout }}"
+#            dest: '/tmp/consul_raw.key'
+#          become: false
+#          vars:
+#            ansible_become: false
+#          delegate_to: localhost
+#
+#      no_log: true
+#      run_once: true
+#      when:
+#        - not consul_local_key.changed
+#        - not bootstrap_state.stat.exists | bool
+#
+#    - name: Read gossip encryption key for servers that require it
+#      set_fact:
+#        consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
+#      no_log: true
+#      when:
+#        - consul_raw_key is not defined
+#
+#    - name: Delete gossip encryption key file
+#      file:
+#        path: '/tmp/consul_raw.key'
+#        state: absent
+#      become: false
+#      vars:
+#        ansible_become: false
+#      run_once: true
+#      delegate_to: localhost
+#      changed_when: false
+#  no_log: true
+#  when:
+#    - consul_encrypt_enable | bool
 
 - name: Create ACL configuration
   include_tasks: acl.yml
@@ -253,15 +253,15 @@
     - name: Check Consul HTTP API (via TCP socket)
       wait_for:
         delay: 15
-        port: "{{ consul_ports.http|int }}"
-        host: "{{ consul_addresses.http }}"
-      when: (consul_ports.http|int > -1) and (consul_addresses.http|ipaddr)
+        port: "{{ consul_config_merged.ports.http|int }}"
+        host: "{{ consul_config_merged.addresses.http }}"
+      when: (consul_config_merged.ports.http|int > -1) and (consul_config_merged.addresses.http|ipaddr)
 
     - name: Check Consul HTTP API (via unix socket)
       wait_for:
         delay: 15
-        path: "{{ consul_addresses.http | replace('unix://', '', 1) }}"
-      when: consul_addresses.http is match("unix://*")
+        path: "{{ consul_config_merged.addresses.http | replace('unix://', '', 1) }}"
+      when: consul_config_merged.addresses.http is match("unix://*")
 
     - name: Create bootstrapped state file
       file:
