@@ -6,7 +6,7 @@
     dest: "{{ consul_sys_check_scripts_path }}"
     state: directory
     owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
+    group: "{{ consul_group }}"
     mode: 0755
     recurse: yes
 
@@ -15,7 +15,7 @@
     src: "healthchks/{{ item }}.j2"
     dest: "{{ consul_sys_check_scripts_path }}/{{ item }}"
     owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
+    group: "{{ consul_group }}"
     mode: 0755
   with_items:
     - consul_cpu_chk.sh
@@ -34,7 +34,7 @@
     src: "healthchks/{{ item }}.j2"
     dest: "{{ consul_configd_path }}/{{ item }}"
     owner: "{{ consul_user }}"
-    group: "{{ consul_group}}"
+    group: "{{ consul_group }}"
     mode: 0700
   when: consul_health_check_scripts is succeeded
   with_items:
