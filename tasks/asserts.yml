@@ -88,6 +88,8 @@
 - name: Check if unzip is installed on control host
   shell: "command -v unzip -h >/dev/null 2>&1"
   become: false
+  vars:
+    ansible_become: false
   changed_when: false
   check_mode: false
   run_once: true
