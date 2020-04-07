@@ -74,6 +74,9 @@
     "disable_update_check": {{ consul_disable_update_check | bool | to_json }},
     "enable_script_checks": {{ consul_enable_script_checks | bool | to_json }},
     "enable_local_script_checks": {{ consul_enable_local_script_checks | bool | to_json }},
+    {% if leave_on_terminate is defined %}
+    "leave_on_terminate": {{ leave_on_terminate | bool | to_json }},
+    {% endif %}
 
     {## Encryption and TLS ##}
     {% if consul_encrypt_enable | bool %}
