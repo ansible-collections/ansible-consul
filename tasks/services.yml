@@ -3,15 +3,47 @@
 
 - name: "Configure consul services"
   copy:
-    content: "{{ consul_service_config | to_nice_json }}"
-    dest: "{{ consul_configd_path }}/services.json"
+    content: "{{ {'service': item} | to_nice_json }}"
+    dest: "{{ consul_configd_path }}/service_{{ item.name }}.json"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     mode: 0644
-  when: consul_service_config | length > 0
+  with_items: "{{ consul_services }}"
+
+- name: Delete non declared services
+  file:
+    path: "{{ item }}"
+    state: absent
+  when: ansible_os_family != 'Windows' and item not in managed_files
+  with_items: "{{ list_current_service_config }}"
+  ignore_errors: "{{ ansible_check_mode }}"
   notify:
     - restart consul
 
+- name: Delete non declared services [Windows]
+  win_file:
+    path: "{{ item }}"
+    state: absent
+  when: ansible_os_family == 'Windows' and item not in managed_files
+  with_items: "{{ list_current_service_config }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+  notify:
+    - restart consul
+  when: consul_services | length > 0
+  notify:
+    - restart consul
+
+- name: Create systemd service for consul connect proxies
+  template:
+    src: consul_connect_systemd.service.j2
+    dest: "/etc/systemd/system/consul-connect-{{ item.name }}.service"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{ consul_services }}"
+  notify: restart connect
+  when:
+    - ansible_service_mgr == "systemd"
 - name: Get the list of service config file
   find:
     paths: "{{ consul_configd_path }}"
@@ -41,6 +73,15 @@
     list_current_service_config: "{{ list_current_service_config |default([]) + [ item.path ] }}"
   with_items: "{{ services_enabled_files }}"
 
+- debug:
+   var: list_current_service_config
+
+- debug:
+   var: services_enabled_files
+
+- debug:
+   var: services_enabled_unix
+
 - name: Set fact with list of service we manage
   set_fact:
     managed_files: "{{ managed_files |default([]) }} + \
@@ -53,7 +94,6 @@
     state: absent
   when: ansible_os_family != 'Windows' and item not in managed_files
   with_items: "{{ list_current_service_config }}"
-  ignore_errors: "{{ ansible_check_mode }}"
   notify:
     - restart consul
 
@@ -63,6 +103,5 @@
     state: absent
   when: ansible_os_family == 'Windows' and item not in managed_files
   with_items: "{{ list_current_service_config }}"
-  ignore_errors: "{{ ansible_check_mode }}"
   notify:
     - restart consul

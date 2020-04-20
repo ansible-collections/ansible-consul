@@ -125,7 +125,7 @@ consul_iptables_enable: false
 
 consul_enterprise: false
 # https://www.consul.io/docs/agent/services.html
-consul_service_config: []
+consul_services: []
 consul_join: []
 
 consul_bind_addr: >-

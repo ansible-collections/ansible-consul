@@ -1,0 +1,8 @@
+---
+- name: restart connect
+  service:
+    name: "consul-connect-{{ item.name }}"
+    state: restarted
+  with_items: "{{ consul_services }}"
+  when: ansible_os_family != "Windows"
+  listen: 'restart connect'

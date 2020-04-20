@@ -10,6 +10,9 @@
 - name: reload consul configuration
   import_tasks: reload_consul_conf.yml
 
+- name: restart connect
+  import_tasks: restart_connect.yml
+
 - name: restart dnsmasq
   service:
     name: dnsmasq

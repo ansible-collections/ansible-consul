@@ -1,0 +1,22 @@
+[Unit]
+Description=Consul connect proxy
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User={{ consul_user }}
+Group={{ consul_group }}
+PIDFile={{ consul_run_path }}/consul-{{ item.name }}.pid
+PermissionsStartOnly=true
+ExecStart={{ consul_bin_path }}/consul connect proxy \
+    -sidecar-for {{ item.name }}
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+KillSignal=SIGTERM
+Restart=on-failure
+RestartSec={{ consul_systemd_restart_sec }}s
+LimitNOFILE={{ consul_systemd_limit_nofile }}
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target
