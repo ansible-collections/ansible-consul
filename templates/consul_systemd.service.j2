@@ -38,7 +38,7 @@ StandardError=null
 Environment={{ var }}
 {% endfor %}
 LimitNOFILE={{ consul_systemd_limit_nofile }}
-CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
 
 [Install]
 WantedBy=multi-user.target
