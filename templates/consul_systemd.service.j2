@@ -32,6 +32,8 @@ KillMode=process
 KillSignal=SIGTERM
 Restart=on-failure
 RestartSec={{ consul_systemd_restart_sec }}s
+StandardOutput=null
+StandardError=null
 {% for var in consul_env_vars %}
 Environment={{ var }}
 {% endfor %}
