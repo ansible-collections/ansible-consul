@@ -8,6 +8,7 @@
   delegate_facts: true
   with_items: "{{ consul_servers | difference(play_hosts) }}"
   ignore_errors: true
+  run_once: true
   when: consul_gather_server_facts | bool
 
 - name: Expose advertise_address(_wan) datacenter and node_role as facts
