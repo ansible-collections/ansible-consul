@@ -125,7 +125,7 @@
     "server": {{ (item.config_version != 'client') | bool | to_json }},
 
     {## Enable Connect on Server ##}
-    {% if (item.config_version != 'client') and consul_connect_enabled %}
+    {% if consul_connect_enabled | bool %}
     "connect": {
         "enabled": true
     },
