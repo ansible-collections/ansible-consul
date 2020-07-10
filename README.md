@@ -411,7 +411,7 @@ Notice that the dict object has to use precisely the names stated in the documen
 - Define a custom node name (should not include dots)
   See [node_name](https://www.consul.io/docs/agent/options.html#node_name)
   - The default value on Consul is the hostname of the server.
-- Default value: '' 
+- Default value: ''
 
 ### `consul_recursors`
 
@@ -1093,7 +1093,7 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 
 ### `consul_connect_enabled`
 
-- Enable Consul Connect feature on servers
+- Enable Consul Connect feature
 - Default value: false
 
 ### iptables DNS Forwarding Support
