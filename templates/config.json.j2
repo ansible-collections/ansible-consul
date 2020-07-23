@@ -103,6 +103,22 @@
     "tls_cipher_suites": "{{ consul_tls_cipher_suites}}",
     {% endif %}
     "tls_prefer_server_cipher_suites": {{ consul_tls_prefer_server_cipher_suites | bool | to_json }},
+    {% if auto_encrypt is defined %}
+    "auto_encrypt": {
+        {% if auto_encrypt.enabled | bool and (item.config_version != 'client') | bool %}
+        "allow_tls": true,
+        {% endif %}
+        {% if auto_encrypt.enabled | bool and (item.config_version == 'client') | bool %}
+        "tls": true,
+        {% endif %}
+        {% if auto_encrypt.dns_san is defined %}
+        "dns_san": {{ auto_encrypt.dns_san | list | to_json }},
+        {% endif %}
+        {% if auto_encrypt.ip_san is defined %}
+        "ip_san": {{ auto_encrypt.ip_san | list | to_json }},
+        {% endif %}
+    },
+    {% endif %}
     {% endif %}
 
     {## LAN Join ##}

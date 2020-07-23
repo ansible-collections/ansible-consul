@@ -628,6 +628,22 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Can be overridden with `CONSUL_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
 - Default value: false
 
+### `auto_encrypt`
+- [Auto encrypt](https://www.consul.io/docs/agent/options#auto_encrypt)
+- Default value:
+```yaml
+auto_encrypt:
+  enabled: false
+```
+- Example:
+
+```yaml
+auto_encrypt:
+  enabled: true
+  dns_san: ["consul.com"]
+  ip_san: ["127.0.0.1"]
+```
+
 ### `consul_install_remotely`
 
 - Whether to download the files for installation directly on the remote hosts
