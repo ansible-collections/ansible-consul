@@ -207,6 +207,8 @@ consul_tls_files_remote_src: false
 consul_tls_min_version: "{{ lookup('env','CONSUL_TLS_MIN_VERSION') | default('tls12', true) }}"
 consul_tls_cipher_suites: ""
 consul_tls_prefer_server_cipher_suites: "{{ lookup('env','CONSUL_TLS_PREFER_SERVER_CIPHER_SUITES') | default('false', true) }}"
+auto_encrypt:
+  enabled: false
 
 ## DNS
 consul_delegate_datacenter_dns: "{{ lookup('env','CONSUL_DELEGATE_DATACENTER_DNS') | default(false, true) }}"
