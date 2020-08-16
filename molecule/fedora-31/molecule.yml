@@ -1,6 +1,4 @@
 ---
-scenario:
-  name: fedora-31
 platforms:
   - name: fedora-31
     groups:

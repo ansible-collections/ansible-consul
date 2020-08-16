@@ -40,6 +40,5 @@ jobs:
       - name: Molecule
         uses: gofrolist/molecule-action@v2.0.0
         with:
-          molecule_working_dir: "${{ github.repository }}"
           molecule_options: --base-config molecule/_shared/base.yml
           molecule_args: --scenario-name ${{ matrix.scenario }}

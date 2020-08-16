@@ -1,6 +1,4 @@
 ---
-scenario:
-  name: ubuntu-16.04
 platforms:
   - name: ubuntu-16.04
     groups:
