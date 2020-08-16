@@ -1,6 +1,4 @@
 ---
-scenario:
-  name: debian-8
 platforms:
   - name: debian-8
     groups:

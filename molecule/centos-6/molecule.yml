@@ -1,6 +1,4 @@
 ---
-scenario:
-  name: centos-6
 platforms:
   - name: centos-6
     groups:

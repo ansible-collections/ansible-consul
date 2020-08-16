@@ -13,8 +13,11 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8
 provisioner:
   name: ansible
   config_options:
@@ -28,15 +31,11 @@ provisioner:
       pipelining: True
   playbooks:
     prepare: ../_shared/prepare.yml
-    converge: ../_shared/playbook.yml
+    converge: ../_shared/converge.yml
   inventory:
     group_vars:
       consul_instances:
         consul_node_role: bootstrap
-  lint:
-    name: ansible-lint
 verifier:
   name: testinfra
   directory: ../_shared/tests
-  lint:
-    name: flake8

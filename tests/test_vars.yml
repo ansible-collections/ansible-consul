@@ -42,7 +42,7 @@ consul_os: "\
   {% endif %}"
 consul_pkg: "consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
-consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
+consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_SHA256SUMS"
 
 ### Install Method
 consul_install_remotely: false
@@ -150,10 +150,10 @@ consul_acl_policy: false
 
 ### Shared ACL config ###
 consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
-consul_acl_ttl: "{{ lookup('env','CONSUL_ACL_TTL') | default('30s', true)}}"
+consul_acl_ttl: "{{ lookup('env','CONSUL_ACL_TTL') | default('30s', true) }}"
 consul_acl_datacenter: "{{ lookup('env','CONSUL_ACL_DATACENTER') | default(consul_datacenter, true) }}"
 consul_acl_down_policy: "{{ lookup('env','CONSUL_ACL_DOWN_POLICY') | default('extend-cache', true) }}"
-consul_acl_token: "{{lookup('env','CONSUL_ACL_TOKEN') | default('', true) }}"
+consul_acl_token: "{{ lookup('env','CONSUL_ACL_TOKEN') | default('', true) }}"
 consul_acl_agent_token: "{{ lookup('env','CONSUL_ACL_AGENT_TOKEN') | default('', true) }}"
 consul_acl_agent_master_token: "{{ lookup('env','CONSUL_ACL_AGENT_MASTER_TOKEN') | default('', true) }}"
 

@@ -1,20 +1,17 @@
-import os
-
-import testinfra.utils.ansible_runner
-
-testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
+"""Role testing files using testinfra."""
 
 
 def test_hosts_file(host):
-    f = host.file('/etc/hosts')
+    """Validate /etc/hosts file."""
+    f = host.file("/etc/hosts")
 
     assert f.exists
-    assert f.user == 'root'
-    assert f.group == 'root'
+    assert f.user == "root"
+    assert f.group == "root"
 
 
 def test_service(host):
+    """Validate consul service."""
     consul = host.service('consul')
 
     assert consul.is_running

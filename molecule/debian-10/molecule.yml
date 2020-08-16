@@ -1,6 +1,4 @@
 ---
-scenario:
-  name: debian-10
 platforms:
   - name: debian-10
     groups:

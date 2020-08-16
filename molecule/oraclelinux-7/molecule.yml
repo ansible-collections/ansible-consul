@@ -1,6 +1,4 @@
 ---
-scenario:
-  name: oraclelinux-7
 platforms:
   - name: oraclelinux-7
     groups:
