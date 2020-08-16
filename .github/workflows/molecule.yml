@@ -28,7 +28,7 @@ jobs:
           - fedora-31
           - oraclelinux-6
           - oraclelinux-7
-          # - oraclelinux-8
+          - oraclelinux-8
           - ubuntu-16.04
           - ubuntu-18.04
 
@@ -38,7 +38,7 @@ jobs:
           path: "${{ github.repository }}"
 
       - name: Molecule
-        uses: gofrolist/molecule-action@master
+        uses: gofrolist/molecule-action@v2.0.0
         with:
           molecule_options: --base-config molecule/_shared/base.yml
           molecule_args: --scenario-name ${{ matrix.scenario }}
