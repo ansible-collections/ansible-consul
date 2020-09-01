@@ -89,7 +89,6 @@
       vars:
         ansible_become: false
       no_log: true
-      register: consul_local_key
       delegate_to: localhost
       changed_when: false
       when: consul_raw_key is defined
@@ -112,7 +111,8 @@
       no_log: true
       run_once: true
       when:
-        - not consul_local_key.changed
+        # if files '/tmp/consul_raw.key' exist
+        - lookup('first_found', dict(files=['/tmp/consul_raw.key'], skip=true)) | ternary(false, true)
         - not bootstrap_state.stat.exists | bool
 
     - name: Read gossip encryption key for servers that require it
