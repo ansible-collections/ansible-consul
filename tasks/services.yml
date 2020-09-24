@@ -36,9 +36,13 @@
     services_enabled_files: "{{ services_enabled_windows['files'] }}"
   when: ansible_os_family == 'Windows'
 
+- name: Initialize fact with list of existing configuration files
+  set_fact:
+    list_current_service_config: []
+
 - name: Set fact with list of existing configuration files
   set_fact:
-    list_current_service_config: "{{ list_current_service_config |default([]) + [ item.path ] }}"
+    list_current_service_config: "{{ list_current_service_config + [ item.path ] }}"
   with_items: "{{ services_enabled_files }}"
 
 - name: Set fact with list of service we manage
