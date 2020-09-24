@@ -94,6 +94,8 @@
   register: is_unzip_installed
   ignore_errors: true
   delegate_to: 127.0.0.1
+  vars:
+    ansible_become: false
 
 - name: Install remotely if unzip is not installed on control host
   set_fact:
