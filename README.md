@@ -365,7 +365,7 @@ consul_node_meta:
 ### `consul_addresses`
 
 - Advanced address settings
-- Individual addresses kan be overwritten using the `consul_addresses_*` variables
+- Individual addresses can be overwritten using the `consul_addresses_*` variables
 - Default value:
   ```yaml
   consul_addresses:
