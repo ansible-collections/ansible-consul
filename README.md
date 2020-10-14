@@ -25,16 +25,16 @@ This role requires a FreeBSD, Debian, or Red Hat Enterprise Linux distribution o
 
 The role might work with other OS distributions and versions, but is known to function well with the following software versions:
 
-* Consul: 1.7.0
-* Ansible: 2.8.2
-* Alpine Linux: 3.8
-* CentOS: 7
-* Debian: 9
-* FreeBSD: 11
-* RHEL: 7
-* OracleLinux: 7
-* Ubuntu: 16.04
-* Windows: Server 2012 R2
+- Consul: 1.7.0
+- Ansible: 2.8.2
+- Alpine Linux: 3.8
+- CentOS: 7
+- Debian: 9
+- FreeBSD: 11
+- RHEL: 7
+- OracleLinux: 7
+- Ubuntu: 16.04
+- Windows: Server 2012 R2
 
 Note that for the "local" installation mode (the default), this role will locally download only one instance of the Consul archive, unzip it and install the resulting binary on all desired Consul hosts.
 
@@ -119,9 +119,10 @@ Many role variables can also take their values from environment variables as wel
 
 - Enable configuration of rsyslogd or syslog-ng on Linux. If disabled, Consul will still log to syslog if `consul_syslog_enable` is true, but the syslog daemon won't be configured to write Consul logs to their own logfile.
   - Override with `CONSUL_CONFIGURE_SYSLOGD` environment variable
-- Default Linux value: *false*
+- Default Linux value: _false_
 
 ### `consul_log_path`
+
 - If `consul_syslog_enable` is false
   - Log path for use in [log_file or -log-file](https://www.consul.io/docs/agent/options.html#_log_file)
 - If `consul_syslog_enable` is true
@@ -234,7 +235,7 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_retry_max_wan`
 
 - Max reconnection attempts to WAN servers before failing (0 = infinite)
-- Default value: *0*
+- Default value: _0_
 
 ### `consul_join`
 
@@ -276,7 +277,7 @@ To make this possible the `delegate_facts` option is used; note that his option 
 ### `consul_datacenter`
 
 - Datacenter label
-  - Override with `CONSUL_DATACENTER` environment variable- Default value: *dc1*
+  - Override with `CONSUL_DATACENTER` environment variable- Default value: _dc1_
 - Default value: dc1
 
 ### `consul_domain`
@@ -295,13 +296,14 @@ To make this possible the `delegate_facts` option is used; note that his option 
 
 - Consul node meta data (key-value)
 - Supported in Consul version 0.7.3 or later
-- Default value: *{}*
+- Default value: _{}_
 - Example:
+
 ```yaml
 consul_node_meta:
-    node_type: "my-custom-type"
-    node_meta1: "metadata1"
-    node_meta2: "metadata2"
+  node_type: "my-custom-type"
+  node_meta1: "metadata1"
+  node_meta2: "metadata2"
 ```
 
 ### `consul_log_level`
@@ -392,16 +394,17 @@ consul_node_meta:
 For example, to enable the consul HTTPS API it is possible to set the variable as follows:
 
 - Default values:
+
 ```yaml
-  consul_ports:
-    dns: "{{ consul_ports_dns | default('8600', true) }}"
-    http: "{{ consul_ports_http | default('8500', true) }}"
-    https: "{{ consul_ports_https | default('-1', true) }}"
-    rpc: "{{ consul_ports_rpc | default('8400', true) }}"
-    serf_lan: "{{ consul_ports_serf_lan | default('8301', true) }}"
-    serf_wan: "{{ consul_ports_serf_wan | default('8302', true) }}"
-    server: "{{ consul_ports_server | default('8300', true) }}"
-    grpc: "{{ consul_ports_grpc | default('-1', true) }}"
+consul_ports:
+  dns: "{{ consul_ports_dns | default('8600', true) }}"
+  http: "{{ consul_ports_http | default('8500', true) }}"
+  https: "{{ consul_ports_https | default('-1', true) }}"
+  rpc: "{{ consul_ports_rpc | default('8400', true) }}"
+  serf_lan: "{{ consul_ports_serf_lan | default('8301', true) }}"
+  serf_wan: "{{ consul_ports_serf_wan | default('8302', true) }}"
+  server: "{{ consul_ports_server | default('8300', true) }}"
+  grpc: "{{ consul_ports_grpc | default('-1', true) }}"
 ```
 
 Notice that the dict object has to use precisely the names stated in the documentation! And all ports must be specified. Overwriting one or multiple ports can be done using the `consul_ports_*` variables.
@@ -509,7 +512,7 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - ACL replication token
   - Override with `CONSUL_ACL_REPLICATION_TOKEN_DISPLAY` environment variable
-- Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
+- Default value: _SN4K3OILSN4K3OILSN4K3OILSN4K3OIL_
 
 ### `consul_tls_enable`
 
@@ -596,11 +599,13 @@ Notice that the dict object has to use precisely the names stated in the documen
 - Default value: true
 
 ### `consul_tls_verify_incoming_rpc`
+
 - Verify incoming connections on RPC endpoints (client certificates)
   - Override with `CONSUL_TLS_VERIFY_INCOMING_RPC` environment variable
 - Default value: false
 
 ### `consul_tls_verify_incoming_https`
+
 - Verify incoming connections on HTTPS endpoints (client certificates)
   - Override with `CONSUL_TLS_VERIFY_INCOMING_HTTPS` environment variable
 - Default value: false
@@ -676,11 +681,11 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 ### `consul_node_role`
 
-- The Consul role of the node, one of: *bootstrap*, *server*, or *client*
+- The Consul role of the node, one of: _bootstrap_, _server_, or _client_
 - Default value: client
 
 One server should be designated as the bootstrap server, and the other
-servers will connect to this server. You can also specify *client* as the
+servers will connect to this server. You can also specify _client_ as the
 role, and Consul will be configured as a client agent instead of a server.
 
 There are two methods to setup a cluster, the first one is to explicitly choose the bootstrap server, the other one is to let the servers elect a leader among
@@ -741,7 +746,6 @@ Used in the serf health check to determine node health.
   - Override with `CONSUL_AUTOPILOT_MAX_TRAILING_LOGS` environment variable
 - Default value: 250
 
-
 #### `consul_autopilot_server_stabilization_time`
 
 - Time to allow a new node to stabilize
@@ -760,7 +764,7 @@ _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
 _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
 
 - Override with `CONSUL_AUTOPILOT_DISABLE_UPGRADE_MIGRATION` environment variable
-- Default value: *false*
+- Default value: _false_
 
 #### `consul_autopilot_upgrade_version_tag`
 
@@ -776,14 +780,14 @@ As Consul loads the configuration from files and directories in lexical order, t
 An example usage for enabling `telemetry`:
 
 ```yaml
-  vars:
-    consul_config_custom:
-      telemetry:
-        dogstatsd_addr: "localhost:8125"
-        dogstatsd_tags:
-          - "security"
-          - "compliance"
-        disable_hostname: true
+vars:
+  consul_config_custom:
+    telemetry:
+      dogstatsd_addr: "localhost:8125"
+      dogstatsd_tags:
+        - "security"
+        - "compliance"
+      disable_hostname: true
 ```
 
 ## Consul Snapshot Agent
@@ -944,6 +948,7 @@ packages with different package names.
 - Default value: 7s
 
 #### `leave_on_terminate`
+
 - [leave_on_terminate](https://www.consul.io/docs/agent/options.html#leave_on_terminate) If enabled, when the agent receives a TERM signal, it will send a Leave message to the rest of the cluster and gracefully leave. The default behavior for this feature varies based on whether or not the agent is running as a client or a server. On agents in client-mode, this defaults to true and for agents in server-mode, this defaults to false.
 
 ## Dependencies
@@ -1035,6 +1040,7 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ```
 
 ### `consul_delegate_datacenter_dns`
+
 - Whether to delegate Consul datacenter DNS domain to Consul
 - Default value: false
 
@@ -1059,17 +1065,17 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 
 - dnsmasq cache-size
 - If smaller then 0, the default dnsmasq setting will be used.
-- Default value: *-1*
+- Default value: _-1_
 
 ### `consul_dnsmasq_servers`
 
 - Upstream DNS servers used by dnsmasq
-- Default value: *8.8.8.8* and *8.8.4.4*
+- Default value: _8.8.8.8_ and _8.8.4.4_
 
 ### `consul_dnsmasq_revservers`
 
 - Reverse lookup subnets
-- Default value: *[]*
+- Default value: _[]_
 
 ### `consul_dnsmasq_no_poll`
 
@@ -1089,7 +1095,12 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 ### `consul_dnsmasq_listen_addresses`
 
 - Custom list of addresses to listen on.
-- Default value: *[]*
+- Default value: _[]_
+
+### `consul_dnsmasq_listen_interfaces`
+
+- Custom list of specified interfaces (and the loopback) give the name of the interface (eg eth0) to listen on.
+- Default value: _[]_
 
 ### `consul_connect_enabled`
 
@@ -1147,15 +1158,15 @@ Services object:
 | weights             | False    | dict   |         | [Weight of a service in DNS SRV responses](https://www.consul.io/docs/agent/services.html#dns-srv-weights) |
 | token               | False    | string |         | ACL token to use to register this service                                                                  |
 
-
 Configuration example:
+
 ```yaml
 consul_services:
   - name: "openshift"
-    tags: ['production']
+    tags: ["production"]
   - name: "redis"
     id: "redis"
-    tags: ['primary']
+    tags: ["primary"]
     address: ""
     meta:
       meta: "for my service"
@@ -1165,13 +1176,14 @@ consul_services:
       local_service_address: "127.0.0.1"
       local_service_port: 9090
       config: {}
-      upstreams:  []
+      upstreams: []
     checks:
       - args: ["/home/consul/check.sh"]
         interval: "10s"
 ```
 
 Then you can check that the service is well added to the catalog
+
 ```
 > consul catalog services
 consul
@@ -1179,7 +1191,7 @@ openshift
 redis
 ```
 
->**Note:** to delete a service that has been added from this role, remove it from the `consul_services` list and apply the role again.
+> **Note:** to delete a service that has been added from this role, remove it from the `consul_services` list and apply the role again.
 
 ### Vagrant and VirtualBox
 

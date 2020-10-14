@@ -46,6 +46,11 @@ bind-interfaces
     listen-address={{ address }}
 {% endfor -%}
 
+{# Custom listen interfaces -#}
+{% for interface in consul_dnsmasq_listen_interfaces -%}
+    interface={{ interface }}
+{% endfor -%}
+
 {# Cache size -#}
 {% if consul_dnsmasq_cache > 0 -%}
     cache-size={{ consul_dnsmasq_cache }}
