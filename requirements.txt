@@ -1,4 +1,4 @@
-molecule===2.22
+molecule
 docker
 netaddr
 testinfra
