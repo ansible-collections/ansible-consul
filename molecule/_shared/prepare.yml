@@ -4,7 +4,15 @@
   connection: local
 
   tasks:
+
+    - name: Check unzip
+      shell: command -v unzip
+      register: unzip_command
+      tags:
+        - skip_ansible_lint
+
     - name: Install OS packages
+      when: unzip_command.rc|int != 0
       package:
         name: unzip
       become: true
