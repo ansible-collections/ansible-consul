@@ -59,6 +59,7 @@
     url: "{{ consul_zip_url }}"
     dest: "{{ role_path }}/files/{{ consul_pkg }}"
     checksum: "sha256:{{ consul_sha256.stdout }}"
+    mode: 0666
     timeout: "42"
   become: false
   vars:

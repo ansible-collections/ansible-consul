@@ -48,6 +48,7 @@
     url: "{{ consul_zip_url }}"
     dest: "/tmp/consul/{{ consul_pkg }}"
     checksum: "sha256:{{ consul_sha256.stdout.split(' ')|first }}"
+    mode: 0666
     timeout: 42
   register: consul_download
   tags: installation
