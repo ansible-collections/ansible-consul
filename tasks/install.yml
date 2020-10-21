@@ -81,7 +81,6 @@
   tempfile:
     state: directory
     prefix: ansible-consul.
-    mode: 0755
   become: false
   vars:
     ansible_become: false
