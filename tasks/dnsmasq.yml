@@ -34,6 +34,7 @@
     state: directory
     owner: root
     group: wheel
+    mode: 0750
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
@@ -52,6 +53,7 @@
   lineinfile:
     dest: /usr/local/etc/dnsmasq.conf
     line: 'conf-dir=/usr/local/etc/dnsmasq.d/,*.conf'
+    mode: 0640
   notify: restart dnsmasq
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq

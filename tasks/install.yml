@@ -93,6 +93,7 @@
     src: "{{ role_path }}/files/{{ consul_pkg }}"
     dest: "{{ install_temp.path }}/"
     creates: "{{ install_temp.path }}/consul"
+    mode: 0755
   become: false
   vars:
     ansible_become: false
