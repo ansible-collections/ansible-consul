@@ -12,7 +12,7 @@
   file:
     path: /tmp/consul
     state: directory
-    mode: 0700
+    mode: 0755
 
 - name: Read Consul package checksum file
   stat:
