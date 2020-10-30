@@ -199,6 +199,11 @@
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
 
+- name: Reload systemd
+  systemd:
+    daemon_reload: true
+  when: systemd_unit is changed
+
 - name: Enable consul at startup (systemd)
   systemd:
     name: consul
@@ -207,11 +212,6 @@
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
-
-- name: Reload systemd
-  systemd:
-    daemon_reload: true
-  when: systemd_unit is changed
 
 - name: Create smf manifest
   template:
