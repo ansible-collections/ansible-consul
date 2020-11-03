@@ -96,7 +96,9 @@
   become: false
   vars:
     ansible_become: false
-  tags: installation
+  tags:
+    - installation
+    - skip_ansible_lint
   run_once: true
   delegate_to: 127.0.0.1
   ignore_errors: "{{ ansible_check_mode }}"
