@@ -93,6 +93,7 @@
     dest: "{{ consul_configd_path }}/50acl_policy.hcl"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
+    mode: 0600
   notify:
     - restart consul
   when: consul_acl_policy | bool
