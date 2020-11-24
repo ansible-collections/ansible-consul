@@ -981,6 +981,18 @@ packages with different package names.
 #### `leave_on_terminate`
 - [leave_on_terminate](https://www.consul.io/docs/agent/options.html#leave_on_terminate) If enabled, when the agent receives a TERM signal, it will send a Leave message to the rest of the cluster and gracefully leave. The default behavior for this feature varies based on whether or not the agent is running as a client or a server. On agents in client-mode, this defaults to true and for agents in server-mode, this defaults to false.
 
+### `consul_limit`
+
+- Consul node limits (key-value)
+- Supported in Consul version 0.9.3 or later
+- Default value: *{}*
+- Example:
+```yaml
+consul_limits:
+    http_max_conns_per_client: 250
+    rpc_max_conns_per_client: 150
+```
+
 ## Dependencies
 
 Ansible requires GNU tar and this role performs some local use of the unarchive module for efficiency, so ensure that your system has `gtar` and `unzip` installed and in the PATH. If you don't this role will install `unzip` on the remote machines to unarchive the ZIP files.
