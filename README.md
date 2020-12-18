@@ -47,11 +47,11 @@ The role might work with other OS distributions and versions, but is known to fu
 * Consul: 1.8.7
 * Ansible: 2.8.2
 * Alpine Linux: 3.8
-* CentOS: 7
+* CentOS: 7, 8
 * Debian: 9
 * FreeBSD: 11
-* RHEL: 7
-* OracleLinux: 7
+* RHEL: 7, 8
+* OracleLinux: 7, 8
 * Ubuntu: 16.04
 * Windows: Server 2012 R2
 
