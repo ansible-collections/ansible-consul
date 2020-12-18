@@ -34,6 +34,7 @@
     state: directory
     owner: root
     group: wheel
+    mode: "0755"
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
@@ -43,7 +44,7 @@
     dest: /etc/dnsmasq.d/10-consul
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify: restart dnsmasq
   when: ansible_os_family in ["Debian", "RedHat"]
   tags: dnsmasq
@@ -62,7 +63,7 @@
     dest: /usr/local/etc/dnsmasq.d/consul.conf
     owner: root
     group: wheel
-    mode: 0644
+    mode: "0644"
   notify: restart dnsmasq
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
