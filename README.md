@@ -19,6 +19,25 @@ Many users have expressed that the Vagrant based environment makes getting a wor
 
 If you get some mileage from it in other ways, then all the better!
 
+## Role migration and installation
+This role was originally developed by Brian Shumate and was known on Ansible Galaxy as **brianshumate.consul**. Brian asked the community to be relieved of the maintenance burden, and therefore Bas Meijer transferred the role to **ansible-community** so that a team of volunteers can maintain it. At the moment there is no membership of ansible-community on https://galaxy.ansible.com and therefore to install this role into your project you should create a file `requirements.yml` in the subdirectory `roles/` of your project with this content:
+
+```
+---
+- src: https://github.com/ansible-community/ansible-consul.git
+  name: ansible-consul
+  scm: git
+  version: master
+```
+
+This repo has tagged releases that you can use to pin the version.
+
+Tower will install the role automatically, if you use the CLI to control ansible, then install it like:
+
+```
+ansible-galaxy install -p roles -r roles/requirements.yml
+```
+
 ## Requirements
 
 This role requires a FreeBSD, Debian, or Red Hat Enterprise Linux distribution or Windows Server 2012 R2.
