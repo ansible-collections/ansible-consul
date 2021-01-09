@@ -19,6 +19,18 @@ Many users have expressed that the Vagrant based environment makes getting a wor
 
 If you get some mileage from it in other ways, then all the better!
 
+## Installation
+This role resides on GitHub pending fixing the integration with Ansible Galaxy. To install this role create a `roles/requirements.yml` file in your Ansible project folder with the following contents:
+
+```yaml
+- src: https://github.com/ansible-community/ansible-consul.git
+  name: ansible-community.ansible-consul
+  scm: git
+  version: master
+```
+
+You can use git tag in the version attribute.
+
 ## Requirements
 
 This role requires a FreeBSD, Debian, or Red Hat Enterprise Linux distribution or Windows Server 2012 R2.
