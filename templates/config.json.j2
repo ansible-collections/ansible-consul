@@ -284,11 +284,11 @@
     {% endif %}
     {% endif %}
 
-    {## UI ##}
-    "ui": {{ consul_ui | bool | to_json }}
-
     {## Limits ##}
     {% if consul_version is version_compare('0.9.3', '>=') and consul_limits | length > 0 %}
     "limits": {{ consul_limits | default({})| to_json }},
     {% endif %}
+
+    {## UI ##}
+    "ui": {{ consul_ui | bool | to_json }}
 }
