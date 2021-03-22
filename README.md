@@ -804,6 +804,12 @@ _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
 - Override with `CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG` environment variable
 - Default value: ''
 
+### `consul_debug`
+
+- Enables the generation of additional config files in the Consul config
+  directory for debug purpose
+- Default value: false
+
 #### Custom Configuration Section
 
 As Consul loads the configuration from files and directories in lexical order, typically merging on top of previously parsed configuration files, you may set custom configurations via `consul_config_custom`, which will be expanded into a file named `config_z_custom.json` within your `consul_config_path` which will be loaded after all other configuration by default.
