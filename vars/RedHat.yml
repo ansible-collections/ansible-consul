@@ -12,3 +12,12 @@ consul_os_packages:
       python3-libselinux\
     {% endif %}"
   - unzip
+
+consul_os_prepare_packages:
+  - yum-utils
+
+consul_repo_url: "{% if ( ansible_distribution  == 'Fedora') %}\
+      https://rpm.releases.hashicorp.com/fedora/hashicorp.repo\
+    {% else %}\
+      https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo\
+    {% endif %}"

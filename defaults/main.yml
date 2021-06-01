@@ -33,13 +33,14 @@ consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_versi
 ### Install Method
 consul_install_remotely: false
 consul_install_upgrade: false
+consul_install_from_repo: false
 
 ### Paths
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul"
-consul_configd_path: "{{ consul_config_path }}/consul.d"
+consul_configd_path: "/etc/consul.d"
 consul_bootstrap_state: "{{ consul_config_path }}/.consul_bootstrapped"
-consul_data_path: "/var/consul"
+consul_data_path: "/opt/consul"
 consul_log_path: "{{ lookup('env','CONSUL_LOG_PATH') | default('/var/log/consul', true) }}"
 consul_log_file: "{{ lookup('env','CONSUL_LOG_FILE') | default('consul.log', true) }}"
 consul_run_path: "/run/consul"
@@ -49,7 +50,7 @@ consul_binary: "{{ consul_bin_path }}/consul"
 consul_manage_user: true
 consul_user: "consul"
 consul_manage_group: true
-consul_group: "bin"
+consul_group: "consul"
 consul_systemd_restart_sec: 42
 consul_systemd_limit_nofile: 65536
 

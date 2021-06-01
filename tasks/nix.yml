@@ -29,6 +29,11 @@
 - name: Include user and group settings
   import_tasks: user_group.yml
 
+- name: Install OS packages and consul - from the repository
+  include_tasks: install_linux_repo.yml
+  when:
+    - consul_install_from_repo | bool
+
 - name: Include directory settings
   import_tasks: dirs.yml
 
@@ -46,12 +51,14 @@
   when:
     - consul_install_binary | bool
     - not consul_install_remotely | bool
+    - not consul_install_from_repo | bool
 
 - name: Install OS packages and consul - remotely
   include_tasks: install_remote.yml
   when:
     - consul_install_binary | bool
     - consul_install_remotely | bool
+    - not consul_install_from_repo | bool
 
 # XXX: Individual gossip tasks are deprecated and need to be removed
 # - include_tasks: ../tasks/encrypt_gossip.yml
@@ -198,6 +205,7 @@
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
+    - not consul_install_from_repo | bool
 
 - name: Reload systemd
   systemd:

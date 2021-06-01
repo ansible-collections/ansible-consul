@@ -21,6 +21,7 @@
       owner: "{{ consul_user }}"
       group: "{{ consul_group }}"
       mode: 0750
+    when: not consul_install_from_repo | bool
 
   when: ansible_os_family != 'Windows'
 
@@ -56,7 +57,9 @@
     state: directory
     owner: root
     mode: 0755
-  when: ansible_os_family != 'Windows'
+  when:
+    - ansible_os_family != 'Windows'
+    - not consul_install_from_repo | bool
 
 - name: Create directories on Windows
   win_file:
