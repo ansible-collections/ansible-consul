@@ -4,3 +4,8 @@ consul_os_packages:
   - git
   - unzip
 consul_syslog_enable: false
+
+consul_os_prepare_packages:
+  - yum-utils
+
+consul_repo_url: https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
