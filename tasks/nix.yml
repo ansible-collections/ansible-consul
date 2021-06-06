@@ -188,7 +188,7 @@
 - name: Create systemd script
   template:
     src: consul_systemd.service.j2
-    dest: /lib/systemd/system/consul.service
+    dest: "{{ consul_systemd_unit_path }}/consul.service"
     owner: root
     group: root
     mode: 0644
