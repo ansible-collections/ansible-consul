@@ -1,11 +1,27 @@
 ---
 # File: asserts.yml - Asserts for this playbook
 
+- name: Define supported *nix distributions
+  set_fact:
+    _consul_nix_distros:
+      - 'RedHat'
+      - 'CentOS'
+      - 'OracleLinux'
+      - 'Fedora'
+      - 'Debian'
+      - 'FreeBSD'
+      - 'SmartOS'
+      - 'Ubuntu'
+      - 'Archlinux'
+      - 'Alpine'
+      - 'Amazon'
+      - 'Flatcar'
+
 - name: Check distribution compatibility
   fail:
     msg: "{{ ansible_distribution }} is not currently supported by this role."
   when:
-    - ansible_distribution not in ['RedHat', 'CentOS', 'OracleLinux', 'Fedora', 'Debian', 'FreeBSD', 'SmartOS', 'Ubuntu', 'Archlinux', 'Alpine', 'Amazon']
+    - ansible_distribution not in _consul_nix_distros
     - ansible_os_family != 'Windows'
 
 - name: Check CentOS, Red Hat or Oracle Linux version
