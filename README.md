@@ -543,24 +543,6 @@ Notice that the dict object has to use precisely the names stated in the documen
     TLS files on your own
 - Default value: true
 
-### `consul_tls_ca_src_dir`
-
-- User-specified source directory for CA files
-  - Override with `CONSUL_TLS_CA_SRC_DIR` environment variable
-- Default value: `{{ role_path }}/files`
-
-### `consul_tls_cert_src_dir`
-
-- User-specified source directory for cert files
-  - Override with `CONSUL_TLS_CERT_SRC_DIR` environment variable
-- Default value: `{{ role_path }}/files`
-
-### `consul_tls_key_src_dir`
-
-- User-specified source directory for key files
-  - Override with `CONSUL_TLS_KEY_SRC_DIR` environment variable
-- Default value: `{{ role_path }}/files`
-
 ### `consul_tls_dir`
 
 - Target directory for TLS files
