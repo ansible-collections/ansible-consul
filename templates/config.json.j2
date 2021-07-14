@@ -94,6 +94,9 @@
     {% else %}
     "verify_incoming": false,
     {% endif %}
+    {% if auto_encrypt.enabled | bool %}
+    "auto_encrypt": { "tls": true }
+    {% endif %}
     "verify_outgoing": {{ consul_tls_verify_outgoing | bool | to_json }},
     "verify_incoming_rpc": {{consul_tls_verify_incoming_rpc | bool| to_json }},
     "verify_incoming_https": {{consul_tls_verify_incoming_https | bool| to_json }},
