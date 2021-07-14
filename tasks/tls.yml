@@ -1,15 +1,15 @@
 ---
 # File: tls.yml - TLS tasks for Consul
 
-- name: Create SSL directory
-  file:
-    dest: "{{ consul_tls_dir }}"
-    state: directory
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group }}"
-    mode: 0755
-
 - block:
+    - name: Create SSL directory
+      file:
+        dest: "{{ consul_tls_dir }}"
+        state: directory
+        owner: "{{ consul_user }}"
+        group: "{{ consul_group }}"
+        mode: 0755
+
     - name: Copy CA certificate
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
@@ -20,6 +20,10 @@
         mode: 0644
       notify: restart consul
 
+  when:
+    - consul_tls_copy_keys | bool
+
+- block:
     - name: Copy server certificate
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
@@ -40,4 +44,8 @@
         mode: 0600
       notify: restart consul
 
-  when: consul_tls_copy_keys | bool
+  when:
+    - consul_tls_copy_keys | bool
+    - auto_encrypt is not defined or (auto_encrypt is defined and not auto_encrypt.enabled | bool) or (item.config_version != 'client') | bool
+
+
