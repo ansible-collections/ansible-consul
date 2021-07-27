@@ -7,6 +7,13 @@
     state: present
   with_items: "{{ consul_os_packages }}"
   tags: installation
+  when: not ansible_facts['os_family'] == "VMware Photon OS"
+
+- name: Install OS packages
+  command: "tdnf install {{ item }}"
+  with_items: "{{ consul_os_packages }}"
+  tags: installation
+  when: ansible_facts['os_family'] == "VMware Photon OS"
 
 - name: Read package checksum file
   stat:
