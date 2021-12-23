@@ -75,7 +75,7 @@ The role uses variables defined in these 3 places:
 - `vars/*.yml` (primarily OS/distributions specific variables)
 - `defaults/main.yml` (everything else)
 
-> **NOTE**: The label for servers in the hosts inventory file must be `[consul_instances]` as shown in the example. The role will not properly function if the label name is anything other value.
+> :warning: **NOTE**: The role relies on the inventory host group for the consul servers to be defined as the variable `consul_group_name` and it will not function properly otherwise. Alternatively the consul servers can be placed in the default host group `[consul_instances]` in the inventory as shown in the examples below.
 
 Many role variables can also take their values from environment variables as well; those are noted in the description where appropriate.
 
