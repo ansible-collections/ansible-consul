@@ -542,24 +542,12 @@ Notice that the dict object has to use precisely the names stated in the documen
   - Override with `CONSUL_ACL_TLS_ENABLE` environment variable
 - Default value: false
 
-### `consul_src_def`
-
-- Default source directory for TLS files
-  - Override with `CONSUL_ACL_TLS_ENABLE` environment variable
-- Default value: `{{ role_path }}/files`
-
 ### `consul_tls_copy_keys`
 
 - Enables or disables the management of the TLS files
   - Disable it if you enable TLS (`consul_tls_enable`) but want to manage the
     TLS files on your own
 - Default value: true
-
-### `consul_tls_src_files`
-
-- User-specified source directory for TLS files
-  - Override with `CONSUL_TLS_SRC_FILES` environment variable
-- Default value: `{{ role_path }}/files`
 
 ### `consul_tls_dir`
 
