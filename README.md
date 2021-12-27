@@ -473,7 +473,7 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - ACL authoritative datacenter name
   - Override with `CONSUL_ACL_DATACENTER` environment variable
-- Default value: dc1
+- Default value: `{{ consul_datacenter }}` (`dc1`)
 
 ### `consul_acl_down_policy`
 
