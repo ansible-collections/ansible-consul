@@ -97,7 +97,7 @@
     "key_file": "{{ consul_tls_dir }}/{{ consul_tls_server_key | basename }}",
     "verify_incoming": {{ consul_tls_verify_incoming | bool | to_json }},
     {% else %}
-    verify_incoming": false,
+    "verify_incoming": false, 
     {% endif %}
     "verify_outgoing": {{ consul_tls_verify_outgoing | bool | to_json }},
     "verify_incoming_rpc": {{consul_tls_verify_incoming_rpc | bool| to_json }},
