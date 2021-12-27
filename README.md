@@ -75,13 +75,14 @@ The role uses variables defined in these 3 places:
 - `vars/*.yml` (primarily OS/distributions specific variables)
 - `defaults/main.yml` (everything else)
 
-> **NOTE**: The label for servers in the hosts inventory file must be `[consul_instances]` as shown in the example. The role will not properly function if the label name is anything other value.
+> :warning: **NOTE**: The role relies on the inventory host group for the consul servers to be defined as the variable `consul_group_name` and it will not function properly otherwise. Alternatively the consul servers can be placed in the default host group `[consul_instances]` in the inventory as shown in the examples below.
 
 Many role variables can also take their values from environment variables as well; those are noted in the description where appropriate.
 
 ### `consul_version`
 
 - Version to install
+- Set value as `latest` for the latest available version of consul
 - Default value: 1.8.7
 
 ### `consul_architecture_map`
@@ -99,6 +100,11 @@ Many role variables can also take their values from environment variables as wel
 
 - Operating system name in lowercase representation
 - Default value: `{{ ansible_os_family | lower }}`
+
+### `consul_install_dependencies`
+
+- Install python and package dependencies required for the role functions.
+- Default value: true
 
 ### `consul_zip_url`
 
@@ -473,7 +479,7 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - ACL authoritative datacenter name
   - Override with `CONSUL_ACL_DATACENTER` environment variable
-- Default value: dc1
+- Default value: `{{ consul_datacenter }}` (`dc1`)
 
 ### `consul_acl_down_policy`
 
@@ -681,6 +687,12 @@ auto_encrypt:
 - Whether to [upgrade consul](https://www.consul.io/docs/upgrading.html) when a new version is specified
 - The role does not handle the orchestration of a rolling update of servers followed by client nodes
 - This option is not available for Windows, yet. (PR welcome)
+- Default value: false
+
+### `consul_install_from_repo`
+
+- Boolean, whether to install consul from repository as opposed to installing the binary directly.
+- Supported distros: Amazon Linux, CentOS, Debian, Fedora, Ubuntu, Red Hat.
 - Default value: false
 
 ### `consul_ui`
