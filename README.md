@@ -683,6 +683,12 @@ auto_encrypt:
 - This option is not available for Windows, yet. (PR welcome)
 - Default value: false
 
+### `consul_install_from_repo`
+
+- Boolean, whether to install consul from repository as opposed to installing the binary directly.
+- Supported distros: Amazon Linux, CentOS, Debian, Fedora, Ubuntu, Red Hat.
+- Default value: false
+
 ### `consul_ui`
 
 - Enable the consul ui?
