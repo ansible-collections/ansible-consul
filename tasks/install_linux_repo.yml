@@ -59,14 +59,14 @@
 
     - name: Add Debian/Ubuntu Linux repository
       apt_repository:
-        repo: "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
         state: present
         update_cache: true
       when: ansible_distribution|lower == 'debian' or ansible_distribution|lower == 'ubuntu'
 
 - name: Install consul package
   package:
-    name: "consul-{{ consul_version }}"
+    name: "consul{{ '=' if ansible_pkg_mgr == 'apt' else '-' }}{{ consul_version }}"
     state: present
 
 - name: Create a directory /etc/systemd/system/consul.service.d
