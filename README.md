@@ -82,6 +82,7 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_version`
 
 - Version to install
+- Set value as `latest` for the latest available version of consul
 - Default value: 1.8.7
 
 ### `consul_architecture_map`
