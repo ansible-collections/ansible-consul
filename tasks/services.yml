@@ -51,7 +51,7 @@
   file:
     path: "{{ item }}"
     state: absent
-  when: ansible_os_family != 'Windows' and item not in managed_files
+  when: ansible_os_family != 'Windows' and item not in managed_files and item not in consul_cleanup_ignore_files
   with_items: "{{ list_current_service_config }}"
   ignore_errors: "{{ ansible_check_mode }}"
   notify:
@@ -61,7 +61,7 @@
   win_file:
     path: "{{ item }}"
     state: absent
-  when: ansible_os_family == 'Windows' and item not in managed_files
+  when: ansible_os_family == 'Windows' and item not in managed_files and item not in consul_cleanup_ignore_files
   with_items: "{{ list_current_service_config }}"
   ignore_errors: "{{ ansible_check_mode }}"
   notify:
