@@ -13,7 +13,7 @@ consul_os_packages:
     {% endif %}"
   - unzip
 
-consul_os_prepare_packages:
+consul_repo_prerequisites:
   - yum-utils
 
 consul_repo_url: "{% if ( ansible_distribution  == 'Fedora') %}\
