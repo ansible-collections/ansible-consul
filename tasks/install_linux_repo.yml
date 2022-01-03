@@ -3,8 +3,10 @@
 
 - name: Install OS packages
   package:
-    name: "{{ consul_os_packages }}"
+    name: "{{ consul_repo_prerequisites }}"
     state: present
+  become: true
+  when: (consul_os_repo_prerequisites)
   tags: installation
 
 - name: Populate service facts
