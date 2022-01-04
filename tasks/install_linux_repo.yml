@@ -19,16 +19,18 @@
 - name: Clean up previous consul data
   block:
     - name: Stop service consul, if running
-      systemd:
+      service:
         name: consul
         state: stopped
-      when: ansible_facts.services['consul.service'] is defined
+      when: ansible_facts.services | join is match('.*consul.*')
 
-    - name: Remove consul systemd unit file from previous installation
+    - name: Remove consul service unit files from previous installation
       file:
-        path: /usr/lib/systemd/system/consul.service
+        path: "{{ item }}"
         state: absent
-      notify: systemctl daemon-reload
+      loop:
+        - /usr/lib/systemd/system/consul.service
+        - /etc/init.d/consul
 
     - name: Remove the user 'consul'
       user:
@@ -36,11 +38,8 @@
         state: absent
         remove: yes
 
-  when:
-    - "ansible_distribution|lower == 'redhat' or ansible_distribution|lower == 'centos' or \
-        ansible_distribution|lower == 'fedora' or ansible_distribution|lower == 'amazon' or \
-        ansible_distribution|lower == 'debian' or ansible_distribution|lower == 'ubuntu'"
-    - "'consul' not in ansible_facts.packages"
+  when: "'consul' not in ansible_facts.packages"
+  become: true
 
 - name: Install repository
   block:
