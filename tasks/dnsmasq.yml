@@ -17,18 +17,7 @@
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
-- name: Create Dnsmasq configuration
-  template:
-    src: dnsmasq-10-consul.j2
-    dest: /etc/dnsmasq.d/10-consul
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart dnsmasq
-  when: ansible_os_family in ["Debian", "RedHat"]
-  tags: dnsmasq
-
-- name: Create FreeBSD-specific configuration
+- name: Include Dnsmasq configuration directory
   lineinfile:
     dest: /usr/local/etc/dnsmasq.conf
     line: 'conf-dir=/usr/local/etc/dnsmasq.d/,*.conf'
@@ -36,13 +25,16 @@
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
-- name: Create FreeBSD-specific Dnsmasq configuration
+- name: Create Dnsmasq configuration
   template:
     src: dnsmasq-10-consul.j2
-    dest: /usr/local/etc/dnsmasq.d/consul.conf
+    dest: "{{ item.dest }}"
     owner: root
-    group: wheel
+    group: "{{ item.group }}"
     mode: 0644
   notify: restart dnsmasq
-  when: ansible_os_family == "FreeBSD"
+  when: item.when
   tags: dnsmasq
+  loop:
+    - { dest: '/etc/dnsmasq.d/10-consul', group: 'root', when: ansible_os_family|lower != "freebsd" }
+    - { dest: '/usr/local/etc/dnsmasq.d/consul.conf', group: 'wheel', when: ansible_os_family|lower == "freebsd" }
