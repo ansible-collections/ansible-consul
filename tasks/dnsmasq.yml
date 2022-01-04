@@ -7,12 +7,6 @@
     state: present
   tags: dnsmasq, installation
 
-- name: Enable dnsmasq service
-  service:
-    name: dnsmasq
-    enabled: true
-  tags: dnsmasq
-
 - name: Create Dnsmasq configuration directory
   file:
     path: /usr/local/etc/dnsmasq.d

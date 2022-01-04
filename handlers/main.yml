@@ -13,6 +13,7 @@
 - name: restart dnsmasq
   service:
     name: dnsmasq
+    enabled: true
     state: restarted
 
 - name: restart rsyslog
