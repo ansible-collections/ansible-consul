@@ -28,5 +28,6 @@
   import_tasks: start_snapshot.yml
 
 - name: systemctl daemon-reload
-  ansible.builtin.systemd:
+  systemd:
     daemon_reload: yes
+  become: true
