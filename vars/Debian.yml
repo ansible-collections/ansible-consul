@@ -6,3 +6,5 @@ consul_os_packages:
 
 consul_repo_prerequisites:
   - gpg
+
+consul_repo_url: "https://apt.releases.hashicorp.com"

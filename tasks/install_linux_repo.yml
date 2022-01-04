@@ -51,13 +51,13 @@
 
     - name: Add an Apt signing key, uses whichever key is at the URL
       apt_key:
-        url: https://apt.releases.hashicorp.com/gpg
+        url: "{{ consul_repo_url }}/gpg"
         state: present
       when: "ansible_os_family|lower == 'debian'"
 
     - name: Add Debian/Ubuntu Linux repository
       apt_repository:
-        repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+        repo: "deb [arch=amd64] {{ consul_repo_url }} {{ ansible_distribution_release }} main"
         state: present
         update_cache: true
       when: "ansible_os_family|lower == 'debian'"
