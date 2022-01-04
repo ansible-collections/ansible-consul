@@ -5,6 +5,7 @@
   package:
     name: "{{ dnsmasq_package }}"
     state: present
+  become: true
   tags: dnsmasq, installation
 
 - name: Create Dnsmasq configuration directory
@@ -14,6 +15,7 @@
     owner: root
     group: wheel
     mode: 0700
+  become: true
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
@@ -21,6 +23,7 @@
   lineinfile:
     dest: /usr/local/etc/dnsmasq.conf
     line: 'conf-dir=/usr/local/etc/dnsmasq.d/,*.conf'
+  become: true
   notify: restart dnsmasq
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
@@ -32,9 +35,36 @@
     owner: root
     group: "{{ item.group }}"
     mode: 0644
+  become: true
   notify: restart dnsmasq
   when: item.when
   tags: dnsmasq
   loop:
     - { dest: '/etc/dnsmasq.d/10-consul', group: 'root', when: ansible_os_family|lower != "freebsd" }
     - { dest: '/usr/local/etc/dnsmasq.d/consul.conf', group: 'wheel', when: ansible_os_family|lower == "freebsd" }
+
+- name: Disable systemd-resolved
+  when: ansible_service_mgr == "systemd"
+  block:
+
+    - name: Disable systemd-resorved service
+      service:
+        name: systemd-resolved
+        enabled: false
+        state: stopped
+      become: true
+
+    - name: Check if resolv.conf is pointing to systemd-resolved
+      stat:
+        path: /etc/resolv.conf
+      register: resolv_dot_conf
+
+    - name: Remove resolv.conf association with systemd-resolved
+      file:
+        src: /run/resolvconf/resolv.conf
+        path: /etc/resolv.conf
+        state: link
+      become: true
+      when:
+        - resolv_dot_conf.stat.islnk
+        - 'resolv_dot_conf.stat.link_source == "/run/systemd/resolve/stub-resolv.conf"'
