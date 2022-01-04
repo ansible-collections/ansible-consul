@@ -21,3 +21,5 @@ consul_repo_url: "{% if ( ansible_distribution  == 'Fedora') %}\
     {% else %}\
       https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo\
     {% endif %}"
+
+dnsmasq_package: dnsmasq
