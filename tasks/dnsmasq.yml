@@ -47,7 +47,7 @@
   when: ansible_service_mgr == "systemd"
   block:
 
-    - name: Disable systemd-resorved service
+    - name: Disable systemd-resolved service
       service:
         name: systemd-resolved
         enabled: false
