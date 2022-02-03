@@ -26,6 +26,16 @@
   notify:
     - restart consul
 
+- name: Set fact list with managed configuration file
+  set_fact:
+    managed_files: "{{ managed_files | d([]) }} + {{ configs }}"
+  vars:
+    configs:
+      - "{{ consul_config_path }}/config.json"
+      - "{{ consul_config_path }}/bootstrap.json"
+      - "{{ consul_config_path }}/server.json"
+      - "{{ consul_config_path }}/client.json"
+
 - name: Create custom configuration
   copy:
     dest: "{{ consul_configd_path }}/50custom.json"
