@@ -11,7 +11,7 @@ services: docker
 env:
   - SCENARIO=centos-6
   - SCENARIO=centos-7
-  - SCENARIO=centos-8
+  - SCENARIO=centos-stream-8
   - SCENARIO=debian-8
   - SCENARIO=debian-9
   - SCENARIO=debian-10
