@@ -1156,6 +1156,11 @@ consul3.node.consul.  0 IN  A 10.1.42.230
 - Enable Consul Connect feature
 - Default value: false
 
+### `consul_cleanup_ignore_files`
+
+- List of files to ignore during cleanup steps
+- Default value: *[{{ consul_configd_path }}/consul.env]*
+
 ### iptables DNS Forwarding Support
 
 This role can also use iptables instead of Dnsmasq for forwarding DNS queries to Consul. You can enable it like this:
