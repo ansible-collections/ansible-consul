@@ -137,7 +137,7 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_data_path`
 
 - Data directory path as defined in [data_dir or -data-dir](https://www.consul.io/docs/agent/options.html#_data_dir)
-- Default Linux value: `/var/consul`
+- Default Linux value: `/opt/consul`
 - Default Windows value: `C:\ProgramData\consul\data`
 
 ### `consul_configure_syslogd`
