@@ -6,7 +6,7 @@
     name: "{{ consul_os_packages }}"
     state: present
   tags: installation
-  when: not ansible_facts['os_family'] == "VMware Photon OS"
+  when: not ansible_facts['os_family'] == "VMware Photon OS" and (consul_os_packages | length > 0)
 
 - name: Install OS packages
   command: "tdnf install -y {{ item }}"
