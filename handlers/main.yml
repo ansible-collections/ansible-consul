@@ -13,7 +13,9 @@
 - name: restart dnsmasq
   service:
     name: dnsmasq
+    enabled: true
     state: restarted
+  become: true
 
 - name: restart rsyslog
   import_tasks: restart_rsyslog.yml
@@ -29,5 +31,5 @@
 
 - name: systemctl daemon-reload
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
   become: true

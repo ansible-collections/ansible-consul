@@ -4,6 +4,8 @@
 consul_os_packages:
   - unzip
 
+dnsmasq_package: dnsmasq
+
 consul_repo_prerequisites:
   - gpg
 
