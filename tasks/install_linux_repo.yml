@@ -37,8 +37,7 @@
   when:
     - "ansible_distribution|lower == 'redhat' or ansible_distribution|lower == 'centos' or \
         ansible_distribution|lower == 'fedora' or ansible_distribution|lower == 'amazon' or \
-        ansible_distribution|lower == 'debian' or ansible_distribution|lower == 'ubuntu'" or \
-        "ansible_distribution|lower == 'rocky'
+        ansible_distribution|lower == 'debian' or ansible_distribution|lower == 'ubuntu'"
     - "'consul' not in ansible_facts.packages"
 
 - name: Install repository
