@@ -257,3 +257,7 @@ consul_connect_enabled: false
 
 # system limits
 consul_limits: {}
+
+# files clean up
+consul_cleanup_ignore_files:
+  - '{{ consul_configd_path }}/consul.env'

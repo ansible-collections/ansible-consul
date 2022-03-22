@@ -13,7 +13,7 @@ consul_os_packages:
     {% endif %}"
   - unzip
 
-consul_os_prepare_packages:
+consul_repo_prerequisites:
   - yum-utils
 
 consul_repo_url: "{% if ( ansible_distribution  == 'Fedora') %}\
@@ -21,3 +21,5 @@ consul_repo_url: "{% if ( ansible_distribution  == 'Fedora') %}\
     {% else %}\
       https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo\
     {% endif %}"
+
+dnsmasq_package: dnsmasq

@@ -4,4 +4,9 @@
 consul_os_packages:
   - unzip
 
-consul_os_prepare_packages: []
+dnsmasq_package: dnsmasq
+
+consul_repo_prerequisites:
+  - gpg
+
+consul_repo_url: "https://apt.releases.hashicorp.com"

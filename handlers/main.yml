@@ -13,7 +13,9 @@
 - name: restart dnsmasq
   service:
     name: dnsmasq
+    enabled: true
     state: restarted
+  become: true
 
 - name: restart rsyslog
   import_tasks: restart_rsyslog.yml
@@ -28,5 +30,6 @@
   import_tasks: start_snapshot.yml
 
 - name: systemctl daemon-reload
-  ansible.builtin.systemd:
-    daemon_reload: yes
+  systemd:
+    daemon_reload: true
+  become: true
