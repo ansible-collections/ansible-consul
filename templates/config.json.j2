@@ -295,5 +295,11 @@
     {% endif %}
 
     {## UI ##}
+    {% if consul_version is version_compare('1.9.0', '>=') %}
+    "ui_config": {
+        "enabled": {{ consul_ui | bool | to_json }}
+    }
+    {% else %}
     "ui": {{ consul_ui | bool | to_json }}
+    {% endif %}
 }
