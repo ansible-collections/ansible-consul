@@ -23,7 +23,7 @@ ExecStart={{ consul_bin_path }}/consul snapshot agent \
 -config-file={{ consul_config_path }}/consul_snapshot.json
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGTERM
-Restart=on-failure
+Restart={{ consul_systemd_restart }}
 RestartSec=42s
 {% for var in consul_env_vars %}
 Environment={{ var }}
