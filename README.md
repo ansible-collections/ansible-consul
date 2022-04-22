@@ -930,6 +930,11 @@ packages with different package names.
 - Integer value for systemd unit `LimitNOFILE` option
 - Default value: 65536
 
+### consul_systemd_restart
+
+- String value for systemd unit `Restart` option
+- Default value: `on-failure`
+
 ### `consul_ubuntu_pkg`
 
 - Consul package filename

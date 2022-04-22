@@ -51,6 +51,7 @@ consul_manage_user: true
 consul_user: "consul"
 consul_manage_group: true
 consul_group: "consul"
+consul_systemd_restart: "on-failure"
 consul_systemd_restart_sec: 42
 consul_systemd_limit_nofile: 65536
 consul_systemd_unit_path: "/lib/systemd/system"
