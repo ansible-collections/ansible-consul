@@ -41,7 +41,6 @@
   tags: dnsmasq
   loop:
     - { dest: '/etc/dnsmasq.d/10-consul', group: 'root', when: ansible_os_family|lower != "freebsd" }
-    - { dest: '/usr/local/etc/dnsmasq.d/consul.conf', group: 'wheel', when: ansible_os_family|lower == "freebsd" }
 
 - name: Disable systemd-resolved
   when: ansible_service_mgr == "systemd"
@@ -61,10 +60,10 @@
 
     - name: Remove resolv.conf association with systemd-resolved
       file:
-        src: /run/resolvconf/resolv.conf
         path: /etc/resolv.conf
-        state: link
+        state: absent
       become: true
       when:
-        - resolv_dot_conf.stat.islnk
-        - 'resolv_dot_conf.stat.link_source == "/run/systemd/resolve/stub-resolv.conf"'
+      - resolv_dot_conf.stat.islnk is defined
+      - resolv_dot_conf.stat.islnk == True
+      - resolv_dot_conf.stat.lnk_source == "/run/systemd/resolve/stub-resolv.conf"
