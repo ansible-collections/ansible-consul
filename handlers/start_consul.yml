@@ -1,5 +1,5 @@
 ---
-- name: start consul on Linux
+- name: start consul on unix
   service:
     name: consul
     state: started

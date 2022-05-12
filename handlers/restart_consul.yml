@@ -1,5 +1,5 @@
 ---
-- name: restart consul on Linux
+- name: restart consul on unix
   service:
     name: consul
     state: restarted
