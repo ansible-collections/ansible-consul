@@ -3,7 +3,9 @@
   service:
     name: consul
     state: restarted
-  when: ansible_os_family != "Windows"
+  when:
+    - ansible_os_family != "Darwin"
+    - ansible_os_family != "Windows"
   listen: 'restart consul'
 
 - name: restart consul on windows
