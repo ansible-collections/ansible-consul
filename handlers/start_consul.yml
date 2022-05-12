@@ -3,7 +3,9 @@
   service:
     name: consul
     state: started
-  when: ansible_os_family != "Windows"
+  when:
+    - ansible_os_family != "Darwin"
+    - ansible_os_family != "Windows"
   listen: 'start consul'
 
 - name: start consul on windows
