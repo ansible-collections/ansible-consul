@@ -34,7 +34,12 @@
   notify:
     - restart consul
 
+- name: Get Windows path for custom configuration file
+  win_stat:
+    path: "{{ consul_configd_path }}/50custom.json"
+  register: custom_config_win_path
+
 - name: Set fact list with custom configuration file
   set_fact:
     managed_files: "{{ managed_files |default([]) }} + \
-      [ '{{ consul_configd_path }}/50custom.json' ]"
+      [ '{{ custom_config_win_path.results[0].stat.path }}' ]"
