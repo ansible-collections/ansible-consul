@@ -52,6 +52,24 @@
   with_items: "{{ consul_services }}"
   loop_control:
     loop_var: service_item
+  when: ansible_os_family != 'Windows'
+
+- name: Find all service config files that we manage [Windows]
+  win_stat:
+    path: "{{ consul_configd_path }}/service_{{ service_config_item.name }}.json"
+  with_items: "{{ consul_services }}"
+  loop_control:
+    loop_var: service_config_item
+  register: managed_files_win_paths
+  when: ansible_os_family == 'Windows'
+
+- name: Set fact with list of services we manage [Windows]
+  set_fact:
+    managed_files: "{{ managed_files | default([]) }} + [ '{{ service_item.stat.path }}' ]"
+  with_items: "{{ managed_files_win_paths.results }}"
+  loop_control:
+    loop_var: service_item
+  when: ansible_os_family == 'Windows'
 
 - name: Delete non declared services
   file:
