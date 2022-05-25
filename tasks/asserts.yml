@@ -125,4 +125,4 @@
   set_fact:
     consul_install_remotely: true
   when:
-    - is_unzip_installed.rc == 1
+    - is_unzip_installed is failed
