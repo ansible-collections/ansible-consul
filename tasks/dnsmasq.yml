@@ -7,7 +7,32 @@
     state: present
   become: true
   tags: dnsmasq, installation
+- name: Disable systemd-resolved
+  when: ansible_service_mgr == "systemd"
+  block:
 
+    - name: Disable systemd-resolved service
+      service:
+        name: systemd-resolved
+        enabled: false
+        state: stopped
+      become: true
+
+    - name: Check if resolv.conf is pointing to systemd-resolved
+      stat:
+        path: /etc/resolv.conf
+      register: resolv_dot_conf
+
+    - name: Remove resolv.conf association with systemd-resolved
+      file:
+        src: /run/resolvconf/resolv.conf
+        path: /etc/resolv.conf
+        state: absent
+      become: true
+      when:
+        - resolv_dot_conf.stat.islnk
+        - 'resolv_dot_conf.stat.link_source == "/run/systemd/resolve/stub-resolv.conf"'
+        
 - name: Create Dnsmasq configuration directory
   file:
     path: /usr/local/etc/dnsmasq.d
@@ -42,29 +67,3 @@
   loop:
     - { dest: '/etc/dnsmasq.d/10-consul', group: 'root', when: ansible_os_family|lower != "freebsd" }
     - { dest: '/usr/local/etc/dnsmasq.d/consul.conf', group: 'wheel', when: ansible_os_family|lower == "freebsd" }
-
-- name: Disable systemd-resolved
-  when: ansible_service_mgr == "systemd"
-  block:
-
-    - name: Disable systemd-resolved service
-      service:
-        name: systemd-resolved
-        enabled: false
-        state: stopped
-      become: true
-
-    - name: Check if resolv.conf is pointing to systemd-resolved
-      stat:
-        path: /etc/resolv.conf
-      register: resolv_dot_conf
-
-    - name: Remove resolv.conf association with systemd-resolved
-      file:
-        src: /run/resolvconf/resolv.conf
-        path: /etc/resolv.conf
-        state: link
-      become: true
-      when:
-        - resolv_dot_conf.stat.islnk
-        - 'resolv_dot_conf.stat.link_source == "/run/systemd/resolve/stub-resolv.conf"'
