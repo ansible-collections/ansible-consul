@@ -13,4 +13,8 @@
     name: consul
     state: restarted
   when: ansible_os_family == "Windows"
+  register: windows_service_started
+  retries: 3
+  delay: 1
+  until: windows_service_started is succeeded
   listen: 'restart consul'
