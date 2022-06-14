@@ -9,8 +9,10 @@
   when: not ansible_facts['os_family'] == "VMware Photon OS" and (consul_os_packages | length > 0)
 
 - name: Install OS packages
-  command: "tdnf install -y {{ item }}"
+  command: "tdnf install -y {{ package_item }}"
   with_items: "{{ consul_os_packages }}"
+  loop_control:
+    loop_var: package_item
   tags: installation
   when: ansible_facts['os_family'] == "VMware Photon OS"
 

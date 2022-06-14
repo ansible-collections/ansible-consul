@@ -3,7 +3,7 @@
 
 - name: Create configuration
   win_copy:
-    dest: "{{ item.dest }}"
+    dest: "{{ config_item.dest }}"
     content: "{{ lookup('template', 'templates/config.json.j2', convert_data=True) | to_nice_json }}"
   with_items:
     - dest: "{{ consul_config_path }}/config.json"
@@ -18,8 +18,10 @@
     - dest: "{{ consul_config_path }}/client.json"
       config_version: "client"
       when: "{{ consul_debug | bool }}"
+  loop_control:
+    loop_var: config_item
   when:
-    - item.when
+    - config_item.when
   notify:
     - restart consul
 

@@ -26,11 +26,13 @@
 
     - name: Remove consul service unit files from previous installation
       file:
-        path: "{{ item }}"
+        path: "{{ service_unit_item }}"
         state: absent
       loop:
         - /usr/lib/systemd/system/consul.service
         - /etc/init.d/consul
+      loop_control:
+        loop_var: service_unit_item
 
     - name: Remove the user 'consul'
       user:

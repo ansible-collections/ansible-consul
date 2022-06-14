@@ -5,7 +5,7 @@
   block:
   - name: Configuration and data directories
     file:
-      dest: "{{ item }}"
+      dest: "{{ dir_item }}"
       state: directory
       owner: "{{ consul_user }}"
       group: "{{ consul_group }}"
@@ -14,6 +14,8 @@
       - "{{ consul_config_path }}"
       - "{{ consul_configd_path }}"
       - "{{ consul_data_path }}"
+    loop_control:
+      loop_var: dir_item
   - name: Run directory
     file:
       dest: "{{ consul_run_path }}"
@@ -39,13 +41,15 @@
 
 - name: Create log directory
   file:
-    dest: "{{ item }}"
+    dest: "{{ log_item }}"
     state: directory
     owner: "{{ syslog_user }}"
     group: "{{ syslog_group }}"
     mode: 0700
   with_items:
     - "{{ consul_log_path }}"
+  loop_control:
+    loop_var: log_item
   when:
     - ansible_os_family != 'Windows'
     - consul_syslog_enable | bool
@@ -63,7 +67,7 @@
 
 - name: Create directories on Windows
   win_file:
-    dest: "{{ item }}"
+    dest: "{{ dir_item }}"
     state: directory
   with_items:
     - "{{ consul_config_path }}"
@@ -71,4 +75,6 @@
     - "{{ consul_data_path }}"
     - "{{ consul_log_path }}"
     - "{{ consul_bin_path }}"
+  loop_control:
+    loop_var: dir_item
   when: ansible_os_family == 'Windows'
