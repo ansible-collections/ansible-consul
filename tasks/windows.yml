@@ -4,9 +4,11 @@
 # always work. Hence 'consul_gather_server_facts' defaults to 'no'.
 - name: (Windows) Gather facts from other servers
   setup:
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ host_item }}"
   delegate_facts: true
   with_items: "{{ consul_servers | difference(play_hosts) }}"
+  loop_control:
+    loop_var: host_item
   ignore_errors: true
   when: consul_gather_server_facts | bool
 

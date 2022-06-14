@@ -31,9 +31,9 @@
 - name: Create Dnsmasq configuration
   template:
     src: dnsmasq-10-consul.j2
-    dest: "{{ item.dest }}"
+    dest: "{{ dnsmasq_item.dest }}"
     owner: root
-    group: "{{ item.group }}"
+    group: "{{ dnsmasq_item.group }}"
     mode: 0644
   become: true
   notify: restart dnsmasq
@@ -42,6 +42,8 @@
   loop:
     - { dest: '/etc/dnsmasq.d/10-consul', group: 'root', when: ansible_os_family|lower != "freebsd" }
     - { dest: '/usr/local/etc/dnsmasq.d/consul.conf', group: 'wheel', when: ansible_os_family|lower == "freebsd" }
+  loop_control:
+    loop_var: dnsmasq_item
 
 - name: Disable systemd-resolved
   when: ansible_service_mgr == "systemd"

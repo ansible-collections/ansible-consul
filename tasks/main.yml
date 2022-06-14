@@ -35,11 +35,13 @@
   import_tasks: asserts.yml
 
 - name: Include OS-specific variables
-  include_vars: "{{ item }}"
+  include_vars: "{{ vars_file_item }}"
   with_first_found:
     - files:
         - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
         - "{{ ansible_os_family }}.yml"
+  loop_control:
+    loop_var: vars_file_item
   tags: always
 
 # -----------------------------------------------------------------------
