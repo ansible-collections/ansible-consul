@@ -92,7 +92,7 @@
     {% if consul_tls_enable | bool %}
     "ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt | basename }}",
     {% if auto_encrypt is not defined or (auto_encrypt is defined and not auto_encrypt.enabled | bool)
-        or (item.config_version != 'client') | bool %}
+        or (config_item.config_version != 'client') | bool %}
     "cert_file": "{{ consul_tls_dir }}/{{ consul_tls_server_crt | basename }}",
     "key_file": "{{ consul_tls_dir }}/{{ consul_tls_server_key | basename }}",
     "verify_incoming": {{ consul_tls_verify_incoming | bool | to_json }},
@@ -110,10 +110,10 @@
     "tls_prefer_server_cipher_suites": {{ consul_tls_prefer_server_cipher_suites | bool | to_json }},
     {% if auto_encrypt is defined %}
     "auto_encrypt": {
-        {% if auto_encrypt.enabled | bool and (item.config_version != 'client') | bool %}
+        {% if auto_encrypt.enabled | bool and (config_item.config_version != 'client') | bool %}
         "allow_tls": true,
         {% endif %}
-        {% if auto_encrypt.enabled | bool and (item.config_version == 'client') | bool %}
+        {% if auto_encrypt.enabled | bool and (config_item.config_version == 'client') | bool %}
         "tls": true,
         {% endif %}
         {% if auto_encrypt.dns_san is defined %}
@@ -143,7 +143,7 @@
     {% endif %}
 
     {## Server/Client ##}
-    "server": {{ (item.config_version != 'client') | bool | to_json }},
+    "server": {{ (config_item.config_version != 'client') | bool | to_json }},
 
     {## Enable Connect on Server ##}
     {% if consul_connect_enabled | bool %}
@@ -153,7 +153,7 @@
     {% endif %}
 
     {# Client Settings #}
-    {% if (item.config_version == 'client') %}
+    {% if (config_item.config_version == 'client') %}
         {## ACLs ##}
         {% if consul_acl_enable | bool %}
             {% if consul_version is version_compare('1.4.0', '>=') %}
@@ -194,11 +194,11 @@
     {% endif %}
 
     {# Server Settings #}
-    {% if (item.config_version == 'server') or (item.config_version == 'bootstrap') %}
+    {% if (config_item.config_version == 'server') or (config_item.config_version == 'bootstrap') %}
 
     {## Bootstrap settings ##}
-    "bootstrap": {{ (item.config_version == 'bootstrap') | bool | to_json }},
-    {% if consul_bootstrap_expect and not (item.config_version == 'bootstrap') %}
+    "bootstrap": {{ (config_item.config_version == 'bootstrap') | bool | to_json }},
+    {% if consul_bootstrap_expect and not (config_item.config_version == 'bootstrap') %}
         "bootstrap_expect": {{ consul_bootstrap_expect_value }},
 
         {## AutoPilot ##}
