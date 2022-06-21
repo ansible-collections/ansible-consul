@@ -57,7 +57,7 @@
 
     - name: Add Debian/Ubuntu Linux repository
       apt_repository:
-        repo: "deb [arch=amd64] {{ consul_repo_url }} {{ ansible_distribution_release }} main"
+        repo: "deb {{ consul_repo_url }} {{ ansible_distribution_release }} main"
         state: present
         update_cache: true
       when: "ansible_os_family|lower == 'debian'"
