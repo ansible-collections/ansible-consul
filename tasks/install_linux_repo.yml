@@ -9,15 +9,15 @@
   when: (consul_os_repo_prerequisites)
   tags: installation
 
-- name: Populate service facts
-  service_facts:
-
 - name: Gather the package facts
   package_facts:
     manager: auto
 
 - name: Clean up previous consul data
   block:
+    - name: Populate service facts
+      service_facts:
+
     - name: Stop service consul, if running
       service:
         name: consul
