@@ -180,6 +180,7 @@
     - not ansible_os_family == "Debian"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
+    - not ansible_os_family == "Darwin"
 
 - name: Create Debian init script
   template:
@@ -193,6 +194,7 @@
     - ansible_os_family == "Debian"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
+    - not ansible_os_family == "Darwin"
 
 - name: Create systemd script
   template:
@@ -207,6 +209,7 @@
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
+    - not ansible_os_family == "Darwin"
     - not consul_install_from_repo | bool
 
 - name: Reload systemd
@@ -222,6 +225,16 @@
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
+    - not ansible_os_family == "Darwin"
+
+- name: Create launchctl plist file
+  template:
+    src: "consul_launchctl.plist.j2"
+    dest: "{{ consul_launchctl_plist }}"
+    mode: "0644"
+    validate: "plutil -lint %s"
+  when: ansible_os_family == "Darwin"
+  notify: restart consul
 
 - name: Create smf manifest
   template:
@@ -252,6 +265,7 @@
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
+    - not ansible_os_family == "Darwin"
     - consul_snapshot | bool
 
 - block:
@@ -284,7 +298,9 @@
     - include_tasks: ../tasks/iptables.yml
       when: consul_iptables_enable | bool
 
-  when: not bootstrap_state.stat.exists
+  when:
+    - not bootstrap_state.stat.exists
+    - not ansible_os_family == "Darwin"
 
 - include_tasks: ../tasks/dnsmasq.yml
   when: consul_dnsmasq_enable | bool

@@ -50,6 +50,7 @@ The role might work with other OS distributions and versions, but is known to fu
 * CentOS: 7, 8
 * Debian: 9
 * FreeBSD: 11
+* Mac OS X: 10.15 (Catalina)
 * RHEL: 7, 8
 * Rocky Linux: 8
 * OracleLinux: 7, 8

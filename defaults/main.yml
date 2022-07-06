@@ -17,6 +17,8 @@ consul_architecture_map:
   armv6l: armhfv6
   armv7l: armhfv6
   aarch64: arm64
+  # Used by Apple Silicon Macs
+  arm64: arm64
   32-bit: "386"
   64-bit: amd64
 consul_architecture: "{{ consul_architecture_map[ansible_architecture] }}"
@@ -120,7 +122,7 @@ consul_cloud_autodiscovery_string: "provider={{ consul_cloud_autodiscovery_provi
 
 ### Addresses
 consul_bind_address: "\
-  {% if ansible_system == 'FreeBSD' %}\
+  {% if ansible_system == 'FreeBSD' or ansible_system == 'Darwin' %}\
     {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4'][0]['address'], true) }}\
   {% elif ansible_os_family == 'Windows'  %}\
     {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_ip_addresses'][0], true) }}\

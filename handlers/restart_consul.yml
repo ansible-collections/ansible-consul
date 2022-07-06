@@ -8,6 +8,11 @@
     - ansible_os_family != "Windows"
   listen: 'restart consul'
 
+- name: restart consul on Mac
+  include_tasks: "{{ role_path }}/handlers/restart_consul_mac.yml"
+  when: ansible_os_family == "Darwin"
+  listen: 'restart consul'
+
 - name: restart consul on windows
   win_service:
     name: consul
