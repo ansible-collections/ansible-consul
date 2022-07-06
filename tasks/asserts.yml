@@ -18,6 +18,7 @@
       - 'Amazon'
       - 'Flatcar'
       - 'VMware Photon OS'
+      - 'MacOSX'
 
 - name: Check distribution compatibility
   fail:
