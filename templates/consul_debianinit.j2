@@ -19,6 +19,9 @@ NAME="consul"
 DAEMON="{{ consul_bin_path }}/${NAME}"
 PIDFILE="{{ consul_run_path }}/${NAME}.pid"
 DAEMON_ARGS="agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_configd_path }}"
+{% if consul_bind_iface | trim != '' %}
+DAEMON_ARGS="$DAEMON_ARGS -bind='{% raw %}{{ GetInterfaceIP {% endraw %}\"{{ consul_bind_iface }}\"{% raw %} }}{% endraw %}'"
+{% endif %}
 USER={{ consul_user }}
 SCRIPTNAME=/etc/init.d/"${NAME}"
 

@@ -126,6 +126,7 @@ consul_bind_address: "\
   {% else %}\
     {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface | replace('-', '_')]['ipv4']['address'], true) }}\
   {% endif %}"
+consul_bind_iface: ""
 consul_advertise_address: "{{ consul_bind_address }}"
 consul_advertise_address_wan: "{{ consul_bind_address }}"
 consul_translate_wan_address: false

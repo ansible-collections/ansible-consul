@@ -19,7 +19,9 @@
     "performance": {{ consul_performance | to_json }},
 
     {## Addresses ##}
+    {% if consul_bind_iface | trim == '' %}
     "bind_addr": "{{ consul_bind_address }}",
+    {% endif %}
     "advertise_addr": "{{ consul_advertise_address }}",
     "advertise_addr_wan": "{{ consul_advertise_address_wan }}",
     "translate_wan_addrs": {{ consul_translate_wan_address | bool | to_json }},

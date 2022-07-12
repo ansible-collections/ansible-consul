@@ -355,6 +355,13 @@ consul_node_meta:
 - Default value: default ipv4 address, or address of interface configured by
   `consul_iface`
 
+### `consul_bind_iface`
+
+- Bind interface
+  - When specified, bind to the address of the given interface rather than a fixed IP
+    address. Note that this option overrides `consul_bind_address`.
+- Default value: ''
+
 ### `consul_advertise_address`
 
 - LAN advertise address

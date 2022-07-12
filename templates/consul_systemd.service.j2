@@ -26,6 +26,9 @@ ExecStartPre=/bin/chown -R {{ consul_user }}:{{ consul_group }} {{ consul_run_pa
 ExecStart={{ consul_bin_path }}/consul agent \
     -config-file={{ consul_config_path }}/config.json \
     -config-dir={{ consul_configd_path}} \
+    {% if consul_bind_iface | trim != '' %}
+    -bind='{% raw %}{{ GetInterfaceIP {% endraw %}"{{ consul_bind_iface }}"{% raw %} }}{% endraw %}' \
+    {% endif %}
     -pid-file={{ consul_run_path }}/consul.pid
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process

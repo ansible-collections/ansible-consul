@@ -47,7 +47,11 @@ start() {
         # [ -f "${PID_FILE}" ] && rm "${PID_FILE}"
         daemon --user={{ consul_user }} \
             --pidfile="${PID_FILE}" \
-            "${CONSUL}" agent -config-file="${CONFIG}" -config-dir="${CONFIGD}" -pid-file="${PID_FILE}" &
+            "${CONSUL}" agent -config-file="${CONFIG}" -config-dir="${CONFIGD}" \
+            {% if consul_bind_iface | trim != '' %}
+            -bind='{% raw %}{{ GetInterfaceIP {% endraw %}"{{ consul_bind_iface }}"{% raw %} }}{% endraw %}' \
+            {% endif %}
+            -pid-file="${PID_FILE}" &
         retcode=$?
         touch ${LOCK_FILE}
         return "${retcode}"

@@ -6,5 +6,8 @@ ConditionFileNotEmpty={{ consul_config_path }}/config.json
 
 [Service]
 ExecStart=
-ExecStart=/usr/bin/consul agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_configd_path }}
-
+ExecStart=/usr/bin/consul agent -config-file={{ consul_config_path }}/config.json \
+    {% if consul_bind_iface | trim != '' %}
+    -bind='{% raw %}{{ GetInterfaceIP {% endraw %}"{{ consul_bind_iface }}"{% raw %} }}{% endraw %}' \
+    {% endif %}
+    -config-dir={{ consul_configd_path }}
