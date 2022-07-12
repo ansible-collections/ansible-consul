@@ -22,6 +22,9 @@ DAEMON_ARGS="agent -config-file={{ consul_config_path }}/config.json -config-dir
 {% if consul_bind_iface | trim != '' %}
 DAEMON_ARGS="$DAEMON_ARGS -bind='{% raw %}{{ GetInterfaceIP {% endraw %}\"{{ consul_bind_iface }}\"{% raw %} }}{% endraw %}'"
 {% endif %}
+{% if consul_advertise_iface | trim != '' %}
+DAEMON_ARGS="$DAEMON_ARGS -advertise='{% raw %}{{ GetInterfaceIP {% endraw %}\"{{ consul_advertise_iface }}\"{% raw %} }}{% endraw %}'"
+{% endif %}
 USER={{ consul_user }}
 SCRIPTNAME=/etc/init.d/"${NAME}"
 

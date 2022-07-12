@@ -10,4 +10,7 @@ ExecStart=/usr/bin/consul agent -config-file={{ consul_config_path }}/config.jso
     {% if consul_bind_iface | trim != '' %}
     -bind='{% raw %}{{ GetInterfaceIP {% endraw %}"{{ consul_bind_iface }}"{% raw %} }}{% endraw %}' \
     {% endif %}
+    {% if consul_advertise_iface | trim != '' %}
+    -advertise='{% raw %}{{ GetInterfaceIP {% endraw %}"{{ consul_advertise_iface }}"{% raw %} }}{% endraw %}' \
+    {% endif %}
     -config-dir={{ consul_configd_path }}
