@@ -379,6 +379,13 @@ consul_node_meta:
 - Wan advertise address
 - Default value: `consul_bind_address`
 
+### `consul_advertise_iface_wan`
+
+- Advertise interface
+    - When specified, bind to the address of the given interface rather than a fixed IP
+      address. Note that this option overrides `consul_advertise_address_wan`.
+- Default value: ''
+
 ### `consul_translate_wan_address`
 
 - Prefer a node's configured WAN address when serving DNS

@@ -130,6 +130,7 @@ consul_bind_iface: ""
 consul_advertise_address: "{{ consul_bind_address }}"
 consul_advertise_iface: ""
 consul_advertise_address_wan: "{{ consul_bind_address }}"
+consul_advertise_iface_wan: ""
 consul_translate_wan_address: false
 consul_advertise_addresses:
   serf_lan: "{{ consul_advertise_addresses_serf_lan | default(consul_advertise_address+':'+consul_ports.serf_lan) }}"

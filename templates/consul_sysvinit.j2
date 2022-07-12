@@ -54,6 +54,9 @@ start() {
             {% if consul_advertise_iface | trim != '' %}
             -advertise='{% raw %}{{ GetInterfaceIP {% endraw %}"{{ consul_advertise_iface }}"{% raw %} }}{% endraw %}' \
             {% endif %}
+            {% if consul_advertise_iface_wan | trim != '' %}
+            -advertise-wan='{% raw %}{{ GetInterfaceIP {% endraw %}"{{ consul_advertise_iface_wan }}"{% raw %} }}{% endraw %}' \
+            {% endif %}
             -pid-file="${PID_FILE}" &
         retcode=$?
         touch ${LOCK_FILE}

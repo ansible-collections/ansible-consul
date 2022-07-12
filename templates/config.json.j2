@@ -25,7 +25,9 @@
     {% if consul_advertise_iface | trim == '' %}
     "advertise_addr": "{{ consul_advertise_address }}",
     {% endif %}
+    {% if consul_advertise_iface_wan | trim == '' %}
     "advertise_addr_wan": "{{ consul_advertise_address_wan }}",
+    {% endif %}
     "translate_wan_addrs": {{ consul_translate_wan_address | bool | to_json }},
     "client_addr": "{{ consul_client_address }}",
     "addresses": {
