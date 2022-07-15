@@ -12,6 +12,10 @@
   win_service:
     name: consul
     state: restarted
+  # Some tasks with `become: true` end up calling this task. Unfortunately, the `become`
+  # property is evaluated before the `when` condition and this results in an Ansible
+  # error.
+  become: false
   when: ansible_os_family == "Windows"
   register: windows_service_started
   retries: 3
