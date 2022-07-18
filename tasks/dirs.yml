@@ -62,6 +62,11 @@
     owner: root
     mode: 0755
   when:
+    # On macOS, we should not alter consul_bin_path, since it may be owned by the homebrew
+    # user. This may cause the role to fail on macOS systems where homebrew is not
+    # present, but in that case, the user should create the directory from their playbook
+    # before running this role.
+    - ansible_os_family != 'Darwin'
     - ansible_os_family != 'Windows'
     - not consul_install_from_repo | bool
 
