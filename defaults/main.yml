@@ -256,6 +256,11 @@ consul_services: []
 # enable Consul Connect
 consul_connect_enabled: false
 
+# enable Consul Telemetry
+consul_telemetry_enable: false
+consul_telemetry_prometheus_retention_time: "48h"
+consul_telemetry_disable_hostname: true
+
 # system limits
 consul_limits: {}
 

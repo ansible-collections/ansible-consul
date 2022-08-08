@@ -97,7 +97,7 @@
     "key_file": "{{ consul_tls_dir }}/{{ consul_tls_server_key | basename }}",
     "verify_incoming": {{ consul_tls_verify_incoming | bool | to_json }},
     {% else %}
-    "verify_incoming": false, 
+    "verify_incoming": false,
     {% endif %}
     "verify_outgoing": {{ consul_tls_verify_outgoing | bool | to_json }},
     "verify_incoming_rpc": {{consul_tls_verify_incoming_rpc | bool| to_json }},
@@ -292,6 +292,14 @@
     {## Limits ##}
     {% if consul_version is version_compare('0.9.3', '>=') and consul_limits | length > 0 %}
     "limits": {{ consul_limits | default({})| to_json }},
+    {% endif %}
+
+    {## Telemetry ##}
+    {% if consul_telemetry_enable | bool %}
+    "telemetry": {
+        "prometheus_retention_time": "{{ consul_telemetry_prometheus_retention_time }}",
+        "disable_hostname": {{ consul_telemetry_disable_hostname }}
+    },
     {% endif %}
 
     {## UI ##}
