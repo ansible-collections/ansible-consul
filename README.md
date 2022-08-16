@@ -817,6 +817,11 @@ _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
   directory for debug purpose
 - Default value: false
 
+### `consul_config_template_path`
+
+ - If the default config template does not suit your needs, you can replace it with your own.
+ - Default value: `templates/config.json.j2`.
+
 #### Custom Configuration Section
 
 As Consul loads the configuration from files and directories in lexical order, typically merging on top of previously parsed configuration files, you may set custom configurations via `consul_config_custom`, which will be expanded into a file named `config_z_custom.json` within your `consul_config_path` which will be loaded after all other configuration by default.
