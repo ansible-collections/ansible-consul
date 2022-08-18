@@ -107,7 +107,9 @@
     {% if consul_tls_cipher_suites is defined and consul_tls_cipher_suites %}
     "tls_cipher_suites": "{{ consul_tls_cipher_suites}}",
     {% endif %}
+    {% if consul_version is version_compare('1.11.0', '<') %}
     "tls_prefer_server_cipher_suites": {{ consul_tls_prefer_server_cipher_suites | bool | to_json }},
+    {% endif %}
     {% if auto_encrypt is defined %}
     "auto_encrypt": {
         {% if auto_encrypt.enabled | bool and (config_item.config_version != 'client') | bool %}
@@ -172,7 +174,11 @@
                         "agent": "{{ consul_acl_agent_token }}",
                         {% endif %}
                         {% if consul_acl_agent_master_token | trim != '' %}
+                        {% if consul_version is version_compare('1.11.0', '>=') %}
+                        "agent_recovery": "{{ consul_acl_agent_master_token }}",
+                        {% else %}
                         "agent_master": "{{ consul_acl_agent_master_token }}",
+                        {% endif %}
                         {% endif %}
                     }
                 },
@@ -251,10 +257,18 @@
                     "agent": "{{ consul_acl_agent_token }}",
                     {% endif %}
                     {% if consul_acl_agent_master_token | trim != '' %}
+                    {% if consul_version is version_compare('1.11.0', '>=') %}
+                    "agent_recovery": "{{ consul_acl_agent_master_token }}",
+                    {% else %}
                     "agent_master": "{{ consul_acl_agent_master_token }}",
                     {% endif %}
+                    {% endif %}
                     {% if consul_version is version_compare('0.9.1', '<') or consul_acl_master_token | trim != '' %}
+                    {% if consul_version is version_compare('1.11.0', '>=') %}
+                    "initial_management": "{{ consul_acl_master_token }}",
+                    {% else %}
                     "master": "{{ consul_acl_master_token }}",
+                    {% endif %}
                     {% endif %}
                     {% if consul_acl_replication_token | trim != '' %}
                     "replication": "{{ consul_acl_replication_token }}",
