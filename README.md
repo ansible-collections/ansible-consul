@@ -51,6 +51,7 @@ The role might work with other OS distributions and versions, but is known to fu
 * Debian: 9
 * FreeBSD: 11
 * RHEL: 7, 8
+* Rocky Linux: 8
 * OracleLinux: 7, 8
 * Ubuntu: 16.04
 * Windows: Server 2012 R2
@@ -680,7 +681,7 @@ auto_encrypt:
 ### `consul_install_from_repo`
 
 - Boolean, whether to install consul from repository as opposed to installing the binary directly.
-- Supported distros: Amazon Linux, CentOS, Debian, Fedora, Ubuntu, Red Hat.
+- Supported distros: Amazon Linux, CentOS, Debian, Fedora, Ubuntu, Red Hat, Rocky.
 - Default value: false
 
 ### `consul_ui`
