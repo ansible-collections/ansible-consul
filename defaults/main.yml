@@ -209,7 +209,7 @@ consul_tls_verify_incoming_rpc: "{{ lookup('env','CONSUL_TLS_VERIFY_INCOMING_RPC
 consul_tls_verify_incoming_https: "{{ lookup('env','CONSUL_TLS_VERIFY_INCOMING_HTTPS') | default(false, true) }}"
 consul_tls_verify_server_hostname: "{{ lookup('env','CONSUL_TLS_VERIFY_SERVER_HOSTNAME') | default(false, true) }}"
 consul_tls_files_remote_src: false
-consul_tls_min_version: "{{ lookup('env','CONSUL_TLS_MIN_VERSION') | default('tls12', true) }}"
+consul_tls_min_version: "{{ lookup('env','CONSUL_TLS_MIN_VERSION') | default('TLSv1_2', true) }}"
 consul_tls_cipher_suites: ""
 consul_tls_prefer_server_cipher_suites: "{{ lookup('env','CONSUL_TLS_PREFER_SERVER_CIPHER_SUITES') | default('false', true) }}"
 auto_encrypt:
