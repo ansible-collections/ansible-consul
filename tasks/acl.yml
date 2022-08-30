@@ -1,6 +1,18 @@
 ---
 # File: acl.yml - ACL tasks for Consul
 
+- name: Lookup at Consul installed version
+  ansible.builtin.command:
+    cmd: consul version -format json
+  changed_when: false
+  register: consul_installed_version_read
+
+- name: Set consul_installed_version
+  set_fact:
+    consul_installed_version: "{{ consul_installed_version_read.stdout | from_json | json_query(query) }}"
+  vars:
+    query: "Version"
+
 - block:
     - name: Read ACL master token from previously boostrapped server
       command: "cat {{ consul_config_path }}/config.json"
@@ -15,6 +27,15 @@
       vars:
         query: "acl.tokens.master"
       no_log: true
+      when: consul_installed_version is version_compare('1.11.0', '<')
+
+    - name: Save acl_master_token from existing configuration
+      set_fact:
+        consul_acl_master_token: "{{ config_read.stdout | from_json | json_query(query) }}"
+      vars:
+        query: "acl.tokens.initial_management"
+      no_log: true
+      when: consul_installed_version is version_compare('1.11.0', '>=')
 
   when:
     - bootstrap_state.stat.exists | bool
@@ -48,21 +69,19 @@
     - consul_node_role == 'server'
 
 - block:
-
-    - name: Read ACL replication token from previously boostrapped server
-      shell: >
-        cat {{ consul_config_path }}/config.json |
-        grep "replication" |
-        sed -E 's/"replication": "(.+)",?/\1/' |
-        sed 's/^ *//;s/ *$//'
+    - name: Read ACL master token from previously boostrapped server
+      command: "cat {{ consul_config_path }}/config.json"
+      register: config_read
+      no_log: true
       changed_when: false
-      check_mode: false
-      register: consul_acl_replication_token_read
       run_once: true
 
     - name: Save acl_replication_token from existing configuration
-      set_fact: consul_acl_replication_token="{{ consul_acl_replication_token_read.stdout }}"
-      ignore_errors: true
+      set_fact:
+        consul_acl_replication_token: "{{ config_read.stdout | from_json | json_query(query) }}"
+      vars:
+        query: "acl.tokens.replication"
+      no_log: true
 
   when:
     - bootstrap_state.stat.exists | bool
