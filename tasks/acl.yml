@@ -1,18 +1,5 @@
 ---
 # File: acl.yml - ACL tasks for Consul
-
-- name: Lookup at Consul installed version
-  ansible.builtin.command:
-    cmd: consul version -format json
-  changed_when: false
-  register: consul_installed_version_read
-
-- name: Set consul_installed_version
-  set_fact:
-    consul_installed_version: "{{ consul_installed_version_read.stdout | from_json | json_query(query) }}"
-  vars:
-    query: "Version"
-
 - block:
     - name: Read ACL master token from previously boostrapped server
       command: "cat {{ consul_config_path }}/config.json"
@@ -27,15 +14,14 @@
       vars:
         query: "acl.tokens.master"
       no_log: true
-      when: consul_installed_version is version_compare('1.11.0', '<')
 
-    - name: Save acl_master_token from existing configuration
+    - name: Save acl_initial_management from existing configuration if acl_master_token not found
       set_fact:
         consul_acl_master_token: "{{ config_read.stdout | from_json | json_query(query) }}"
       vars:
         query: "acl.tokens.initial_management"
       no_log: true
-      when: consul_installed_version is version_compare('1.11.0', '>=')
+      when: consul_acl_master_token | length == 0
 
   when:
     - bootstrap_state.stat.exists | bool
