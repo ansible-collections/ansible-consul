@@ -137,7 +137,7 @@
             {%   set _ = consul_join.append(hostvars[server]['consul_advertise_address'] | default(hostvars[server]['consul_bind_address']) | default(hostvars[server]['ansible_default_ipv4']['address']) | mandatory) %}
             {% endfor %}
         {% endif %}
-    {{ consul_join | map('ipwrap') | list | to_json }},
+    {{ consul_join | map('ansible.utils.ipwrap') | list | to_json }},
     {% else %}
     ["{{ consul_cloud_autodiscovery_string }}"],
     {% endif %}
@@ -227,7 +227,7 @@
     {% for server in _consul_wan_servers %}
     {%   set _ = consul_join_wan.append(hostvars[server]['consul_advertise_address_wan'] | default(hostvars[server]['consul_bind_address'])) %}
     {% endfor %}
-    {{ consul_join_wan | map('ipwrap') | list | to_json }},
+    {{ consul_join_wan | map('ansible.utils.ipwrap') | list | to_json }},
     {% endif %}
 
     {## ACLs ##}
