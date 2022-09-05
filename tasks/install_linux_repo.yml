@@ -49,7 +49,9 @@
       command: "yum-config-manager --add-repo {{ consul_repo_url }}"
       args:
         creates: /etc/yum.repos.d/hashicorp.repo
-      when: "ansible_os_family|lower == 'redhat'"
+      when: "ansible_distribution|lower == 'redhat' or ansible_distribution|lower == 'centos' or \
+            ansible_distribution|lower == 'fedora' or ansible_distribution|lower == 'amazon' or \
+            ansible_distribution|lower == 'rocky'"
 
     - name: Add an Apt signing key, uses whichever key is at the URL
       apt_key:

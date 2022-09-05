@@ -138,11 +138,27 @@
   when: consul_tls_enable | bool
 
 - block:
+    - name: Convert consul_binary from Unix -> Windows
+      win_stat:
+        path: "{{ consul_binary }}"
+      register: consul_binary_win
+
+    - name: Convert consul_config_path from Unix -> Windows
+      win_stat:
+        path: "{{ consul_config_path }}"
+      register: consul_config_path_win
+
+    - name: Convert consul_configd_path from Unix -> Windows
+      win_stat:
+        path: "{{ consul_configd_path }}"
+      register: consul_configd_path_win
 
     - name: Create Consul as a service
       win_service:
         name: Consul
-        path: "{{ consul_binary }} agent -config-file={{ consul_config_path }}/config.json -config-dir={{ consul_configd_path }}"
+        path: "{{ consul_binary_win.stat.path }} agent \
+          -config-file={{ consul_config_path_win.stat.path }}\\config.json \
+          -config-dir={{ consul_configd_path_win.stat.path }}"
         display_name: Consul Service
         description: Consul
         start_mode: auto
