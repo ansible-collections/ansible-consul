@@ -4,3 +4,4 @@
 consul_os_packages:
   - python3-libselinux
   - unzip
+dnsmasq_package: dnsmasq
