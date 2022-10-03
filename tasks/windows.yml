@@ -33,10 +33,13 @@
     path: "{{ consul_binary }}"
   register: consul_binary_installed
 
+- name: (Windows) Calculate whether to install consul binary
+  set_fact:
+    consul_install_binary: "{{ not consul_binary_installed.stat.exists }}"
+
 - name: (Windows) Install OS packages and consul
   include_tasks: install_windows.yml
-  when:
-    - not consul_binary_installed.stat.exists | bool
+  when: consul_install_binary | bool
 
 - block:
     - block:
