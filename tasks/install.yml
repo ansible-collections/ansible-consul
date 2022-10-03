@@ -96,49 +96,51 @@
   run_once: true
   delegate_to: 127.0.0.1
 
-- name: Unarchive Consul package
-  unarchive:
-    src: "{{ role_path }}/files/{{ consul_pkg }}"
-    dest: "{{ install_temp.path }}/"
-    creates: "{{ install_temp.path }}/consul"
-  become: false
-  vars:
-    ansible_become: false
-  tags:
-    - installation
-    - skip_ansible_lint
-  run_once: true
-  delegate_to: 127.0.0.1
-  ignore_errors: "{{ ansible_check_mode }}"
+- name: Unarchive and install Consul
+  block:
+    - name: Unarchive Consul package
+      unarchive:
+        src: "{{ role_path }}/files/{{ consul_pkg }}"
+        dest: "{{ install_temp.path }}/"
+        creates: "{{ install_temp.path }}/consul"
+      become: false
+      vars:
+        ansible_become: false
+      tags:
+        - installation
+        - skip_ansible_lint
+      run_once: true
+      delegate_to: 127.0.0.1
+      ignore_errors: "{{ ansible_check_mode }}"
 
-- name: Install Consul
-  copy:
-    src: "{{ install_temp.path }}/consul"
-    dest: "{{ consul_bin_path }}/consul"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group }}"
-    mode: 0755
-  notify:
-    - restart consul
-  tags: installation
-  ignore_errors: "{{ ansible_check_mode }}"
+    - name: Install Consul
+      copy:
+        src: "{{ install_temp.path }}/consul"
+        dest: "{{ consul_bin_path }}/consul"
+        owner: "{{ consul_user }}"
+        group: "{{ consul_group }}"
+        mode: 0755
+      notify:
+        - restart consul
+      tags: installation
+      ignore_errors: "{{ ansible_check_mode }}"
 
-- name: Daemon reload systemd in case the binaries upgraded
-  systemd:
-    daemon_reload: yes
-  become: true
-  when:
-    - ansible_service_mgr == "systemd"
-    - consul_install_upgrade | bool
-
-- name: Cleanup
-  file:
-    path: "{{ install_temp.path }}"
-    state: "absent"
-  become: false
-  vars:
-    ansible_become: false
-  tags: installation
-  run_once: true
-  delegate_to: 127.0.0.1
-  ignore_errors: "{{ ansible_check_mode }}"
+    - name: Daemon reload systemd in case the binaries upgraded
+      systemd:
+        daemon_reload: yes
+      become: true
+      when:
+        - ansible_service_mgr == "systemd"
+        - consul_install_upgrade | bool
+  always:
+    - name: Cleanup
+      file:
+        path: "{{ install_temp.path }}"
+        state: "absent"
+      become: false
+      vars:
+        ansible_become: false
+      tags: installation
+      run_once: true
+      delegate_to: 127.0.0.1
+      ignore_errors: "{{ ansible_check_mode }}"
