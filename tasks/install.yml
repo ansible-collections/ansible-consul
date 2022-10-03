@@ -122,16 +122,9 @@
         mode: 0755
       notify:
         - restart consul
+        - reload systemd daemon
       tags: installation
       ignore_errors: "{{ ansible_check_mode }}"
-
-    - name: Daemon reload systemd in case the binaries upgraded
-      systemd:
-        daemon_reload: yes
-      become: true
-      when:
-        - ansible_service_mgr == "systemd"
-        - consul_install_upgrade | bool
   always:
     - name: Cleanup
       file:

@@ -1,4 +1,11 @@
 ---
+- name: Daemon reload systemd in case the binaries upgraded
+  systemd:
+    daemon_reload: yes
+  become: true
+  when: ansible_service_mgr == "systemd"
+  listen: 'reload systemd daemon'
+
 - name: restart consul on unix
   service:
     name: consul

@@ -58,16 +58,9 @@
       register: consul_install
       notify:
         - restart consul
+        - reload systemd daemon
       when: consul_download is changed
       tags: installation
-
-    - name: Daemon reload systemd in case the binaries upgraded
-      systemd: daemon_reload=yes
-      become: true
-      when:
-        - ansible_service_mgr == "systemd"
-        - consul_install_upgrade | bool
-        - consul_install is changed
   always:
     - name: Cleanup
       file:
