@@ -685,13 +685,6 @@ auto_encrypt:
 - This is the only option on Windows as WinRM is somewhat limited in this scope
 - Default value: false
 
-### `consul_install_upgrade`
-
-- Whether to [upgrade consul](https://www.consul.io/docs/upgrading.html) when a new version is specified
-- The role does not handle the orchestration of a rolling update of servers followed by client nodes
-- This option is not available for Windows, yet. (PR welcome)
-- Default value: false
-
 ### `consul_install_from_repo`
 
 - Boolean, whether to install consul from repository as opposed to installing the binary directly.
