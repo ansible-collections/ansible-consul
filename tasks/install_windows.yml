@@ -1,10 +1,11 @@
 ---
 # File: install_remote.yml - package installation tasks for Consul
 
-- name: Validate remote Consul directory
-  win_file:
-    path: /tmp/consul
+- name: Create temporary directory to download Consul
+  win_tempfile:
     state: directory
+    prefix: ansible-consul.
+  register: consul_temp_dir
 
 - name: Verify TLS1.2 is used
   win_regedit:
@@ -15,33 +16,33 @@
 
 - name: Read Consul package checksum file
   win_stat:
-    path: "/tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
+    path: "{{ consul_temp_dir.path }}\\consul_{{ consul_version }}_SHA256SUMS"
   register: consul_checksum
   tags: installation
 
 - name: Download Consul package checksum file
   win_get_url:
     url: "{{ consul_checksum_file_url }}"
-    dest: "/tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
+    dest: "{{ consul_temp_dir.path }}\\consul_{{ consul_version }}_SHA256SUMS"
   tags: installation
   when: not consul_checksum.stat.exists | bool
 
 - name: Read Consul package checksum
-  win_shell: "findstr {{ consul_pkg }} /tmp/consul/consul_{{ consul_version }}_SHA256SUMS"
+  win_shell: "findstr {{ consul_pkg }} {{ consul_temp_dir.path }}\\consul_{{ consul_version }}_SHA256SUMS"
   args:
-    chdir: /tmp/consul
+    chdir: "{{ consul_temp_dir.path }}"
   register: consul_pkg_checksum
   tags: installation
 
 - name: Download Consul
   win_get_url:
     url: "{{ consul_zip_url }}"
-    dest: "/tmp/consul/{{ consul_pkg }}"
+    dest: "{{ consul_temp_dir.path }}\\{{ consul_pkg }}"
   tags: installation
 
 - name: Calculate checksum
   win_stat:
-    path: "/tmp/consul/{{ consul_pkg }}"
+    path: "{{ consul_temp_dir.path }}\\{{ consul_pkg }}"
     checksum_algorithm: sha256
   register: consul_pkg_hash
   tags: installation
@@ -54,12 +55,12 @@
 
 - name: Unarchive Consul and install binary
   win_unzip:
-    src: "/tmp/consul/{{ consul_pkg }}"
+    src: "{{ consul_temp_dir.path }}\\{{ consul_pkg }}"
     dest: "{{ consul_bin_path }}"
   tags: installation
 
 - name: Cleanup
   win_file:
-    path: "/tmp/consul"
+    path: "{{ consul_temp_dir.path }}"
     state: absent
   tags: installation
