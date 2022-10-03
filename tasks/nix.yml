@@ -43,10 +43,21 @@
   stat:
     path: "{{ consul_binary }}"
   register: consul_binary_installed
+  when: not consul_force_install
+
+- name: Get current Consul version
+  command: "{{ consul_binary }} --version"
+  changed_when: false
+  when:
+    - not consul_force_install
+    - consul_binary_installed.stat.exists
+  register: consul_installed_version
 
 - name: Calculate whether to install consul binary
   set_fact:
-    consul_install_binary: "{{ consul_install_upgrade | bool or not consul_binary_installed.stat.exists }}"
+    consul_install_binary: "{{ consul_force_install or \
+      not consul_binary_installed.stat.exists or \
+      consul_installed_version.stdout_lines[0] != _consul_expected_version_string }}"
 
 - name: Install OS packages and consul - locally
   include_tasks: install.yml

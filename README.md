@@ -666,6 +666,13 @@ auto_encrypt:
   ip_san: ["127.0.0.1"]
 ```
 
+### `consul_force_install`
+
+- If true, then always install consul. Otherwise, consul will only be installed either if
+  not present on the host, or if the installed version differs from `consul_version`.
+- The role does not handle the orchestration of a rolling update of servers followed by client nodes
+- Default value: false
+
 ### `consul_install_remotely`
 
 - Whether to download the files for installation directly on the remote hosts

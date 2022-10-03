@@ -33,6 +33,7 @@ consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/cons
 consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
 
 ### Install Method
+consul_force_install: false
 consul_install_remotely: false
 consul_install_upgrade: false
 consul_install_from_repo: false
