@@ -35,7 +35,6 @@ consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_versi
 ### Install Method
 consul_force_install: false
 consul_install_remotely: false
-consul_install_upgrade: false
 consul_install_from_repo: false
 
 ### Paths
