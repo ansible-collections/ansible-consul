@@ -36,12 +36,6 @@
     - installation
     - skip_ansible_lint
 
-- name: Check Consul package file
-  stat:
-    path: "/tmp/consul/{{ consul_pkg }}"
-  register: consul_package
-  tags: installation
-
 - name: Download Consul
   get_url:
     url: "{{ consul_zip_url }}"
