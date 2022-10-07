@@ -61,6 +61,12 @@ Note that for the "local" installation mode (the default), this role will locall
 
 To do so requires that `unzip` is available on the Ansible control host and the role will fail if it doesn't detect `unzip` in the PATH.
 
+Collection requirements for this role are listed in the [`requirements.yml`](requirements.yml) file. It is your responsibility to make sure that you install these collections to ensure that the role runs properly. Usually, this can be done with:
+
+```
+ansible-galaxy collection install -r requirements.yml
+```
+
 ## Caveats
 
 This role does not fully support the limit option (`ansible -l`) to limit the hosts, as this will break populating required host variables. If you do use the limit option with this role, you can encounter template errors like:
