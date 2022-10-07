@@ -1,6 +1,7 @@
 ---
 scenario:
   test_sequence:
+    - dependency
     - lint
     - syntax
     - create
@@ -11,6 +12,8 @@ scenario:
     - destroy
 dependency:
   name: galaxy
+  options:
+    requirements-file: requirements.yml
 driver:
   name: docker
 lint: |
