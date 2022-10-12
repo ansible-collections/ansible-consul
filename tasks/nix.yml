@@ -125,7 +125,7 @@
         - lookup('first_found', dict(files=['/tmp/consul_raw.key'], skip=true)) | ternary(false, true)
         - not bootstrap_state.stat.exists | bool
       block:
-        - name: Generate gossip encryption key
+        - name: Generate gossip encryption key # noqa no-changed-when
           shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
           register: consul_keygen
 
@@ -223,7 +223,7 @@
     - not ansible_os_family == "Darwin"
     - not consul_install_from_repo | bool
 
-- name: Reload systemd
+- name: Reload systemd # noqa no-handler
   systemd:
     daemon_reload: true
   when: systemd_unit is changed
@@ -309,8 +309,8 @@
         state: touch
         mode: 0600
 
-    - include_tasks: ../tasks/iptables.yml
+    - include_tasks: ../tasks/iptables.yml # noqa name[missing]
       when: consul_iptables_enable | bool
 
-- include_tasks: ../tasks/dnsmasq.yml
+- include_tasks: ../tasks/dnsmasq.yml # noqa name[missing]
   when: consul_dnsmasq_enable | bool
