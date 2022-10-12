@@ -8,5 +8,11 @@ rules:
   brackets:
     max-spaces-inside: 1
     level: error
+  comments:
+    min-spaces-from-content: 1
   line-length: disable
-  truthy: disable
+  truthy:
+    ignore: |
+      molecule/*
+      .github/workflows/galaxy.yml
+      .github/workflows/molecule.yml
