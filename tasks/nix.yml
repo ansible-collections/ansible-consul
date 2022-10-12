@@ -127,7 +127,7 @@
         - lookup('first_found', dict(files=['/tmp/consul_raw.key'], skip=true)) | ternary(false, true)
         - not bootstrap_state.stat.exists | bool
       block:
-        - name: Generate gossip encryption key
+        - name: Generate gossip encryption key  # noqa no-changed-when
           ansible.builtin.shell:
             cmd: "PATH={{ consul_bin_path }}:$PATH consul keygen"
           register: consul_keygen
@@ -226,7 +226,7 @@
     - not ansible_os_family == "Darwin"
     - not consul_install_from_repo | bool
 
-- name: Reload systemd
+- name: Reload systemd  # noqa no-handler
   ansible.builtin.systemd:
     daemon_reload: true
   when: systemd_unit is changed
