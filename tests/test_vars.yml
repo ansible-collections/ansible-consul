@@ -18,10 +18,10 @@ item:
 
 ## Core
 consul_debug: false
-is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
+is_virtualenv: "{{ lookup('env', 'VIRTUAL_ENV') | default('', true) }}"
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.3.1', true) }}"
+consul_version: "{{ lookup('env', 'CONSUL_VERSION') | default('1.3.1', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
@@ -64,21 +64,21 @@ consul_manage_group: true
 consul_group: "bin"
 
 ### Consul settings
-consul_datacenter: "{{ lookup('env','CONSUL_DATACENTER') | default('dc1', true) }}"
-consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
+consul_datacenter: "{{ lookup('env', 'CONSUL_DATACENTER') | default('dc1', true) }}"
+consul_domain: "{{ lookup('env', 'CONSUL_DOMAIN') | default('consul', true) }}"
 consul_node_meta: {}
-consul_log_level: "{{ lookup('env','CONSUL_LOG_LEVEL') | default('INFO', true) }}"
-consul_syslog_enable: "{{ lookup('env','CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
-consul_syslog_facility: "{{ lookup('env','CONSUL_SYSLOG_FACILITY') | default('local0', true) }}"
+consul_log_level: "{{ lookup('env', 'CONSUL_LOG_LEVEL') | default('INFO', true) }}"
+consul_syslog_enable: "{{ lookup('env', 'CONSUL_SYSLOG_ENABLE') | default(true, true) }}"
+consul_syslog_facility: "{{ lookup('env', 'CONSUL_SYSLOG_FACILITY') | default('local0', true) }}"
 consul_iface: "\
   {% if ansible_os_family == 'Windows' %}\
     {{ lookup('env','CONSUL_IFACE') | default(ansible_interfaces[0].interface_name, true) }}\
   {% else %}\
     {{ lookup('env','CONSUL_IFACE') | default(ansible_default_ipv4.interface, true) }}\
   {% endif %}"
-consul_node_role: "{{ lookup('env','CONSUL_NODE_ROLE') | default('client', true) }}"
-consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
-consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(false, true) }}"
+consul_node_role: "{{ lookup('env', 'CONSUL_NODE_ROLE') | default('client', true) }}"
+consul_recursors: "{{ lookup('env', 'CONSUL_RECURSORS') | default('[]', true) }}"
+consul_bootstrap_expect: "{{ lookup('env', 'CONSUL_BOOTSTRAP_EXPECT') | default(false, true) }}"
 consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
 consul_disable_update_check: false
 consul_enable_script_checks: false
@@ -130,7 +130,7 @@ consul_ports:
   grpc: "{{ consul_ports_grpc | default('-1', true) }}"
 
 ### Servers
-consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
+consul_group_name: "{{ lookup('env', 'CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
 consul_join: ["127.0.0.1"]
 consul_join_wan: []
 consul_servers: "\
@@ -148,36 +148,36 @@ consul_gather_server_facts: false
 consul_acl_policy: false
 
 ### Shared ACL config ###
-consul_acl_enable: "{{ lookup('env','CONSUL_ACL_ENABLE') | default(false, true) }}"
-consul_acl_ttl: "{{ lookup('env','CONSUL_ACL_TTL') | default('30s', true) }}"
-consul_acl_datacenter: "{{ lookup('env','CONSUL_ACL_DATACENTER') | default(consul_datacenter, true) }}"
-consul_acl_down_policy: "{{ lookup('env','CONSUL_ACL_DOWN_POLICY') | default('extend-cache', true) }}"
-consul_acl_token: "{{ lookup('env','CONSUL_ACL_TOKEN') | default('', true) }}"
-consul_acl_agent_token: "{{ lookup('env','CONSUL_ACL_AGENT_TOKEN') | default('', true) }}"
-consul_acl_agent_master_token: "{{ lookup('env','CONSUL_ACL_AGENT_MASTER_TOKEN') | default('', true) }}"
+consul_acl_enable: "{{ lookup('env', 'CONSUL_ACL_ENABLE') | default(false, true) }}"
+consul_acl_ttl: "{{ lookup('env', 'CONSUL_ACL_TTL') | default('30s', true) }}"
+consul_acl_datacenter: "{{ lookup('env', 'CONSUL_ACL_DATACENTER') | default(consul_datacenter, true) }}"
+consul_acl_down_policy: "{{ lookup('env', 'CONSUL_ACL_DOWN_POLICY') | default('extend-cache', true) }}"
+consul_acl_token: "{{ lookup('env', 'CONSUL_ACL_TOKEN') | default('', true) }}"
+consul_acl_agent_token: "{{ lookup('env', 'CONSUL_ACL_AGENT_TOKEN') | default('', true) }}"
+consul_acl_agent_master_token: "{{ lookup('env', 'CONSUL_ACL_AGENT_MASTER_TOKEN') | default('', true) }}"
 
 ### Server ACL settings ###
-consul_acl_default_policy: "{{ lookup('env','CONSUL_ACL_DEFAULT_POLICY') | default('allow', true) }}"
-consul_acl_master_token: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN') | default('42424242-4242-4242-4242-424242424242', true) }}"
-consul_acl_master_token_display: "{{ lookup('env','CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
-consul_acl_replication_enable: "{{ lookup('env','CONSUL_ACL_REPLICATION_ENABLE') | default('',true) }}"
-consul_acl_replication_token: "{{ lookup('env','CONSUL_ACL_REPLICATION_TOKEN') | default('', true) }}"
+consul_acl_default_policy: "{{ lookup('env', 'CONSUL_ACL_DEFAULT_POLICY') | default('allow', true) }}"
+consul_acl_master_token: "{{ lookup('env', 'CONSUL_ACL_MASTER_TOKEN') | default('42424242-4242-4242-4242-424242424242', true) }}"
+consul_acl_master_token_display: "{{ lookup('env', 'CONSUL_ACL_MASTER_TOKEN_DISPLAY') | default(false, true) }}"
+consul_acl_replication_enable: "{{ lookup('env', 'CONSUL_ACL_REPLICATION_ENABLE') | default('',true) }}"
+consul_acl_replication_token: "{{ lookup('env', 'CONSUL_ACL_REPLICATION_TOKEN') | default('', true) }}"
 
 ## gossip encryption
-consul_encrypt_enable: "{{ lookup('env','CONSUL_ENCRYPT_ENABLE') | default(true, true) }}"
+consul_encrypt_enable: "{{ lookup('env', 'CONSUL_ENCRYPT_ENABLE') | default(true, true) }}"
 consul_encrypt_verify_incoming: true
 consul_encrypt_verify_outgoing: true
-consul_disable_keyring_file: "{{ lookup('env','CONSUL_DISABLE_KEYRING_FILE') | default(false, true) }}"
+consul_disable_keyring_file: "{{ lookup('env', 'CONSUL_DISABLE_KEYRING_FILE') | default(false, true) }}"
 
 ## TLS
-consul_tls_enable: "{{ lookup('env','CONSUL_TLS_ENABLE') | default(false, true) }}"
-consul_tls_src_files: "{{ lookup('env','CONSUL_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
+consul_tls_enable: "{{ lookup('env', 'CONSUL_TLS_ENABLE') | default(false, true) }}"
+consul_tls_src_files: "{{ lookup('env', 'CONSUL_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
 
-consul_tls_dir: "{{ lookup('env','CONSUL_TLS_DIR') | default('/etc/consul/ssl', true) }}"
+consul_tls_dir: "{{ lookup('env', 'CONSUL_TLS_DIR') | default('/etc/consul/ssl', true) }}"
 
-consul_tls_ca_crt: "{{ lookup('env','CONSUL_TLS_CA_CRT') | default('ca.crt', true) }}"
-consul_tls_server_crt: "{{ lookup('env','CONSUL_SERVER_CRT') | default('server.crt', true) }}"
-consul_tls_server_key: "{{ lookup('env','CONSUL_SERVER_KEY') | default('server.key', true) }}"
+consul_tls_ca_crt: "{{ lookup('env', 'CONSUL_TLS_CA_CRT') | default('ca.crt', true) }}"
+consul_tls_server_crt: "{{ lookup('env', 'CONSUL_SERVER_CRT') | default('server.crt', true) }}"
+consul_tls_server_key: "{{ lookup('env', 'CONSUL_SERVER_KEY') | default('server.key', true) }}"
 consul_tls_copy_keys: true
 consul_tls_verify_incoming: false
 consul_tls_verify_outgoing: true
@@ -186,7 +186,7 @@ consul_tls_verify_incoming_https: false
 consul_tls_verify_server_hostname: false
 
 ## DNS
-consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
+consul_dnsmasq_enable: "{{ lookup('env', 'CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
 consul_dnsmasq_consul_address: "\
   {# Use localhost if DNS is listening on all interfaces #}\
   {% if consul_addresses.dns == '0.0.0.0' %}\
@@ -203,7 +203,7 @@ consul_dnsmasq_no_poll: false
 consul_dnsmasq_no_resolv: false
 consul_dnsmasq_local_service: false
 consul_dnsmasq_listen_addresses: []
-consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
+consul_iptables_enable: "{{ lookup('env', 'CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
 
 # Performance
 consul_performance:
