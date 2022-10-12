@@ -1,4 +1,4 @@
 ---
-- import_tasks: "stop_consul_mac.yml"
+- import_tasks: "stop_consul_mac.yml" # noqa name[missing]
 
-- import_tasks: "start_consul_mac.yml"
+- import_tasks: "start_consul_mac.yml" # noqa name[missing]

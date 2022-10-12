@@ -2,8 +2,9 @@
 # File: main.yml - Main tasks for Consul
 - name: Looking up latest version of Consul
   set_fact:
-    consul_version: "{{ (lookup('url', 'https://api.github.com/repos/hashicorp/consul/releases/latest', split_lines=False) |
-                    from_json).get('tag_name') | replace('v', '') }}"
+    consul_version:
+      "{{ (lookup('url', 'https://api.github.com/repos/hashicorp/consul/releases/latest', split_lines=False) |
+      from_json).get('tag_name') | replace('v', '') }}"
   when: 'consul_version == "latest"'
 
 - name: Install python dependencies
@@ -64,5 +65,5 @@
   tags:
     - consul_services
 
-- name: flush_handlers
+- name: Flush_handlers
   meta: flush_handlers

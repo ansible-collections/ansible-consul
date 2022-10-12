@@ -1,5 +1,5 @@
 ---
-- name: start consul on unix
+- name: Start consul on unix
   service:
     name: consul
     state: started
@@ -8,12 +8,12 @@
     - ansible_os_family != "Windows"
   listen: "start consul"
 
-- name: start consul on Mac
+- name: Start consul on Mac
   include_tasks: "{{ role_path }}/handlers/start_consul_mac.yml"
   when: ansible_os_family == "Darwin"
   listen: "start consul"
 
-- name: start consul on windows
+- name: Start consul on windows
   win_service:
     name: consul
     state: started
