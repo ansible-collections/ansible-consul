@@ -14,6 +14,8 @@
     manager: auto
 
 - name: Clean up previous consul data
+  when: "'consul' not in ansible_facts.packages"
+  become: true
   block:
     - name: Populate service facts
       service_facts:
@@ -40,10 +42,9 @@
         state: absent
         remove: true
 
-  when: "'consul' not in ansible_facts.packages"
-  become: true
-
 - name: Install repository
+  when: "ansible_os_family|lower in [ 'debian', 'redhat' ]"
+  become: true
   block:
     - name: Add Redhat/CentOS/Fedora/Amazon Linux repository
       command: "yum-config-manager --add-repo {{ consul_repo_url }}"
@@ -68,9 +69,6 @@
         state: present
         update_cache: true
       when: "ansible_os_family|lower == 'debian'"
-
-  when: "ansible_os_family|lower in [ 'debian', 'redhat' ]"
-  become: true
 
 - name: Install consul package
   package:

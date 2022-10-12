@@ -75,8 +75,18 @@
 
 # XXX: Individual gossip tasks are deprecated and need to be removed
 # - include_tasks: ../tasks/encrypt_gossip.yml
-- block:
-    - block:
+- name: Configure gossip encryption
+  no_log: true
+  when:
+    - consul_encrypt_enable | bool
+  block:
+    - name: Check for generated gossip token
+      no_log: true
+      when:
+        - consul_raw_key is not defined
+        - bootstrap_state.stat.exists | bool
+        - inventory_hostname in consul_servers
+      block:
         - name: Check for gossip encryption key on previously boostrapped server
           slurp:
             src: "{{ consul_config_path }}/config.json"
@@ -93,12 +103,6 @@
             consul_raw_key: "{{ consul_config.encrypt }}"
           when: consul_config is defined
 
-      no_log: true
-      when:
-        - consul_raw_key is not defined
-        - bootstrap_state.stat.exists | bool
-        - inventory_hostname in consul_servers
-
     # Key provided by extra vars or the above block
     - name: Write gossip encryption key locally for use with new servers
       copy:
@@ -113,8 +117,14 @@
       changed_when: false
       when: consul_raw_key is defined
 
-    # Generate new key if none was found
-    - block:
+    - name: Generate new key if none was found
+      no_log: true
+      run_once: true
+      when:
+        # if files '/tmp/consul_raw.key' exist
+        - lookup('first_found', dict(files=['/tmp/consul_raw.key'], skip=true)) | ternary(false, true)
+        - not bootstrap_state.stat.exists | bool
+      block:
         - name: Generate gossip encryption key
           shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
           register: consul_keygen
@@ -127,13 +137,6 @@
           vars:
             ansible_become: false
           delegate_to: localhost
-
-      no_log: true
-      run_once: true
-      when:
-        # if files '/tmp/consul_raw.key' exist
-        - lookup('first_found', dict(files=['/tmp/consul_raw.key'], skip=true)) | ternary(false, true)
-        - not bootstrap_state.stat.exists | bool
 
     - name: Read gossip encryption key for servers that require it
       set_fact:
@@ -152,9 +155,6 @@
       run_once: true
       delegate_to: localhost
       changed_when: false
-  no_log: true
-  when:
-    - consul_encrypt_enable | bool
 
 - name: Create ACL configuration
   include_tasks: acl.yml
@@ -279,7 +279,11 @@
     - not ansible_os_family == "Darwin"
     - consul_snapshot | bool
 
-- block:
+- name: Start and check Consul
+  when:
+    - not bootstrap_state.stat.exists
+    - not ansible_os_family == "Darwin"
+  block:
     - name: Start Consul
       service:
         name: consul
@@ -307,10 +311,6 @@
 
     - include_tasks: ../tasks/iptables.yml
       when: consul_iptables_enable | bool
-
-  when:
-    - not bootstrap_state.stat.exists
-    - not ansible_os_family == "Darwin"
 
 - include_tasks: ../tasks/dnsmasq.yml
   when: consul_dnsmasq_enable | bool
