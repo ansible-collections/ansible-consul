@@ -5,7 +5,6 @@ skip_list:
   - "fqcn[action-core]"
   - "fqcn[action]"
   - "ignore-errors"
-  - "jinja[spacing]"
   - "no-changed-when"
   - "no-free-form"
   - "no-handler"
