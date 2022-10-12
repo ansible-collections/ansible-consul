@@ -22,7 +22,7 @@
 - name: Include Dnsmasq configuration directory
   lineinfile:
     dest: /usr/local/etc/dnsmasq.conf
-    line: 'conf-dir=/usr/local/etc/dnsmasq.d/,*.conf'
+    line: "conf-dir=/usr/local/etc/dnsmasq.d/,*.conf"
   become: true
   notify: restart dnsmasq
   when: ansible_os_family == "FreeBSD"
@@ -40,15 +40,18 @@
   when: "{{ dnsmasq_item.when }}"
   tags: dnsmasq
   loop:
-    - { dest: '/etc/dnsmasq.d/10-consul', group: 'root', when: ansible_os_family|lower != "freebsd" }
-    - { dest: '/usr/local/etc/dnsmasq.d/consul.conf', group: 'wheel', when: ansible_os_family|lower == "freebsd" }
+    - dest: "/etc/dnsmasq.d/10-consul"
+      group: "root"
+      when: ansible_os_family|lower != "freebsd"
+    - dest: "/usr/local/etc/dnsmasq.d/consul.conf"
+      group: "wheel"
+      when: ansible_os_family|lower == "freebsd"
   loop_control:
     loop_var: dnsmasq_item
 
 - name: Disable systemd-resolved
   when: ansible_service_mgr == "systemd"
   block:
-
     - name: Disable systemd-resolved service
       service:
         name: systemd-resolved
