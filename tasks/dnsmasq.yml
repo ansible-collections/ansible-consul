@@ -69,4 +69,4 @@
       become: true
       when:
         - resolv_dot_conf.stat.islnk
-        - 'resolv_dot_conf.stat.link_source == "/run/systemd/resolve/stub-resolv.conf"'
+        - 'resolv_dot_conf.stat.lnk_source == "/run/systemd/resolve/stub-resolv.conf"'
