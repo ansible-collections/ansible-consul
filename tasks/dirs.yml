@@ -28,7 +28,7 @@
   when: ansible_os_family != 'Windows'
 
 - name: Create log directory
-  ansible.builtin.file:
+  file:
     dest: "{{ consul_log_path }}"
     state: directory
     owner: "{{ consul_user }}"
@@ -40,7 +40,7 @@
     - not consul_configure_syslogd | bool
 
 - name: Create log directory
-  ansible.builtin.file:
+  file:
     dest: "{{ log_item }}"
     state: directory
     owner: "{{ syslog_user }}"
@@ -56,7 +56,7 @@
     - consul_configure_syslogd | bool
 
 - name: Verify binary path
-  ansible.builtin.file:
+  file:
     path: "{{ consul_bin_path }}"
     state: directory
     owner: root

@@ -5,11 +5,11 @@
 
   tasks:
     - name: Install OS packages
-      ansible.builtin.package:
+      package:
         name: unzip
       become: true
 
     - name: Install netaddr dependency on controlling host
-      ansible.builtin.pip:
+      pip:
         name: netaddr
       become: false

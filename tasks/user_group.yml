@@ -3,7 +3,7 @@
 
 # Add group
 - name: Add Consul group
-  ansible.builtin.group:
+  group:
     name: "{{ consul_group }}"
     state: present
   when:
@@ -12,7 +12,7 @@
 
 # Add user
 - name: Add Consul user
-  ansible.builtin.user:
+  user:
     name: "{{ consul_user }}"
     comment: "Consul user"
     group: "{{ consul_group }}"
