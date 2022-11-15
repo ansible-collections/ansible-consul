@@ -48,7 +48,7 @@
 - name: Set fact with list of services we manage
   ansible.builtin.set_fact:
     managed_files: "{{ managed_files |default([]) }} + \
-      [ '{{ consul_configd_path }}/service_{{ service_item.name }}.json' ]"
+    [ '{{ consul_configd_path }}/service_{{ service_item.name }}.json' ]"
   with_items: "{{ consul_services }}"
   loop_control:
     loop_var: service_item
