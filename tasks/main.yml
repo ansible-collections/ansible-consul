@@ -64,5 +64,5 @@
   tags:
     - consul_services
 
-- name: Flush_handlers
+- name: flush_handlers
   ansible.builtin.meta: flush_handlers

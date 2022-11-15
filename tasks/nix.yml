@@ -307,12 +307,12 @@
         state: touch
         mode: 0600
 
-    - ansible.builtin.include_tasks: ../tasks/iptables.yml  # noqa name[missing]
+    - ansible.builtin.include_tasks: ../tasks/iptables.yml
       when: consul_iptables_enable | bool
 
   when:
     - not bootstrap_state.stat.exists
     - not ansible_os_family == "Darwin"
 
-- ansible.builtin.include_tasks: ../tasks/dnsmasq.yml  # noqa name[missing]
+- ansible.builtin.include_tasks: ../tasks/dnsmasq.yml
   when: consul_dnsmasq_enable | bool
