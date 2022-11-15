@@ -6,7 +6,7 @@
     - consul_raw_key is not defined
     - bootstrap_state.stat.exists | bool
   block:
-    - name: Read gossip encryption key from previously boostrapped server  # noqa no-changed-when
+    - name: Read gossip encryption key from previously boostrapped server
       ansible.builtin.shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
       register: consul_key_read
       run_once: true
@@ -53,7 +53,7 @@
     - consul_raw_key is not defined
     - not bootstrap_state.stat.exists | bool
   block:
-    - name: Generate gossip encryption key  # noqa no-changed-when
+    - name: Generate gossip encryption key
       ansible.builtin.shell:
         cmd: PATH={{ consul_bin_path }}:$PATH consul keygen"
       register: consul_keygen
