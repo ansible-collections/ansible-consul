@@ -9,8 +9,4 @@ rules:
     max-spaces-inside: 1
     level: error
   line-length: disable
-  truthy:
-    ignore: |
-      molecule/*
-      .github/workflows/galaxy.yml
-      .github/workflows/molecule.yml
+  truthy: disable
