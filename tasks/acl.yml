@@ -1,11 +1,6 @@
 ---
 # File: acl.yml - ACL tasks for Consul
-- name: Read generated ACL master token
-  when:
-    - bootstrap_state.stat.exists | bool
-    - (consul_acl_master_token is not defined or consul_acl_master_token | length == 0)
-    - consul_node_role == 'server'
-  block:
+- block:
     - name: Read ACL master token from previously boostrapped server
       ansible.builtin.command:
         cmd: "cat {{ consul_config_path }}/config.json"
@@ -29,12 +24,12 @@
       no_log: true
       when: consul_acl_master_token | length == 0
 
-- name: Generate ACL master token
   when:
+    - bootstrap_state.stat.exists | bool
     - (consul_acl_master_token is not defined or consul_acl_master_token | length == 0)
-    - not bootstrap_state.stat.exists | bool
     - consul_node_role == 'server'
-  block:
+
+- block:
     - name: Generate ACL master token
       ansible.builtin.command:
         cmd: "echo {{ lookup('password', '/dev/null length=32 chars=ascii_letters') | to_uuid }}"
@@ -47,6 +42,11 @@
         consul_acl_master_token: "{{ consul_acl_master_token_keygen.stdout }}"
       no_log: true
 
+  when:
+    - (consul_acl_master_token is not defined or consul_acl_master_token | length == 0)
+    - not bootstrap_state.stat.exists | bool
+    - consul_node_role == 'server'
+
 - name: Display ACL Master Token
   ansible.builtin.debug:
     msg: "{{ consul_acl_master_token }}"
@@ -55,12 +55,7 @@
     - consul_acl_master_token_display | bool
     - consul_node_role == 'server'
 
-- name: Read and save generated ACL replication token
-  when:
-    - bootstrap_state.stat.exists | bool
-    - (consul_acl_replication_token is not defined or consul_acl_replication_token | length == 0)
-    - consul_node_role == 'server'
-  block:
+- block:
     - name: Read ACL master token from previously boostrapped server
       ansible.builtin.command:
         cmd: "cat {{ consul_config_path }}/config.json"
@@ -76,12 +71,12 @@
         query: "acl.tokens.replication"
       no_log: true
 
-- name: Generate and save ACL replication token
   when:
+    - bootstrap_state.stat.exists | bool
     - (consul_acl_replication_token is not defined or consul_acl_replication_token | length == 0)
-    - not bootstrap_state.stat.exists | bool
     - consul_node_role == 'server'
-  block:
+
+- block:
     - name: Generate ACL replication token
       ansible.builtin.command:
         cmd: "echo {{ lookup('password', '/dev/null length=32 chars=ascii_letters') | to_uuid }}"
@@ -93,6 +88,11 @@
       ansible.builtin.set_fact:
         consul_acl_replication_token: "{{ consul_acl_replication_token_keygen.stdout }}"
       no_log: true
+
+  when:
+    - (consul_acl_replication_token is not defined or consul_acl_replication_token | length == 0)
+    - not bootstrap_state.stat.exists | bool
+    - consul_node_role == 'server'
 
 - name: Create ACL policy configuration
   ansible.builtin.template:

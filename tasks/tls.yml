@@ -1,10 +1,7 @@
 ---
 # File: tls.yml - TLS tasks for Consul
 
-- name: Copy Consul CA certificate
-  when:
-    - consul_tls_copy_keys | bool
-  block:
+- block:
     - name: Create SSL directory
       ansible.builtin.file:
         dest: "{{ consul_tls_dir }}"
@@ -23,11 +20,10 @@
         mode: 0644
       notify: restart consul
 
-- name: Copy Consul tls keys
   when:
     - consul_tls_copy_keys | bool
-    - auto_encrypt is not defined or (auto_encrypt is defined and not auto_encrypt.enabled | bool) or (consul_node_role != 'client') | bool
-  block:
+
+- block:
     - name: Copy server certificate
       ansible.builtin.copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
@@ -47,3 +43,7 @@
         group: "{{ consul_group }}"
         mode: 0600
       notify: restart consul
+
+  when:
+    - consul_tls_copy_keys | bool
+    - auto_encrypt is not defined or (auto_encrypt is defined and not auto_encrypt.enabled | bool) or (consul_node_role != 'client') | bool
