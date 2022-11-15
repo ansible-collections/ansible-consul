@@ -1,6 +1,6 @@
 ---
 - name: start consul snapshot on unix
-  ansible.builtin.service:
+  service:
     name: consul_snapshot
     state: started
     enabled: true

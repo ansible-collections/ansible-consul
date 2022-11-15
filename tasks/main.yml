@@ -1,7 +1,7 @@
 ---
 # File: main.yml - Main tasks for Consul
 - name: Looking up latest version of Consul
-  ansible.builtin.set_fact:
+  set_fact:
     consul_version: "{{ (lookup('url', 'https://api.github.com/repos/hashicorp/consul/releases/latest', split_lines=False) |
                     from_json).get('tag_name') | replace('v', '') }}"
   when: 'consul_version == "latest"'
@@ -11,7 +11,7 @@
     - consul_install_dependencies | bool
   block:
     - name: Install netaddr dependency on controlling host (with --user)
-      ansible.builtin.pip:
+      pip:
         name: netaddr
         extra_args: --user
       delegate_to: 127.0.0.1
@@ -22,7 +22,7 @@
       when: not is_virtualenv or is_virtualenv == None
 
     - name: Install netaddr dependency on controlling host (virtualenv)
-      ansible.builtin.pip:
+      pip:
         name: netaddr
       delegate_to: 127.0.0.1
       become: false
@@ -32,10 +32,10 @@
       when: is_virtualenv is defined
 
 - name: Include checks/asserts
-  ansible.builtin.import_tasks: asserts.yml
+  import_tasks: asserts.yml
 
 - name: Include OS-specific variables
-  ansible.builtin.include_vars: "{{ vars_file_item }}"
+  include_vars: "{{ vars_file_item }}"
   with_first_found:
     - files:
         - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
@@ -48,21 +48,21 @@
 # Tasks for all *NIX operating systems
 # -----------------------------------------------------------------------
 - name: Include NIX tasks
-  ansible.builtin.include_tasks: nix.yml
+  include_tasks: nix.yml
   when: ansible_os_family != 'Windows'
 
 # -----------------------------------------------------------------------
 # Tasks for Windows
 # -----------------------------------------------------------------------
 - name: Include Windows tasks
-  ansible.builtin.include_tasks: windows.yml
+  include_tasks: windows.yml
   when: ansible_os_family == 'Windows'
 
 - name: Include services management
-  ansible.builtin.import_tasks: services.yml
+  import_tasks: services.yml
   when: consul_services is defined and consul_services|length>0
   tags:
     - consul_services
 
 - name: flush_handlers
-  ansible.builtin.meta: flush_handlers
+  meta: flush_handlers
