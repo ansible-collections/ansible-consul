@@ -22,7 +22,7 @@
   when: ansible_os_family != 'Windows'
 
 - name: Get the list of service config files [Windows]
-  ansible.windows.win_find:
+  win_find:
     paths: "{{ consul_configd_path }}"
     file_type: file
   register: services_enabled_windows
@@ -55,7 +55,7 @@
   when: ansible_os_family != 'Windows'
 
 - name: Find all service config files that we manage [Windows]
-  ansible.windows.win_stat:
+  win_stat:
     path: "{{ consul_configd_path }}/service_{{ service_config_item.name }}.json"
   with_items: "{{ consul_services }}"
   loop_control:
@@ -87,7 +87,7 @@
     - restart consul
 
 - name: Delete non declared services [Windows]
-  ansible.windows.win_file:
+  win_file:
     path: "{{ non_declared_service_item }}"
     state: absent
   when:
