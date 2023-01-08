@@ -2,10 +2,11 @@
 # File: main.yml - Meta main
 galaxy_info:
   author: Brian Shumate
+  role_name: ansible_consul
   description: Consul cluster role
   company: Brian Shumate
   license: BSD
-  min_ansible_version: 2.5
+  min_ansible_version: "2.5"
 
   platforms:
     - name: Alpine
