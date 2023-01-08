@@ -6,6 +6,6 @@ platforms:
     image: dokken/debian-8
     command: /lib/systemd/systemd
     dockerfile: ../_shared/Dockerfile.j2
-    privileged: True
+    privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
