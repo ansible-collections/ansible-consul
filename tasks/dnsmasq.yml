@@ -49,6 +49,11 @@
   when: ansible_service_mgr == "systemd"
   block:
 
+    - name: Check if systemd-resolved service exists
+      stat:
+        path: /lib/systemd/system/systemd-resolved.service
+      register: systemd_resolved_service
+
     - name: Disable systemd-resolved service
       service:
         name: systemd-resolved
@@ -57,6 +62,7 @@
         # Needed to force SysV service manager on Docker for Molecule tests
         use: "{{ ansible_service_mgr }}"
       become: true
+      when: systemd_resolved_service.stat.exists
 
     - name: Check if resolv.conf is pointing to systemd-resolved
       stat:
