@@ -46,6 +46,7 @@ The role might work with other OS distributions and versions, but is known to fu
 
 * Consul: 1.8.7
 * Ansible: 2.8.2
+* Alma Linux: 8, 9
 * Alpine Linux: 3.8
 * CentOS: 7, 8
 * Debian: 9
@@ -688,7 +689,7 @@ auto_encrypt:
 ### `consul_install_from_repo`
 
 - Boolean, whether to install consul from repository as opposed to installing the binary directly.
-- Supported distros: Amazon Linux, CentOS, Debian, Fedora, Ubuntu, Red Hat, Rocky.
+- Supported distros: Alma Linux, Amazon Linux, CentOS, Debian, Fedora, Ubuntu, Red Hat, Rocky.
 - Default value: false
 
 ### `consul_ui`
