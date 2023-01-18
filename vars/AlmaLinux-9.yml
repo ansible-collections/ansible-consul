@@ -1,0 +1,6 @@
+---
+# File: AlmaLinux-9.yml - Alma Linux version 9.x variables for Consul
+
+consul_os_packages:
+  - python3-libselinux
+  - unzip
