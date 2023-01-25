@@ -16,7 +16,6 @@ jobs:
         scenario:
           - almalinux-8
           - almalinux-9
-          - centos-6
           - centos-7
           - centos-stream-8
           - fedora-37
