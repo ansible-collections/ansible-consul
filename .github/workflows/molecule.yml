@@ -14,23 +14,15 @@ jobs:
       fail-fast: false
       matrix:
         scenario:
+          - almalinux-8
+          - almalinux-9
           - centos-6
           - centos-7
           - centos-stream-8
-          - debian-8
-          - debian-9
-          - debian-10
-          - fedora-26
-          - fedora-27
-          - fedora-28
-          - fedora-29
-          - fedora-30
-          - fedora-31
-          - oraclelinux-6
+          - fedora-37
           - oraclelinux-7
           - oraclelinux-8
-          - ubuntu-16.04
-          - ubuntu-18.04
+          - rockylinux-8
 
     steps:
       - uses: actions/checkout@v2
