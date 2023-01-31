@@ -8,6 +8,19 @@
     data: 1
     type: dword
 
+- name: See if Consul service exists
+  ansible.windows.win_service_info:
+    name: "Consul"
+  register: win_consul_service
+
+- name: Stop Consul service on Windows
+  ansible.windows.win_service:
+    name: "Consul"
+    state: stopped
+  when:
+    - win_consul_service.exists
+    - win_consul_service.services[0].state == "started"
+
 - name: Create temporary directory to download Consul
   win_tempfile:
     state: directory
