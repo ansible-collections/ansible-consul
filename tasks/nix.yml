@@ -47,6 +47,7 @@
 
 - name: Get current Consul version
   command: "{{ consul_binary }} --version"
+  check_mode: false
   changed_when: false
   when:
     - not consul_force_install
