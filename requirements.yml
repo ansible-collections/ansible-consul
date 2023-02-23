@@ -2,3 +2,5 @@
 collections:
   - name: ansible.utils
     version: 2.6.1
+  - name: ansible.windows
+    version: 1.13.0
