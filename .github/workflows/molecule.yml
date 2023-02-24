@@ -24,7 +24,8 @@ jobs:
           - rockylinux-8
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           path: "${{ github.repository }}"
 
