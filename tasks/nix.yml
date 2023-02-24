@@ -286,6 +286,8 @@
         name: consul
         state: started
         enabled: true
+        # Needed to force SysV service manager on Docker for Molecule tests
+        use: "{{ ansible_service_mgr }}"
 
     - name: Check Consul HTTP API (via TCP socket)
       wait_for:

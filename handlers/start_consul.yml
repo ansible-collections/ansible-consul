@@ -3,6 +3,8 @@
   service:
     name: consul
     state: started
+    # Needed to force SysV service manager on Docker for Molecule tests
+    use: "{{ ansible_service_mgr }}"
   when:
     - ansible_os_family != "Darwin"
     - ansible_os_family != "Windows"
