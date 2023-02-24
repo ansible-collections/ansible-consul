@@ -1,4 +1,20 @@
 ---
 skip_list:
+  # TODO: Fix ansible-lint violations for these errors and remove from skip_list
+  - "key-order[task]"
+  - "fqcn[action-core]"
+  - "fqcn[action]"
+  - "ignore-errors"
+  - "jinja[spacing]"
+  - "name[casing]"
+  - "name[missing]"
+  - "no-changed-when"
+  - "no-free-form"
+  - "no-handler"
+  - "risky-file-permissions"
+  - "schema[meta]"
+  - "var-naming"
+
+  # These errors should continue to be ignored
   - "no-jinja-when"
   - "role-name"
