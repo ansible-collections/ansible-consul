@@ -3,4 +3,6 @@
   service:
     name: syslog-ng
     state: restarted
+    # Needed to force SysV service manager on Docker for Molecule tests
+    use: "{{ ansible_service_mgr }}"
   listen: 'restart syslog-ng'

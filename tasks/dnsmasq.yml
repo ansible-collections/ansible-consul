@@ -54,6 +54,8 @@
         name: systemd-resolved
         enabled: false
         state: stopped
+        # Needed to force SysV service manager on Docker for Molecule tests
+        use: "{{ ansible_service_mgr }}"
       become: true
 
     - name: Check if resolv.conf is pointing to systemd-resolved

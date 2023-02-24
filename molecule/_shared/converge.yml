@@ -5,5 +5,7 @@
     - role: ansible-consul
 
   vars:
+    # Force SysVinit, since systemd won't work in a Docker container
+    ansible_service_mgr: "sysvinit"
     # TODO: Probably we need to install syslog-ng/rsyslog first
     consul_syslog_enable: False

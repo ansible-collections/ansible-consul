@@ -22,6 +22,8 @@
       service:
         name: consul
         state: stopped
+        # Needed to force SysV service manager on Docker for Molecule tests
+        use: "{{ ansible_service_mgr }}"
       when: ansible_facts.services | join is match('.*consul.*')
 
     - name: Remove consul service unit files from previous installation
