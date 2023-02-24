@@ -30,7 +30,8 @@ jobs:
           path: "${{ github.repository }}"
 
       - name: Molecule
-        uses: gofrolist/molecule-action@v2.0.1
+        uses: gofrolist/molecule-action@v2.3.13
         with:
           molecule_options: --base-config molecule/_shared/base.yml
           molecule_args: --scenario-name ${{ matrix.scenario }}
+          molecule_working_dir: "ansible-community/ansible-consul"
