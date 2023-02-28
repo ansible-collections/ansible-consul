@@ -1,4 +1,6 @@
 ---
-- import_tasks: "stop_consul_mac.yml"
+- name: (Mac) Stop consul service
+  import_tasks: "stop_consul_mac.yml"
 
-- import_tasks: "start_consul_mac.yml"
+- name: (Mac) Start consul service
+  import_tasks: "start_consul_mac.yml"

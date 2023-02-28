@@ -1,7 +1,8 @@
 ---
 # File: encrypt_gossip.yml - Gossip encryption tasks for Consul
 
-- block:
+- name: Save exsiting gossip encryption key
+  block:
     - name: Read gossip encryption key from previously boostrapped server
       shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
       register: consul_key_read
@@ -46,7 +47,8 @@
     - bootstrap_state.stat.exists | bool
   delegate_to: 127.0.0.1
 
-- block:
+- name: Write gossip encryption key
+  block:
     - name: Generate gossip encryption key
       shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
       register: consul_keygen

@@ -51,8 +51,10 @@
   include_tasks: install_windows.yml
   when: consul_install_binary | bool
 
-- block:
-    - block:
+- name: (Windows) Write gossip encryption key
+  block:
+    - name: (Windows) Save existing gossip encryption key
+      block:
         - name: (Windows) Check for gossip encryption key on previously boostrapped server
           slurp:
             src: "{{ consul_config_path }}/config.json"
@@ -90,8 +92,8 @@
       delegate_to: localhost
       when: consul_raw_key is defined
 
-    # Generate new key if non was found
-    - block:
+    - name: (Windows) Generate new gossip key if non was found
+      block:
 
         - name: (Windows) Generate gossip encryption key
           win_shell: "{{ consul_binary }} keygen"
@@ -150,7 +152,8 @@
   include_tasks: tls.yml
   when: consul_tls_enable | bool
 
-- block:
+- name: (Windows) Install consul and create service
+  block:
     - name: Convert consul_binary from Unix -> Windows
       win_stat:
         path: "{{ consul_binary }}"
@@ -188,7 +191,8 @@
         state: touch
       when: ansible_os_family == "Windows"
 
-    - include_tasks: ../tasks/iptables.yml
+    - name: Configure iptables
+      include_tasks: ../tasks/iptables.yml
       when: consul_iptables_enable | bool
 
   when: not bootstrap_state.stat.exists
@@ -200,5 +204,6 @@
     state: started
   when: bootstrap_state.stat.exists
 
-- include_tasks: ../tasks/dnsmasq.yml
+- name: Include tassk to configure dnsmasq
+  include_tasks: ../tasks/dnsmasq.yml
   when: consul_dnsmasq_enable | bool
