@@ -9,4 +9,6 @@ rules:
     max-spaces-inside: 1
     level: error
   line-length: disable
-  truthy: disable
+  truthy:
+    allowed-values: ['true', 'false']
+    check-keys: false
