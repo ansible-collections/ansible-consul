@@ -1,0 +1,46 @@
+{
+    "name": "Python 3",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "..",
+        "args": {"VARIANT": "3.8"}
+    },
+    "customizations": {
+        "vscode": {
+          "settings": {
+            "python.pythonPath": "/usr/local/bin/python",
+            "python.linting.enabled": true,
+            "python.linting.pylintEnabled": true,
+            "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+            "python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+            "python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
+            "python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
+            "python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+            "python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
+            "python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
+            "python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
+            "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint"
+          },
+          "extensions": [
+              "redhat.ansible",
+              "ms-python.python",
+              "ms-python.pylint",
+              "ms-vscode.test-adapter-converter",
+              "hbenl.vscode-test-explorer",
+              "littlefoxteam.vscode-python-test-adapter",
+              "timonwong.shellcheck"
+        ]
+      }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    "ghcr.io/guiyomh/features/vim:0": {},
+    "ghcr.io/jungaretti/features/make:1": {},
+    "ghcr.io/devcontainers-contrib/features/nmap-apt-get:1": {},
+    "ghcr.io/lukewiwa/features/shellcheck:0": {},
+    "ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
+    "ghcr.io/eitsupi/devcontainer-features/jq-likes:1": {}
+  },
+  "forwardPorts": [8000],
+  "remoteUser": "root"
+}

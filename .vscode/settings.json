@@ -1,0 +1,14 @@
+{
+    "editor.rulers": [
+        120
+    ],
+    "files.associations": {
+        "**/molecule/**/molecule.yml": "yaml",
+        "**/templates/*.j2": "ansible-jinja",
+        "*.yml": "ansible"
+    },
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false
+}
