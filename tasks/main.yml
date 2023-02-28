@@ -64,5 +64,5 @@
   tags:
     - consul_services
 
-- name: flush_handlers
+- name: Flush handlers
   meta: flush_handlers
