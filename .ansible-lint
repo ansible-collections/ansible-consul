@@ -6,7 +6,6 @@ skip_list:
   - "fqcn[action]"
   - "ignore-errors"
   - "jinja[spacing]"
-  - "name[missing]"
   - "no-changed-when"
   - "no-free-form"
   - "no-handler"
