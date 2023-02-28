@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+      "redhat.ansible",
+      "ms-python.python",
+      "ms-python.pylint",
+      "ms-vscode.test-adapter-converter",
+      "hbenl.vscode-test-explorer",
+      "littlefoxteam.vscode-python-test-adapter",
+      "eamodio.gitlens"
+    ]
+}
