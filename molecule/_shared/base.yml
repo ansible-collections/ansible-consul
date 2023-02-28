@@ -26,13 +26,13 @@ provisioner:
   name: ansible
   config_options:
     defaults:
-      deprecation_warnings: False
+      deprecation_warnings: false
       callback_whitelist: timer,profile_tasks
       fact_caching: jsonfile
       fact_caching_connection: ./cache
       forks: 100
     connection:
-      pipelining: True
+      pipelining: true
   playbooks:
     prepare: ../_shared/prepare.yml
     converge: ../_shared/converge.yml
