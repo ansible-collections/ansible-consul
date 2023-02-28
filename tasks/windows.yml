@@ -51,8 +51,10 @@
   include_tasks: install_windows.yml
   when: consul_install_binary | bool
 
-- block:
-    - block:
+- name: Gossip encrypytion block
+  block:
+    - name: Get gossip encryption key
+      block:
         - name: (Windows) Check for gossip encryption key on previously boostrapped server
           slurp:
             src: "{{ consul_config_path }}/config.json"
@@ -90,8 +92,8 @@
       delegate_to: localhost
       when: consul_raw_key is defined
 
-    # Generate new key if non was found
-    - block:
+    - name: Generate new key if non was found
+      block:
 
         - name: (Windows) Generate gossip encryption key
           win_shell: "{{ consul_binary }} keygen"
@@ -150,7 +152,8 @@
   include_tasks: tls.yml
   when: consul_tls_enable | bool
 
-- block:
+- name: Bootstrap Consul block
+  block:
     - name: Convert consul_binary from Unix -> Windows
       win_stat:
         path: "{{ consul_binary }}"

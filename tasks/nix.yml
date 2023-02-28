@@ -76,8 +76,10 @@
 
 # XXX: Individual gossip tasks are deprecated and need to be removed
 # - include_tasks: ../tasks/encrypt_gossip.yml
-- block:
-    - block:
+- name: Gossip encryption block
+  block:
+    - name: Get gossip encryption key from existing configuration
+      block:
         - name: Check for gossip encryption key on previously boostrapped server
           slurp:
             src: "{{ consul_config_path }}/config.json"
@@ -114,8 +116,8 @@
       changed_when: false
       when: consul_raw_key is defined
 
-    # Generate new key if none was found
-    - block:
+    - name: Generate new key if none was found
+      block:
         - name: Generate gossip encryption key
           shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
           register: consul_keygen
@@ -280,7 +282,8 @@
     - not ansible_os_family == "Darwin"
     - consul_snapshot | bool
 
-- block:
+- name: Startup
+  block:
 
     - name: Start Consul
       service:

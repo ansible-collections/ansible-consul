@@ -1,7 +1,8 @@
 ---
 # File: tls.yml - TLS tasks for Consul
 
-- block:
+- name: Copy CA certificates block
+  block:
     - name: Create SSL directory
       file:
         dest: "{{ consul_tls_dir }}"
@@ -23,7 +24,8 @@
   when:
     - consul_tls_copy_keys | bool
 
-- block:
+- name: Copy TLS files block
+  block:
     - name: Copy server certificate
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
