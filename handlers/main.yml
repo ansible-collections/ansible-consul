@@ -1,16 +1,16 @@
 ---
 # File: main.yml - Handlers for Consul
 
-- name: restart consul
+- name: Restart consul
   import_tasks: restart_consul.yml
 
-- name: start consul
+- name: Start consul
   import_tasks: start_consul.yml
 
-- name: reload consul configuration
+- name: Reload consul configuration
   import_tasks: reload_consul_conf.yml
 
-- name: restart dnsmasq
+- name: Restart dnsmasq
   service:
     name: dnsmasq
     enabled: true
@@ -19,19 +19,19 @@
     use: "{{ ansible_service_mgr }}"
   become: true
 
-- name: restart rsyslog
+- name: Restart rsyslog
   import_tasks: restart_rsyslog.yml
 
-- name: restart syslog-ng
+- name: Restart syslog-ng
   import_tasks: restart_syslogng.yml
 
-- name: restart syslog-ng
+- name: Restart syslog-ng
   import_tasks: restart_syslogng.yml
 
-- name: start snapshot
+- name: Start snapshot
   import_tasks: start_snapshot.yml
 
-- name: systemctl daemon-reload
+- name: Systemctl daemon-reload
   systemd:
     daemon_reload: true
   become: true
