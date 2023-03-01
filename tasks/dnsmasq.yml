@@ -49,6 +49,11 @@
   when: ansible_service_mgr == "systemd"
   block:
 
+    - name: Check if systemd-resolved service exists
+      stat:
+        path: /lib/systemd/system/systemd-resolved.service
+      register: systemd_resolved_service
+
     - name: Disable systemd-resolved service
       service:
         name: systemd-resolved
@@ -57,18 +62,31 @@
         # Needed to force SysV service manager on Docker for Molecule tests
         use: "{{ ansible_service_mgr }}"
       become: true
+      when: systemd_resolved_service.stat.exists
 
     - name: Check if resolv.conf is pointing to systemd-resolved
       stat:
         path: /etc/resolv.conf
       register: resolv_dot_conf
 
-    - name: Remove resolv.conf association with systemd-resolved
-      file:
-        src: /run/resolvconf/resolv.conf
-        path: /etc/resolv.conf
-        state: link
+    - name: Configure resolv.conf for dnsmasq
+      block:
+        - name: Remove resolv.conf association with systemd-resolved
+          file:
+            path: /etc/resolv.conf
+            state: absent
+
+        - name: Add a nameserver entry poining to localhost for dnsmasq
+          lineinfile:
+            path: /etc/resolv.conf
+            regexp: "^nameserver 127.0.0.1"
+            line: "nameserver 127.0.0.1"
+            create: true
+            owner: root
+            group: root
+            mode: "u=rw,g=r,o=r"
       become: true
       when:
+        - resolv_dot_conf.stat.exists
         - resolv_dot_conf.stat.islnk
-        - 'resolv_dot_conf.stat.lnk_source == "/run/systemd/resolve/stub-resolv.conf"'
+        - resolv_dot_conf.stat.lnk_source == "/run/systemd/resolve/stub-resolv.conf"
