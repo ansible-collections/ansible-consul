@@ -408,6 +408,7 @@ consul_node_meta:
     https: "{{ consul_addresses_https | default(consul_client_address, true) }}"
     rpc: "{{ consul_addresses_rpc | default(consul_client_address, true) }}"
     grpc: "{{ consul_addresses_grpc | default(consul_client_address, true) }}"
+    grpc_tls: "{{ consul_addresses_grpc_tls | default(consul_client_address, true) }}"
   ```
 
 ### `consul_ports`
@@ -419,6 +420,7 @@ consul_node_meta:
   - https - The HTTPS API, -1 to disable. Default -1 (disabled).
   - rpc - The CLI RPC endpoint. Default 8400. This is deprecated in Consul 0.8 and later.
   - grpc - The gRPC endpoint, -1 to disable. Default -1 (disabled).
+  - grpc_tls - The gRPC TLS endpoint, -1 to disable. Default -1 (disabled). This is available in Consul 1.14.0 and later.
   - serf_lan - The Serf LAN port. Default 8301.
   - serf_wan - The Serf WAN port. Default 8302.
   - server - Server RPC address. Default 8300.
@@ -436,6 +438,7 @@ For example, to enable the consul HTTPS API it is possible to set the variable a
     serf_wan: "{{ consul_ports_serf_wan | default('8302', true) }}"
     server: "{{ consul_ports_server | default('8300', true) }}"
     grpc: "{{ consul_ports_grpc | default('-1', true) }}"
+    grpc_tls: "{{ consul_ports_grpc_tls | default('-1', true) }}"
 ```
 
 Notice that the dict object has to use precisely the names stated in the documentation! And all ports must be specified. Overwriting one or multiple ports can be done using the `consul_ports_*` variables.
