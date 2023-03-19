@@ -4,6 +4,7 @@ skip_list:
   - "key-order[task]"
   - "fqcn[action-core]"
   - "fqcn[action]"
+  - "fqcn-builtins"
   - "ignore-errors"
   - "jinja[spacing]"
   - "no-changed-when"
