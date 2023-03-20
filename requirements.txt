@@ -1,7 +1,7 @@
 ansible==7.0.0
 ansible-compat==2.2.0
 ansible-core==2.14.3
-ansible-lint==6.4.0
+ansible-lint==6.15.0
 ansible-runner==2.2.1
 arrow==1.2.2
 attrs==22.1.0
@@ -63,4 +63,4 @@ typing_extensions==4.3.0
 tzdata==2022.2
 urllib3==1.26.11
 wcmatch==8.4
-yamllint==1.27.1
+yamllint==1.30.0
