@@ -33,7 +33,7 @@ jobs:
           path: "${{ github.repository }}"
 
       - name: Molecule
-        uses: gofrolist/molecule-action@v2.3.13
+        uses: gofrolist/molecule-action@v2.3.16
         with:
           molecule_options: --base-config molecule/_shared/base.yml
           molecule_args: --scenario-name ${{ matrix.scenario }}
