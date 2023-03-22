@@ -141,8 +141,7 @@
 - name: (Windows) Ensure neither ACL nor TLS are requested
   fail:
     msg: "ACL is not supported on Windows hosts yet."
-  when:
-    - (consul_acl_enable | bool)
+  when: consul_acl_enable | bool
 
 - name: (Windows) Create ACL configuration
   include_tasks: acl.yml
