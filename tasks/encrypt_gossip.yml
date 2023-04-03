@@ -4,7 +4,7 @@
 - name: Save exsiting gossip encryption key
   block:
     - name: Read gossip encryption key from previously boostrapped server
-      shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
+      shell: 'set -o pipefail && cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
       register: consul_key_read
       run_once: true
 
@@ -50,7 +50,7 @@
 - name: Write gossip encryption key
   block:
     - name: Generate gossip encryption key
-      shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
+      shell: "set -o pipefail && PATH={{ consul_bin_path }}:$PATH consul keygen"
       register: consul_keygen
       run_once: true
 

@@ -119,7 +119,7 @@
     - name: Generate new gossip encryption key if none was found
       block:
         - name: Generate gossip encryption key
-          shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
+          shell: "set -o pipefail && PATH={{ consul_bin_path }}:$PATH consul keygen"
           register: consul_keygen
 
         - name: Write key locally to share with other nodes
@@ -261,13 +261,13 @@
   register: smfmanifest
 
 - name: Import smf manifest
-  shell: "svccfg import {{ consul_smf_manifest }}"
+  shell: "set -o pipefail && svccfg import {{ consul_smf_manifest }}"
   when:
     - smfmanifest is changed
     - ansible_os_family == "Solaris"
   tags: skip_ansible_lint
 - name: Import smf script
-  shell: "svcadm refresh consul"
+  shell: "set -o pipefail && svcadm refresh consul"
   when:
     - smfmanifest is changed
     - ansible_os_family == "Solaris"

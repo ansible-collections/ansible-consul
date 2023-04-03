@@ -47,7 +47,7 @@
   delegate_to: 127.0.0.1
 
 - name: Read package checksum
-  shell: grep "{{ consul_pkg }}" "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS" | awk '{print $1}'
+  shell: set -o pipefail && grep "{{ consul_pkg }}" "{{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS" | awk '{print $1}'
   become: false
   vars:
     ansible_become: false

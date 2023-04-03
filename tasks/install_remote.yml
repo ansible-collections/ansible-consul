@@ -31,7 +31,7 @@
       when: not consul_checksum.stat.exists | bool
 
     - name: Read Consul package checksum
-      shell: "grep {{ consul_pkg }} {{ consul_temp_dir.path }}/consul_{{ consul_version }}_SHA256SUMS"
+      shell: "set -o pipefail && grep {{ consul_pkg }} {{ consul_temp_dir.path }}/consul_{{ consul_version }}_SHA256SUMS"
       register: consul_sha256
       changed_when: false
       tags:
