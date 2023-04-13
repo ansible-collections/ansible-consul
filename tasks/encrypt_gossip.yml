@@ -1,7 +1,7 @@
 ---
 # File: encrypt_gossip.yml - Gossip encryption tasks for Consul
 
-- name: Save exsiting gossip encryption key
+- name: Save existing gossip encryption key
   block:
     - name: Read gossip encryption key from previously boostrapped server
       shell: 'cat {{ consul_config_path }}/bootstrap/config.json | grep "encrypt" | sed -E ''s/"encrypt": "(.+)",?/\1/'' | sed ''s/^ *//;s/ *$//'''
