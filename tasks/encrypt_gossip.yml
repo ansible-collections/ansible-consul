@@ -48,14 +48,31 @@
   delegate_to: 127.0.0.1
 
 - name: Write gossip encryption key
+  run_once: true
   when:
     - consul_raw_key is not defined
     - not bootstrap_state.stat.exists | bool
   block:
-    - name: Generate gossip encryption key
-      shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
-      register: consul_keygen
-      run_once: true
+    - name: Create temporary file to receive gossip encryption key
+      tempfile:
+        state: file
+      register: gossip_key_tempfile
 
-    - name: Write gossip encryption key to fact
-      set_fact: consul_raw_key={{ consul_keygen.stdout }}
+    - name: Generate gossip encryption key
+      shell: "PATH={{ consul_bin_path }}:$PATH consul keygen > {{ gossip_key_tempfile.path }}"
+      register: consul_keygen
+
+    - name: Slurp gossip encryption key
+      slurp:
+        src: "{{ gossip_key_tempfile.path }}"
+      register: consul_keygen_cmd
+
+    - name: Set gossip encryption key to fact
+      set_fact:
+        consul_raw_key: "{{ consul_keygen_cmd | b64decode }}"
+
+      always:
+        - name: Clean up temporary file
+          file:
+            path: "{{ gossip_key_tempfile.path }}"
+            state: absent

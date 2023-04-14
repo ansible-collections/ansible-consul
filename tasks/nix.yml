@@ -122,18 +122,27 @@
         - lookup('first_found', dict(files=['/tmp/consul_raw.key'], skip=true)) | ternary(false, true)
         - not bootstrap_state.stat.exists | bool
       block:
+        - name: Create temporary file to receive gossip encryption key
+          tempfile:
+            state: file
+          register: gossip_key_tempfile
+
         - name: Generate gossip encryption key
-          shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
+          shell: "PATH={{ consul_bin_path }}:$PATH consul keygen > {{ gossip_key_tempfile.path }}"
           register: consul_keygen
 
-        - name: Write key locally to share with other nodes
-          copy:
-            content: "{{ consul_keygen.stdout }}"
-            dest: '/tmp/consul_raw.key'
+        - name: Fetch key locally to share with other nodes
           become: false
-          vars:
-            ansible_become: false
-          delegate_to: localhost
+          fetch:
+            src: "{{ gossip_key_tempfile.path }}"
+            dest: "/tmp/consul_raw.key"
+            flat: true
+
+      always:
+        - name: Clean up temporary file
+          file:
+            path: "{{ gossip_key_tempfile.path }}"
+            state: absent
 
     - name: Read gossip encryption key for servers that require it
       set_fact:
