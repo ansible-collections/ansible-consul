@@ -76,7 +76,6 @@
 # XXX: Individual gossip tasks are deprecated and need to be removed
 # - include_tasks: ../tasks/encrypt_gossip.yml
 - name: Configure gossip encryption key
-  no_log: true
   when: consul_encrypt_enable | bool
   block:
     - name: Save existing gossip encryption key
@@ -95,9 +94,9 @@
         - name: Save gossip encryption key from existing configuration
           set_fact:
             consul_raw_key: "{{ consul_config.encrypt }}"
+          no_log: true
           when: consul_config is defined
 
-      no_log: true
       when:
         - consul_raw_key is not defined
         - bootstrap_state.stat.exists | bool
@@ -112,13 +111,11 @@
       become: false
       vars:
         ansible_become: false
-      no_log: true
       delegate_to: localhost
       changed_when: false
       when: consul_raw_key is defined
 
     - name: Generate new gossip encryption key if none was found
-      no_log: true
       run_once: true
       when:
         # if files '/tmp/consul_raw.key' exist

@@ -86,7 +86,6 @@
       become: false
       vars:
         ansible_become: false
-      no_log: true
       run_once: true
       register: consul_local_key
       delegate_to: localhost
@@ -97,6 +96,7 @@
 
         - name: (Windows) Generate gossip encryption key
           win_shell: "{{ consul_binary }} keygen"
+          no_log: true
           register: consul_keygen
 
         - name: (Windows) Write key locally to share with other nodes
@@ -109,7 +109,6 @@
             ansible_become: false
           delegate_to: localhost
 
-      no_log: true
       run_once: true
       when:
         - not consul_local_key.changed
