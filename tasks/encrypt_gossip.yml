@@ -48,6 +48,9 @@
   delegate_to: 127.0.0.1
 
 - name: Write gossip encryption key
+  when:
+    - consul_raw_key is not defined
+    - not bootstrap_state.stat.exists | bool
   block:
     - name: Generate gossip encryption key
       shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
@@ -56,6 +59,3 @@
 
     - name: Write gossip encryption key to fact
       set_fact: consul_raw_key={{ consul_keygen.stdout }}
-  when:
-    - consul_raw_key is not defined
-    - not bootstrap_state.stat.exists | bool

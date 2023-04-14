@@ -77,6 +77,9 @@
 # XXX: Individual gossip tasks are deprecated and need to be removed
 # - include_tasks: ../tasks/encrypt_gossip.yml
 - name: Configure gossip encryption key
+  no_log: true
+  when:
+    - consul_encrypt_enable | bool
   block:
     - name: Save existing gossip encryption key
       block:
@@ -117,6 +120,12 @@
       when: consul_raw_key is defined
 
     - name: Generate new gossip encryption key if none was found
+      no_log: true
+      run_once: true
+      when:
+        # if files '/tmp/consul_raw.key' exist
+        - lookup('first_found', dict(files=['/tmp/consul_raw.key'], skip=true)) | ternary(false, true)
+        - not bootstrap_state.stat.exists | bool
       block:
         - name: Generate gossip encryption key
           shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
@@ -130,13 +139,6 @@
           vars:
             ansible_become: false
           delegate_to: localhost
-
-      no_log: true
-      run_once: true
-      when:
-        # if files '/tmp/consul_raw.key' exist
-        - lookup('first_found', dict(files=['/tmp/consul_raw.key'], skip=true)) | ternary(false, true)
-        - not bootstrap_state.stat.exists | bool
 
     - name: Read gossip encryption key for servers that require it
       set_fact:
@@ -155,9 +157,6 @@
       run_once: true
       delegate_to: localhost
       changed_when: false
-  no_log: true
-  when:
-    - consul_encrypt_enable | bool
 
 - name: Create ACL configuration
   include_tasks: acl.yml
