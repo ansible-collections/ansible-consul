@@ -21,8 +21,7 @@
         mode: 0644
       notify: restart consul
 
-  when:
-    - consul_tls_copy_keys | bool
+  when: consul_tls_copy_keys | bool
 
 - name: Copy server certificate and key
   block:

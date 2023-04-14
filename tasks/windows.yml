@@ -119,8 +119,7 @@
       set_fact:
         consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
       no_log: true
-      when:
-        - consul_raw_key is not defined
+      when: consul_raw_key is not defined
 
     - name: (Windows) Delete gossip encryption key file
       file:
@@ -132,8 +131,7 @@
       run_once: true
       delegate_to: localhost
   no_log: true
-  when:
-    - consul_encrypt_enable
+  when: consul_encrypt_enable
 
 - name: (Windows) Create Consul configuration
   import_tasks: config_windows.yml

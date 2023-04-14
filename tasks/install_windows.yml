@@ -65,8 +65,7 @@
     - name: Compare checksum to hashfile
       fail:
         msg: "Checksum {{ consul_pkg_checksum.stdout.split(' ') | first }} did not match calculated SHA256 {{ consul_pkg_hash.stat.checksum }}!"
-      when:
-        - consul_pkg_hash.stat.checksum != (consul_pkg_checksum.stdout.split(' ') | first)
+      when: consul_pkg_hash.stat.checksum != (consul_pkg_checksum.stdout.split(' ') | first)
 
     - name: Unarchive Consul and install binary
       win_unzip:

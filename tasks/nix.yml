@@ -33,8 +33,7 @@
 
 - name: Install OS packages and consul - from the repository
   include_tasks: install_linux_repo.yml
-  when:
-    - consul_install_from_repo | bool
+  when: consul_install_from_repo | bool
 
 - name: Include directory settings
   import_tasks: dirs.yml
@@ -78,8 +77,7 @@
 # - include_tasks: ../tasks/encrypt_gossip.yml
 - name: Configure gossip encryption key
   no_log: true
-  when:
-    - consul_encrypt_enable | bool
+  when: consul_encrypt_enable | bool
   block:
     - name: Save existing gossip encryption key
       block:
@@ -144,8 +142,7 @@
       set_fact:
         consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
       no_log: true
-      when:
-        - consul_raw_key is not defined
+      when: consul_raw_key is not defined
 
     - name: Delete gossip encryption key file
       file:
