@@ -100,8 +100,7 @@
 - name: Fail if more than one bootstrap server is defined
   fail:
     msg: "You can not define more than one bootstrap server."
-  when:
-    - _consul_bootstrap_servers | length > 1
+  when: _consul_bootstrap_servers | length > 1
 
 - name: Fail if a bootstrap server is defined and bootstrap_expect is true
   fail:
@@ -127,5 +126,4 @@
 - name: Install remotely if unzip is not installed on control host
   set_fact:
     consul_install_remotely: true
-  when:
-    - is_unzip_installed is failed
+  when: is_unzip_installed is failed

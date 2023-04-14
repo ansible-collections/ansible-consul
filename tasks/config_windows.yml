@@ -20,8 +20,7 @@
       when: "{{ consul_debug | bool }}"
   loop_control:
     loop_var: config_item
-  when:
-    - config_item.when
+  when: config_item.when
   notify:
     - restart consul
 
@@ -29,8 +28,7 @@
   win_copy:
     dest: "{{ consul_configd_path }}/50custom.json"
     content: "{{ lookup('template', 'templates/configd_50custom.json.j2', convert_data=True) | to_nice_json }}"
-  when:
-    - consul_config_custom is defined
+  when: consul_config_custom is defined
   notify:
     - restart consul
 
