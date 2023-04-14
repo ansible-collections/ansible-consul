@@ -13,6 +13,12 @@ skip_list:
   - "schema[meta]"
   - "var-naming"
 
+  # Pipefail is a bit more difficult, because the shell shipped in the Docker image used
+  # by the Molecule tests doesn't recognize the pipefail option. Likewise, we also need to
+  # make sure that the playbook works for hosts that don't have a modern bash or a default
+  # shell such as /bin/sh.
+  - "risky-shell-pipe"
+
   # These errors should continue to be ignored
   - "no-jinja-when"
   - "role-name"
