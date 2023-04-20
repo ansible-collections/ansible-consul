@@ -18,6 +18,7 @@
     # Needed to force SysV service manager on Docker for Molecule tests
     use: "{{ ansible_service_mgr }}"
   become: true
+  listen: 'restart dnsmasq'
 
 - name: Restart rsyslog
   import_tasks: restart_rsyslog.yml
@@ -35,3 +36,4 @@
   systemd:
     daemon_reload: true
   become: true
+  listen: 'systemctl daemon-reload'
