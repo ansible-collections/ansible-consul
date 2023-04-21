@@ -18,6 +18,7 @@ jobs:
           - almalinux-9
           - centos-7
           - centos-stream-8
+          - centos-stream-9
           - debian-9
           - debian-10
           - fedora-37
