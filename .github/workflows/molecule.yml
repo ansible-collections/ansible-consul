@@ -16,10 +16,8 @@ jobs:
         scenario:
           - almalinux-8
           - almalinux-9
-          - centos-7
           - centos-stream-8
           - centos-stream-9
-          - debian-9
           - debian-10
           - debian-11
           - fedora-37
@@ -29,7 +27,6 @@ jobs:
           - oraclelinux-9
           - rockylinux-8
           - rockylinux-9
-          - ubuntu-18.04
           - ubuntu-20.04
           - ubuntu-22.04
 
