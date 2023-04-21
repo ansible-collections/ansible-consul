@@ -30,6 +30,7 @@ jobs:
           - rockylinux-8
           - rockylinux-9
           - ubuntu-18.04
+          - ubuntu-20.04
 
     steps:
       - name: Checkout
