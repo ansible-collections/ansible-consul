@@ -23,6 +23,7 @@ jobs:
           - debian-10
           - debian-11
           - fedora-37
+          - fedora-38
           - oraclelinux-7
           - oraclelinux-8
           - rockylinux-8
