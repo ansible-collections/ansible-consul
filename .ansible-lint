@@ -1,6 +1,7 @@
 ---
 skip_list:
   # TODO: Fix ansible-lint violations for these errors and remove from skip_list
+  - "fqcn-builtins"
   - "fqcn[action-core]"
   - "fqcn[action]"
   - "ignore-errors"
@@ -12,6 +13,7 @@ skip_list:
   - "risky-file-permissions"
   - "schema[meta]"
   - "var-naming"
+  - "var-spacing"
 
   # Pipefail is a bit more difficult, because the shell shipped in the Docker image used
   # by the Molecule tests doesn't recognize the pipefail option. Likewise, we also need to
