@@ -1,11 +1,11 @@
 ---
 skip_list:
   # TODO: Fix ansible-lint violations for these errors and remove from skip_list
-  - "key-order[task]"
   - "fqcn[action-core]"
   - "fqcn[action]"
   - "ignore-errors"
   - "jinja[spacing]"
+  - "key-order[task]"
   - "no-changed-when"
   - "no-free-form"
   - "no-handler"
