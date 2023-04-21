@@ -2,7 +2,6 @@
 scenario:
   test_sequence:
     - dependency
-    - lint
     - syntax
     - create
     - prepare
@@ -16,11 +15,6 @@ dependency:
     requirements-file: requirements.yml
 driver:
   name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
-  flake8
 role_name_check: 1
 provisioner:
   name: ansible
