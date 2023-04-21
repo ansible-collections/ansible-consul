@@ -26,6 +26,7 @@ jobs:
           - fedora-38
           - oraclelinux-7
           - oraclelinux-8
+          - oraclelinux-9
           - rockylinux-8
           - ubuntu-18.04
 
