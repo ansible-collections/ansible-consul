@@ -1,0 +1,46 @@
+---
+name: Ansible-lint
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: "${{ github.repository }}"
+
+      # This is unfortunately necessary because this role doesn't follow Ansible's rules
+      # for role naming. If we should manage to rename the role, this task could be
+      # eliminated.
+      - name: Configure role symlink
+        run: |
+          sudo mkdir -p /usr/share/ansible/roles
+          sudo ln -s $PWD/${{ github.repository }} /usr/share/ansible/roles/ansible-consul
+
+      # Similar to the above, we can't use Ansible's ansible-lint-action workflow because
+      # it makes too many assumptions for us. We need to install it ourselves and run it
+      # manually. If we could use that action, the next two steps could be removed.
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip
+          sudo pip3 install -r ${{ github.repository }}/requirements.txt
+
+      - name: Run ansible-lint
+        run: |
+          ansible-lint --offline -c ${{ github.repository }}/.ansible-lint ${{ github.repository }}
+
+      - name: Run yamllint
+        run: |
+          yamllint -c ${{ github.repository }}/.yamllint ${{ github.repository }}
+
+      - name: Run flake8
+        run: |
+          flake8 ${{ github.repository }}
