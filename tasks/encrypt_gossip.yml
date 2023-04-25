@@ -76,3 +76,4 @@
           file:
             path: "{{ gossip_key_tempfile.path }}"
             state: absent
+          when: gossip_key_tempfile is defined
