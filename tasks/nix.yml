@@ -73,8 +73,6 @@
     - consul_install_remotely | bool
     - not consul_install_from_repo | bool
 
-# XXX: Individual gossip tasks are deprecated and need to be removed
-# - include_tasks: ../tasks/encrypt_gossip.yml
 - name: Configure gossip encryption key
   when: consul_encrypt_enable | bool
   block:
