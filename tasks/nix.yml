@@ -110,6 +110,7 @@
       vars:
         ansible_become: false
       delegate_to: localhost
+      run_once: true
       changed_when: false
       when: consul_raw_key is defined
 
