@@ -100,11 +100,22 @@
         - bootstrap_state.stat.exists | bool
         - inventory_hostname in consul_servers
 
+    - name: Create temporary file for raw gossip encryption key
+      delegate_to: localhost
+      tempfile:
+        suffix: ".key"
+      become: false
+      vars:
+        ansible_become: false
+      run_once: true
+      changed_when: false
+      register: consul_raw_key_file
+
     # Key provided by extra vars or the above block
     - name: Write gossip encryption key locally for use with new servers
       copy:
         content: "{{ consul_raw_key }}"
-        dest: '/tmp/consul_raw.key'
+        dest: "{{ consul_raw_key_file.path }}"
         mode: 0600
       become: false
       vars:
@@ -133,7 +144,7 @@
           become: false
           fetch:
             src: "{{ gossip_key_tempfile.path }}"
-            dest: "/tmp/consul_raw.key"
+            dest: "{{ consul_raw_key_file.path }}"
             flat: true
 
       always:
@@ -145,13 +156,13 @@
 
     - name: Read gossip encryption key for servers that require it
       set_fact:
-        consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
+        consul_raw_key: "{{ lookup('file', consul_raw_key_file.path) }}"
       no_log: true
       when: consul_raw_key is not defined
 
     - name: Delete gossip encryption key file
       file:
-        path: '/tmp/consul_raw.key'
+        path: "{{ consul_raw_key_file.path }}"
         state: absent
       become: false
       vars:
