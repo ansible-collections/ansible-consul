@@ -111,7 +111,7 @@
 
       run_once: true
       when:
-        - not consul_local_key.changed
+        - consul_raw_key is not defined
         - not bootstrap_state.stat.exists | bool
 
     - name: (Windows) Read gossip encryption key for servers that require it
