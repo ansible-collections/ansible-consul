@@ -647,7 +647,8 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - [Minimum acceptable TLS version](https://www.consul.io/docs/agent/options.html#tls_min_version)
   - Can be overridden with `CONSUL_TLS_MIN_VERSION` environment variable
-- Default value: tls12
+  - For versions < 1.12.0 use 'tls12,tls13,...'
+- Default value: TLSv1_2
 
 ### `consul_tls_cipher_suites`
 
