@@ -132,6 +132,7 @@
         - not bootstrap_state.stat.exists | bool
       block:
         - name: Create temporary file to receive gossip encryption key
+          become: false
           tempfile:
             state: file
           register: gossip_key_tempfile
@@ -149,6 +150,7 @@
 
       always:
         - name: Clean up temporary file
+          become: false
           file:
             path: "{{ gossip_key_tempfile.path }}"
             state: absent
