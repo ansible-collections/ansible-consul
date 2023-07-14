@@ -138,6 +138,7 @@
           register: gossip_key_tempfile
 
         - name: Generate gossip encryption key
+          become: false
           shell: "PATH={{ consul_bin_path }}:$PATH consul keygen > {{ gossip_key_tempfile.path }}"
           register: consul_keygen
 
