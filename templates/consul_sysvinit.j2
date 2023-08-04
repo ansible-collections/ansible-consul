@@ -11,7 +11,7 @@
 . /etc/init.d/functions
 {% endif %}
 
-CONSUL={{ consul_bin_path }}/consul
+CONSUL={{ consul_binary }}
 CONFIG={{ consul_config_path }}/config.json
 CONFIGD={{ consul_configd_path }}
 PID_FILE={{ consul_run_path }}/consul.pid
@@ -45,6 +45,7 @@ start() {
         mkrundir
         mkpidfile
         # [ -f "${PID_FILE}" ] && rm "${PID_FILE}"
+        su -m {{ consul_user }} -c "${CONSUL} validate -quiet ${CONFIG} ${CONFIGD}"
         daemon --user={{ consul_user }} \
             --pidfile="${PID_FILE}" \
             "${CONSUL}" agent -config-file="${CONFIG}" -config-dir="${CONFIGD}" -pid-file="${PID_FILE}" &
