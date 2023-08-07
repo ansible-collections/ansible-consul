@@ -36,6 +36,8 @@ consul_checksum_file_url: https://releases.hashicorp.com/consul/{{ consul_versio
 consul_force_install: false
 consul_install_remotely: false
 consul_install_from_repo: false
+consul_rolling_restart: false
+consul_rolling_restart_delay_sec: 5
 
 ### Paths
 consul_bin_path: /usr/local/bin
