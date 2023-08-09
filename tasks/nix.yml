@@ -211,22 +211,7 @@
     group: root
     mode: "0755"
   when:
-    - not ansible_service_mgr == "systemd"
-    - not ansible_os_family == "Debian"
-    - not ansible_os_family == "FreeBSD"
-    - not ansible_os_family == "Solaris"
-    - not ansible_os_family == "Darwin"
-
-- name: Create Debian init script
-  ansible.builtin.template:
-    src: consul_debianinit.j2
-    dest: /etc/init.d/consul
-    owner: root
-    group: root
-    mode: "0755"
-  when:
-    - not ansible_service_mgr == "systemd"
-    - ansible_os_family == "Debian"
+    - ansible_service_mgr == "sysvinit"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
     - not ansible_os_family == "Darwin"
