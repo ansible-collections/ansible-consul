@@ -61,6 +61,6 @@ tox==3.21.4
 types-setuptools==64.0.1
 typing_extensions==4.3.0
 tzdata==2022.2
-urllib3==1.26.11
+urllib3==1.26.17
 wcmatch==8.4
 yamllint==1.27.1
