@@ -6,6 +6,7 @@
                     from_json).get('tag_name') | replace('v', '') }}"
   when: 'consul_version == "latest"'
 
+
 - name: Install python dependencies
   when: consul_install_dependencies | bool
   block:
@@ -18,7 +19,7 @@
       vars:
         ansible_become: false
       run_once: true
-      when: not is_virtualenv or is_virtualenv == None
+      when: (not is_virtualenv or is_virtualenv == None) and ((ansible_os_family != 'Debian') and (ansible_distribution_version is version_compare(11, '<')))
 
     - name: Install netaddr dependency on controlling host (virtualenv)
       pip:
@@ -28,7 +29,18 @@
       vars:
         ansible_become: false
       run_once: true
-      when: is_virtualenv is defined
+      when: is_virtualenv is defined and ((ansible_os_family != 'Debian') and ((ansible_distribution_version is version_compare(11, '<'))))
+
+
+      # Debian is managing the python env and throws errors if we try to install netaddr
+    - name: Install python3-consul dependency on controlling Debain host
+      ansible.builtin.apt:
+        name: python3-netaddr
+        state: present
+      delegate_to: 127.0.0.1
+      run_once: true
+      when: ((ansible_os_family == 'Debian') and ((ansible_distribution_version is version_compare(11, '<'))))
+
 
 - name: Include checks/asserts
   import_tasks: asserts.yml
