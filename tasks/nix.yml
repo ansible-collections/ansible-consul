@@ -104,9 +104,6 @@
       delegate_to: localhost
       tempfile:
         suffix: ".key"
-      become: false
-      vars:
-        ansible_become: false
       run_once: true
       changed_when: false
       register: consul_raw_key_file
@@ -117,9 +114,6 @@
         content: "{{ consul_raw_key }}"
         dest: "{{ consul_raw_key_file.path }}"
         mode: 0600
-      become: false
-      vars:
-        ansible_become: false
       delegate_to: localhost
       run_once: true
       changed_when: false
@@ -132,7 +126,6 @@
         - not bootstrap_state.stat.exists | bool
       block:
         - name: Create temporary file to receive gossip encryption key
-          become: false
           tempfile:
             state: file
           register: gossip_key_tempfile
@@ -142,7 +135,6 @@
           register: consul_keygen
 
         - name: Fetch key locally to share with other nodes
-          become: false
           fetch:
             src: "{{ gossip_key_tempfile.path }}"
             dest: "{{ consul_raw_key_file.path }}"
@@ -150,7 +142,6 @@
 
       always:
         - name: Clean up temporary file
-          become: false
           file:
             path: "{{ gossip_key_tempfile.path }}"
             state: absent
@@ -166,9 +157,6 @@
       file:
         path: "{{ consul_raw_key_file.path }}"
         state: absent
-      become: false
-      vars:
-        ansible_become: false
       run_once: true
       delegate_to: localhost
       changed_when: false
