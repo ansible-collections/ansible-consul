@@ -4,7 +4,7 @@
 - name: Copy CA certificate
   block:
     - name: Create SSL directory
-      file:
+      ansible.builtin.file:
         dest: "{{ consul_tls_dir }}"
         state: directory
         owner: "{{ consul_user }}"
@@ -12,7 +12,7 @@
         mode: 0755
 
     - name: Copy CA certificate
-      copy:
+      ansible.builtin.copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
         src: "{{ consul_tls_ca_crt }}"
         dest: "{{ consul_tls_dir }}/{{ consul_tls_ca_crt | basename }}"
@@ -26,7 +26,7 @@
 - name: Copy server certificate and key
   block:
     - name: Copy server certificate
-      copy:
+      ansible.builtin.copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
         src: "{{ consul_tls_server_crt }}"
         dest: "{{ consul_tls_dir }}/{{ consul_tls_server_crt | basename }}"
@@ -36,7 +36,7 @@
       notify: restart consul
 
     - name: Copy server key
-      copy:
+      ansible.builtin.copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
         src: "{{ consul_tls_server_key }}"
         dest: "{{ consul_tls_dir }}/{{ consul_tls_server_key | basename }}"
