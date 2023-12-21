@@ -250,12 +250,12 @@
     - not consul_install_from_repo | bool
 
 - name: Reload systemd
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     daemon_reload: true
   when: systemd_unit is changed
 
 - name: Enable consul at startup (systemd)
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     name: consul
     enabled: true
   when:

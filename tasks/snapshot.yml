@@ -16,7 +16,7 @@
     dest: /lib/systemd/system/consul_snapshot.service
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   register: systemd_unit
   notify: start snapshot
   when:
@@ -31,7 +31,7 @@
     dest: "{{ consul_config_path }}/consul_snapshot.json"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
-    mode: 0644
+    mode: "0644"
   notify: start snapshot
   when:
     - ansible_service_mgr == "systemd"
@@ -40,9 +40,9 @@
     - consul_snapshot | bool
 
 - name: Reload systemd
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     daemon_reload: true
-  when: systemd_unit | changed
+  when: systemd_unit is changed
 
 - name: Create snaps storage folder
   ansible.builtin.file:
@@ -50,4 +50,4 @@
     path: "{{ consul_snapshot_storage }}"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
-    mode: 0744
+    mode: "0744"

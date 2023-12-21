@@ -14,7 +14,7 @@
     file: reload_consul_conf.yml
 
 - name: Restart dnsmasq
-  service:
+  ansible.builtin.service:
     name: dnsmasq
     enabled: true
     state: restarted
@@ -40,7 +40,7 @@
     file: start_snapshot.yml
 
 - name: Systemctl daemon-reload
-  systemd:
+  ansible.builtin.systemd_service:
     daemon_reload: true
   become: true
   listen: 'systemctl daemon-reload'

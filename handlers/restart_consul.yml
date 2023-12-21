@@ -1,13 +1,13 @@
 ---
 - name: Daemon reload systemd in case the binaries upgraded
-  systemd:
+  ansible.builtin.systemd_service:
     daemon_reload: true
   become: true
   when: ansible_service_mgr == "systemd"
   listen: 'reload systemd daemon'
 
 - name: Restart consul on Unix
-  service:
+  ansible.builtin.service:
     name: consul
     state: restarted
     # Needed to force SysV service manager on Docker for Molecule tests
@@ -18,12 +18,12 @@
   listen: 'restart consul'
 
 - name: Restart consul on Mac
-  include_tasks: "{{ role_path }}/handlers/restart_consul_mac.yml"
+  ansible.builtin.include_tasks: "{{ role_path }}/handlers/restart_consul_mac.yml"
   when: ansible_os_family == "Darwin"
   listen: 'restart consul'
 
 - name: Restart consul on Windows
-  win_service:
+  ansible.windows.win_service:
     name: consul
     state: restarted
   # Some tasks with `become: true` end up calling this task. Unfortunately, the `become`
