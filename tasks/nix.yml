@@ -29,14 +29,17 @@
   tags: always
 
 - name: Include user and group settings
-  ansible.builtin.import_tasks: user_group.yml
+  ansible.builtin.import_tasks:
+    file: user_group.yml
 
 - name: Install OS packages and consul - from the repository
-  ansible.builtin.include_tasks: install_linux_repo.yml
+  ansible.builtin.include_tasks:
+    file: install_linux_repo.yml
   when: consul_install_from_repo | bool
 
 - name: Include directory settings
-  ansible.builtin.import_tasks: dirs.yml
+  ansible.builtin.import_tasks:
+    file: dirs.yml
 
 - name: Check for existing Consul binary
   ansible.builtin.stat:
@@ -60,14 +63,16 @@
       consul_installed_version.stdout_lines[0] != _consul_expected_version_string }}"
 
 - name: Install OS packages and consul - locally
-  ansible.builtin.include_tasks: install.yml
+  ansible.builtin.include_tasks:
+    file: install.yml
   when:
     - consul_install_binary | bool
     - not consul_install_remotely | bool
     - not consul_install_from_repo | bool
 
 - name: Install OS packages and consul - remotely
-  ansible.builtin.include_tasks: install_remote.yml
+  ansible.builtin.include_tasks:
+    file: install_remote.yml
   when:
     - consul_install_binary | bool
     - consul_install_remotely | bool
@@ -174,18 +179,22 @@
       changed_when: false
 
 - name: Create ACL configuration
-  ansible.builtin.include_tasks: acl.yml
+  ansible.builtin.include_tasks:
+    file: acl.yml
   when: consul_acl_enable | bool
 
 - name: Create Consul configuration
-  ansible.builtin.import_tasks: config.yml
+  ansible.builtin.import_tasks:
+    file: config.yml
 
 - name: Create TLS configuration
-  ansible.builtin.include_tasks: tls.yml
+  ansible.builtin.include_tasks:
+    file: tls.yml
   when: consul_tls_enable | bool
 
 - name: Create syslog configuration
-  ansible.builtin.import_tasks: syslog.yml
+  ansible.builtin.import_tasks:
+    file: syslog.yml
 
 - name: Create BSD init script
   ansible.builtin.template:
@@ -281,14 +290,16 @@
     - ansible_os_family == "Solaris"
   tags: skip_ansible_lint
 - name: Import smf script
-  ansible.builtin.shell: "svcadm refresh consul"
+  ansible.builtin.shell:
+    cmd: svcadm refresh consul
   when:
     - smfmanifest is changed
     - ansible_os_family == "Solaris"
   tags: skip_ansible_lint
 
 - name: Enable Consul Snapshots on servers
-  ansible.builtin.include_tasks: snapshot.yml
+  ansible.builtin.include_tasks:
+    file: snapshot.yml
   when:
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
@@ -327,7 +338,8 @@
         mode: 0600
 
     - name: Configure iptables
-      ansible.builtin.include_tasks: ../tasks/iptables.yml
+      ansible.builtin.include_tasks:
+        file: ../tasks/iptables.yml
       when: consul_iptables_enable | bool
 
   when:
@@ -335,5 +347,6 @@
     - not ansible_os_family == "Darwin"
 
 - name: Configure dnsmasq
-  ansible.builtin.include_tasks: ../tasks/dnsmasq.yml
+  ansible.builtin.include_tasks:
+    file: ../tasks/dnsmasq.yml
   when: consul_dnsmasq_enable | bool

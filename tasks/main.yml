@@ -31,7 +31,8 @@
       when: is_virtualenv is defined
 
 - name: Include checks/asserts
-  ansible.builtin.import_tasks: asserts.yml
+  ansible.builtin.import_tasks:
+    file: asserts.yml
 
 - name: Include OS-specific variables
   ansible.builtin.include_vars: "{{ vars_file_item }}"
@@ -47,18 +48,21 @@
 # Tasks for all *NIX operating systems
 # -----------------------------------------------------------------------
 - name: Include NIX tasks
-  ansible.builtin.include_tasks: nix.yml
+  ansible.builtin.include_tasks:
+    file: nix.yml
   when: ansible_os_family != 'Windows'
 
 # -----------------------------------------------------------------------
 # Tasks for Windows
 # -----------------------------------------------------------------------
 - name: Include Windows tasks
-  ansible.builtin.include_tasks: windows.yml
+  ansible.builtin.include_tasks:
+    file: windows.yml
   when: ansible_os_family == 'Windows'
 
 - name: Include services management
-  ansible.builtin.import_tasks: services.yml
+  ansible.builtin.import_tasks:
+    file: services.yml
   when: consul_services is defined and consul_services|length>0
   tags:
     - consul_services

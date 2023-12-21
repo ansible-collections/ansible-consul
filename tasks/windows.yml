@@ -26,7 +26,8 @@
   tags: always
 
 - name: (Windows) Include directory settings
-  ansible.builtin.import_tasks: dirs.yml
+  ansible.builtin.import_tasks:
+    file: dirs.yml
 
 - name: (Windows) Check for existing Consul binary
   ansible.windows.win_stat:
@@ -48,7 +49,8 @@
       consul_installed_version.stdout_lines[0] != _consul_expected_version_string }}"
 
 - name: (Windows) Install OS packages and consul
-  ansible.builtin.include_tasks: install_windows.yml
+  ansible.builtin.include_tasks:
+    file: install_windows.yml
   when: consul_install_binary | bool
 
 - name: (Windows) Write gossip encryption key
@@ -143,7 +145,8 @@
   when: consul_encrypt_enable
 
 - name: (Windows) Create Consul configuration
-  ansible.builtin.import_tasks: config_windows.yml
+  ansible.builtin.import_tasks:
+    file: config_windows.yml
 
 - name: (Windows) Ensure neither ACL nor TLS are requested
   ansible.builtin.fail:
@@ -151,11 +154,13 @@
   when: consul_acl_enable | bool
 
 - name: (Windows) Create ACL configuration
-  ansible.builtin.include_tasks: acl.yml
+  ansible.builtin.include_tasks:
+    file: acl.yml
   when: consul_acl_enable | bool
 
 - name: (Windows) Create TLS configuration
-  ansible.builtin.include_tasks: tls.yml
+  ansible.builtin.include_tasks:
+    file: tls.yml
   when: consul_tls_enable | bool
 
 - name: (Windows) Install consul and create service
@@ -198,7 +203,8 @@
       when: ansible_os_family == "Windows"
 
     - name: Configure iptables
-      ansible.builtin.include_tasks: ../tasks/iptables.yml
+      ansible.builtin.include_tasks:
+        file: ../tasks/iptables.yml
       when: consul_iptables_enable | bool
 
   when: not bootstrap_state.stat.exists
@@ -211,5 +217,6 @@
   when: bootstrap_state.stat.exists
 
 - name: Include tassk to configure dnsmasq
-  ansible.builtin.include_tasks: ../tasks/dnsmasq.yml
+  ansible.builtin.include_tasks:
+    file: ../tasks/dnsmasq.yml
   when: consul_dnsmasq_enable | bool

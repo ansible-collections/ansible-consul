@@ -112,7 +112,8 @@
 # Check for unzip binary
 
 - name: Check if unzip is installed on control host
-  ansible.builtin.shell: "command -v unzip -h >/dev/null 2>&1"
+  ansible.builtin.shell:
+    cmd: command -v unzip -h >/dev/null 2>&1
   become: false
   changed_when: false
   check_mode: false
