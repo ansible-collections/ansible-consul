@@ -1,6 +1,6 @@
 ---
 - name: Restart rsyslog
-  service:
+  ansible.builtin.service:
     name: rsyslog
     state: restarted
     # Needed to force SysV service manager on Docker for Molecule tests

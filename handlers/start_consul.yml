@@ -1,6 +1,6 @@
 ---
 - name: Start consul on Unix
-  service:
+  ansible.builtin.service:
     name: consul
     state: started
     # Needed to force SysV service manager on Docker for Molecule tests
@@ -11,12 +11,12 @@
   listen: 'start consul'
 
 - name: Start consul on Mac
-  include_tasks: "{{ role_path }}/handlers/start_consul_mac.yml"
+  ansible.builtin.include_tasks: "{{ role_path }}/handlers/start_consul_mac.yml"
   when: ansible_os_family == "Darwin"
   listen: 'start consul'
 
 - name: Start consul on Windows
-  win_service:
+  ansible.windows.win_service:
     name: consul
     state: started
   when: ansible_os_family == "Windows"
