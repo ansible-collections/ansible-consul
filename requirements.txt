@@ -44,7 +44,7 @@ pre-commit==3.1.00
 ptyprocess==0.7.0
 py==1.11.0
 pycparser==2.21
-Pygments==2.13.0
+Pygments==2.15.0
 pyparsing==3.0.9
 pyrsistent==0.18.1
 pytest==7.1.2
