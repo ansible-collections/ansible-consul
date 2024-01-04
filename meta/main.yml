@@ -7,7 +7,7 @@ galaxy_info:
   description: Consul cluster role
   company: Brian Shumate
   license: BSD
-  min_ansible_version: 2.5
+  min_ansible_version: "2.9"
 
   platforms:
     - name: Alpine
