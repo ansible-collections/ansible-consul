@@ -2,6 +2,8 @@
 # File: main.yml - Meta main
 galaxy_info:
   author: Brian Shumate
+  role_name: consul
+  namespace: community
   description: Consul cluster role
   company: Brian Shumate
   license: BSD

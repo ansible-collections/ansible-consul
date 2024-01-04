@@ -2,7 +2,7 @@
 - name: Converge
   hosts: all
   roles:
-    - role: ansible-consul
+    - role: community.consul
 
   vars:
     # Force SysVinit, since systemd won't work in a Docker container
