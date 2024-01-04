@@ -2,7 +2,7 @@
 # Use SIGHUP to reload most configurations as per https://www.consul.io/docs/agent/options.html
 # Cannot use `consul reload` because it requires the HTTP API to be bound to a non-loopback interface
 
-- name: Reload consul configuration on unix
-  command: "pkill --pidfile '{{ consul_run_path }}/consul.pid' --signal SIGHUP"
+- name: Reload consul configuration on unix # noqa no-changed-when
+  ansible.builtin.command: pkill --pidfile "{{ consul_run_path }}/consul.pid" --signal SIGHUP
   when: ansible_os_family != "Windows"
-  listen: 'reload consul configuration'
+  listen: reload consul configuration

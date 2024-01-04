@@ -11,12 +11,12 @@
 # update my vars file
 
 - name: Create snapshot systemd script
-  template:
+  ansible.builtin.template:
     src: consul_systemd_snapshot.service.j2
     dest: /lib/systemd/system/consul_snapshot.service
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   register: systemd_unit
   notify: start snapshot
   when:
@@ -26,12 +26,12 @@
     - consul_snapshot | bool
 
 - name: Create snapshot agent config
-  template:
+  ansible.builtin.template:
     src: consul_snapshot.json.j2
     dest: "{{ consul_config_path }}/consul_snapshot.json"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
-    mode: 0644
+    mode: "0644"
   notify: start snapshot
   when:
     - ansible_service_mgr == "systemd"
@@ -39,15 +39,15 @@
     - not ansible_os_family == "Solaris"
     - consul_snapshot | bool
 
-- name: Reload systemd
-  systemd:
+- name: Reload systemd # noqa no-handler
+  ansible.builtin.systemd_service:
     daemon_reload: true
-  when: systemd_unit | changed
+  when: systemd_unit is changed
 
 - name: Create snaps storage folder
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ consul_snapshot_storage }}"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
-    mode: 0744
+    mode: "0744"

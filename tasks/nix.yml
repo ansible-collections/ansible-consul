@@ -3,18 +3,17 @@
 # 'delegate_facts' is currently rather buggy in Ansible so this might not
 # always work. Hence 'consul_gather_server_facts' defaults to 'no'.
 - name: Gather facts from other servers
-  setup:
+  ansible.builtin.setup:
   delegate_to: "{{ host_item }}"
   delegate_facts: true
   with_items: "{{ consul_servers | difference(play_hosts) }}"
   loop_control:
     loop_var: host_item
-  ignore_errors: true
   run_once: true
   when: consul_gather_server_facts | bool
 
 - name: Expose advertise_address(_wan) datacenter and node_role as facts
-  set_fact:
+  ansible.builtin.set_fact:
     consul_advertise_address_wan: "{{ consul_advertise_address_wan }}"
     consul_advertise_address: "{{ consul_advertise_address }}"
     consul_bind_address: "{{ consul_bind_address }}"
@@ -22,30 +21,33 @@
     consul_node_role: "{{ consul_node_role }}"
 
 - name: Read bootstrapped state
-  stat:
+  ansible.builtin.stat:
     path: "{{ consul_bootstrap_state }}"
   register: bootstrap_state
   ignore_errors: true
   tags: always
 
 - name: Include user and group settings
-  import_tasks: user_group.yml
+  ansible.builtin.import_tasks:
+    file: user_group.yml
 
 - name: Install OS packages and consul - from the repository
-  include_tasks: install_linux_repo.yml
+  ansible.builtin.include_tasks:
+    file: install_linux_repo.yml
   when: consul_install_from_repo | bool
 
 - name: Include directory settings
-  import_tasks: dirs.yml
+  ansible.builtin.import_tasks:
+    file: dirs.yml
 
 - name: Check for existing Consul binary
-  stat:
+  ansible.builtin.stat:
     path: "{{ consul_binary }}"
   register: consul_binary_installed
   when: not consul_force_install
 
 - name: Get current Consul version
-  command: "{{ consul_binary }} --version"
+  ansible.builtin.command: "{{ consul_binary }} --version"
   check_mode: false
   changed_when: false
   when:
@@ -54,20 +56,21 @@
   register: consul_installed_version
 
 - name: Calculate whether to install consul binary
-  set_fact:
-    consul_install_binary: "{{ consul_force_install or \
-      not consul_binary_installed.stat.exists or \
-      consul_installed_version.stdout_lines[0] != _consul_expected_version_string }}"
+  ansible.builtin.set_fact:
+    consul_install_binary: "{{ consul_force_install or not consul_binary_installed.stat.exists or consul_installed_version.stdout_lines[0] != _consul_expected_version_string
+      }}"
 
 - name: Install OS packages and consul - locally
-  include_tasks: install.yml
+  ansible.builtin.include_tasks:
+    file: install.yml
   when:
     - consul_install_binary | bool
     - not consul_install_remotely | bool
     - not consul_install_from_repo | bool
 
 - name: Install OS packages and consul - remotely
-  include_tasks: install_remote.yml
+  ansible.builtin.include_tasks:
+    file: install_remote.yml
   when:
     - consul_install_binary | bool
     - consul_install_remotely | bool
@@ -77,33 +80,32 @@
   when: consul_encrypt_enable | bool
   block:
     - name: Save existing gossip encryption key
+      when:
+        - consul_raw_key is not defined
+        - bootstrap_state.stat.exists | bool
+        - inventory_hostname in consul_servers
       block:
         - name: Check for gossip encryption key on previously boostrapped server
-          slurp:
+          ansible.builtin.slurp:
             src: "{{ consul_config_path }}/config.json"
           register: consul_config_b64
           ignore_errors: true
 
         - name: Deserialize existing configuration
-          set_fact:
+          ansible.builtin.set_fact:
             consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
           when: consul_config_b64.content is defined
 
         - name: Save gossip encryption key from existing configuration
-          set_fact:
+          ansible.builtin.set_fact:
             consul_raw_key: "{{ consul_config.encrypt }}"
           no_log: true
           when: consul_config is defined
 
-      when:
-        - consul_raw_key is not defined
-        - bootstrap_state.stat.exists | bool
-        - inventory_hostname in consul_servers
-
     - name: Create temporary file for raw gossip encryption key
       delegate_to: localhost
-      tempfile:
-        suffix: ".key"
+      ansible.builtin.tempfile:
+        suffix: .key
       become: false
       vars:
         ansible_become: false
@@ -113,10 +115,10 @@
 
     # Key provided by extra vars or the above block
     - name: Write gossip encryption key locally for use with new servers
-      copy:
+      ansible.builtin.copy:
         content: "{{ consul_raw_key }}"
         dest: "{{ consul_raw_key_file.path }}"
-        mode: 0600
+        mode: "0600"
       become: false
       vars:
         ansible_become: false
@@ -133,17 +135,17 @@
       block:
         - name: Create temporary file to receive gossip encryption key
           become: false
-          tempfile:
+          ansible.builtin.tempfile:
             state: file
           register: gossip_key_tempfile
 
-        - name: Generate gossip encryption key
-          shell: "PATH={{ consul_bin_path }}:$PATH consul keygen > {{ gossip_key_tempfile.path }}"
+        - name: Generate gossip encryption key # noqa no-changed-when
+          ansible.builtin.shell: PATH={{ consul_bin_path }}:$PATH consul keygen > {{ gossip_key_tempfile.path }}
           register: consul_keygen
 
         - name: Fetch key locally to share with other nodes
           become: false
-          fetch:
+          ansible.builtin.fetch:
             src: "{{ gossip_key_tempfile.path }}"
             dest: "{{ consul_raw_key_file.path }}"
             flat: true
@@ -151,19 +153,19 @@
       always:
         - name: Clean up temporary file
           become: false
-          file:
+          ansible.builtin.file:
             path: "{{ gossip_key_tempfile.path }}"
             state: absent
           when: gossip_key_tempfile is defined
 
     - name: Read gossip encryption key for servers that require it
-      set_fact:
+      ansible.builtin.set_fact:
         consul_raw_key: "{{ lookup('file', consul_raw_key_file.path) }}"
       no_log: true
       when: consul_raw_key is not defined
 
     - name: Delete gossip encryption key file
-      file:
+      ansible.builtin.file:
         path: "{{ consul_raw_key_file.path }}"
         state: absent
       become: false
@@ -174,35 +176,39 @@
       changed_when: false
 
 - name: Create ACL configuration
-  include_tasks: acl.yml
+  ansible.builtin.include_tasks:
+    file: acl.yml
   when: consul_acl_enable | bool
 
 - name: Create Consul configuration
-  import_tasks: config.yml
+  ansible.builtin.import_tasks:
+    file: config.yml
 
 - name: Create TLS configuration
-  include_tasks: tls.yml
+  ansible.builtin.include_tasks:
+    file: tls.yml
   when: consul_tls_enable | bool
 
 - name: Create syslog configuration
-  import_tasks: syslog.yml
+  ansible.builtin.import_tasks:
+    file: syslog.yml
 
 - name: Create BSD init script
-  template:
+  ansible.builtin.template:
     src: consul_bsdinit.j2
     dest: /etc/rc.d/consul
     owner: root
     group: wheel
-    mode: 0755
+    mode: "0755"
   when: ansible_os_family == "FreeBSD"
 
 - name: Create SYSV init script
-  template:
+  ansible.builtin.template:
     src: consul_sysvinit.j2
     dest: /etc/init.d/consul
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   when:
     - not ansible_service_mgr == "systemd"
     - not ansible_os_family == "Debian"
@@ -211,12 +217,12 @@
     - not ansible_os_family == "Darwin"
 
 - name: Create Debian init script
-  template:
+  ansible.builtin.template:
     src: consul_debianinit.j2
     dest: /etc/init.d/consul
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   when:
     - not ansible_service_mgr == "systemd"
     - ansible_os_family == "Debian"
@@ -225,12 +231,12 @@
     - not ansible_os_family == "Darwin"
 
 - name: Create systemd script
-  template:
+  ansible.builtin.template:
     src: consul_systemd.service.j2
     dest: "{{ consul_systemd_unit_path }}/consul.service"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   register: systemd_unit
   notify: restart consul
   when:
@@ -240,13 +246,13 @@
     - not ansible_os_family == "Darwin"
     - not consul_install_from_repo | bool
 
-- name: Reload systemd
-  systemd:
+- name: Reload systemd # noqa no-handler
+  ansible.builtin.systemd_service:
     daemon_reload: true
   when: systemd_unit is changed
 
 - name: Enable consul at startup (systemd)
-  systemd:
+  ansible.builtin.systemd_service:
     name: consul
     enabled: true
   when:
@@ -256,39 +262,41 @@
     - not ansible_os_family == "Darwin"
 
 - name: Create launchctl plist file
-  template:
-    src: "consul_launchctl.plist.j2"
+  ansible.builtin.template:
+    src: consul_launchctl.plist.j2
     dest: "{{ consul_launchctl_plist }}"
     mode: "0644"
-    validate: "plutil -lint %s"
+    validate: plutil -lint %s
   when: ansible_os_family == "Darwin"
   notify: restart consul
 
 - name: Create smf manifest
-  template:
+  ansible.builtin.template:
     src: consul_smf_manifest.j2
     dest: "{{ consul_smf_manifest }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   when: ansible_os_family == "Solaris"
   register: smfmanifest
 
 - name: Import smf manifest
-  shell: "svccfg import {{ consul_smf_manifest }}"
+  ansible.builtin.shell: svccfg import {{ consul_smf_manifest }}
   when:
     - smfmanifest is changed
     - ansible_os_family == "Solaris"
   tags: skip_ansible_lint
 - name: Import smf script
-  shell: "svcadm refresh consul"
+  ansible.builtin.shell:
+    cmd: svcadm refresh consul
   when:
     - smfmanifest is changed
     - ansible_os_family == "Solaris"
   tags: skip_ansible_lint
 
 - name: Enable Consul Snapshots on servers
-  include_tasks: snapshot.yml
+  ansible.builtin.include_tasks:
+    file: snapshot.yml
   when:
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
@@ -297,10 +305,12 @@
     - consul_snapshot | bool
 
 - name: Start consul service
+  when:
+    - not bootstrap_state.stat.exists
+    - not ansible_os_family == "Darwin"
   block:
-
     - name: Start Consul
-      service:
+      ansible.builtin.service:
         name: consul
         state: started
         enabled: true
@@ -308,32 +318,30 @@
         use: "{{ ansible_service_mgr }}"
 
     - name: Check Consul HTTP API (via TCP socket)
-      wait_for:
+      ansible.builtin.wait_for:
         delay: 15
-        port: "{{ consul_ports.http|int }}"
+        port: "{{ consul_ports.http | int }}"
         host: "{{ consul_addresses.http }}"
-      when: (consul_ports.http|int > -1) and (consul_addresses.http|ansible.utils.ipaddr)
+      when: (consul_ports.http | int > -1) and (consul_addresses.http | ansible.utils.ipaddr)
 
     - name: Check Consul HTTP API (via unix socket)
-      wait_for:
+      ansible.builtin.wait_for:
         delay: 15
         path: "{{ consul_addresses.http | replace('unix://', '', 1) }}"
       when: consul_addresses.http is match("unix://*")
 
     - name: Create bootstrapped state file
-      file:
+      ansible.builtin.file:
         dest: "{{ consul_bootstrap_state }}"
         state: touch
-        mode: 0600
+        mode: "0600"
 
     - name: Configure iptables
-      include_tasks: ../tasks/iptables.yml
+      ansible.builtin.include_tasks:
+        file: ../tasks/iptables.yml
       when: consul_iptables_enable | bool
 
-  when:
-    - not bootstrap_state.stat.exists
-    - not ansible_os_family == "Darwin"
-
 - name: Configure dnsmasq
-  include_tasks: ../tasks/dnsmasq.yml
+  ansible.builtin.include_tasks:
+    file: ../tasks/dnsmasq.yml
   when: consul_dnsmasq_enable | bool

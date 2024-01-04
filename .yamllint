@@ -10,5 +10,7 @@ rules:
     level: error
   line-length: disable
   truthy:
-    allowed-values: ['true', 'false']
+    allowed-values: ["true", "false"]
     check-keys: false
+  comments:
+    min-spaces-from-content: 1 # same as ansible-lint

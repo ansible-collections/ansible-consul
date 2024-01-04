@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+    - name: Verify that serivce consul is running
+      ansible.builtin.service:
+        name: consul
+        state: started
+      register: result_consul_service
+
+    - name: Validate that serivce consul is running
+      ansible.builtin.assert:
+        that:
+          - result_consul_service.state == 'started'
+          - result_consul_service.changed == false
+          - result_consul_service.name == 'consul'
