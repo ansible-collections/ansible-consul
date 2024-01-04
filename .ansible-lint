@@ -1,26 +1,3 @@
 ---
-skip_list:
-  # TODO: Fix ansible-lint violations for these errors and remove from skip_list
-  - "fqcn-builtins"
-  - "fqcn[action-core]"
-  - "fqcn[action]"
-  - "ignore-errors"
-  - "jinja[spacing]"
-  - "key-order[task]"
-  - "no-changed-when"
-  - "no-free-form"
-  - "no-handler"
-  - "risky-file-permissions"
-  - "schema[meta]"
-  - "var-naming"
-  - "var-spacing"
-
-  # Pipefail is a bit more difficult, because the shell shipped in the Docker image used
-  # by the Molecule tests doesn't recognize the pipefail option. Likewise, we also need to
-  # make sure that the playbook works for hosts that don't have a modern bash or a default
-  # shell such as /bin/sh.
-  - "risky-shell-pipe"
-
-  # These errors should continue to be ignored
-  - "no-jinja-when"
-  - "role-name"
+exclude_paths:
+  - .github/

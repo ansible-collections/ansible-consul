@@ -30,10 +30,10 @@ provisioner:
   playbooks:
     prepare: ../_shared/prepare.yml
     converge: ../_shared/converge.yml
+    verify: ../_shared/verify.yml
   inventory:
     group_vars:
       consul_instances:
         consul_node_role: bootstrap
 verifier:
-  name: testinfra
-  directory: ../_shared/tests
+  name: ansible

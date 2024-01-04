@@ -2,60 +2,58 @@
 # File: dnsmasq.yml - Dnsmasq tasks for Consul
 
 - name: Install Dnsmasq package
-  package:
+  ansible.builtin.package:
     name: "{{ dnsmasq_package }}"
     state: present
   become: true
   tags: dnsmasq, installation
 
 - name: Create Dnsmasq configuration directory
-  file:
+  ansible.builtin.file:
     path: /usr/local/etc/dnsmasq.d
     state: directory
     owner: root
     group: wheel
-    mode: 0700
-  become: true
+    mode: "0700"
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
 - name: Include Dnsmasq configuration directory
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /usr/local/etc/dnsmasq.conf
-    line: 'conf-dir=/usr/local/etc/dnsmasq.d/,*.conf'
+    line: conf-dir=/usr/local/etc/dnsmasq.d/,*.conf
   become: true
   notify: restart dnsmasq
   when: ansible_os_family == "FreeBSD"
   tags: dnsmasq
 
-- name: Create Dnsmasq configuration
-  template:
+- name: Create Dnsmasq configuration # noqa no-jinja-when
+  ansible.builtin.template:
     src: dnsmasq-10-consul.j2
     dest: "{{ dnsmasq_item.dest }}"
     owner: root
     group: "{{ dnsmasq_item.group }}"
-    mode: 0644
+    mode: "0644"
   become: true
   notify: restart dnsmasq
   when: "{{ dnsmasq_item.when }}"
   tags: dnsmasq
   loop:
-    - { dest: '/etc/dnsmasq.d/10-consul', group: 'root', when: ansible_os_family|lower != "freebsd" }
-    - { dest: '/usr/local/etc/dnsmasq.d/consul.conf', group: 'wheel', when: ansible_os_family|lower == "freebsd" }
+    - { dest: /etc/dnsmasq.d/10-consul, group: root, when: ansible_os_family|lower != "freebsd" }
+    - { dest: /usr/local/etc/dnsmasq.d/consul.conf, group: wheel, when: ansible_os_family|lower == "freebsd" }
   loop_control:
     loop_var: dnsmasq_item
 
 - name: Disable systemd-resolved
   when: ansible_service_mgr == "systemd"
   block:
-
     - name: Check if systemd-resolved service exists
-      stat:
+      ansible.builtin.stat:
         path: /lib/systemd/system/systemd-resolved.service
       register: systemd_resolved_service
 
     - name: Disable systemd-resolved service
-      service:
+      ansible.builtin.service:
         name: systemd-resolved
         enabled: false
         state: stopped
@@ -65,28 +63,28 @@
       when: systemd_resolved_service.stat.exists
 
     - name: Check if resolv.conf is pointing to systemd-resolved
-      stat:
+      ansible.builtin.stat:
         path: /etc/resolv.conf
       register: resolv_dot_conf
 
     - name: Configure resolv.conf for dnsmasq
-      block:
-        - name: Remove resolv.conf association with systemd-resolved
-          file:
-            path: /etc/resolv.conf
-            state: absent
-
-        - name: Add a nameserver entry poining to localhost for dnsmasq
-          lineinfile:
-            path: /etc/resolv.conf
-            regexp: "^nameserver 127.0.0.1"
-            line: "nameserver 127.0.0.1"
-            create: true
-            owner: root
-            group: root
-            mode: "u=rw,g=r,o=r"
-      become: true
       when:
         - resolv_dot_conf.stat.exists
         - resolv_dot_conf.stat.islnk
         - resolv_dot_conf.stat.lnk_source == "/run/systemd/resolve/stub-resolv.conf"
+      become: true
+      block:
+        - name: Remove resolv.conf association with systemd-resolved
+          ansible.builtin.file:
+            path: /etc/resolv.conf
+            state: absent
+
+        - name: Add a nameserver entry poining to localhost for dnsmasq
+          ansible.builtin.lineinfile:
+            path: /etc/resolv.conf
+            regexp: ^nameserver 127.0.0.1
+            line: nameserver 127.0.0.1
+            create: true
+            owner: root
+            group: root
+            mode: u=rw,g=r,o=r

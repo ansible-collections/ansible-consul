@@ -9,4 +9,4 @@ dnsmasq_package: dnsmasq
 consul_repo_prerequisites:
   - gpg
 
-consul_repo_url: "https://apt.releases.hashicorp.com"
+consul_repo_url: https://apt.releases.hashicorp.com

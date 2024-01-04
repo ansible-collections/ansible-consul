@@ -3,38 +3,38 @@
 # 'delegate_facts' is currently rather buggy in Ansible so this might not
 # always work. Hence 'consul_gather_server_facts' defaults to 'no'.
 - name: (Windows) Gather facts from other servers
-  setup:
+  ansible.builtin.setup:
   delegate_to: "{{ host_item }}"
   delegate_facts: true
   with_items: "{{ consul_servers | difference(play_hosts) }}"
   loop_control:
     loop_var: host_item
-  ignore_errors: true
   when: consul_gather_server_facts | bool
 
 - name: (Windows) Expose bind_address, datacenter and node_role as facts
-  set_fact:
+  ansible.builtin.set_fact:
     consul_bind_address: "{{ consul_bind_address }}"
     consul_datacenter: "{{ consul_datacenter }}"
     consul_node_role: "{{ consul_node_role }}"
 
 - name: (Windows) Read bootstrapped state
-  win_stat:
+  ansible.windows.win_stat:
     path: "{{ consul_bootstrap_state }}"
   register: bootstrap_state
   ignore_errors: true
   tags: always
 
 - name: (Windows) Include directory settings
-  import_tasks: dirs.yml
+  ansible.builtin.import_tasks:
+    file: dirs.yml
 
 - name: (Windows) Check for existing Consul binary
-  win_stat:
+  ansible.windows.win_stat:
     path: "{{ consul_binary }}"
   register: consul_binary_installed
 
 - name: (Windows) Get current Consul version
-  win_command: "{{ consul_binary }} --version"
+  ansible.windows.win_command: "{{ consul_binary }} --version"
   changed_when: false
   when:
     - not consul_force_install
@@ -42,45 +42,46 @@
   register: consul_installed_version
 
 - name: (Windows) Calculate whether to install consul binary
-  set_fact:
-    consul_install_binary: "{{ consul_force_install or \
-      not consul_binary_installed.stat.exists or \
-      consul_installed_version.stdout_lines[0] != _consul_expected_version_string }}"
+  ansible.builtin.set_fact:
+    consul_install_binary: "{{ consul_force_install or not consul_binary_installed.stat.exists or consul_installed_version.stdout_lines[0] != _consul_expected_version_string
+      }}"
 
 - name: (Windows) Install OS packages and consul
-  include_tasks: install_windows.yml
+  ansible.builtin.include_tasks:
+    file: install_windows.yml
   when: consul_install_binary | bool
 
 - name: (Windows) Write gossip encryption key
+  no_log: true
+  when: consul_encrypt_enable
   block:
     - name: (Windows) Save existing gossip encryption key
-      block:
-        - name: (Windows) Check for gossip encryption key on previously boostrapped server
-          slurp:
-            src: "{{ consul_config_path }}/config.json"
-          register: consul_config_b64
-          ignore_errors: true
-
-        - name: (Windows) Deserialize existing configuration
-          set_fact:
-            consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
-          when: consul_config_b64.content is defined
-
-        - name: (Windows) Save gossip encryption key from existing configuration
-          set_fact:
-            consul_raw_key: "{{ consul_config.encrypt }}"
-          when: consul_config is defined
-
       no_log: true
       when:
         - consul_raw_key is not defined
         - bootstrap_state.stat.exists | bool
         - inventory_hostname in consul_servers
+      block:
+        - name: (Windows) Check for gossip encryption key on previously boostrapped server
+          ansible.builtin.slurp:
+            src: "{{ consul_config_path }}/config.json"
+          register: consul_config_b64
+          ignore_errors: true
+
+        - name: (Windows) Deserialize existing configuration
+          ansible.builtin.set_fact:
+            consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
+          when: consul_config_b64.content is defined
+
+        - name: (Windows) Save gossip encryption key from existing configuration
+          ansible.builtin.set_fact:
+            consul_raw_key: "{{ consul_config.encrypt }}"
+          when: consul_config is defined
 
     - name: Create temporary file for raw gossip encryption key
       delegate_to: localhost
-      tempfile:
-        suffix: ".key"
+      ansible.builtin.tempfile:
+        suffix: .key
       register: consul_raw_key_file
       become: false
       vars:
@@ -89,10 +90,10 @@
 
     # Key provided by extra vars or the above block
     - name: (Windows) Write gossip encryption key locally for use with new servers
-      copy:
+      ansible.builtin.copy:
         content: "{{ consul_raw_key }}"
         dest: "{{ consul_raw_key_file.path }}"
-        mode: 0600
+        mode: "0600"
       become: false
       vars:
         ansible_become: false
@@ -102,36 +103,34 @@
       when: consul_raw_key is defined
 
     - name: (Windows) Generate new gossip key if non was found
+      run_once: true
+      when:
+        - consul_raw_key is not defined
+        - not bootstrap_state.stat.exists | bool
       block:
-
         - name: (Windows) Generate gossip encryption key
-          win_shell: "{{ consul_binary }} keygen"
+          ansible.windows.win_shell: "{{ consul_binary }} keygen"
           no_log: true
           register: consul_keygen
 
         - name: (Windows) Write key locally to share with other nodes
-          copy:
+          ansible.builtin.copy:
             content: "{{ consul_keygen.stdout }}"
             dest: "{{ consul_raw_key_file.path }}"
-            mode: 0600
+            mode: "0600"
           become: false
           vars:
             ansible_become: false
           delegate_to: localhost
 
-      run_once: true
-      when:
-        - consul_raw_key is not defined
-        - not bootstrap_state.stat.exists | bool
-
     - name: (Windows) Read gossip encryption key for servers that require it
-      set_fact:
+      ansible.builtin.set_fact:
         consul_raw_key: "{{ lookup('file', consul_raw_key_file.path) }}"
       no_log: true
       when: consul_raw_key is not defined
 
     - name: (Windows) Delete gossip encryption key file
-      file:
+      ansible.builtin.file:
         path: "{{ consul_raw_key_file.path }}"
         state: absent
       become: false
@@ -139,77 +138,78 @@
         ansible_become: false
       run_once: true
       delegate_to: localhost
-  no_log: true
-  when: consul_encrypt_enable
 
 - name: (Windows) Create Consul configuration
-  import_tasks: config_windows.yml
+  ansible.builtin.import_tasks:
+    file: config_windows.yml
 
 - name: (Windows) Ensure neither ACL nor TLS are requested
-  fail:
-    msg: "ACL is not supported on Windows hosts yet."
+  ansible.builtin.fail:
+    msg: ACL is not supported on Windows hosts yet.
   when: consul_acl_enable | bool
 
 - name: (Windows) Create ACL configuration
-  include_tasks: acl.yml
+  ansible.builtin.include_tasks:
+    file: acl.yml
   when: consul_acl_enable | bool
 
 - name: (Windows) Create TLS configuration
-  include_tasks: tls.yml
+  ansible.builtin.include_tasks:
+    file: tls.yml
   when: consul_tls_enable | bool
 
 - name: (Windows) Install consul and create service
+  when: not bootstrap_state.stat.exists
   block:
     - name: Convert consul_binary from Unix -> Windows
-      win_stat:
+      ansible.windows.win_stat:
         path: "{{ consul_binary }}"
       register: consul_binary_win
 
     - name: Convert consul_config_path from Unix -> Windows
-      win_stat:
+      ansible.windows.win_stat:
         path: "{{ consul_config_path }}"
       register: consul_config_path_win
 
     - name: Convert consul_configd_path from Unix -> Windows
-      win_stat:
+      ansible.windows.win_stat:
         path: "{{ consul_configd_path }}"
       register: consul_configd_path_win
 
     - name: Create Consul as a service
       ansible.windows.win_service:
         name: Consul
-        path: "{{ consul_binary_win.stat.path }} agent \
-          -config-file={{ consul_config_path_win.stat.path }}\\config.json \
-          -config-dir={{ consul_configd_path_win.stat.path }}"
+        path: "{{ consul_binary_win.stat.path }} agent -config-file={{ consul_config_path_win.stat.path }}\\config.json -config-dir={{ consul_configd_path_win.stat.path
+          }}"
         display_name: Consul Service
         description: Consul
         start_mode: auto
         state: started
 
     - name: (Windows) Check Consul HTTP API
-      win_wait_for:
+      ansible.windows.win_wait_for:
         delay: 5
         port: 8500
 
     - name: (Windows) Create bootstrapped state file
-      win_file:
+      ansible.windows.win_file:
         dest: "{{ consul_bootstrap_state }}"
         state: touch
       when: ansible_os_family == "Windows"
 
     - name: Configure iptables
-      include_tasks: ../tasks/iptables.yml
+      ansible.builtin.include_tasks:
+        file: ../tasks/iptables.yml
       when: consul_iptables_enable | bool
-
-  when: not bootstrap_state.stat.exists
 
 # The service is stopped before updating Consul
 - name: Ensure Consul service is started
-  win_service:
+  ansible.windows.win_service:
     name: Consul
     state: started
   when: bootstrap_state.stat.exists
 
 - name: Include tassk to configure dnsmasq
-  include_tasks: ../tasks/dnsmasq.yml
+  ansible.builtin.include_tasks:
+    file: ../tasks/dnsmasq.yml
   when: consul_dnsmasq_enable | bool
