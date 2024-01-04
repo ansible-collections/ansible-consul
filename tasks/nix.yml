@@ -111,6 +111,7 @@
         ansible_become: false
       run_once: true
       changed_when: false
+      check_mode: false
       register: consul_raw_key_file
 
     # Key provided by extra vars or the above block
