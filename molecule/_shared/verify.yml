@@ -6,6 +6,7 @@
       ansible.builtin.service:
         name: consul
         state: started
+        use: service # systemd does not work easily in a container
       register: result_consul_service
 
     - name: Validate that serivce consul is running
