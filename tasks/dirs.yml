@@ -2,14 +2,15 @@
 # File: dirs.yml - Consul directories
 
 - name: Create directories
+  when: ansible_os_family != 'Windows'
   block:
     - name: Configuration and data directories
-      file:
+      ansible.builtin.file:
         dest: "{{ dir_item }}"
         state: directory
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
-        mode: 0700
+        mode: "0700"
       with_items:
         - "{{ consul_config_path }}"
         - "{{ consul_configd_path }}"
@@ -17,35 +18,33 @@
       loop_control:
         loop_var: dir_item
     - name: Run directory
-      file:
+      ansible.builtin.file:
         dest: "{{ consul_run_path }}"
         state: directory
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
-        mode: 0750
+        mode: "0750"
       when: not consul_install_from_repo | bool
 
-  when: ansible_os_family != 'Windows'
-
 - name: Create log directory
-  file:
+  ansible.builtin.file:
     dest: "{{ consul_log_path }}"
     state: directory
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
-    mode: 0700
+    mode: "0700"
   when:
     - ansible_os_family != 'Windows'
     - not consul_syslog_enable | bool
     - not consul_configure_syslogd | bool
 
 - name: Create log directory
-  file:
+  ansible.builtin.file:
     dest: "{{ log_item }}"
     state: directory
     owner: "{{ syslog_user }}"
     group: "{{ syslog_group }}"
-    mode: 0700
+    mode: "0700"
   with_items:
     - "{{ consul_log_path }}"
   loop_control:
@@ -56,11 +55,11 @@
     - consul_configure_syslogd | bool
 
 - name: Verify binary path
-  file:
+  ansible.builtin.file:
     path: "{{ consul_bin_path }}"
     state: directory
     owner: root
-    mode: 0755
+    mode: "0755"
   when:
     # On macOS, we should not alter consul_bin_path, since it may be owned by the homebrew
     # user. This may cause the role to fail on macOS systems where homebrew is not
@@ -71,7 +70,7 @@
     - not consul_install_from_repo | bool
 
 - name: Create directories on Windows
-  win_file:
+  ansible.windows.win_file:
     dest: "{{ dir_item }}"
     state: directory
   with_items:

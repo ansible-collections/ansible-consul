@@ -34,4 +34,4 @@ _consul_bootstrap_servers: "\
   {{ __consul_bootstrap_servers }}"
 _consul_bootstrap_server: "{{ _consul_bootstrap_servers[0] }}"
 
-_consul_expected_version_string: "Consul v{{ consul_version }}"
+_consul_expected_version_string: Consul v{{ consul_version }}
