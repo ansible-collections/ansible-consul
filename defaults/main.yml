@@ -3,7 +3,7 @@
 
 ## Core
 consul_debug: false
-is_virtualenv: "{{ lookup('env', 'VIRTUAL_ENV') | default('', true) }}"
+virtualenv: "{{ lookup('env', 'VIRTUAL_ENV') | default('') }}"
 consul_install_dependencies: true
 
 ### Package
