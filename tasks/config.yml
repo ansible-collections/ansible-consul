@@ -2,6 +2,7 @@
 # File: config.yml - Consul configuration tasks
 
 - name: Create configuration
+  ignore_errors: "{{ ansible_check_mode }}"
   ansible.builtin.copy:
     dest: "{{ config_item.dest }}"
     owner: "{{ consul_user }}"

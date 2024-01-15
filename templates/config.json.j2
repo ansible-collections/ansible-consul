@@ -346,6 +346,14 @@
     "limits": {{ consul_limits | default({})| to_json }},
     {% endif %}
 
+    {## Telemetry ##}
+    {% if consul_telemetry_enable | bool %}
+    "telemetry": {
+        "prometheus_retention_time": "{{ consul_telemetry_prometheus_retention_time }}",
+        "disable_hostname": {{ consul_telemetry_disable_hostname }}
+    },
+    {% endif %}
+    
     {## UI ##}
     {% if consul_version is version_compare('1.9.0', '>=') %}
     "ui_config": {

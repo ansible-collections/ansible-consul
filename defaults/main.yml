@@ -260,3 +260,8 @@ consul_limits: {}
 # files clean up
 consul_cleanup_ignore_files:
   - "{{ consul_configd_path }}/consul.env"
+
+# enable Consul Telemetry
+consul_telemetry_enable: false
+consul_telemetry_prometheus_retention_time: "48h"
+consul_telemetry_disable_hostname: true

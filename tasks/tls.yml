@@ -13,6 +13,7 @@
         mode: "0755"
 
     - name: Copy CA certificate
+      ignore_errors: "true"
       ansible.builtin.copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
         src: "{{ consul_tls_ca_crt }}"
@@ -36,7 +37,8 @@
         group: "{{ consul_group }}"
         mode: "0644"
       notify: restart consul
-
+      ignore_errors: "true"
+      
     - name: Copy server key
       ansible.builtin.copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
@@ -46,3 +48,4 @@
         group: "{{ consul_group }}"
         mode: "0600"
       notify: restart consul
+      ignore_errors: "true"

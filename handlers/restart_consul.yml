@@ -15,7 +15,9 @@
   when:
     - ansible_os_family != "Darwin"
     - ansible_os_family != "Windows"
+    - consul_service_manage | bool
   listen: restart consul
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Restart consul on Mac
   ansible.builtin.include_tasks: "{{ role_path }}/handlers/restart_consul_mac.yml"

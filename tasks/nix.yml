@@ -10,6 +10,7 @@
   loop_control:
     loop_var: host_item
   run_once: true
+  ignore_errors: true
   when: consul_gather_server_facts | bool
 
 - name: Expose advertise_address(_wan) datacenter and node_role as facts
@@ -121,6 +122,7 @@
         dest: "{{ consul_raw_key_file.path }}"
         mode: "0600"
       become: false
+      ignore_errors: true
       vars:
         ansible_become: false
       delegate_to: localhost
@@ -146,6 +148,7 @@
 
         - name: Fetch key locally to share with other nodes
           become: false
+          ignore_errors: true
           ansible.builtin.fetch:
             src: "{{ gossip_key_tempfile.path }}"
             dest: "{{ consul_raw_key_file.path }}"

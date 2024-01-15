@@ -38,7 +38,8 @@
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
     - consul_snapshot | bool
-
+  ignore_errors: true
+  
 - name: Reload systemd # noqa no-handler
   ansible.builtin.systemd_service:
     daemon_reload: true
