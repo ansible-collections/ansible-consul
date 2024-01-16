@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Molecule
-        uses: gofrolist/molecule-action@v2.6.10
+        uses: gofrolist/molecule-action@v2.7.6
         with:
           molecule_options: --base-config molecule/_shared/base.yml
           molecule_args: --scenario-name ${{ matrix.scenario }}
