@@ -344,6 +344,11 @@ consul_node_meta:
   - Override with `CONSUL_LOG_LEVEL` environment variable
 - Default value: INFO
 
+### `consul_log_json`
+
+- Format logs to JSON as defined in [log_json or -log-json](https://developer.hashicorp.com/consul/docs/agent/config/cli-flags#_log_json)
+- Default value: false
+
 ### `consul_syslog_enable`
 
 - Log to syslog as defined in [enable_syslog or -syslog](https://www.consul.io/docs/agent/options.html#_syslog)

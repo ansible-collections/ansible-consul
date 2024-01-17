@@ -73,6 +73,7 @@
     "syslog_facility": "{{ consul_syslog_facility }}",
     {% else %}
     "log_file": "{{ consul_log_path }}/{{ consul_log_file }}",
+    "log_json": {{ consul_log_json | bool | to_json }},
     "log_rotate_bytes": {{ consul_log_rotate_bytes }},
     "log_rotate_duration": "{{ consul_log_rotate_duration }}",
     {% if consul_version is version_compare('1.5.3', '>=') %}
@@ -353,7 +354,7 @@
         "disable_hostname": {{ consul_telemetry_disable_hostname }}
     },
     {% endif %}
-    
+
     {## UI ##}
     {% if consul_version is version_compare('1.9.0', '>=') %}
     "ui_config": {
