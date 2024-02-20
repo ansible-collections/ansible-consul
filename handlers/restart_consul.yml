@@ -13,6 +13,20 @@
     # Needed to force SysV service manager on Docker for Molecule tests
     use: "{{ ansible_service_mgr }}"
   when:
+    - not consul_rolling_restart | bool
+    - ansible_os_family != "Darwin"
+    - ansible_os_family != "Windows"
+  listen: restart consul
+
+- name: Rolling restart consul on Unix
+  # Manual loop on playbook hosts to perform a "serial: 1" equivalent on a set of task
+  ansible.builtin.include_tasks: ../tasks/leave_restart_consul.yml
+  with_items: "{{ play_hosts }}"
+  loop_control:
+    loop_var: rolling_restart_host
+  when:
+    - consul_rolling_restart | bool
+    - inventory_hostname == play_hosts[0]
     - ansible_os_family != "Darwin"
     - ansible_os_family != "Windows"
   listen: restart consul
