@@ -234,7 +234,7 @@
 - name: Create systemd script
   ansible.builtin.template:
     src: consul_systemd.service.j2
-    dest: "{{ consul_systemd_unit_path }}/consul.service"
+    dest: "{{ consul_systemd_unit_path }}/{{ consul_systemd_service_name }}.service"
     owner: root
     group: root
     mode: "0644"
@@ -254,7 +254,7 @@
 
 - name: Enable consul at startup (systemd)
   ansible.builtin.systemd_service:
-    name: consul
+    name: "{{ consul_systemd_service_name }}"
     enabled: true
   when:
     - ansible_service_mgr == "systemd"
@@ -312,7 +312,7 @@
   block:
     - name: Start Consul
       ansible.builtin.service:
-        name: consul
+        name: "{{ consul_systemd_service_name }}"
         state: started
         enabled: true
         # Needed to force SysV service manager on Docker for Molecule tests
