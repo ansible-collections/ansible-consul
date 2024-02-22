@@ -41,3 +41,12 @@
 - name: Set fact list with custom configuration file
   ansible.builtin.set_fact:
     managed_files: "{{ managed_files | default([]) }} + [ '{{ consul_configd_path }}/50custom.json' ]"
+
+# All configuration files must be given to the validate command at once (partial conf might raise some issue regarding missing some required items), so it's not possible to use the validate arg og the ansibvle.builtin.copy module used to template the config
+- name: Validate configuration
+  become: true
+  become_user: "{{ consul_user }}"
+  ansible.builtin.command: >
+    {{ consul_binary }} validate {{ (ansible_verbosity == 0) | ternary("-quiet", "") }}
+    {{ consul_config_path }}/config.json {{ consul_configd_path }}
+  changed_when: false
