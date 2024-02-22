@@ -7,6 +7,7 @@
   listen: reload systemd daemon
 
 - name: Restart consul on Unix
+  become: true
   ansible.builtin.service:
     name: consul
     state: restarted

@@ -1,5 +1,6 @@
 ---
 - name: Start consul on Unix
+  become: true
   ansible.builtin.service:
     name: consul
     state: started
