@@ -2,10 +2,12 @@
 # File: main.yml - Meta main
 galaxy_info:
   author: Brian Shumate
+  role_name: consul
+  namespace: community
   description: Consul cluster role
   company: Brian Shumate
   license: BSD
-  min_ansible_version: 2.5
+  min_ansible_version: "2.9"
 
   platforms:
     - name: Alpine
@@ -20,21 +22,20 @@ galaxy_info:
         - stretch
     - name: EL
       versions:
-        - 6
-        - 7
-        - 8
+        - "7"
+        - "8"
     - name: Fedora
       versions:
-        - 26
-        - 27
-        - 28
-        - 29
-        - 30
-        - 31
+        - "26"
+        - "27"
+        - "28"
+        - "29"
+        - "30"
+        - "31"
     - name: FreeBSD
       versions:
-        - 10.0
-        - 11.0
+        - "10.0"
+        - "11.0"
     - name: Ubuntu
       versions:
         - xenial

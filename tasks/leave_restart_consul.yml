@@ -1,0 +1,19 @@
+---
+
+- name: Consul leave
+  delegate_to: "{{ rolling_restart_host }}"
+  ansible.builtin.command: "{{ consul_binary }} leave {% if consul_acl_enable %} -token {{ consul_acl_master_token }} {% endif %} -http-addr {{ consul_addresses.http }}:{{ consul_ports.http }}"
+  changed_when: true
+
+- name: Restart consul on Unix
+  delegate_to: "{{ rolling_restart_host }}"
+  ansible.builtin.service:
+    name: consul
+    state: restarted
+    # Needed to force SysV service manager on Docker for Molecule tests
+    use: "{{ ansible_service_mgr }}"
+
+- name: Wait for service availability
+  ansible.builtin.pause:
+    seconds: "{{ consul_rolling_restart_delay_sec }}"
+  when: consul_rolling_restart_delay_sec > 0

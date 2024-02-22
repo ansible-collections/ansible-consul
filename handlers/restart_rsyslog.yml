@@ -1,6 +1,7 @@
 ---
 - name: Restart rsyslog
-  service:
+  become: true
+  ansible.builtin.service:
     name: rsyslog
     state: restarted
     # Needed to force SysV service manager on Docker for Molecule tests
@@ -8,4 +9,4 @@
   when:
     - ansible_os_family != "Darwin"
     - ansible_os_family != "Windows"
-  listen: 'restart rsyslog'
+  listen: restart rsyslog
