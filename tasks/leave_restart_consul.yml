@@ -8,7 +8,7 @@
 - name: Restart consul on Unix
   delegate_to: "{{ rolling_restart_host }}"
   ansible.builtin.service:
-    name: consul
+    name: "{{ consul_systemd_service_name }}"
     state: restarted
     # Needed to force SysV service manager on Docker for Molecule tests
     use: "{{ ansible_service_mgr }}"

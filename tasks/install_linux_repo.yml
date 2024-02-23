@@ -22,7 +22,7 @@
 
     - name: Stop service consul, if running
       ansible.builtin.service:
-        name: consul
+        name: "{{ consul_systemd_service_name }}"
         state: stopped
         # Needed to force SysV service manager on Docker for Molecule tests
         use: "{{ ansible_service_mgr }}"
@@ -80,9 +80,9 @@
     state: present
   become: true
 
-- name: Create a directory /etc/systemd/system/consul.service.d
+- name: "Create a directory /etc/systemd/system/{{ consul_systemd_service_name }}.service.d"
   ansible.builtin.file:
-    path: /etc/systemd/system/consul.service.d
+    path: "/etc/systemd/system/{{ consul_systemd_service_name }}.service.d"
     state: directory
     mode: "0755"
     owner: root
@@ -94,7 +94,7 @@
 - name: Override systemd service params
   ansible.builtin.template:
     src: consul_systemd_service.override.j2
-    dest: /etc/systemd/system/consul.service.d/override.conf
+    dest: "/etc/systemd/system/{{ consul_systemd_service_name }}.service.d/override.conf"
     owner: root
     group: root
     mode: "0644"
