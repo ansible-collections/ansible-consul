@@ -3,7 +3,7 @@ platforms:
   - name: ubuntu-22.04
     groups:
       - consul_instances
-    image: dokken/ubuntu-20.04
+    image: dokken/ubuntu-22.04
     command: /lib/systemd/systemd
     dockerfile: ../_shared/Dockerfile.j2
     capabilities:

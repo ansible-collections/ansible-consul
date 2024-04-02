@@ -18,7 +18,7 @@ RUN if [ $(command -v apt-get) ]; then \
         if grep -q "Debian GNU/Linux 11" /etc/os-release; then \
             apt-get update && apt-get install -y python sudo bash ca-certificates iproute2 python-apt-common && apt-get clean; \
         else \
-            apt-get update && apt-get install -y python sudo bash ca-certificates iproute2 python-apt && apt-get clean; \
+            apt-get update && apt-get install -y python3 sudo bash ca-certificates iproute2 python3-apt && apt-get clean; \
         fi \
     elif [ $(command -v dnf) ]; then \
         dnf makecache && dnf --assumeyes install /usr/bin/python3 /usr/bin/python3-config /usr/bin/dnf-3 sudo bash iproute && dnf clean all; \
