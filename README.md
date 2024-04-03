@@ -1,6 +1,6 @@
 # Consul
 
-![Molecule](https://github.com/ansible-collections/ansible-consul/workflows/Molecule/badge.svg?branch=master&event=pull_request)
+[![Molecule](https://github.com/ansible-collections/ansible-consul/workflows/Molecule/badge.svg?branch=master)](https://github.com/ansible-collections/ansible-consul/actions?query=branch%3Amaster)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/ansible-collections/ansible-consul.svg)](http://isitmaintained.com/project/ansible-collections/ansible-consul "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/ansible-collections/ansible-consul.svg)](http://isitmaintained.com/project/ansible-collections/ansible-consul "Percentage of issues still open")
 
