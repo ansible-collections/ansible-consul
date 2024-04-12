@@ -22,7 +22,7 @@ distro==1.7.0
 docutils==0.19
 enrich==1.2.7
 flake8==6.0.0
-idna==3.3
+idna==3.7
 importlib-resources==5.9.0
 iniconfig==1.1.1
 Jinja2==3.1.3
