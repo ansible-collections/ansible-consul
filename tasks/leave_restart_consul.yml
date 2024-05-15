@@ -1,9 +1,24 @@
 ---
 
-- name: Consul leave
+- name: Check if consul is running
   delegate_to: "{{ rolling_restart_host }}"
-  ansible.builtin.command: "{{ consul_binary }} leave {% if consul_acl_enable %} -token {{ consul_acl_master_token }} {% endif %} -http-addr {{ consul_addresses.http }}:{{ consul_ports.http }}"
-  changed_when: true
+  ansible.builtin.stat:
+    path: "{{ consul_pid_file }}"
+  register: consul_pid
+
+- name: Leave the consul cluster
+  when: consul_pid.stat.exists
+  block:
+    - name: Consul leave
+      delegate_to: "{{ rolling_restart_host }}"
+      ansible.builtin.command:
+        cmd: "{{ consul_binary }} leave {% if consul_acl_enable %} -token {{ consul_acl_master_token }} {% endif %} -http-addr {{ consul_addresses.http }}:{{ consul_ports.http }}"
+      changed_when: true
+
+    - name: Give the cluster some time to perform proper leadership transfer
+      ansible.builtin.pause:
+        seconds: "{{ consul_rolling_restart_delay_sec }}"
+      when: consul_rolling_restart_delay_sec > 0
 
 - name: Restart consul on Unix
   delegate_to: "{{ rolling_restart_host }}"
@@ -13,7 +28,12 @@
     # Needed to force SysV service manager on Docker for Molecule tests
     use: "{{ ansible_service_mgr }}"
 
-- name: Wait for service availability
-  ansible.builtin.pause:
-    seconds: "{{ consul_rolling_restart_delay_sec }}"
-  when: consul_rolling_restart_delay_sec > 0
+- name: Assert that consul service is running
+  delegate_to: "{{ rolling_restart_host }}"
+  ansible.builtin.command:
+    cmd: "{{ consul_binary }} info {% if consul_acl_enable %} -token {{ consul_acl_master_token }} {% endif %} -http-addr {{ consul_addresses.http }}:{{ consul_ports.http }}"
+  changed_when: false
+  register: consul_info
+  retries: 20
+  delay: 1
+  until: "consul_info.rc == 0"

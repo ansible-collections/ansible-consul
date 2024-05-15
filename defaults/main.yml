@@ -50,6 +50,7 @@ consul_log_path: "{{ lookup('env', 'CONSUL_LOG_PATH') | default('/var/log/consul
 consul_log_file: "{{ lookup('env', 'CONSUL_LOG_FILE') | default('consul.log', true) }}"
 consul_run_path: /run/consul
 consul_binary: "{{ consul_bin_path }}/consul"
+consul_pid_file: "{{ consul_run_path }}/consul.pid"
 
 ### System user and group
 consul_manage_user: true
