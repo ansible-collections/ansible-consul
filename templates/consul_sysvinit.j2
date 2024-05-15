@@ -3,7 +3,7 @@
 # chkconfig:   2345 95 95
 # description: Consul service discovery framework
 # processname: consul
-# pidfile: {{ consul_run_path }}/consul.pid
+# pidfile: {{ consul_pid_file }}
 
 {% if ansible_distribution == "Ubuntu" %}
 . /lib/lsb/init-functions
@@ -14,7 +14,6 @@
 CONSUL={{ consul_bin_path }}/consul
 CONFIG={{ consul_config_path }}/config.json
 CONFIGD={{ consul_configd_path }}
-PID_FILE={{ consul_run_path }}/consul.pid
 LOCK_FILE=/var/lock/subsys/consul
 {% if consul_ui_legacy %}
 CONSUL_UI_LEGACY=true
@@ -29,13 +28,13 @@ mkrundir() {
         chown {{ consul_user }} {{ consul_run_path }}
 }
 
-KILLPROC_OPT="-p ${PID_FILE}"
+KILLPROC_OPT="-p {{ consul_pid_file }}"
 mkpidfile() {
         mkrundir
-        [ ! -f "${PID_FILE}" ] && pidofproc "${CONSUL}" > "${PID_FILE}"
+        [ ! -f "{{ consul_pid_file }}" ] && pidofproc "${CONSUL}" > "{{ consul_pid_file }}"
         chown -R {{ consul_user }} {{ consul_run_path }}
         if [ $? -ne 0 ] ; then
-            rm "${PID_FILE}"
+            rm "{{ consul_pid_file }}"
             KILLPROC_OPT=""
         fi
 }
@@ -44,10 +43,10 @@ start() {
         echo -n "Starting consul: "
         mkrundir
         mkpidfile
-        # [ -f "${PID_FILE}" ] && rm "${PID_FILE}"
+        # [ -f "{{ consul_pid_file }}" ] && rm "{{ consul_pid_file }}"
         daemon --user={{ consul_user }} \
-            --pidfile="${PID_FILE}" \
-            "${CONSUL}" agent -config-file="${CONFIG}" -config-dir="${CONFIGD}" -pid-file="${PID_FILE}" &
+            --pidfile="{{ consul_pid_file }}" \
+            "${CONSUL}" agent -config-file="${CONFIG}" -config-dir="${CONFIGD}" -pid-file="{{ consul_pid_file }}" &
         retcode=$?
         touch ${LOCK_FILE}
         return "${retcode}"
@@ -63,7 +62,7 @@ stop() {
         killproc "${KILLPROC_OPT}" "${CONSUL}" -SIGTERM
 
         retcode=$?
-        rm -f "${LOCK_FILE}" "${PID_FILE}"
+        rm -f "${LOCK_FILE}" "{{ consul_pid_file }}"
         return "${retcode}"
 }
 

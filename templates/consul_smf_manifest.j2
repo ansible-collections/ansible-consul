@@ -23,7 +23,7 @@
             <method_credential user="{{ consul_user }}" group="{{ consul_group }}"/>
         </method_context>
 
-        <exec_method type="method" name="start" exec="{{ consul_bin_path }}/consul agent -config-file={{ consul_config_path}}/config.json -config-dir={{ consul_configd_path }} -pid-file={{ consul_run_path }}/consul.pid" timeout_seconds="60"/>
+        <exec_method type="method" name="start" exec="{{ consul_bin_path }}/consul agent -config-file={{ consul_config_path}}/config.json -config-dir={{ consul_configd_path }} -pid-file={{ consul_pid_file }}" timeout_seconds="60"/>
 
         <exec_method type="method" name="stop" exec=":kill" timeout_seconds="60"/>
 

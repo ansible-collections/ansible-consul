@@ -16,7 +16,7 @@ After=network-online.target
 [Service]
 User={{ consul_user }}
 Group={{ consul_group }}
-PIDFile={{ consul_run_path }}/consul.pid
+PIDFile={{ consul_pid_file }}
 PermissionsStartOnly=true
 {% if consul_ui_legacy %}
 Environment=CONSUL_UI_LEGACY=true
@@ -26,7 +26,7 @@ ExecStartPre=/bin/chown -R {{ consul_user }}:{{ consul_group }} {{ consul_run_pa
 ExecStart={{ consul_bin_path }}/consul agent \
     -config-file={{ consul_config_path }}/config.json \
     -config-dir={{ consul_configd_path}} \
-    -pid-file={{ consul_run_path }}/consul.pid
+    -pid-file={{ consul_pid_file }}
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 KillSignal=SIGTERM
