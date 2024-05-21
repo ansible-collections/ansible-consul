@@ -49,7 +49,7 @@ pyparsing==3.0.9
 pyrsistent==0.18.1
 pytest==7.1.2
 PyYAML==6.0
-requests==2.31.0
+requests==2.32.0
 rich==12.5.1
 ruamel.yaml==0.17.21
 ruamel.yaml.clib==0.2.6
