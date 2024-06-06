@@ -16,7 +16,6 @@ jobs:
         scenario:
           - almalinux-8
           - almalinux-9
-          - centos-stream-8
           - centos-stream-9
           - debian-10
           - debian-11
