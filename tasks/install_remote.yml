@@ -19,7 +19,7 @@
     - name: Get Consul checksum
       ansible.builtin.uri:
         url: "{{ consul_checksum_file_url }}"
-        return_content: yes
+        return_content: true
         use_proxy: "{{ use_proxy }}"
       register: checksum_file
       failed_when: checksum_file.status != 200
@@ -27,19 +27,12 @@
         - installation
 
     - name: Find checksum line
-      set_fact:
+      ansible.builtin.set_fact:
         consul_sha256: "{{ (checksum_file.content.splitlines() | select('search', consul_pkg) | first).split()[0] }}"
       tags:
         - installation
 
-    - name: Read Consul package checksum
-      ansible.builtin.shell: grep {{ consul_pkg }} {{ consul_temp_dir.path }}/consul_{{ consul_version }}_SHA256SUMS
-      register: consul_sha256
-      changed_when: false
-      tags:
-        - installation
-
-    - name: Download Consul
+    - name: Download Consul # noqa risky-file-permissions
       ansible.builtin.get_url:
         url: "{{ consul_zip_url }}"
         dest: "{{ consul_temp_dir.path }}/{{ consul_pkg }}"
