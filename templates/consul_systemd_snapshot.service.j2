@@ -11,7 +11,7 @@
 [Unit]
 Description=Consul snapshot agent
 Requires=network-online.target
-Requisite=consul.service
+Requisite={{ consul_systemd_service_name }}.service
 After=network-online.target
 
 [Service]
