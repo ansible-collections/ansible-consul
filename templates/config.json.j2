@@ -67,6 +67,7 @@
 
     {## Agent ##}
     "data_dir": "{{ consul_data_path }}",
+    "log_json": "{{ consul_log_json }}",
     "log_level": "{{ consul_log_level }}",
     {% if consul_syslog_enable | bool %}
     "enable_syslog": {{ consul_syslog_enable | bool | to_json }},
