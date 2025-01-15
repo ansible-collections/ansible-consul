@@ -7,7 +7,7 @@ virtualenv: "{{ lookup('env', 'VIRTUAL_ENV') | default('') }}"
 consul_install_dependencies: true
 
 ### Package
-consul_version: "{{ lookup('env', 'CONSUL_VERSION') | default('1.8.7', true) }}"
+consul_version: "{{ lookup('env', 'CONSUL_VERSION') | default('1.20.0', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
