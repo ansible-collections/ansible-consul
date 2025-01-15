@@ -65,6 +65,7 @@ consul_systemd_unit_path: /lib/systemd/system
 ### Log user, group, facility
 syslog_user: "{{ lookup('env', 'SYSLOG_USER') | default('root', true) }}"
 syslog_group: "{{ lookup('env', 'SYSLOG_GROUP') | default('adm', true) }}"
+consul_log_json: "{{ lookup('env', 'CONSUL_LOG_JSON') | default(false, false) }}"
 consul_log_level: "{{ lookup('env', 'CONSUL_LOG_LEVEL') | default('INFO', true) }}"
 consul_log_rotate_bytes: "{{ lookup('env', 'CONSUL_LOG_ROTATE_BYTES') | default(0, true) }}"
 consul_log_rotate_duration: "{{ lookup('env', 'CONSUL_LOG_ROTATE_DURATION') | default('24h', true) }}"
