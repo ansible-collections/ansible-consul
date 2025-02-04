@@ -32,7 +32,7 @@
     state: directory
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
-    mode: "0700"
+    mode: "0750"
   when:
     - ansible_os_family != 'Windows'
     - not consul_syslog_enable | bool
@@ -44,7 +44,7 @@
     state: directory
     owner: "{{ syslog_user }}"
     group: "{{ syslog_group }}"
-    mode: "0700"
+    mode: "0750"
   with_items:
     - "{{ consul_log_path }}"
   loop_control:
