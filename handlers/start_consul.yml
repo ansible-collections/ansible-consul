@@ -2,7 +2,7 @@
 - name: Start consul on Unix
   become: true
   ansible.builtin.service:
-    name: consul
+    name: "{{ consul_systemd_service_name }}"
     state: started
     # Needed to force SysV service manager on Docker for Molecule tests
     use: "{{ ansible_service_mgr }}"
@@ -18,7 +18,7 @@
 
 - name: Start consul on Windows
   ansible.windows.win_service:
-    name: consul
+    name: "{{ consul_systemd_service_name }}"
     state: started
   when: ansible_os_family == "Windows"
   listen: start consul
