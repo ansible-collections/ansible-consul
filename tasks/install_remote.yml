@@ -20,7 +20,7 @@
       ansible.builtin.uri:
         url: "{{ consul_checksum_file_url }}"
         return_content: true
-        use_proxy: "{{ use_proxy }}"
+        use_proxy: "{{ use_proxy | d(false) }}"
       register: checksum_file
       failed_when: checksum_file.status != 200
       tags:
@@ -38,7 +38,7 @@
         dest: "{{ consul_temp_dir.path }}/{{ consul_pkg }}"
         checksum: sha256:{{ consul_sha256 }}
         timeout: 42
-        use_proxy: "{{ use_proxy }}"
+        use_proxy: "{{ use_proxy | d(false) }}"
       register: consul_download
       tags: installation
 
