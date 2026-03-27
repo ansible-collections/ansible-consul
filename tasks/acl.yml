@@ -1,12 +1,12 @@
 ---
 # File: acl.yml - ACL tasks for Consul
-- name: Save exsiting ACL master token
+- name: Save existing ACL master token
   when:
     - bootstrap_state.stat.exists | bool
     - (consul_acl_master_token is not defined or consul_acl_master_token | length == 0)
     - consul_node_role == 'server'
   block:
-    - name: Read ACL master token from previously boostrapped server
+    - name: Read ACL master token from previously bootstrapped server
       ansible.builtin.command: cat {{ consul_config_path }}/config.json
       register: config_read
       no_log: true
@@ -15,16 +15,16 @@
 
     - name: Save acl_master_token from existing configuration
       ansible.builtin.set_fact:
-        consul_acl_master_token: "{{ config_read.stdout | from_json | json_query(query) }}"
+        consul_acl_master_token: "{{ config_read.stdout | from_json | json_query(jmes_query) | default('', true) }}"
       vars:
-        query: acl.tokens.master
+        jmes_query: "acl.tokens.master"
       no_log: true
 
     - name: Save acl_initial_management from existing configuration if acl_master_token not found
       ansible.builtin.set_fact:
-        consul_acl_master_token: "{{ config_read.stdout | from_json | json_query(query) }}"
+        consul_acl_master_token: "{{ config_read.stdout | from_json | json_query(jmes_query) | default('', true) }}"
       vars:
-        query: acl.tokens.initial_management
+        jmes_query: "acl.tokens.initial_management"
       no_log: true
       when: consul_acl_master_token | length == 0
 
@@ -59,7 +59,7 @@
     - (consul_acl_replication_token is not defined or consul_acl_replication_token | length == 0)
     - consul_node_role == 'server'
   block:
-    - name: Read ACL master token from previously boostrapped server
+    - name: Read ACL master token from previously bootstrapped server
       ansible.builtin.command: cat {{ consul_config_path }}/config.json
       register: config_read
       no_log: true
@@ -68,9 +68,9 @@
 
     - name: Save acl_replication_token from existing configuration
       ansible.builtin.set_fact:
-        consul_acl_replication_token: "{{ config_read.stdout | from_json | json_query(query) }}"
+        consul_acl_replication_token: "{{ config_read.stdout | from_json | json_query(jmes_query) | default('', true)  }}"
       vars:
-        query: acl.tokens.replication
+        jmes_query: "acl.tokens.replication"
       no_log: true
 
 - name: Write ACL replication token
