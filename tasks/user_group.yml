@@ -17,6 +17,7 @@
     comment: Consul user
     group: "{{ consul_group }}"
     system: true
+    create_home: false
   when:
     - consul_manage_user | bool
     - not consul_install_from_repo | bool
