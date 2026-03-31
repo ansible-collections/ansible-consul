@@ -1,39 +1,33 @@
 ---
-
-- name: Check if consul is running
-  delegate_to: "{{ rolling_restart_host }}"
-  ansible.builtin.stat:
-    path: "{{ consul_pid_file }}"
-  register: consul_pid
-
-- name: Leave the consul cluster
-  when: consul_pid.stat.exists
-  block:
-    - name: Consul leave
-      delegate_to: "{{ rolling_restart_host }}"
-      ansible.builtin.command:
-        cmd: "{{ consul_binary }} leave {% if consul_acl_enable %} -token {{ consul_acl_master_token }} {% endif %} -http-addr {{ consul_addresses.http }}:{{ consul_ports.http }}"
-      changed_when: true
-
-    - name: Give the cluster some time to perform proper leadership transfer
-      ansible.builtin.pause:
-        seconds: "{{ consul_rolling_restart_delay_sec }}"
-      when: consul_rolling_restart_delay_sec > 0
-
-- name: Restart consul on Unix
-  delegate_to: "{{ rolling_restart_host }}"
-  ansible.builtin.service:
-    name: consul
-    state: restarted
-    # Needed to force SysV service manager on Docker for Molecule tests
-    use: "{{ ansible_service_mgr }}"
-
-- name: Assert that consul service is running
-  delegate_to: "{{ rolling_restart_host }}"
+- name: Get consul info
   ansible.builtin.command:
-    cmd: "{{ consul_binary }} info {% if consul_acl_enable %} -token {{ consul_acl_master_token }} {% endif %} -http-addr {{ consul_addresses.http }}:{{ consul_ports.http }}"
+    cmd: "{{ consul_binary }} info"
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_acl_agent_token if consul_acl_enable else omit }}"
+    CONSUL_HTTP_ADDR: "{{ consul_addresses_http }}:{{ consul_ports_http }}"
   changed_when: false
-  register: consul_info
-  retries: 20
-  delay: 1
-  until: "consul_info.rc == 0"
+  register: consul_info_output
+
+- name: Parse Consul leader value
+  ansible.builtin.set_fact:
+    is_consul_leader: "{{ consul_info_output.stdout | regex_search('leader = (true|false)', '\\1') | first }}"
+  when: consul_info_output is defined and consul_info_output.rc == 0
+
+- name: Set consul leader hostname in the rolling restart host inventory
+  ansible.builtin.set_fact:
+    consul_leader: "{{ inventory_hostname }}"
+  delegate_to: "{{ play_hosts[0] }}"
+  delegate_facts: true
+  when: is_consul_leader is defined and is_consul_leader | bool
+
+- name: Set custom_host_order
+  ansible.builtin.set_fact:
+    custom_host_order: "{{ (play_hosts | reject('equalto', consul_leader) | list) + [consul_leader] }}"
+  when: inventory_hostname == play_hosts[0] and consul_leader is defined and consul_leader != ''
+
+- name: Perform rolling restart for each host
+  ansible.builtin.include_tasks: leave_restart_consul_host.yml
+  loop: "{{ custom_host_order | default(play_hosts) }}"
+  loop_control:
+    loop_var: rolling_restart_host
+  when: inventory_hostname == play_hosts[0]

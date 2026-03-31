@@ -1,0 +1,40 @@
+---
+- name: Check if consul is running
+  ansible.builtin.stat:
+    path: "{{ consul_pid_file }}"
+  register: consul_pid
+  delegate_to: "{{ rolling_restart_host }}"
+
+- name: Leave the consul cluster
+  when: consul_pid.stat.exists
+  block:
+    - name: Consul leave
+      ansible.builtin.command:
+        cmd: "{{ consul_binary }} leave {% if consul_acl_enable %} -token {{ consul_acl_master_token }} {% endif %} -http-addr {{ consul_addresses.http }}:{{ consul_ports.http }}"
+      delegate_to: "{{ rolling_restart_host }}"
+      changed_when: true
+    - name: Give the cluster some time to perform proper leadership transfer
+      ansible.builtin.pause:
+        seconds: "{{ consul_rolling_restart_delay_sec }}"
+      when: consul_rolling_restart_delay_sec > 0
+      delegate_to: "{{ rolling_restart_host }}"
+
+- name: Restart consul on Unix
+  ansible.builtin.service:
+    name: consul
+    state: restarted
+    use: "{{ ansible_service_mgr }}"
+  delegate_to: "{{ rolling_restart_host }}"
+
+- name: Assert that consul service is running
+  ansible.builtin.command:
+    cmd: "{{ consul_binary }} operator autopilot state"
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_acl_agent_token if consul_acl_enable else omit }}"
+    CONSUL_HTTP_ADDR: "{{ consul_addresses.http }}:{{ consul_ports.http }}"
+  changed_when: false
+  register: consul_autopilot_state
+  retries: 6
+  delay: 10
+  until: consul_autopilot_state.stdout is regex('Failure Tolerance:\\s+[1-9]\\d*')
+  delegate_to: "{{ rolling_restart_host }}"
