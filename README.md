@@ -701,6 +701,11 @@ auto_encrypt:
 - Enable the consul ui?
 - Default value: true
 
+### `consul_ui_content_path`
+
+- Set the HTTP path that the web UI should be served from.
+- Default value: '/ui/'
+
 ### `consul_ui_legacy`
 
 - Enable legacy consul ui mode

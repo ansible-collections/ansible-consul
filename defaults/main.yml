@@ -90,6 +90,7 @@ consul_bootstrap_expect: "{{ lookup('env', 'CONSUL_BOOTSTRAP_EXPECT') | default(
 consul_bootstrap_expect_value: "{{ _consul_lan_servercount | int }}"
 consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
 consul_ui_legacy: "{{ lookup('env', 'CONSUL_UI_LEGACY') | default(false, false) }}"
+consul_ui_content_path: "{{ lookup('env', 'CONSUL_UI_CONTENT_PATH') | default('/ui/') }}"
 consul_disable_update_check: false
 consul_enable_script_checks: false
 consul_enable_local_script_checks: false
